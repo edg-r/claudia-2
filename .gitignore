@@ -1,0 +1,42 @@
+# macOS
+.DS_Store
+._*
+
+# Claude Code internals
+.claude/settings.json
+.claude/hooks/
+
+# SQLite
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Obsidian vault (large, synced separately)
+inbox/ObiV3/
+
+# Course content (PDFs, slides, readings — large/copyrighted)
+*.pdf
+*.PDF
+*.pptx
+*.ppt
+*.docx
+*.doc
+*.xlsx
+*.xls
+*.csv
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+*.mov
+
+# Inbox (drop zone, not tracked)
+inbox/
+
+# Knowledge folder
+knowledge/
+
+# Temporary files
+*.tmp
+*~
