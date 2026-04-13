@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claudia Dashboard</title>
+<style>
+:root {
+    --bg: #0f0f0f;
+    --surface: #1a1a1a;
+    --border: #2a2a2a;
+    --text: #e0e0e0;
+    --text-muted: #888;
+    --text-dim: #666;
+    --accent: #7cb3ff;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 2rem;
+    line-height: 1.5;
+}
+h1 { font-size: 1.8rem; margin-bottom: 0.25rem; color: #fff; }
+.subtitle { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem; }
+h2 {
+    font-size: 1.2rem; color: #ccc; margin-bottom: 1rem;
+    padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
+}
+
+/* Cards */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem; margin-bottom: 2rem;
+}
+.card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.25rem; text-align: center;
+}
+.card-value { font-size: 2rem; font-weight: 700; color: #fff; }
+.card-label { font-size: 0.85rem; color: #999; margin-top: 0.25rem; }
+.card-sub { font-size: 0.75rem; color: var(--text-dim); margin-top: 0.25rem; }
+
+/* Tabs */
+.tab-bar {
+    display: flex; gap: 0; margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border);
+}
+.tab-btn {
+    padding: 0.6rem 1.4rem; cursor: pointer;
+    background: none; border: none; color: var(--text-muted);
+    font-size: 0.9rem; font-weight: 500;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px; transition: all 0.15s;
+}
+.tab-btn:hover { color: #fff; }
+.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Section */
+.section {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;
+}
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+th {
+    text-align: left; padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #333; color: #999;
+    font-weight: 600; font-size: 0.8rem;
+    text-transform: uppercase; letter-spacing: 0.05em;
+}
+td { padding: 0.5rem 0.75rem; border-bottom: 1px solid #1f1f1f; }
+tr:hover { background: #222; }
+tr.overdue td { color: #ff6b6b; }
+tr.soon td { color: #ffa94d; }
+tr.completed td { color: #69db7c; text-decoration: line-through; opacity: 0.7; }
+tr.course-header td {
+    font-weight: 700; color: var(--accent);
+    padding-top: 1rem; border-bottom: 1px solid #333; font-size: 0.9rem;
+}
+tr.exam-row td { font-weight: 600; }
+tr.pending-reading td { color: var(--text); }
+tr.summarized td { color: #69db7c; }
+.bar-bg { background: var(--border); border-radius: 4px; height: 8px; width: 100%; overflow: hidden; }
+.bar-fill { background: var(--accent); height: 100%; border-radius: 4px; }
+p { margin-bottom: 1rem; color: #999; font-size: 0.85rem; }
+
+/* ===== WEEK VIEW ===== */
+.week-group {
+    margin-bottom: 1rem;
+}
+.week-header {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.6rem 0; cursor: pointer; user-select: none;
+}
+.week-header h3 {
+    font-size: 0.95rem; color: #ccc; font-weight: 600;
+}
+.week-header .week-dates {
+    font-size: 0.78rem; color: var(--text-dim);
+}
+.week-header .badge {
+    font-size: 0.7rem; padding: 0.15rem 0.5rem;
+    border-radius: 10px; font-weight: 600;
+}
+.badge-current { background: var(--accent); color: #000; }
+.badge-completed { background: #2d4a2d; color: #69db7c; }
+.week-items {
+    padding-left: 1rem; border-left: 2px solid var(--border);
+    margin-left: 0.5rem;
+}
+.week-group.current .week-items { border-left-color: var(--accent); }
+.week-group.past .week-header h3 { color: var(--text-dim); }
+.week-group.past .week-items { opacity: 0.5; }
+.week-item {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.4rem 0.75rem; font-size: 0.85rem;
+    border-radius: 4px; margin-bottom: 2px;
+}
+.week-item:hover { background: #222; }
+.week-item .course-tag {
+    font-size: 0.7rem; font-weight: 700;
+    padding: 0.1rem 0.45rem; border-radius: 4px;
+    white-space: nowrap;
+}
+.week-item .due { color: var(--text-dim); font-size: 0.78rem; margin-left: auto; white-space: nowrap; }
+.week-item.completed-item { text-decoration: line-through; color: var(--text-dim); }
+.week-no-items { padding: 0.4rem 0.75rem; font-size: 0.8rem; color: var(--text-dim); font-style: italic; }
+
+/* ===== CALENDAR VIEW ===== */
+.cal-controls {
+    display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;
+}
+.cal-controls button {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); padding: 0.35rem 0.8rem; border-radius: 6px;
+    cursor: pointer; font-size: 0.85rem;
+}
+.cal-controls button:hover { border-color: var(--accent); }
+.cal-controls .cal-month-label { font-size: 1.1rem; font-weight: 600; color: #fff; min-width: 160px; text-align: center; }
+.cal-grid {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px;
+    background: var(--border); border-radius: 8px; overflow: hidden;
+}
+.cal-day-header {
+    background: #222; padding: 0.4rem; text-align: center;
+    font-size: 0.75rem; color: var(--text-muted); font-weight: 600;
+    text-transform: uppercase;
+}
+.cal-day {
+    background: var(--surface); min-height: 80px; padding: 0.35rem;
+    position: relative;
+}
+.cal-day.empty { background: #141414; }
+.cal-day.today { outline: 2px solid var(--accent); outline-offset: -2px; z-index: 1; }
+.cal-day .day-num {
+    font-size: 0.75rem; color: var(--text-dim); margin-bottom: 0.2rem;
+}
+.cal-day.today .day-num { color: var(--accent); font-weight: 700; }
+.cal-event {
+    font-size: 0.65rem; padding: 0.15rem 0.3rem;
+    border-radius: 3px; margin-bottom: 2px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    cursor: default; color: #000; font-weight: 600;
+}
+.cal-event:hover { filter: brightness(1.15); }
+
+/* ===== EISENHOWER MATRIX ===== */
+.matrix-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 1rem;
+}
+.matrix-label-row {
+    display: contents;
+}
+.matrix-col-label {
+    text-align: center; font-size: 0.8rem; font-weight: 700;
+    color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;
+    padding-bottom: 0.25rem;
+}
+.quadrant {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1rem; min-height: 220px;
+    transition: border-color 0.15s;
+}
+.quadrant.drag-over { border-color: var(--accent); background: #1e2a1e; }
+.quadrant-header {
+    display: flex; align-items: center; gap: 0.5rem;
+    margin-bottom: 0.75rem; padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+}
+.quadrant-header .q-icon { font-size: 1rem; }
+.quadrant-header .q-title { font-size: 0.85rem; font-weight: 700; }
+.quadrant-header .q-subtitle { font-size: 0.7rem; color: var(--text-dim); }
+.q1 .quadrant-header { color: #ff6b6b; }
+.q2 .quadrant-header { color: #ffa94d; }
+.q3 .quadrant-header { color: var(--accent); }
+.q4 .quadrant-header { color: var(--text-dim); }
+.matrix-row-label {
+    writing-mode: vertical-lr; transform: rotate(180deg);
+    font-size: 0.8rem; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 0.25rem;
+}
+.matrix-card {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.45rem 0.6rem; margin-bottom: 0.35rem;
+    background: #222; border: 1px solid #333; border-radius: 6px;
+    font-size: 0.8rem; cursor: grab;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+.matrix-card:active { cursor: grabbing; }
+.matrix-card.dragging { opacity: 0.4; }
+.matrix-card .course-tag {
+    font-size: 0.65rem; font-weight: 700;
+    padding: 0.1rem 0.35rem; border-radius: 3px;
+    white-space: nowrap;
+}
+.matrix-card .card-title { flex: 1; }
+.matrix-card .card-due { font-size: 0.7rem; color: var(--text-dim); white-space: nowrap; }
+.matrix-empty { font-size: 0.78rem; color: var(--text-dim); font-style: italic; padding: 0.5rem; }
+
+/* Course tag colors */
+.tag-GPCO403 { background: #7cb3ff; color: #000; } .tag-GPCO410 { background: #ffa94d; color: #000; } .tag-GPEC446 { background: #b197fc; color: #000; } .tag-GPPS444 { background: #ff6b6b; color: #000; } .tag-GPPS463 { background: #69db7c; color: #000; }
+
+/* Legend */
+.legend {
+    display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;
+}
+.legend-item {
+    display: flex; align-items: center; gap: 0.35rem; font-size: 0.78rem; color: var(--text-muted);
+}
+.legend-dot {
+    width: 10px; height: 10px; border-radius: 2px;
+}
+
+/* Collapsible */
+.collapsible { margin-bottom: 1.5rem; }
+.collapsible-header {
+    display: flex; align-items: center; gap: 0.5rem;
+    cursor: pointer; user-select: none; padding: 0.75rem 1rem;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; margin-bottom: 0;
+}
+.collapsible-header h2 { margin: 0; padding: 0; border: none; }
+.collapsible-header .chevron {
+    color: var(--text-dim); transition: transform 0.2s; font-size: 0.8rem;
+}
+.collapsible-header.open .chevron { transform: rotate(90deg); }
+.collapsible-header.open { border-radius: 8px 8px 0 0; margin-bottom: 0; }
+.collapsible-body {
+    display: none; background: var(--surface);
+    border: 1px solid var(--border); border-top: none;
+    border-radius: 0 0 8px 8px; padding: 1rem 1.5rem;
+}
+.collapsible-body.open { display: block; }
+</style>
+</head>
+<body>
+
+<h1>Claudia Dashboard</h1>
+<div class="subtitle">Generated 2026-04-13 01:01:52 &middot; Spring 2026 &middot; UC San Diego GPS &middot; Week 3</div>
+
+<!-- Summary Cards -->
+<div class="cards">
+    <div class="card"><div class="card-value">5</div><div class="card-label">Courses</div></div>
+    <div class="card"><div class="card-value">842</div><div class="card-label">Files Tracked</div></div>
+    <div class="card"><div class="card-value">77</div><div class="card-label">Readings</div><div class="card-sub">77 pending / 0 summarized</div></div>
+    <div class="card"><div class="card-value">26</div><div class="card-label">Assignments</div><div class="card-sub">25 upcoming / 1 completed</div></div>
+    <div class="card"><div class="card-value">3323</div><div class="card-label">Embedding Chunks</div><div class="card-sub">60 files indexed</div></div>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#7cb3ff"></div>GPCO 403</div><div class="legend-item"><div class="legend-dot" style="background:#ffa94d"></div>GPCO 410</div><div class="legend-item"><div class="legend-dot" style="background:#b197fc"></div>GPEC 446</div><div class="legend-item"><div class="legend-dot" style="background:#ff6b6b"></div>GPPS 444</div><div class="legend-item"><div class="legend-dot" style="background:#69db7c"></div>GPPS 463</div>
+</div>
+
+<!-- Tabs -->
+<div class="tab-bar">
+    <button class="tab-btn active" data-tab="week">Week View</button>
+    <button class="tab-btn" data-tab="calendar">Calendar</button>
+    <button class="tab-btn" data-tab="eisenhower">Eisenhower Matrix</button>
+</div>
+
+<!-- Week View -->
+<div class="tab-panel active" id="tab-week">
+    <div id="week-view"></div>
+</div>
+
+<!-- Calendar View -->
+<div class="tab-panel" id="tab-calendar">
+    <div class="cal-controls">
+        <button id="cal-prev">&larr;</button>
+        <div class="cal-month-label" id="cal-month-label"></div>
+        <button id="cal-next">&rarr;</button>
+    </div>
+    <div id="cal-grid-container"></div>
+</div>
+
+<!-- Eisenhower Matrix -->
+<div class="tab-panel" id="tab-eisenhower">
+    <p>Drag assignments between quadrants. Your arrangement is saved locally.</p>
+    <div style="display:grid; grid-template-columns: auto 1fr 1fr; grid-template-rows: auto auto auto; gap: 0;">
+        <div></div>
+        <div class="matrix-col-label" style="padding:0.5rem">Urgent</div>
+        <div class="matrix-col-label" style="padding:0.5rem">Not Urgent</div>
+
+        <div class="matrix-row-label">Important</div>
+        <div class="quadrant q1" data-quadrant="q1" id="q1">
+            <div class="quadrant-header"><span class="q-icon">&#9888;</span><div><div class="q-title">Do First</div><div class="q-subtitle">Urgent + Important</div></div></div>
+            <div class="q-items"></div>
+        </div>
+        <div class="quadrant q2" data-quadrant="q2" id="q2">
+            <div class="quadrant-header"><span class="q-icon">&#9733;</span><div><div class="q-title">Schedule</div><div class="q-subtitle">Not Urgent + Important</div></div></div>
+            <div class="q-items"></div>
+        </div>
+
+        <div class="matrix-row-label">Not Important</div>
+        <div class="quadrant q3" data-quadrant="q3" id="q3">
+            <div class="quadrant-header"><span class="q-icon">&#8644;</span><div><div class="q-title">Delegate</div><div class="q-subtitle">Urgent + Not Important</div></div></div>
+            <div class="q-items"></div>
+        </div>
+        <div class="quadrant q4" data-quadrant="q4" id="q4">
+            <div class="quadrant-header"><span class="q-icon">&#128465;</span><div><div class="q-title">Eliminate</div><div class="q-subtitle">Not Urgent + Not Important</div></div></div>
+            <div class="q-items"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Collapsible static sections -->
+<div style="margin-top:2rem;">
+
+<div class="collapsible">
+    <div class="collapsible-header" onclick="toggleCollapse(this)">
+        <span class="chevron">&#9654;</span><h2>Per-Course Breakdown</h2>
+    </div>
+    <div class="collapsible-body">
+        <table><thead><tr><th>Course</th><th>Professor</th><th>Files</th><th>Readings</th><th>Assignments</th><th>Embedded</th></tr></thead>
+        <tbody><tr><td><strong>GPCO 403 &mdash; International Economics</strong></td><td>Handley</td><td>40</td><td>12</td><td>9</td><td>3</td></tr><tr><td><strong>GPCO 410 &mdash; International Politics & Security</strong></td><td>Praether</td><td>45</td><td>33</td><td>6</td><td>30</td></tr><tr><td><strong>GPEC 446 &mdash; Quantitative Methods 3</strong></td><td>Valasquez</td><td>27</td><td>10</td><td>4</td><td>6</td></tr><tr><td><strong>GPPS 444 &mdash; History of Warfare</strong></td><td>Thomas</td><td>14</td><td>16</td><td>2</td><td>10</td></tr><tr><td><strong>GPPS 463 &mdash; Politics of Southeast Asia</strong></td><td>Ravanilla</td><td>15</td><td>6</td><td>5</td><td>10</td></tr></tbody></table>
+    </div>
+</div>
+
+<div class="collapsible">
+    <div class="collapsible-header" onclick="toggleCollapse(this)">
+        <span class="chevron">&#9654;</span><h2>Embeddings Coverage</h2>
+    </div>
+    <div class="collapsible-body">
+        <p>Overall: 60 / 842 files indexed (7%)</p>
+        <table><thead><tr><th>Course</th><th>Indexed / Total</th><th>Progress</th><th>%</th></tr></thead>
+        <tbody><tr><td>GPCO 403 &mdash; International Economics</td><td>3 / 40</td><td><div class="bar-bg"><div class="bar-fill" style="width:7.5%"></div></div></td><td>8%</td></tr><tr><td>GPCO 410 &mdash; International Politics & Security</td><td>30 / 45</td><td><div class="bar-bg"><div class="bar-fill" style="width:66.66666666666666%"></div></div></td><td>67%</td></tr><tr><td>GPEC 446 &mdash; Quantitative Methods 3</td><td>6 / 27</td><td><div class="bar-bg"><div class="bar-fill" style="width:22.22222222222222%"></div></div></td><td>22%</td></tr><tr><td>GPPS 444 &mdash; History of Warfare</td><td>10 / 14</td><td><div class="bar-bg"><div class="bar-fill" style="width:71.42857142857143%"></div></div></td><td>71%</td></tr><tr><td>GPPS 463 &mdash; Politics of Southeast Asia</td><td>10 / 15</td><td><div class="bar-bg"><div class="bar-fill" style="width:66.66666666666666%"></div></div></td><td>67%</td></tr></tbody></table>
+    </div>
+</div>
+
+<div class="collapsible">
+    <div class="collapsible-header" onclick="toggleCollapse(this)">
+        <span class="chevron">&#9654;</span><h2>Readings Status</h2>
+    </div>
+    <div class="collapsible-body">
+        <table><thead><tr><th>Week</th><th>Title</th><th>Authors</th><th>Status</th></tr></thead>
+        <tbody><tr class="course-header"><td colspan="4">GPCO 403 &mdash; International Economics</td></tr><tr class="pending-reading"><td>W1</td><td>International Economics Ch 1 (Introduction)</td><td>Feenstra, Robert; Taylor, Alan</td><td>pending</td></tr><tr class="pending-reading"><td>W1</td><td>International Economics Ch 16.1-16.2 (GDP & National Income)</td><td>Feenstra, Robert; Taylor, Alan</td><td>pending</td></tr><tr class="pending-reading"><td>W2</td><td>International Economics Ch 12.2, 16.3-16.5 (Balance of Payments)</td><td>Feenstra, Robert; Taylor, Alan</td><td>pending</td></tr><tr class="pending-reading"><td>W3</td><td>International Economics Ch 12.1, 13.1-13.4, 14.1 (Exchange Rates/PPP)</td><td>Feenstra, Robert; Taylor, Alan</td><td>pending</td></tr><tr class="pending-reading"><td>W3</td><td>The Economist: Big Mac Index</td><td>The Economist</td><td>pending</td></tr><tr class="pending-reading"><td>W4</td><td>International Economics Ch 12.3, 15.5, 19.1-19.4 (External Wealth/Crises)</td><td>Feenstra, Robert; Taylor, Alan</td><td>pending</td></tr><tr class="pending-reading"><td>W6</td><td>International Economics Ch 2 (Ricardian Trade)</td><td>Feenstra, Robert; Taylor, Alan</td><td>pending</td></tr><tr class="pending-reading"><td>W6</td><td>The Economist: The miracle of trade (1996)</td><td>The Economist</td><td>pending</td></tr><tr class="pending-reading"><td>W7</td><td>International Economics Ch 4, 17.1 (Heckscher-Ohlin)</td><td>Feenstra, Robert; Taylor, Alan</td><td>pending</td></tr><tr class="pending-reading"><td>W8</td><td>International Economics Ch 6 (Firms, Increasing Returns, Trade)</td><td>Feenstra, Robert; Taylor, Alan</td><td>pending</td></tr><tr class="pending-reading"><td>W9</td><td>International Economics Ch 8, 11.1-2 (Trade & Commercial Policy)</td><td>Feenstra, Robert; Taylor, Alan</td><td>pending</td></tr><tr class="pending-reading"><td>W9</td><td>The Impact of the 2018 Tariffs on Prices and Welfare</td><td>Amiti, Mary; Redding, Stephen J.; Weinstein, David E.</td><td>pending</td></tr><tr class="course-header"><td colspan="4">GPCO 410 &mdash; International Politics & Security</td></tr><tr class="pending-reading"><td>W1</td><td>A Non-Technical Introduction to Bargaining Theory</td><td>Muthoo, Abhinay</td><td>pending</td></tr><tr class="pending-reading"><td>W1</td><td>Games, Strategies, and Managers pp.1-41</td><td>McMillan, John</td><td>pending</td></tr><tr class="pending-reading"><td>W1</td><td>International Relations: A Strategic-Choice Approach</td><td>Lake, David A.; Powell, Robert</td><td>pending</td></tr><tr class="pending-reading"><td>W1</td><td>Thinking Strategically pp.31-50 (optional)</td><td>Dixit, Avinash K.; Nalebuff, Barry J.</td><td>pending</td></tr><tr class="pending-reading"><td>W2</td><td>Actors and Preferences in International Relations</td><td>Frieden, Jeffry A.</td><td>pending</td></tr><tr class="pending-reading"><td>W2</td><td>Gorillas Do Not Bluff When They Beat Their Chests: Honest Signaling Indicates Body Size</td><td>Wright, E. et al.</td><td>pending</td></tr><tr class="pending-reading"><td>W2</td><td>Interests, Institutions and Information pp.9-23, 33-46, 60-65</td><td>Milner, Helen</td><td>pending</td></tr><tr class="pending-reading"><td>W2</td><td>Notes on Signaling Theory</td><td>Anonymous (MIT)</td><td>pending</td></tr><tr class="pending-reading"><td>W2</td><td>The 1996 Taiwan Strait Crisis</td><td>Russell, Richard L.</td><td>pending</td></tr><tr class="pending-reading"><td>W2</td><td>The Cuban Missile Crisis (CIAO Case Study)</td><td>Lebow, Ned</td><td>pending</td></tr><tr class="pending-reading"><td>W2</td><td>The Diplomacy of Violence (Arms and Influence pp.1-34)</td><td>Schelling, Thomas</td><td>pending</td></tr><tr class="pending-reading"><td>W2</td><td>Using Information Strategically (pp.59-75)</td><td>McMillan, John</td><td>pending</td></tr><tr class="pending-reading"><td>W3</td><td>Rationalist Explanations for War</td><td>Fearon, James D.</td><td>pending</td></tr><tr class="pending-reading"><td>W3</td><td>Saddam's Delusions: The View From the Inside</td><td>Foreign Affairs</td><td>pending</td></tr><tr class="pending-reading"><td>W3</td><td>The Persian Gulf Crisis Ch.1-4</td><td>Yetiv, Steven</td><td>pending</td></tr><tr class="pending-reading"><td>W3</td><td>The Strategic Setting of Choices</td><td>Morrow, James D.</td><td>pending</td></tr><tr class="pending-reading"><td>W3</td><td>War as a Commitment Problem</td><td>Powell, Robert</td><td>pending</td></tr><tr class="pending-reading"><td>W4</td><td>An Institutional Explanation of the Democratic Peace</td><td>Bueno de Mesquita, Bruce et al.</td><td>pending</td></tr><tr class="pending-reading"><td>W4</td><td>Bargaining Failures and Civil War</td><td>Walter, Barbara F.</td><td>pending</td></tr><tr class="pending-reading"><td>W4</td><td>Civil War</td><td>Blattman, Christopher; Miguel, Edward</td><td>pending</td></tr><tr class="pending-reading"><td>W5</td><td>Committing to Peace Ch.2</td><td>Walter, Barbara F.</td><td>pending</td></tr><tr class="pending-reading"><td>W5</td><td>Democratization and Civil War: Empirical Evidence</td><td>Cederman, Lars-Erik; Hug, Simon; Krebs, Lutz</td><td>pending</td></tr><tr class="pending-reading"><td>W6</td><td>Winning with the Bomb</td><td>Beardsley, Kyle; Asal, Victor</td><td>pending</td></tr><tr class="pending-reading"><td>W7</td><td>Design, Inference, and the Strategic Logic of Suicide Terrorism</td><td>Ashworth, Scott; Clinton, Joshua D.; Meirowitz, Adam; Ramsay, Kristopher W.</td><td>pending</td></tr><tr class="pending-reading"><td>W7</td><td>The Korean Conundrum Ch.2-3</td><td>Carpenter, Ted Galen; Bandow, Doug</td><td>pending</td></tr><tr class="pending-reading"><td>W7</td><td>The Strategic Logic of Suicide Terrorism</td><td>Pape, Robert A.</td><td>pending</td></tr><tr class="pending-reading"><td>W8</td><td>Coordination and Collaboration: Regimes in an Anarchic World</td><td>Stein, Arthur A.</td><td>pending</td></tr><tr class="pending-reading"><td>W8</td><td>The Governance Problem in International Relations</td><td>Gourevitch, Peter Alexis</td><td>pending</td></tr><tr class="pending-reading"><td>W8</td><td>The Strategies of Terrorism</td><td>Kydd, Andrew; Walter, Barbara</td><td>pending</td></tr><tr class="pending-reading"><td>W9</td><td>Building Legitimate States (Ch.1)</td><td>Lake, David</td><td>pending</td></tr><tr class="pending-reading"><td>W10</td><td>Domestic Political Audiences and the Escalation of International Disputes</td><td>Fearon, James D.</td><td>pending</td></tr><tr class="pending-reading"><td>W10</td><td>Institutions as Constraints on Strategic Choice</td><td>Rogowski, Ronald</td><td>pending</td></tr><tr class="pending-reading"><td>W10</td><td>Mass Public Decisions on Go to War</td><td>Herrmann, Richard K.; Tetlock, Philip E.; Visser, Penny S.</td><td>pending</td></tr><tr class="course-header"><td colspan="4">GPEC 446 &mdash; Quantitative Methods 3</td></tr><tr class="pending-reading"><td>W1</td><td>Mastering Metrics Ch 1 (Causality & Quantitative Analysis)</td><td>Angrist, Joshua D.; Pischke, Jorn-Steffen</td><td>pending</td></tr><tr class="pending-reading"><td>W2</td><td>Mastering Metrics Ch 2 (Regression for Causal Inference)</td><td>Angrist, Joshua D.; Pischke, Jorn-Steffen</td><td>pending</td></tr><tr class="pending-reading"><td>W3</td><td>Mastering Metrics Ch 3 (Instrumental Variables)</td><td>Angrist, Joshua D.; Pischke, Jorn-Steffen</td><td>pending</td></tr><tr class="pending-reading"><td>W4</td><td>Mastering Metrics Ch 4 + Wooldridge Ch 13 (Panel Data/DiD)</td><td>Angrist, Joshua D.; Pischke, Jorn-Steffen</td><td>pending</td></tr><tr class="pending-reading"><td>W5</td><td>Mastering Metrics Ch 4 + Wooldridge Ch 14 (DiD II / Staggered)</td><td>Angrist, Joshua D.; Pischke, Jorn-Steffen</td><td>pending</td></tr><tr class="pending-reading"><td>W6</td><td>Mastering Metrics Ch 2 review + Matching/Synthetic Control</td><td>Angrist, Joshua D.; Pischke, Jorn-Steffen</td><td>pending</td></tr><tr class="pending-reading"><td>W7</td><td>Mastering Metrics Ch 5 (Regression Discontinuity Design)</td><td>Angrist, Joshua D.; Pischke, Jorn-Steffen</td><td>pending</td></tr><tr class="pending-reading"><td>W8</td><td>Field Experiments Ch 3 (Experimental Design)</td><td>Gerber, Alan; Green, Donald</td><td>pending</td></tr><tr class="pending-reading"><td>W9</td><td>Field Experiments Ch 4 (Non-compliance / Factorial Designs)</td><td>Gerber, Alan; Green, Donald</td><td>pending</td></tr><tr class="pending-reading"><td>W10</td><td>Wooldridge Ch 10-11 (Time Series)</td><td>Wooldridge, Jeffrey M.</td><td>pending</td></tr><tr class="course-header"><td colspan="4">GPPS 444 &mdash; History of Warfare</td></tr><tr class="pending-reading"><td>W?</td><td>A History of Warfare</td><td>Keegan, John</td><td>pending</td></tr><tr class="pending-reading"><td>W1</td><td>The Cambridge History of Warfare — Introduction + Part One Ch.1</td><td>Parker, Geoffrey (ed.)</td><td>pending</td></tr><tr class="pending-reading"><td>W2</td><td>TCHW Part One Ch.2 — Roman Warfare I</td><td>Parker, Geoffrey (ed.)</td><td>pending</td></tr><tr class="pending-reading"><td>W2</td><td>TCHW Part One Ch.3 — Roman Warfare II</td><td>Parker, Geoffrey (ed.)</td><td>pending</td></tr><tr class="pending-reading"><td>W3</td><td>Intro to Irregular Warfare</td><td></td><td>pending</td></tr><tr class="pending-reading"><td>W3</td><td>TCHW Part Two Ch.4 — Medieval Warfare I (Castles/Sieges)</td><td>Parker, Geoffrey (ed.)</td><td>pending</td></tr><tr class="pending-reading"><td>W3</td><td>TCHW Part Two Ch.5 — Medieval Warfare II (Agincourt)</td><td>Parker, Geoffrey (ed.)</td><td>pending</td></tr><tr class="pending-reading"><td>W4</td><td>TCHW Part Three Ch.7 — Ottoman Expansion</td><td>Parker, Geoffrey (ed.)</td><td>pending</td></tr><tr class="pending-reading"><td>W4</td><td>TCHW Part Two Ch.6 — Gunpowder Revolution</td><td>Parker, Geoffrey (ed.)</td><td>pending</td></tr><tr class="pending-reading"><td>W5</td><td>TCHW Part Three Ch.11 — Napoleonic Wars I</td><td>Parker, Geoffrey (ed.)</td><td>pending</td></tr><tr class="pending-reading"><td>W6</td><td>TCHW Part Four Ch.12 — Crimean/Civil War</td><td>Parker, Geoffrey (ed.)</td><td>pending</td></tr><tr class="pending-reading"><td>W6</td><td>TCHW Part Four Ch.13 — WWI Mechanized I (Somme)</td><td>Parker, Geoffrey (ed.)</td><td>pending</td></tr><tr class="pending-reading"><td>W7</td><td>TCHW Part Four Ch.14 — WWI Air Power</td><td>Parker, Geoffrey (ed.)</td><td>pending</td></tr><tr class="pending-reading"><td>W7</td><td>TCHW Part Four Ch.15 — WWII Air-Land Battle (Blitzkrieg)</td><td>Parker, Geoffrey (ed.)</td><td>pending</td></tr><tr class="pending-reading"><td>W8</td><td>TCHW Part Four Ch.16 — WWII Air-Sea Battle (Midway)</td><td>Parker, Geoffrey (ed.)</td><td>pending</td></tr><tr class="pending-reading"><td>W9</td><td>TCHW Epilogue — Nuclear Weapons & Future Warfare</td><td>Parker, Geoffrey (ed.)</td><td>pending</td></tr><tr class="course-header"><td colspan="4">GPPS 463 &mdash; Politics of Southeast Asia</td></tr><tr class="pending-reading"><td>W1</td><td>Dai Viet — Ancient Vietnamese Kingdom</td><td></td><td>pending</td></tr><tr class="pending-reading"><td>W1</td><td>The South China Sea Ch.1 (Hayton)</td><td>Heyton, Bill</td><td>pending</td></tr><tr class="pending-reading"><td>W2</td><td>Guns, Germs, and Steel (Diamond) — relevant chapters</td><td>Diamond, Jared</td><td>pending</td></tr><tr class="pending-reading"><td>W3</td><td>Development Effects of the Extractive Colonial Economy</td><td>Dell, Melissa; Olken, Benjamin</td><td>pending</td></tr><tr class="pending-reading"><td>W3</td><td>Stubbs 1999 — Colonial Institutions SEA</td><td>Stubbs, Richard</td><td>pending</td></tr><tr class="pending-reading"><td>W3</td><td>The Dutch in Indonesia (Acemoglu 2012)</td><td>Acemoglu, Daron</td><td>pending</td></tr></tbody></table>
+    </div>
+</div>
+
+<div class="collapsible">
+    <div class="collapsible-header" onclick="toggleCollapse(this)">
+        <span class="chevron">&#9654;</span><h2>Recent Activity</h2>
+    </div>
+    <div class="collapsible-body">
+        <table><thead><tr><th>Timestamp</th><th>Agent</th><th>Action</th><th>Details</th></tr></thead>
+        <tbody><tr><td>2026-04-13 02:00:53</td><td>Athena</td><td>full_db_integration</td><td>Indexed 30 new course files, 11 Obsidian notes, 1 new reading. Updated 8 existing records to indexed=1. Full file+Obsidi</td></tr><tr><td>2026-04-13 01:58:36</td><td>Plutus</td><td>database_integration</td><td>Full file indexing, Obsidian integration, and path corrections for GPCO 403. Added 4 new course files, 28 Obsidian notes</td></tr><tr><td>2026-04-13 01:36:23</td><td>Claudia</td><td>syllabus_parse</td><td>GPPS 444 syllabus parsed — 20 sessions, weekly quizzes, NO final exam</td></tr><tr><td>2026-04-13 01:36:23</td><td>Claudia</td><td>syllabus_parse</td><td>GPPS 463 syllabus parsed — 3 exams + participation, discussion posts recurring</td></tr><tr><td>2026-04-13 01:30:04</td><td>Claudia</td><td>syllabus_parse</td><td>GPCO 410 syllabus parsed directly — assignments, readings, and files inserted</td></tr><tr><td>2026-04-13 01:26:43</td><td>Claudia</td><td>syllabus_parse</td><td>GPCO 403 syllabus parsed directly — assignments and readings inserted</td></tr><tr><td>2026-04-13 01:26:43</td><td>Claudia</td><td>syllabus_parse</td><td>GPEC 446 syllabus parsed directly — assignments and readings inserted</td></tr></tbody></table>
+    </div>
+</div>
+
+</div>
+
+<script>
+const ASSIGNMENTS = [{"id": 14, "title": "Analytic Memo \u2014 BLUE (choose 1)", "due_date": "", "status": "pending", "grade": "", "weight": "10%", "notes": "Choose ONE from W2: (1) US response to Ukraine invasion \u2014 bipartisan analysis, due Apr 6 11am; (2) Trump-Taiwan call signaling analysis, due Apr 8 11am. Max 3pp, DS, 12pt, 1-inch margins. Citations in FOOTNOTES. No AI text.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": null}, {"id": 15, "title": "Analytic Memo \u2014 ORANGE (choose 1)", "due_date": "", "status": "pending", "grade": "", "weight": "10%", "notes": "Choose ONE from W3-W5: Saddam/Kuwait (Apr 13); Bush-Hussein settlement (Apr 15); South America democratic peace (Apr 20); Muslim civil wars (Apr 22); FARC Colombia (Apr 27); Myanmar democratization (Apr 29). Same format rules.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": null}, {"id": 16, "title": "Data Memo (choose 1)", "due_date": "", "status": "pending", "grade": "", "weight": "10%", "notes": "Choose ONE topic: interstate war (COW, due Apr 15), civil war (PRIO, due Apr 29), regime type (Polity IV, due Apr 29). Deconstruct a dataset coding decision. Max 3pp, DS, 12pt.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": null}, {"id": 17, "title": "Analytic Memo \u2014 PURPLE (choose 1)", "due_date": "", "status": "pending", "grade": "", "weight": "10%", "notes": "Choose ONE from W6-W8: Iran nuclear deal (May 6); Kim Jong-Un/nuclear credibility (May 11); Putin nuclear threats (May 11); Tamil Tigers or Hamas (May 13); Far-right terrorism (May 18); NATO expansion (May 20).", "course": "GPCO 410", "course_name": "International Politics & Security", "week": null}, {"id": 20, "title": "Weekly In-Class Quizzes", "due_date": "", "status": "recurring", "grade": "", "weight": "", "notes": "Minimum 1 quiz per week, every week. Based on readings and class discussion. Primary evaluation method. NO final exam.", "course": "GPPS 444", "course_name": "History of Warfare", "week": null}, {"id": 25, "title": "Discussion Posts (weekly)", "due_date": "", "status": "recurring", "grade": "", "weight": "12.5%", "notes": "Due day before each lecture by 5:00pm. One question + 3-sentence explanation of why it matters. Begins Tue Mar 31.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": null}, {"id": 26, "title": "In-Class Attendance Quizzes (weekly)", "due_date": "", "status": "recurring", "grade": "", "weight": "12.5%", "notes": "Short Canvas quizzes each class. Perfect = 1pt, any mistake = 0.75pt. Based on readings and concepts.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": null}, {"id": 1, "title": "Concept Check 1", "due_date": "2026-04-06", "status": "completed", "grade": "", "weight": "4%", "notes": "Canvas quiz, opened Apr 1", "course": "GPCO 403", "course_name": "International Economics", "week": 2}, {"id": 21, "title": "Oral Presentations (possible)", "due_date": "2026-04-15", "status": "pending", "grade": "", "weight": "", "notes": "Possible oral presentations depending on class size \u2014 end of Week 2 (Apr 15). TBC.", "course": "GPPS 444", "course_name": "History of Warfare", "week": 3}, {"id": 2, "title": "Data Brief 1", "due_date": "2026-04-17", "status": "pending", "grade": "", "weight": "5%", "notes": "Compare assigned country to US using macro indicators. Draft already exists in Data Brief 1 folder.", "course": "GPCO 403", "course_name": "International Economics", "week": 3}, {"id": 3, "title": "Concept Check 2", "due_date": "2026-04-20", "status": "pending", "grade": "", "weight": "4%", "notes": "Canvas quiz, opens Apr 15", "course": "GPCO 403", "course_name": "International Economics", "week": 4}, {"id": 22, "title": "Midterm Exam 1", "due_date": "2026-04-20", "status": "pending", "grade": "", "weight": "25%", "notes": "In-class Mon Apr 20. Multiple choice + short essays. LockDown Browser. Covers first portion. One 3x5 index card cheat sheet allowed.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 4}, {"id": 10, "title": "Homework I", "due_date": "2026-04-26", "status": "pending", "grade": "", "weight": "25%", "notes": "Data analysis problem set. Due end of Week 4. Submit via TurnItIn. Written explanations must be your own \u2014 AI for code only.", "course": "GPEC 446", "course_name": "Quantitative Methods 3", "week": 4}, {"id": 4, "title": "Concept Check 3", "due_date": "2026-04-28", "status": "pending", "grade": "", "weight": "4%", "notes": "Canvas quiz, opens Apr 22", "course": "GPCO 403", "course_name": "International Economics", "week": 5}, {"id": 5, "title": "Midterm Exam", "due_date": "2026-05-04", "status": "pending", "grade": "", "weight": "30%", "notes": "In-class Mon May 4, 2-3:20pm, covers first 9-10 lectures (weeks 1-5)", "course": "GPCO 403", "course_name": "International Economics", "week": 6}, {"id": 18, "title": "Midterm Exam", "due_date": "2026-05-04", "status": "pending", "grade": "", "weight": "30%", "notes": "In-class Mon May 4. Apply course concepts to analyze world events. Curved: median B+.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": 6}, {"id": 11, "title": "Midterm Exam", "due_date": "2026-05-06", "status": "pending", "grade": "", "weight": "25%", "notes": "In-class Tuesday Week 6, 9:30-11am. Conceptual understanding focus.", "course": "GPEC 446", "course_name": "Quantitative Methods 3", "week": 6}, {"id": 23, "title": "Midterm Exam 2", "due_date": "2026-05-11", "status": "pending", "grade": "", "weight": "25%", "notes": "In-class Mon May 11. Multiple choice + short essays. LockDown Browser. Covers second portion. One 3x5 index card allowed.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 7}, {"id": 6, "title": "Concept Check 4", "due_date": "2026-05-18", "status": "pending", "grade": "", "weight": "4%", "notes": "Canvas quiz, opens May 13", "course": "GPCO 403", "course_name": "International Economics", "week": 8}, {"id": 12, "title": "Homework II", "due_date": "2026-05-23", "status": "pending", "grade": "", "weight": "25%", "notes": "Data analysis problem set. Due end of Week 8. Submit via TurnItIn.", "course": "GPEC 446", "course_name": "Quantitative Methods 3", "week": 8}, {"id": 8, "title": "Concept Check 5", "due_date": "2026-06-02", "status": "pending", "grade": "", "weight": "4%", "notes": "Canvas quiz, opens May 27. Lowest CC score dropped.", "course": "GPCO 403", "course_name": "International Economics", "week": 10}, {"id": 7, "title": "Data Brief 2", "due_date": "2026-06-03", "status": "pending", "grade": "", "weight": "5%", "notes": "Timed 2-hour Canvas memo. WTO trade profile. Must start by 10pm Jun 3.", "course": "GPCO 403", "course_name": "International Economics", "week": 10}, {"id": 19, "title": "Final Exam", "due_date": "2026-06-03", "status": "pending", "grade": "", "weight": "30%", "notes": "In-class Wed Jun 3. Randomly picks ONE of your 3 analytic memos and asks you to expand on the theory and argument. Prepare all three memos thoroughly.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": 10}, {"id": 13, "title": "Data Project", "due_date": "2026-06-07", "status": "pending", "grade": "", "weight": "25%", "notes": "Independent data analysis applying causal inference methods to real-world policy question. Week 10. Details TBD on Canvas.", "course": "GPEC 446", "course_name": "Quantitative Methods 3", "week": 10}, {"id": 9, "title": "Final Exam", "due_date": "2026-06-08", "status": "pending", "grade": "", "weight": "40%", "notes": "Jun 8, 8:00-11:00am. Weighted toward final 5-6 weeks but cumulative.", "course": "GPCO 403", "course_name": "International Economics", "week": 11}, {"id": 24, "title": "Final Exam", "due_date": "2026-06-10", "status": "pending", "grade": "", "weight": "25%", "notes": "Wed Jun 10, 8:00-11:00am, RBC 3201. Covers final portion. Can bring all previous index cards.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 11}];
+const QUARTER_START = new Date('2026-03-30');
+const CURRENT_WEEK = 3;
+const COURSE_COLORS = {"GPCO 403": "#7cb3ff", "GPCO 410": "#ffa94d", "GPEC 446": "#b197fc", "GPPS 444": "#ff6b6b", "GPPS 463": "#69db7c"};
+
+// --- Tabs ---
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+});
+
+// --- Collapsibles ---
+function toggleCollapse(header) {
+    header.classList.toggle('open');
+    header.nextElementSibling.classList.toggle('open');
+}
+
+function courseTag(code) {
+    const cls = 'tag-' + code.replace(/\s/g, '');
+    return `<span class="course-tag ${cls}">${code}</span>`;
+}
+
+function formatDate(d) {
+    if (!d) return '';
+    const dt = new Date(d + 'T00:00:00');
+    return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+// ===== WEEK VIEW =====
+function renderWeekView() {
+    const container = document.getElementById('week-view');
+    let html = '';
+
+    for (let w = 1; w <= 11; w++) {
+        const weekStart = new Date(QUARTER_START);
+        weekStart.setDate(weekStart.getDate() + (w - 1) * 7);
+        const weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekEnd.getDate() + 6);
+
+        const items = ASSIGNMENTS.filter(a => a.week === w);
+        const recurring = ASSIGNMENTS.filter(a => a.week === null && a.status === 'recurring');
+        const isPast = w < CURRENT_WEEK;
+        const isCurrent = w === CURRENT_WEEK;
+
+        const cls = isPast ? 'past' : isCurrent ? 'current' : '';
+        const badge = isCurrent ? '<span class="badge badge-current">Current</span>' :
+                      isPast ? '<span class="badge badge-completed">Completed</span>' : '';
+
+        const dateRange = formatDate(weekStart.toISOString().slice(0,10)) + ' - ' + formatDate(weekEnd.toISOString().slice(0,10));
+
+        html += `<div class="week-group ${cls}">`;
+        html += `<div class="week-header" onclick="this.parentElement.querySelector('.week-items').classList.toggle('collapsed')">`;
+        html += `<h3>Week ${w}</h3><span class="week-dates">${dateRange}</span>${badge}`;
+        html += `</div><div class="week-items ${isPast && !isCurrent ? '' : ''}">`;
+
+        if (items.length === 0 && (w >= CURRENT_WEEK || !isPast)) {
+            html += '<div class="week-no-items">No dated assignments</div>';
+        }
+
+        for (const a of items) {
+            const done = a.status === 'completed' ? 'completed-item' : '';
+            html += `<div class="week-item ${done}">`;
+            html += courseTag(a.course);
+            html += `<span>${a.title}</span>`;
+            if (a.weight) html += `<span style="font-size:0.7rem;color:#666">${a.weight}</span>`;
+            html += `<span class="due">${formatDate(a.due_date)}</span>`;
+            html += `</div>`;
+        }
+
+        html += '</div></div>';
+    }
+
+    // Recurring items at bottom
+    const recurring = ASSIGNMENTS.filter(a => a.week === null);
+    if (recurring.length) {
+        html += '<div class="week-group"><div class="week-header"><h3>Recurring</h3></div><div class="week-items">';
+        for (const a of recurring) {
+            html += `<div class="week-item">${courseTag(a.course)}<span>${a.title}</span>`;
+            if (a.weight) html += `<span style="font-size:0.7rem;color:#666">${a.weight}</span>`;
+            html += '</div>';
+        }
+        html += '</div></div>';
+    }
+
+    container.innerHTML = html;
+}
+renderWeekView();
+
+// ===== CALENDAR VIEW =====
+let calMonth = 3; // April (0-indexed)
+let calYear = 2026;
+
+function renderCalendar() {
+    const label = document.getElementById('cal-month-label');
+    const container = document.getElementById('cal-grid-container');
+    const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    label.textContent = monthNames[calMonth] + ' ' + calYear;
+
+    const firstDay = new Date(calYear, calMonth, 1).getDay(); // 0=Sun
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+    const todayStr = new Date().toISOString().slice(0,10);
+
+    let html = '<div class="cal-grid">';
+    ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
+        html += `<div class="cal-day-header">${d}</div>`;
+    });
+
+    // Empty leading cells
+    for (let i = 0; i < firstDay; i++) {
+        html += '<div class="cal-day empty"></div>';
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+        const dateStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const isToday = dateStr === todayStr;
+        const dayAssignments = ASSIGNMENTS.filter(a => a.due_date === dateStr);
+
+        html += `<div class="cal-day ${isToday ? 'today' : ''}">`;
+        html += `<div class="day-num">${d}</div>`;
+        for (const a of dayAssignments) {
+            const bg = COURSE_COLORS[a.course] || '#555';
+            html += `<div class="cal-event" style="background:${bg}" title="${a.course}: ${a.title}">${a.title}</div>`;
+        }
+        html += '</div>';
+    }
+
+    // Trailing empty cells
+    const totalCells = firstDay + daysInMonth;
+    const remaining = (7 - totalCells % 7) % 7;
+    for (let i = 0; i < remaining; i++) {
+        html += '<div class="cal-day empty"></div>';
+    }
+
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+document.getElementById('cal-prev').addEventListener('click', () => {
+    calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; }
+    renderCalendar();
+});
+document.getElementById('cal-next').addEventListener('click', () => {
+    calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; }
+    renderCalendar();
+});
+renderCalendar();
+
+// ===== EISENHOWER MATRIX =====
+const STORAGE_KEY = 'claudia-eisenhower';
+
+function defaultQuadrant(a) {
+    // Auto-assign: upcoming exams/midterms -> q1, near-term homework -> q1,
+    // future important -> q2, recurring -> q3, rest -> q4
+    if (a.status === 'completed') return null; // skip completed
+    const title = a.title.toLowerCase();
+    const isExam = title.includes('exam') || title.includes('midterm');
+    const hasDate = !!a.due_date;
+    const dueDate = hasDate ? new Date(a.due_date + 'T00:00:00') : null;
+    const now = new Date();
+    const daysOut = dueDate ? (dueDate - now) / 86400000 : 999;
+
+    if (isExam && daysOut <= 21) return 'q1';
+    if (isExam) return 'q2';
+    if (hasDate && daysOut <= 7) return 'q1';
+    if (hasDate && daysOut <= 21) return 'q2';
+    if (a.status === 'recurring') return 'q3';
+    if (hasDate) return 'q2';
+    return 'q4';
+}
+
+function loadMatrix() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+        try { return JSON.parse(saved); } catch(e) {}
+    }
+    // Build default mapping: id -> quadrant
+    const mapping = {};
+    ASSIGNMENTS.forEach(a => {
+        const q = defaultQuadrant(a);
+        if (q) mapping[a.id] = q;
+    });
+    return mapping;
+}
+
+function saveMatrix(mapping) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(mapping));
+}
+
+function renderMatrix() {
+    const mapping = loadMatrix();
+    const byQ = { q1: [], q2: [], q3: [], q4: [] };
+
+    // Group assignments by quadrant
+    for (const a of ASSIGNMENTS) {
+        const q = mapping[a.id];
+        if (q && byQ[q]) byQ[q].push(a);
+    }
+
+    for (const qid of ['q1','q2','q3','q4']) {
+        const container = document.querySelector(`#${qid} .q-items`);
+        if (byQ[qid].length === 0) {
+            container.innerHTML = '<div class="matrix-empty">Drop items here</div>';
+        } else {
+            container.innerHTML = byQ[qid].map(a => `
+                <div class="matrix-card" draggable="true" data-id="${a.id}">
+                    ${courseTag(a.course)}
+                    <span class="card-title">${a.title}</span>
+                    <span class="card-due">${formatDate(a.due_date)}</span>
+                </div>
+            `).join('');
+        }
+    }
+
+    // Drag and drop
+    document.querySelectorAll('.matrix-card').forEach(card => {
+        card.addEventListener('dragstart', e => {
+            e.dataTransfer.setData('text/plain', card.dataset.id);
+            card.classList.add('dragging');
+        });
+        card.addEventListener('dragend', () => card.classList.remove('dragging'));
+    });
+
+    document.querySelectorAll('.quadrant').forEach(quad => {
+        quad.addEventListener('dragover', e => {
+            e.preventDefault();
+            quad.classList.add('drag-over');
+        });
+        quad.addEventListener('dragleave', () => quad.classList.remove('drag-over'));
+        quad.addEventListener('drop', e => {
+            e.preventDefault();
+            quad.classList.remove('drag-over');
+            const id = parseInt(e.dataTransfer.getData('text/plain'));
+            const qid = quad.dataset.quadrant;
+            const mapping = loadMatrix();
+            mapping[id] = qid;
+            saveMatrix(mapping);
+            renderMatrix();
+        });
+    });
+}
+renderMatrix();
+</script>
+
+</body>
+</html>

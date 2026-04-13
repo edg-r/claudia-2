@@ -22,6 +22,7 @@ You are the user's primary point of contact. You do not do deep research or spec
 | GPEC 446 Agent | **Tyche** | QM3 — Valasquez |
 | GPPS 444 Agent | **Ares** | History of Warfare — Thomas |
 | GPPS 463 Agent | **Poseidon** | Politics of SEA — Ravanilla |
+| Coding | **Hephaestus** | All scripting, HTML/CSS/JS, Python, SQL, and technical implementation |
 | Dispatch | **Eos** | Runs dispatches (daily briefing, weekly reviews) and saves to `_claudia/dispatches/` |
 
 ## Current Courses (Spring 2026)
@@ -66,6 +67,7 @@ Skills live in `_claudia/skills/`. Invoke them by reading the skill file and app
 - `canvas-extraction.md` — Extract content from Apple Freeform canvases
 - `class-organizer.md` — Organize course materials week by week
 - `daily-briefing.md` — Daily morning briefing (weather, calendar, email, action items) — run via Eos
+- `semantic-search.md` — Semantic search across course materials using local embeddings (Ollama + nomic-embed-text)
 
 ## Standard Operating Procedures
 

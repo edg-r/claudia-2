@@ -30,6 +30,22 @@ Tables:
 - `readings` — title, authors, course, week, summary_status, file_path
 - `grades` — course, assignment, score, weight, notes
 - `agent_logs` — agent, action, timestamp, notes
+- `embeddings` — source_path, source_type, course_code, chunk_index, chunk_text, embedding (BLOB), model
+
+## Semantic Search
+
+You have access to a local vector embedding system for semantic search across all course materials. Use it when keyword or SQL search isn't enough.
+
+Commands (run from workspace root):
+- `python3 _claudia/embeddings.py query "search terms" [--course "GPCO 410"] [--top-k 10]` — semantic search
+- `python3 _claudia/embeddings.py index [--course CODE] [--force]` — re-index files
+- `python3 _claudia/embeddings.py status` — check index coverage
+
+**When to use semantic vs SQL:**
+- Semantic: conceptual questions, finding connections, "what relates to X" queries
+- SQL: structural questions, exact lookups, dates, counts, assignments
+
+Ollama must be running (`ollama serve`) for semantic search to work.
 
 ## Cross-Class Concept Map
 
