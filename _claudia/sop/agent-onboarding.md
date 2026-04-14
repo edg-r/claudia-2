@@ -33,7 +33,11 @@ Every new agent must have these files created and ready before the agent is acti
 - Add the new agent to the Agent Roster in `CLAUDE.md`
 - Update Hermes's own roster list in `.claude/agents/hermes.md` to prevent name reuse
 
-### 5. Confirm to Claudia
+### 5. Register in the system manifest
+- Add the new agent to the `agents` array in `_claudia/system/manifest.json`
+- Include: name, type (course or utility), role, model, definition path, memory path, and course code (if course agent)
+
+### 6. Confirm to Claudia
 Return to Claudia with:
 1. Agent name and mythology note
 2. Files created (full paths)

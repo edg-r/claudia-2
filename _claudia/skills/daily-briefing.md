@@ -7,6 +7,21 @@ You are generating a daily morning briefing for Edgar (edgar.agunias@gmail.com /
 
 Follow these steps in order:
 
+## 0. Time Tracker Sync
+Before gathering any external data, run the time tracker sync to ensure the database reflects the latest CSV:
+
+```
+python3 _claudia/sync_timelog.py
+```
+
+Then regenerate the dashboard so stats are current:
+
+```
+python3 _claudia/dashboard.py
+```
+
+Print the sync summary line ("Rows imported: N, Total hours: X.XX") in the briefing under the header below. If either command fails, note the error and continue -- do not abort the briefing.
+
 ## 1. Weather — UCSD / La Jolla, CA
 Search the web for today's weather forecast for La Jolla, CA 92037 (near UC San Diego). Include:
 - Today's high and low temperatures
@@ -34,6 +49,9 @@ Present the briefing in this format, using APA 7 style for any citations:
 
 ---
 ## ☀️ Daily Briefing — [Today's Date, e.g. Monday, March 16, 2026]
+
+### 📊 Time Tracker Sync
+[One-line sync summary: rows imported, total hours, any errors]
 
 ### 🌡️ Weather — La Jolla / UCSD
 [Forecast summary with any advisories]

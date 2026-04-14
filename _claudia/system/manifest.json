@@ -1,0 +1,126 @@
+{
+  "name": "Claudia",
+  "version": "0.2.0",
+  "description": "AI orchestrator for Edgar's UCSD GPS graduate workspace",
+  "term": "Spring 2026",
+  "database": "_claudia/claudia.db",
+  "orchestrator": "Claudia (CLAUDE.md)",
+  "bootstrap": "AGENTS.md",
+  "agents": [
+    {
+      "name": "Atlas",
+      "type": "utility",
+      "role": "Deep research, literature review, cross-class synthesis",
+      "model": "opus",
+      "definition": ".claude/agents/atlas.md",
+      "memory": "_claudia/agents/atlas/"
+    },
+    {
+      "name": "Hermes",
+      "type": "utility",
+      "role": "HR -- creates and briefs new agents",
+      "model": "opus",
+      "definition": ".claude/agents/hermes.md",
+      "memory": "_claudia/agents/hermes/"
+    },
+    {
+      "name": "Mnemosyne",
+      "type": "utility",
+      "role": "Knowledge base, cross-class queries, SQLite, file index",
+      "model": "sonnet",
+      "definition": ".claude/agents/mnemosyne.md",
+      "memory": "_claudia/agents/mnemosyne/"
+    },
+    {
+      "name": "Hephaestus",
+      "type": "utility",
+      "role": "Coding and implementation -- scripting, HTML/CSS/JS, Python, SQL",
+      "model": "sonnet",
+      "definition": ".claude/agents/hephaestus.md",
+      "memory": "_claudia/agents/hephaestus/"
+    },
+    {
+      "name": "Eos",
+      "type": "utility",
+      "role": "Dispatch -- daily briefings, weekly summaries, recurring reports",
+      "model": "haiku",
+      "definition": ".claude/agents/eos.md",
+      "memory": "_claudia/agents/eos/"
+    },
+    {
+      "name": "Plutus",
+      "type": "course",
+      "role": "GPCO 403 -- International Economics (Handley)",
+      "model": "sonnet",
+      "definition": ".claude/agents/plutus.md",
+      "memory": "GPCO 403 - Intl Econ - Handley/_agent/",
+      "course": "GPCO 403"
+    },
+    {
+      "name": "Athena",
+      "type": "course",
+      "role": "GPCO 410 -- International Politics & Security (Praether)",
+      "model": "sonnet",
+      "definition": ".claude/agents/athena.md",
+      "memory": "GPCO 410 - Intl Pol:Sec - Praether/_agent/",
+      "course": "GPCO 410"
+    },
+    {
+      "name": "Tyche",
+      "type": "course",
+      "role": "GPEC 446 -- Quantitative Methods 3 (Valasquez)",
+      "model": "sonnet",
+      "definition": ".claude/agents/tyche.md",
+      "memory": "GPEC 446 - QM3 - Valasquez/_agent/",
+      "course": "GPEC 446"
+    },
+    {
+      "name": "Ares",
+      "type": "course",
+      "role": "GPPS 444 -- History of Warfare (Thomas)",
+      "model": "sonnet",
+      "definition": ".claude/agents/ares.md",
+      "memory": "GPPS 444 - History of Warfare - Thomas/_agent/",
+      "course": "GPPS 444"
+    },
+    {
+      "name": "Poseidon",
+      "type": "course",
+      "role": "GPPS 463 -- Politics of Southeast Asia (Ravanilla)",
+      "model": "sonnet",
+      "definition": ".claude/agents/poseidon.md",
+      "memory": "GPPS 463 - Pol SEA - Ravanilla/_agent/",
+      "course": "GPPS 463"
+    }
+  ],
+  "courses": [
+    {"code": "GPCO 403", "title": "International Economics", "professor": "Handley", "folder": "GPCO 403 - Intl Econ - Handley/", "agent": "Plutus"},
+    {"code": "GPCO 410", "title": "International Politics & Security", "professor": "Praether", "folder": "GPCO 410 - Intl Pol:Sec - Praether/", "agent": "Athena"},
+    {"code": "GPEC 446", "title": "Quantitative Methods 3", "professor": "Valasquez", "folder": "GPEC 446 - QM3 - Valasquez/", "agent": "Tyche"},
+    {"code": "GPPS 444", "title": "History of Warfare", "professor": "Thomas", "folder": "GPPS 444 - History of Warfare - Thomas/", "agent": "Ares"},
+    {"code": "GPPS 463", "title": "Politics of Southeast Asia", "professor": "Ravanilla", "folder": "GPPS 463 - Pol SEA - Ravanilla/", "agent": "Poseidon"}
+  ],
+  "skills": [
+    {"name": "memo-summarizer", "file": "_claudia/skills/memo-summarizer.md", "description": "BLUF-first reading summary (Georgetown SFS style)"},
+    {"name": "canvas-extraction", "file": "_claudia/skills/canvas-extraction.md", "description": "Extract content from Apple Freeform canvases"},
+    {"name": "class-organizer", "file": "_claudia/skills/class-organizer.md", "description": "Organize course materials week by week"},
+    {"name": "week-by-week-manifest", "file": "_claudia/skills/week-by-week-manifest.md", "description": "Week-by-week course manifest"},
+    {"name": "lecture-to-reference-pdf", "file": "_claudia/skills/lecture-to-reference-pdf.md", "description": "Synthesize lecture slides into reference PDF"},
+    {"name": "theory-reference-pdf", "file": "_claudia/skills/theory-reference-pdf.md", "description": "Create structured theory reference PDF for exams"},
+    {"name": "pdf", "file": "_claudia/skills/pdf.md", "description": "PDF reading, merging, splitting, creation"},
+    {"name": "pdf-to-obsidian", "file": "_claudia/skills/pdf-to-obsidian.md", "description": "Convert PDF to Obsidian-ready Markdown"},
+    {"name": "policy-memo", "file": "_claudia/skills/policy-memo.md", "description": "Write policy memos and briefs"},
+    {"name": "xlsx", "file": "_claudia/skills/xlsx.md", "description": "Excel/spreadsheet operations"},
+    {"name": "pptx", "file": "_claudia/skills/pptx.md", "description": "PowerPoint operations"},
+    {"name": "docx", "file": "_claudia/skills/docx.md", "description": "Word document operations"},
+    {"name": "schedule", "file": "_claudia/skills/schedule.md", "description": "Scheduled task management"},
+    {"name": "daily-briefing", "file": "_claudia/skills/daily-briefing.md", "description": "Daily morning briefing (weather, calendar, email, action items)"},
+    {"name": "semantic-search", "file": "_claudia/skills/semantic-search.md", "description": "Semantic search via Ollama + nomic-embed-text"}
+  ],
+  "sops": [
+    {"name": "output-disclosure", "file": "_claudia/sop/output-disclosure.md", "description": "Every output ends with disclosure block"},
+    {"name": "agent-memory", "file": "_claudia/sop/agent-memory.md", "description": "All agents maintain persistent memory files"},
+    {"name": "agent-onboarding", "file": "_claudia/sop/agent-onboarding.md", "description": "New agents provisioned with required files before activation"},
+    {"name": "apa7-citations", "file": "_claudia/sop/apa7-citations.md", "description": "All outputs referencing academic sources must include APA 7 formatted references"}
+  ]
+}

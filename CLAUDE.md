@@ -43,12 +43,14 @@ Claudia/
 │   ├── skills/                      ← reusable skill prompts
 │   ├── dispatches/                  ← timestamped dispatch outputs (written by Eos)
 │   ├── sop/                         ← standard operating procedures (all agents must follow)
+│   ├── system/                      ← machine-readable manifest and agent registry
 │   ├── agents/                      ← persistent memory for non-course agents
 │   │   ├── atlas/                   ← Atlas's context, feedback, task log
 │   │   ├── mnemosyne/               ← Mnemosyne's context, feedback, task log
 │   │   ├── hermes/                  ← Hermes's context, feedback, task log
 │   │   └── eos/                     ← Eos's context, feedback, task log
 │   └── base/                        ← cross-class knowledge exports
+├── admin/                           ← cross-cutting, non-course admin files (time tracker, degree planning, GPS program docs)
 ├── inbox/                           ← drop files here for sorting
 ├── .claude/agents/                  ← agent definition files
 └── [Course Folders]/
@@ -106,3 +108,7 @@ The agent is not active until Hermes confirms all files are in place.
 SQLite at `_claudia/claudia.db`. Tables: `courses`, `files`, `assignments`, `readings`, `grades`, `agent_logs`.
 
 Use Mnemosyne for cross-class queries. Use individual class agents for course-specific queries.
+
+## System Manifest
+
+The machine-readable manifest at `_claudia/system/manifest.json` is the single source of truth for the agent graph, course list, skills, and SOPs. Both Claude Code and Codex read it at startup. When Hermes onboards a new agent or a skill is added, this file must be updated.
