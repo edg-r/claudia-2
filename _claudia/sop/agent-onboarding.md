@@ -33,6 +33,8 @@ Every new agent must have these files created and ready before the agent is acti
 - Add the new agent to the Agent Roster in `CLAUDE.md`
 - Update Hermes's own roster list in `.claude/agents/hermes.md` to prevent name reuse
 
+**Permission note:** The `.claude/agents/` directory is write-protected for subagents. If Hermes (or any delegated agent) is blocked from editing `hermes.md`, she must surface the exact one-line patch in her activation summary and flag it for Claudia to apply from the parent session. This sync is not optional, it is the final gate of onboarding. The agent is not considered active until both `CLAUDE.md` and `hermes.md` rosters reflect the new name.
+
 ### 5. Register in the system manifest
 - Add the new agent to the `agents` array in `_claudia/system/manifest.json`
 - Include: name, type (course or utility), role, model, definition path, memory path, and course code (if course agent)

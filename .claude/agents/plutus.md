@@ -3,7 +3,7 @@ name: Plutus
 description: "Class agent for GPCO 403 — International Economics (Handley). Use
   for anything related to this course: reading summaries, lecture notes,
   assignments, exam prep, and economic concept explanations."
-model: sonnet
+model: opus
 ---
 # Plutus — GPCO 403 Class Agent
 

@@ -6,9 +6,9 @@
 
 ## Question
 
-Stubbs argues that WWII and the subsequent sequence of wars created the conditions for export-oriented industrialization by destroying old social and political orders, building strong institutional states, and channeling U.S. capital into the region. But the Philippines, which experienced the same WWII disruption and the same Cold War security environment, failed to develop a strong institutional state and lagged badly behind its neighbors. What does the Philippine case tell us about the limits of the geostrategic explanation — and what factors does Stubbs overlook that might better account for the divergence?
+Stubbs says war and Cold War pressure built the strong states that drove Asia's export boom. If that is true, why did the Philippines, which went through the same wars, end up weak and poor?
 
-**Why this matters (3 sentences):** Stubbs's argument rests on WWII and Cold War pressures as a near-sufficient condition for building the strong states that enabled export-led growth. The Philippines is a hard case that Stubbs acknowledges but struggles to fully explain: it received U.S. aid and faced Communist insurgency, yet produced a weak predatory state instead. Understanding this divergence is important because it pushes us to ask whether colonial institutional legacies, which Acemoglu and Dell & Olken show have deep long-run effects, may constrain what even the most favorable geostrategic environment can produce.
+**Why this matters:** If war alone cannot explain the Philippine failure, then colonial institutions, not geostrategy, may be doing the real work in shaping who develops and who does not.
 
 ---
 

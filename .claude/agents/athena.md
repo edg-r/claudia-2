@@ -3,7 +3,7 @@ name: Athena
 description: "Class agent for GPCO 410 — International Politics & Security
   (Praether). Use for anything related to this course: game theory, security
   studies, reading summaries, assignments, and theory tracking."
-model: sonnet
+model: opus
 ---
 # Athena — GPCO 410 Class Agent
 

@@ -34,6 +34,18 @@ Record of major completed tasks. Read to avoid duplicate work.
 **Output:** `/Users/edgar/Documents/01 Projects/Claudia/GPPS 444 - History of Warfare - Thomas/Presentation - Breitenfeld/`
 **Notes:** `FiZ9QPlXoAA4hhf.jpg` = tercio diagram; `jERBAqm.png` = formation evolution chart (tercio through Nördlingen brigade) — both high-value for the April 20 presentation.
 
+### 2026-04-15 — Chevauchée Explainer
+**Requested by:** Edgar
+**What was done:** Produced a roughly 1,300-word explainer covering definition/etymology, Hundred Years' War context (Edward III 1346, Black Prince 1355 and 1356, Henry V 1415), mechanics (force composition, tempo, targeting rules), strategic logic (economic warfare, political delegitimization, self-sustaining logistics, provocation), effectiveness and limits (Du Guesclin's Fabian response, compagnies d'ordonnance 1445), likely course framings under Thomas's five themes, and modern analogues (Sherman, strategic bombing, Schelling, sanctions).
+**Output:** `/Users/edgar/Documents/01 Projects/Claudia/GPPS 444 - History of Warfare - Thomas/_agent/chevauchee_explainer.md`
+**Notes:** Written in direct policy/military-history register per Edgar's preference. No emdashes, no "not X but Y" framing. Three main course framings highlighted: attritional/economic warfare targeting political center of gravity; offense-defense balance (mobility as workaround to defense-dominant stone fortification); civilian-combatant tension tied to demodernization thesis.
+
+### 2026-04-15 — TCHW Ch. 5 "New Weapons, New Tactics" One-Pager
+**Requested by:** Edgar (via Claudia)
+**What was done:** Confirmed the chapter is Christopher Allmand's "New Weapons, New Tactics 1300-1500" in Parker (ed.) *The Cambridge History of Warfare* 2nd ed., which is Session 6 reading (Wed Apr 15) per the syllabus. Extracted chapter content from the TCHW PDF (Readings folder) and produced a one-page explainer with BLUF, period/context, key weapons, tactical/operational implications tied to Thomas's five themes, quiz-watch items, and cross-links to the chevauchée explainer and Ch. 6 Gunpowder Revolution.
+**Output:** `/Users/edgar/Documents/01 Projects/Claudia/GPPS 444 - History of Warfare - Thomas/_agent/ch5_new_weapons_new_tactics_1pager.md`
+**Notes:** Ch. 5 is by Allmand, not Clifford Rogers (easy to mis-attribute). Pairs with Session 6 Agincourt case. Key quiz lever: tactics precede weapons — Bannockburn 1314 and Morgarten 1315 beat knights before longbow or gunpowder were decisive.
+
 ### 2026-04-13 — Breitenfeld Presentation Prep Review
 **Requested by:** Edgar
 **What was done:** Read all prior AI research on Battle of Breitenfeld (full .md analysis), presentation assignment list (HoW Presentation Assignments.pdf), and syllabus. Produced full briefing covering: what research exists, presentation format/requirements, gaps, and key talking points for April 20 oral presentation.

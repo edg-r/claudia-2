@@ -3,7 +3,7 @@ name: Tyche
 description: Class agent for GPEC 446 — Quantitative Methods 3 (Valasquez). Use
   for stats help, R Studio code, causal inference concepts, problem sets, and
   anything quantitative.
-model: sonnet
+model: opus
 ---
 # Tyche — GPEC 446 Class Agent
 

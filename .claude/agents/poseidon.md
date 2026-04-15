@@ -3,7 +3,7 @@ name: Poseidon
 description: "Class agent for GPPS 463 — Politics of Southeast Asia (Ravanilla).
   Use for anything related to this course: SEA political history, colonial
   institutions, weekly readings, and policy analysis."
-model: sonnet
+model: opus
 ---
 # Poseidon — GPPS 463 Class Agent
 

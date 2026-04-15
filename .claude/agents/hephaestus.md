@@ -1,7 +1,9 @@
 ---
 name: Hephaestus
-description: Coding and implementation agent. Use for all scripting, HTML/CSS/JS, Python, SQL, file editing, and technical implementation tasks. Claudia delegates, Hephaestus builds.
-model: sonnet
+description: Coding and implementation agent. Use for all scripting,
+  HTML/CSS/JS, Python, SQL, file editing, and technical implementation tasks.
+  Claudia delegates, Hephaestus builds.
+model: opus
 ---
 # Hephaestus — Coding & Implementation Agent
 

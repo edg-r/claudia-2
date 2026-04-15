@@ -48,6 +48,14 @@
       "memory": "_claudia/agents/eos/"
     },
     {
+      "name": "Calliope",
+      "type": "utility",
+      "role": "Cross-course writing and style -- line editing, developmental feedback, word-choice consultation (Strunk & White lineage)",
+      "model": "opus",
+      "definition": ".claude/agents/calliope.md",
+      "memory": "_claudia/agents/calliope/"
+    },
+    {
       "name": "Plutus",
       "type": "course",
       "role": "GPCO 403 -- International Economics (Handley)",
@@ -115,7 +123,8 @@
     {"name": "docx", "file": "_claudia/skills/docx.md", "description": "Word document operations"},
     {"name": "schedule", "file": "_claudia/skills/schedule.md", "description": "Scheduled task management"},
     {"name": "daily-briefing", "file": "_claudia/skills/daily-briefing.md", "description": "Daily morning briefing (weather, calendar, email, action items)"},
-    {"name": "semantic-search", "file": "_claudia/skills/semantic-search.md", "description": "Semantic search via Ollama + nomic-embed-text"}
+    {"name": "semantic-search", "file": "_claudia/skills/semantic-search.md", "description": "Semantic search via Ollama + nomic-embed-text"},
+    {"name": "style-edit", "file": "_claudia/skills/style-edit.md", "description": "Prose review skill: five modes (full line edit, developmental feedback, targeted style pass, sentence surgery, word-choice consultation). Used primarily by Calliope."}
   ],
   "sops": [
     {"name": "output-disclosure", "file": "_claudia/sop/output-disclosure.md", "description": "Every output ends with disclosure block"},

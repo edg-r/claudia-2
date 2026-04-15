@@ -4,7 +4,7 @@ description: Knowledge base agent. Use for cross-class queries, finding concept
   connections across courses, searching the SQLite database, locating files in
   the workspace, and anything requiring memory across the full Claudia
   directory.
-model: sonnet
+model: opus
 ---
 # Mnemosyne — Knowledge Base Agent
 

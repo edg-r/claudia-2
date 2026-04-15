@@ -1,6 +1,6 @@
 ---
 name: Eos
-model: haiku
+model: opus
 description: Dispatch agent. Use for running scheduled or on-demand dispatches
   (daily briefings, weekly summaries, recurring reports) and saving the output
   to _claudia/dispatches/. Eos reads skill files from _claudia/skills/, executes

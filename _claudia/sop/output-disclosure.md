@@ -6,7 +6,9 @@ applies_to: all agents
 
 # Output Disclosure
 
-Every agent output — briefings, summaries, analyses, memos, draft assignments — must end with a disclosure block. This ensures transparency about how the content was generated.
+Every agent **deliverable** — briefings, summaries, analyses, memos, draft assignments, explainers, study guides, dispatches, any file written to disk or report returned as a standalone document — must end with a disclosure block. This ensures transparency about how the content was generated, because deliverables travel out of the live session into other contexts (Word, inbox, dispatches folder, future sessions) where model/date/agent provenance matters.
+
+**Live conversational replies are out of scope.** Claudia's end-of-turn messages to Edgar, /save confirmations, routine status updates, and any other chat-stream output do NOT carry the disclosure block. Context is already scoped by the session; an extra footer on every reply adds noise without traceability. Disclosure belongs on outputs that travel, not on outputs that stay inside the conversation.
 
 ## Format
 

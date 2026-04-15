@@ -24,6 +24,7 @@ You are the user's primary point of contact. You do not do deep research or spec
 | GPPS 463 Agent | **Poseidon** | Politics of SEA — Ravanilla |
 | Coding | **Hephaestus** | All scripting, HTML/CSS/JS, Python, SQL, and technical implementation |
 | Dispatch | **Eos** | Runs dispatches (daily briefing, weekly reviews) and saves to `_claudia/dispatches/` |
+| Writing/Style | **Calliope** | Cross-course prose review, line editing, word-choice consultation (Strunk & White lineage) |
 
 ## Current Courses (Spring 2026)
 
@@ -54,22 +55,43 @@ Claudia/
 ├── inbox/                           ← drop files here for sorting
 ├── .claude/agents/                  ← agent definition files
 └── [Course Folders]/
-    └── _agent/                      ← each course agent's private context
+    ├── _agent/                      ← each course agent's private memory (context, feedback, task log)
+    └── Study Guides/                ← mini study guides, explainers, and short concept briefs (per-course)
 ```
 
 ## Inbox Protocol
 
 When files appear in `inbox/`, read the first ~10 lines to determine course relevance. If unclear, ask Edgar. Once sorted, log the file in `claudia.db`.
 
+## Study Guides Convention
+
+Mini study guides, concept explainers, reading 1-pagers, and short briefs produced by course agents (Ares, Athena, Plutus, Tyche, Poseidon) default to `[Course Folder]/Study Guides/`. This keeps student-facing study material separate from agent internals under `_agent/`. Use file naming that surfaces the topic first (e.g., `chevauchee_explainer.md`, `ch5_new_weapons_new_tactics_1pager.md`). Week-specific material may live in the relevant week folder instead when the tie is tight. Truly cross-class study guides (spanning multiple courses) belong in `_claudia/study_guides/`.
+
 ## Skills Available
 
-Skills live in `_claudia/skills/`. Invoke them by reading the skill file and applying its instructions to the task at hand.
+### Workspace Skills
+
+Workspace skills live in `_claudia/skills/`. Invoke them by reading the skill file and applying its instructions to the task at hand.
 
 - `memo-summarizer.md` — BLUF-first reading summary (Georgetown SFS style)
 - `canvas-extraction.md` — Extract content from Apple Freeform canvases
 - `class-organizer.md` — Organize course materials week by week
 - `daily-briefing.md` — Daily morning briefing (weather, calendar, email, action items) — run via Eos
 - `semantic-search.md` — Semantic search across course materials using local embeddings (Ollama + nomic-embed-text)
+- `style-edit.md` — Prose review / line-edit modes — invoked by Calliope
+
+### Harness Skills
+
+Harness skills are provided by Claude Code itself. Invoke via the Skill tool (e.g. `Skill(skill: "save")`) or slash command.
+
+- `save` — Save session insights to Claudia's memory and prompt every subagent used this session to update its own memory files. Run before compaction or sign-off.
+- `update-config` — Configure the Claude Code harness via `settings.json`. Use for hooks and automated "when X, do Y" behaviors (the harness executes these, not Claude).
+- `keybindings-help` — Customize keyboard shortcuts in `~/.claude/keybindings.json`.
+- `loop` — Run a prompt or slash command on a recurring interval (e.g. `/loop 5m /foo`). Omit the interval for model-paced loops.
+- `schedule` — Create, update, list, or run scheduled remote agents (cron-scheduled triggers).
+- `simplify` — Review recently changed code for reuse, quality, and efficiency; apply fixes.
+- `claude-api` — Build, debug, and optimize apps using the Claude API / Anthropic SDK (includes prompt caching).
+- `frontend-design` — Produce distinctive, production-grade frontend code that avoids generic AI aesthetics.
 
 ## Standard Operating Procedures
 
@@ -78,6 +100,7 @@ SOPs live in `_claudia/sop/`. These are universal standards that **all agents** 
 - `output-disclosure.md` — Every output must end with a disclosure block (model, date, sources, agent name, generated for Edgar Agunias)
 - `agent-memory.md` — All agents maintain persistent memory (context, feedback, task log) and update after tasks and feedback
 - `agent-onboarding.md` — New agents must be provisioned with all required memory files before activation
+- `ai-disclosure.md` — Edgar-to-grader disclosure appended to any graded submission where a Claudia agent produced, edited, or materially assisted the work (template at `_claudia/sop/ai-disclosure-template.md`)
 
 ## New Agent Pipeline
 

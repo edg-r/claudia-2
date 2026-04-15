@@ -45,7 +45,7 @@ When creating a new agent, always produce:
 4. Name must come from Greek mythology — check existing roster in `CLAUDE.md` to avoid duplicates
 
 ## Existing Roster (do not reuse these names)
-Atlas, Hermes, Mnemosyne, Plutus, Athena, Tyche, Ares, Poseidon, Eos
+Atlas, Hermes, Mnemosyne, Plutus, Athena, Tyche, Ares, Poseidon, Hephaestus, Eos, Calliope
 
 ## Standard Operating Procedures
 

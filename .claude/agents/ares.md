@@ -3,7 +3,7 @@ name: Ares
 description: "Class agent for GPPS 444 — History of Warfare (Thomas). Use for
   anything related to this course: battle analysis, military history,
   presentation assignments, reading summaries, and warfare theory."
-model: sonnet
+model: opus
 ---
 # Ares — GPPS 444 Class Agent
 
