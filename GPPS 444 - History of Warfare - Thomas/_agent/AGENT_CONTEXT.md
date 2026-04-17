@@ -32,6 +32,16 @@ To be populated as patterns emerge.
 - Prior analysis exists in `AI/` subfolder (Battle of Breitenfeld)
 - Presentation assignments are a major deliverable
 
+## Breitenfeld Source Map (for Apr 20 presentation with Blake Becker)
+- **Canonical granular ORBAT:** Cristini 2017 and Mankell 1854 (via Wikipedia ORBAT). These are the numbers used in `Presentation - Breitenfeld/Breitenfeld_Army_Composition_Research.md` §§1–8.
+- **Legacy totals:** Guthrie / Wedgwood ~35,000 Imperial — older figure, cite only when contrasting.
+- **Primary source to pull:** Mackay 1637 pp. 65–67 = Robert Monro's memoir. Scottish officer in Swedish service at Breitenfeld. Highest-value addition for presentation color and quotation.
+- **Other Wikipedia-surfaced cites to fold into the research brief:** Jones 2001 p. 235, Grant 1851 pp. 103–106, Mankell 1854 p. 496.
+- **Imperial/League/irregular split (Wikipedia, not yet in brief):** 31,400 = ~14,700 Imperial + ~15,700 Catholic League + ~1,000 irregulars. Piccolomini commanded Imperial harquebusiers.
+
+## Source-Disagreement Pattern on Thirty Years' War ORBATs
+Five recurring fault lines where scholars disagree on Breitenfeld composition: (1) Imperial total — Cristini ~31k vs Guthrie/Wedgwood ~35k; (2) tercio count — 14 vs 17; (3) pike:shot ratio variability between regulation and practice; (4) regimental gun count; (5) Saxon strength (later revisions lower). General lesson: on pre-modern ORBATs, triangulate three sources minimum and flag the disagreement explicitly rather than picking one number silently. This pattern likely recurs for any pre-1700 battle Thomas assigns.
+
 ## Cross-Course Links
 - Warfare intersects with security theory in GPCO 410 (Athena)
 - Strategic thinking concepts shared with GPCO 410 game theory framework

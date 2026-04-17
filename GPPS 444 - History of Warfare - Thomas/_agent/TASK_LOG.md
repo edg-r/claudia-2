@@ -4,6 +4,24 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 <!-- No entries yet. Append new tasks below this line. -->
 
+### 2026-04-16 (night) — Wikipedia Cross-Check on Breitenfeld Composition
+**Requested by:** Edgar (via Claudia)
+**What was done:** Claudia webfetched Wikipedia's `Battle_of_Breitenfeld_(1631)` article after the §1–8 research brief was complete. Numbers matched. Wikipedia adds one granular detail not in my brief: the Imperial/Catholic League 31,400 splits as ~14,700 Imperial + ~15,700 Catholic League + ~1,000 irregulars, and Piccolomini is named as an Imperial harquebusier commander. Four additional citations surfaced for the research-lead list: Mankell 1854 p. 496, Jones 2001 p. 235, Mackay 1637 pp. 65–67 (Monro's memoir — primary source, highest-value addition), Grant 1851 pp. 103–106.
+**Output:** No new file. Citations and the Imperial/League/irregular split to be folded into `Breitenfeld_Army_Composition_Research.md` on next edit pass.
+**Notes:** Monro (Mackay 1637) is a Scottish officer who served in the Swedish army at Breitenfeld — primary-source memoir, worth pulling for the presentation. Piccolomini naming tightens the Imperial cavalry ORBAT.
+
+### 2026-04-16 — Breitenfeld Raw Headcount Breakdown (§8 append)
+**Requested by:** Edgar (via Claudia)
+**What was done:** Appended §8 "Raw Headcount Breakdown" to the existing Breitenfeld research brief. Converted the source-attributed pike:shot, cavalry-type, and side-total ratios from §§1–4 into specific soldier counts per arm per side, with arithmetic shown inline. Produced a side-by-side summary table. Called out that commanded musketeers are inside the Swedish infantry total (not additional), and flagged ~±500 drift on infantry figures due to regulation-vs-practice variance. Gunner counts skipped — no direct primary source located, order-of-magnitude estimate noted only.
+**Output:** `/Users/edgar/Documents/01 Projects/Claudia/GPPS 444 - History of Warfare - Thomas/Presentation - Breitenfeld/Breitenfeld_Army_Composition_Research.md` (§8 appended, disclosure block updated)
+**Notes:** All breakdowns are derived, not primary — no single source enumerates per-arm headcounts. Britannica's 21,000/11,000 Imperial infantry/cavalry split is the cleanest anchor; Guthrie's 450/regt cavalry strength is the better effectives figure but 500/regt paper norm used for round numbers. Imperial cavalry "central reserve" is a residual (~3,900) not a sourced figure.
+
+### 2026-04-16 — Breitenfeld Army Composition Research Brief
+**Requested by:** Edgar (via Claudia)
+**What was done:** Produced source-attributed compositional ORBAT for First Breitenfeld (17 Sep 1631): totals, infantry pike:shot ratios, cavalry types (cuirassier/harquebusier/Croat/commanded musketeer), artillery counts and calibers, Saxon contingent broken out separately. Flagged 5 scholarly disagreements (Cristini vs Guthrie on Imperial total; 14 vs 17 tercios; pike:shot variability; regimental gun count; Saxon strength revision). Compressed one-slide summary table included.
+**Output:** `/Users/edgar/Documents/01 Projects/Claudia/GPPS 444 - History of Warfare - Thomas/Presentation - Breitenfeld/Breitenfeld_Army_Composition_Research.md`
+**Notes:** Saves to `Presentation - Breitenfeld/` (the established prep folder from 2026-04-13 inbox sort), not `AI/` or `_agent/BATTLE_NOTES/`. Primary Wikipedia ORBAT cites Cristini 2017 and Mankell 1854 — these are now the canonical granular numbers; Guthrie/Wedgwood ~35,000 Imperial is the legacy figure. Presentation hook: Saxon collapse was the problem the Swedish brigade system was *designed* to solve — that framing gets Edgar past the Roberts-vs-Parker debate into a compositional argument.
+
 ### 2026-04-13 — Reading Memo: TCHW Ch. 4 + Irregular Warfare Intro (Session 5)
 **Requested by:** Edgar
 **What was done:** Identified Session 5 reading (April 13) from syllabus as TCHW Part Two Ch. 4 "On Roman Ramparts" (Bachrach) plus the Intro to Irregular Warfare PDF. Extracted both texts from PDFs and produced a BLUF-first memo-summarizer output for both.
@@ -39,6 +57,12 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Produced a roughly 1,300-word explainer covering definition/etymology, Hundred Years' War context (Edward III 1346, Black Prince 1355 and 1356, Henry V 1415), mechanics (force composition, tempo, targeting rules), strategic logic (economic warfare, political delegitimization, self-sustaining logistics, provocation), effectiveness and limits (Du Guesclin's Fabian response, compagnies d'ordonnance 1445), likely course framings under Thomas's five themes, and modern analogues (Sherman, strategic bombing, Schelling, sanctions).
 **Output:** `/Users/edgar/Documents/01 Projects/Claudia/GPPS 444 - History of Warfare - Thomas/_agent/chevauchee_explainer.md`
 **Notes:** Written in direct policy/military-history register per Edgar's preference. No emdashes, no "not X but Y" framing. Three main course framings highlighted: attritional/economic warfare targeting political center of gravity; offense-defense balance (mobility as workaround to defense-dominant stone fortification); civilian-combatant tension tied to demodernization thesis.
+
+### 2026-04-16 — Week 4 Reference PDF (Gunpowder + Ottoman Expansion)
+**Requested by:** Edgar (via Claudia)
+**What was done:** Confirmed Week 4 = Sessions 7 (Mon 20 Apr, Gunpowder Revolution, TCHW Ch. 6) and 8 (Wed 22 Apr, Ottoman Expansion, syllabus assigns TCHW Ch. 7). No Week 4 lecture slides posted yet (Slides folder has 1-4 only). Extracted full Ch. 6 (Parker, Gunpowder Revolution, pp. 101-114) and Ch. 7 (Parker, Ships of the Line, pp. 117-130) from TCHW PDF, plus Ch. 10 pp. 172-173 for the 1683 Vienna content. Built an 18-page reference PDF per the lecture-to-reference-pdf skill: hyperlinked TOC, three-layer concept tables (concept | plain English | quiz anchor), arc table (terror -> breakthrough -> bastion -> siege-centric), period-awareness callouts (six rules), 8 primary-source quotation blocks with full citations, decoder tables for gunpowder/fortification and naval/Ottoman terms, battle briefs for Mohacs 1526 and Vienna 1529 (TCHW does not narrate these in detail; reconstructed from standard Habsburg-Ottoman sources and cross-checked against TCHW's compatible framing), Lepanto 1571 brief, and a Breitenfeld 1631 bridge section explicitly for Edgar's Apr 20 presentation. Output disclosure SOP applied.
+**Output:** `/Users/edgar/Documents/01 Projects/Claudia/GPPS 444 - History of Warfare - Thomas/Study Guides/GPPS_444_Week_4_Reference.pdf` (18 pages, 53 KB)
+**Notes:** Important syllabus-vs-textbook mismatch flagged in the PDF: the syllabus assigns "TCHW Part Three, Ch. 7" for the Ottoman Expansion session, but Ch. 7 is Parker's "Ships of the Line" (mostly Atlantic/Mediterranean naval). Detailed Habsburg-Ottoman land narrative actually lives in Ch. 10. Recommended Edgar read Ch. 7 for the naval Ottoman power (galleys, Lepanto) and skim Ch. 10 pp. 172-173 for the named land battles. PDF is also wired into the Apr 20 Breitenfeld presentation: includes the Parker counter-quote (TCHW 110: Sweden lost N&ouml;rdlingen and "yet this did not lead Sweden to fail") as presentation ammo against the Roberts thesis.
 
 ### 2026-04-15 — TCHW Ch. 5 "New Weapons, New Tactics" One-Pager
 **Requested by:** Edgar (via Claudia)
