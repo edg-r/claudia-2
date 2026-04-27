@@ -16,7 +16,7 @@ Every agent **deliverable** — briefings, summaries, analyses, memos, draft ass
 ---
 Generated for: Edgar Agunias
 Date: [YYYY-MM-DD]
-Model: [model name and version, e.g. Claude Opus 4.6]
+Model: [exact model name/version and reasoning effort when known, e.g. GPT-5.5 (medium reasoning) or Claude Opus 4.6]
 Sources: [brief summary of inputs used — e.g. "UCSD email, Google Calendar, web search for La Jolla weather" or "Krugman Ch. 4, lecture slides Week 3"]
 Agent: [agent name, e.g. Eos, Plutus, Atlas]
 ---
@@ -25,6 +25,7 @@ Agent: [agent name, e.g. Eos, Plutus, Atlas]
 ## Rules
 
 - Place the disclosure at the very end of the output, after all content.
+- Use the most specific model provenance available. If the session exposes a model name, version, and reasoning effort, include all of them; do not collapse it to a generic family name such as "GPT-5."
 - The sources line should be specific enough that a reader understands what data informed the output, but does not need to be exhaustive. A short summary is fine.
 - If multiple agents contributed, list all of them.
 - If Claudia (the orchestrator) synthesized outputs from multiple agents, Claudia should be listed as the primary agent with contributors noted.

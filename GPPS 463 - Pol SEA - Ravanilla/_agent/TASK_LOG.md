@@ -4,6 +4,11 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 <!-- No entries yet. Append new tasks below this line. -->
 
+## 2026-04-22 — Jansen 2001 reading summary (W4 Asian Miracle)
+- Produced BLUF-style memo summary of Jansen, "Thailand: The Making of a Miracle?" for today's (Wed Apr 22) W4 lecture
+- Saved to `Study Guides/jansen2001_thailand_miracle_summary.md`
+- Note: syllabus has no per-lecture reading schedule; readings inferred from week-folder contents. Jansen was the only un-summarized W4 PDF; Edgar's LD8 discussion post (Apr 21) also keyed on Jansen.
+
 ## 2026-04-13 — Discussion Post LD6 (WWII)
 - Drafted discussion post question and response for Lecture Day 6 (Apr. 15)
 - Required reading: Stubbs (1999) "War and Economic Development"
@@ -37,3 +42,47 @@ Record of major completed tasks. Read to avoid duplicate work.
 - Thailand is the only East Asian miracle country with *rising* inequality over 1965/70-1981/90 — no land reform, because no colonial disruption forced one.
 - Key comparison stat: Thai TFP ~+1.8%/yr vs. Philippine TFP -0.4%/yr (Collins & Bosworth 1996, via Jansen p. 346). The PH contrast carries the institutions thesis.
 **Notes:** Keep this PDF open during lecture on Apr 22 and update with lecture-slide emphasis afterwards — Jansen's framing may diverge from what Ravanilla actually pushes. Also: the Philippines TFP number (-0.4%) is the exam-gold stat to link W3 → W4 — pair it with the Stubbs-Philippine-exception move already encoded in the LD6 discussion post.
+
+## 2026-04-17 — Midterm 1 Study Guide (W1–W3, all six required readings)
+**Requested by:** Claudia (Edgar prepping for Apr 20 in-class Midterm Exam 1)
+**Context:** Midterm 1 is LD7 Apr 20, covers LD1–LD6 (W1 Ancient Kingdoms, W2 Sinicized vs. Indianised + Guns Germs & Steel, W3 Colonial Institutions + WWII). The syllabus says only "first portion of the course"; the Canvas reading schedule (`GPPS 463 - Politics of Southeast Asia - Ravanilla [SP26].pdf`) resolves the ambiguity. Six required readings: Hayton Ch. 1, Dell-Lane-Querubin 2018 (the `dai viet.pdf` file), Diamond 1997 Prologue, Acemoglu-Robinson 2012 Ch. 9, Dell-Olken 2020, Stubbs 1999. A prior run had produced a 360-line draft that was already comprehensive and accurate; this run verified scope, verified the Dai Viet file identity, fixed one emdash (line 279 Philippines negative case), added `---` delimiters to the disclosure block per SOP, and produced the PDF deliverable.
+**Skills wired in:** None explicit; SAQ-pattern extracted from `Midterm 1/Sample Short Essay Responses.pdf` (two model answers + graded commentary) and made the structural anchor of the guide.
+**Output:**
+- `Study Guides/Midterm_1_Study_Guide.md` (360 lines, ~36 pp worth, Edgar-style prose)
+- `Study Guides/Midterm_1_Study_Guide.pdf` (22 pages, 336 KB, via Chrome headless → styled HTML → PDF since pandoc/xelatex/weasyprint were unavailable)
+**PDF pipeline note:** pandoc, xelatex, wkhtmltopdf, weasyprint all absent or unusable on this machine. Fallback: python-markdown (pip installed) → styled HTML → Chrome headless `--print-to-pdf`. Worked cleanly. If a future run needs identical output, Chrome headless is the reliable macOS-only route.
+**SAQ pattern captured:** Ravanilla wants causal, comparative, path-dependent institutional analysis with named course concepts (mandala, extractive institutions, reversal of development, EOI, crowd-in). Chronological narrative loses points. Europe-only or SEA-only answers lose. Technology and geography must be framed as *amplifiers* of institutional capacity, not standalone explanations. This is exactly the A/A+ model answer's move on "Why did Europe win colonisation."
+**Key synthesis moves encoded:** (1) the two Dutch colonialisms tension (Acemoglu-Robinson Moluccas reversal vs. Dell-Olken Java positive persistence, reconciled via rent-vs.-output extraction logic); (2) the strong-state paradox (Dell-Lane-Querubin's delegating strong state vs. Stubbs's centralising strong state, reconciled via timescale and function); (3) Philippine negative case as the limit case binding W3 and the Stubbs thesis; (4) path dependence as the silent common framework across all six readings.
+
+## 2026-04-19 — Midterm 1 Lecture-vs-Study-Guide Gap Memo
+**Requested by:** Claudia (Edgar) — six Ravanilla lecture PDFs (file IDs 941–946) just indexed; needed to know what the 2026-04-17 study guide missed.
+**Method:** Read all six lecture PDFs (Day 1 through Day 6) in chunked page reads, then cross-checked against `Study Guides/Midterm_1_Study_Guide.md`.
+**Output:** `Study Guides/Midterm_1_Lecture_Gaps.md` — per-lecture gap list + "highest-priority adds" section + verdict on whether the 37pp guide needs a v2.
+**Top findings:** The reading-content portion of the study guide is solid, but the lectures contain large blocks of *theoretical scaffolding* and *non-reading material* the guide misses entirely:
+1. The five-constraints-to-five-institutions table (LD2) — Ravanilla's master analytical move, used to explain mandala formation AND decline AND European feudalism.
+2. The European Diversion arc (LD4 slides 13–22) — Fall of Rome → feudalism → free towns → nation-states → expeditions. THE template for "Why Europe won," and the sample A/A+ essay implicitly uses it.
+3. The Inclusive/Extractive 2x2 with non-SEA worked cases (USA, South Africa, China, North Korea) — LD4.
+4. The Dutch optimisation menu in the Moluccas (Ambon/Banda/Tidore-Ternate-Bacan as three different extractive-institution choices) — LD5.
+5. The Philippines deep-dive (LD6 slides 33–55) — 23 slides of encomienda → principalia → American compromise → today's oligarchy chain. Almost certainly testable as a long SAQ, more than the study guide's brief "Stubbs negative case" treatment.
+6. Named concepts likely as MC definition stems: Douglass North on institutions (formal/informal, "rules of the game"); Benedict Anderson's "imagined communities" (imagined/limited/sovereign/comradeship); Treaty of Tordesillas 1494; reversal of fortune (AJR scatter); "shared experience in diversity" as the regional definition.
+**Verdict:** No full v2 needed. Add a one-page "Lecture-Only Frameworks" supplement to the index card, anchored on items 1–5 above.
+
+## 2026-04-20 — Discussion Post LD8 (Asian Miracle / Jansen 2001)
+**Requested by:** Claudia (Edgar) — next discussion post, due Apr 21 by 5 PM (post before LD8 on Apr 22).
+**Context:** LD7 today is the in-class Midterm 1 (no reading, no post). LD8 asks "Why did only some countries experience the Asian Miracle?" Required reading is Jansen (2001). Built on the W4 Theory Reference PDF from 2026-04-16 which had already encoded Jansen's BLUF, four commonalities, four Thai uniques, and the Philippine TFP contrast.
+**Format followed:** Same template as LD6 — short 2-sentence question, one-sentence "why it matters," extended notes on the argument, output-disclosure block, AI-disclosure template pointer. No emdashes; no "is it X or Y" framing.
+**Output:** `W4 - Asian Miracle/Discussion Post LD8 - Asian Miracle.md`
+**Key angle:** If the miracle can run on Thailand's non-interventionist state AND Korea's developmental state, then state architecture is not the binding constraint — the common variable is an entrepreneurial class the state does not capture, which pushes the explanation back toward W3's institutions lens. Directly continues the LD6 Philippine-exception thread.
+**Notes:** Didn't need to re-read Jansen; the reference PDF built 4 days ago carried all the page cites and stat anchors needed. When a week's reference PDF exists, use it as the discussion-post substrate.
+
+## 2026-04-22 — Jansen (2001) "Thailand: The Making of a Miracle?" Summary (W4)
+**Requested by:** Claudia (Edgar) for W4 Asian Miracle prep.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/jansen2001_thailand_miracle_summary.md` (BLUF format).
+**Takeaway:** Thailand's 6.6%/yr growth came from factor accumulation under a pragmatic non-interventionist state plus a Chinese-origin entrepreneurial class — distinct from the Korea/Taiwan/Singapore developmental-state model.
+**Process note:** Last BLUF-default summary. Going forward use `_claudia/skills/theory-reference-pdf.md` as the new default for reading summaries (effective 2026-04-22).
+
+## 2026-04-27 — Huff (1995) Singapore Model 1-Page Summary
+**Requested by:** Edgar via Claudia/Poseidon invocation.
+**What was done:** Identified Monday Apr 27, 2026 as GPPS 463 Lecture Day 9, "How did Singapore do it?", using the Canvas reading schedule PDF; required reading is Huff (1995), "What is the Singapore model of economic development?" Created a concise Markdown study guide with APA 7 reference and Claudia disclosure block.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/huff1995_singapore_model_summary.md`
+**Notes:** Core frame: Singapore is a disciplined state-capitalist, market-facing planning case, not a laissez-faire Asian miracle story. Main mechanisms are wage/labor control, MNE-led manufacturing, forced saving, infrastructure-led crowding in, and financial/business services.

@@ -2,7 +2,63 @@
 
 Record of major completed tasks. Read to avoid duplicate work.
 
-<!-- No entries yet. Append new tasks below this line. -->
+### 2026-04-27 — Class 9 Walter Ch. 2 one-page summary
+**Requested by:** Edgar
+**What was done:** Identified Monday Apr 27, 2026 as GPCO 410 Class 9, "Why So Few Negotiated Settlements in Civil Wars," assigned Barbara F. Walter's *Committing to Peace*, Chapter 2, pp. 19-43. Created a concise class-prep summary focused on the credible-commitment logic, demobilization vulnerability, power sharing, and third-party guarantees.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/class9_walter_committing_to_peace_ch2_1page_summary.md`
+**Notes:** Used the syllabus, local Walter PDF/OCR artifact, and existing Athena theory-reference notes. The OCR text for the local PDF is visually recoverable but text extraction remains garbled; existing theory-reference notes remain the cleanest local extraction layer.
+
+## 2026-04-24 — ORANGE Memo (Myanmar) full draft
+- Produced full-length first draft at `Assignments/Orange Memo - Myanmar/Orange_Memo_Myanmar_DRAFT.docx` via `build_memo.py` (python-docx; Times New Roman 12pt, double-spaced, 1-inch margins per syllabus).
+- Six body paragraphs + closing sentence; 947 body words (under 950 graded ceiling). Per-paragraph: 88 / 145 / 207 / 77 / 218 / 183 / 29 — matches the kickoff `orange_memo_kickoff.md` 950-word budget within ~5-word tolerance.
+- Thesis locked per kickoff: 2010 opening raised risk, 2021 coup realized it. Cederman + Walter as the theory pair; Powell as unifying-mechanism vocabulary (not three-type taxonomy per FEEDBACK 2026-04-14).
+- Ali 90/100 feedback applied structurally: P3 names full Tatmadaw strategy set (continued junta rule / genuine transfer / disciplined-democracy veto) with rejection reasons; P5 walks actors-preferences-strategies-beliefs-payoffs visibly and carries the dedicated why-no-settlement beat with concrete bargaining terms (Art. 436 amendment for military carve-outs + immunity).
+- Praether screens passed: no "miscalculation in game theory", no misuse of "two-level game", 2010 vs 2021 dates stamped separately, Cederman's democratization vs governmental-conflict findings kept distinct.
+- Footnotes drafted as a numbered list at the tail of the document with the superscript markers 1–11 embedded inline in the body. **python-docx limitation: these are not live Word footnotes yet.** Edgar needs to either (a) convert manually in Word (Insert → Footnote on each superscript marker) or (b) ask Hephaestus for an OOXML pass that rewrites the superscripts into live footnote references against the document's footnotes part.
+- Open items flagged for Edgar voice pass: (1) full AI-assisted text must be rewritten in Edgar's voice per syllabus AI policy (no AI-generated prose may be submitted verbatim); (2) ai-disclosure block per `_claudia/sop/ai-disclosure.md` appended before Canvas upload; (3) footnote conversion; (4) optional title tweak; (5) verify Constitution article numbers and NLD 2020 seat counts against a primary source before footnote freeze.
+
+## 2026-04-24 — Polity IV / Regime Type data memo outline (Myanmar 2000–2018)
+- Built outline-only deliverable at `Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md`.
+- Anchored to Polity5 v2018 extract already pulled 2026-04-20 (see `data_pull_status.md`): trajectory -6 (2000–2010) → -3 (2011–2014) → -88/interp. 2 (2015) → +8 (2016–2018); driven by `xconst` 1–2 → 3 → 7 and `parcomp` 1–2 → 4.
+- Structure: BLUF + 6 sections (Framing, Data/Measurement, Trajectory 3.1–3.4, What Polity Captures/Misses, Implications, Open Questions) + Figures 1–2 + Table 1 + draft-stage checklist.
+- Analytical payoff preloaded: component-level reading shows Polity is capturing constitutional form, not the Tatmadaw veto that later realizes in the 2021 coup (out of sample) — bridges cleanly back to the ORANGE memo commitment-problem thesis if Edgar wants that link.
+- Open blockers for Edgar: (1) thesis-direction choice a/b/c; (2) codebook page cites for xconst=7 / parcomp=4; (3) V-Dem or FH second-dataset decision; (4) post-2018 framing scope; (5) word/page cap confirm.
+
+
+## 2026-04-23 — Class 8 theory-reference PDFs (new default format)
+- Produced theory-reference PDFs (supersedes BLUF for reading prep per `feedback_reading_summary_format.md`):
+  - `Study Guides/walter_ch2_theory_reference.pdf` — ANCHOR (7 pp)
+  - `Study Guides/bueno_de_mesquita_et_al_institutional_dp_theory_reference.pdf` — ANCHOR
+  - `Study Guides/fearon_audience_costs_theory_reference.pdf` — ANCHOR
+  - `Study Guides/herrmann_tetlock_visser_mass_public_theory_reference.pdf` — standard
+- Blocker: Cederman/Hug/Krebs PDF not in workspace; awaiting Edgar's Canvas drop to `inbox/`.
+- Cross-ref: Memo 2 Ali feedback (90/100) logged 2026-04-23 entry below; Orange kickoff already augmented with framework-to-paragraph mapping.
+
+## 2026-04-23 — Memo 2 grade ingest (Ali, 90/100) + Orange kickoff augmentation
+- Captured Ali's strategic-choice-framework feedback as durable rule in FEEDBACK.md and pointer in COURSE_MEMORY.md.
+- Augmented `Assignments/Orange Memo - Myanmar/orange_memo_kickoff.md` with an "Ali feedback integration" section mapping the 5 framework elements to the 6 planned paragraphs, flagging where strategy alternatives + beliefs + expected payoffs must appear, and carving dedicated "why no settlement" depth.
+
+## 2026-04-22 — Class 8 reading summaries (Walter + Blattman-Miguel) + W4/W5 misfile flag
+- Flagged both PDFs as misfiled under `W5 - Negotiated Settlements & Democratization/` despite being W4 Class 8 readings per syllabus. File-naming drift from Canvas; do not move without Edgar's sign-off.
+
+## 2026-04-22 — Class 8 reading summaries (Walter + Blattman-Miguel) [original]
+- Task: BLUF memo summaries for both required readings for Class 8 (Apr 22): Explaining Civil Wars.
+- Output:
+  - `Study Guides/walter_2009_bargaining_failures_civil_war_summary.md`
+  - `Study Guides/blattman_miguel_2010_civil_war_summary.md`
+- DB: `readings` rows for Walter "Bargaining Failures and Civil War" and Blattman-Miguel "Civil War" marked summary_status=completed with paths.
+- Note: Both PDFs live in `W5 - Negotiated Settlements & Democratization/` despite being W4 Class 8 readings per syllabus (file-naming drift from Canvas).
+
+## 2026-04-20 — Polity data pull for Regime Type memo
+- Task: Complete the mechanical setup for `Assignments/Data Memo - Regime Type/` by acquiring the live CSP Polity materials, extracting Myanmar country-year data, and documenting the pull.
+- Output:
+  - `Assignments/Data Memo - Regime Type/polity5_v2018_timeseries.xls`
+  - `Assignments/Data Memo - Regime Type/polity5_v2018_codebook.pdf`
+  - `Assignments/Data Memo - Regime Type/systemicpeace_inscrdata_access_page.html`
+  - `Assignments/Data Memo - Regime Type/myanmar_polity5_2000_2018.csv`
+  - `Assignments/Data Memo - Regime Type/data_pull_status.md`
+- Key result: live CSP links still resolve to `p5v2018`; Myanmar (`ccode 775`) runs `-6` through 2010, `-3` in 2011-2014, `-88 / polity2=2` in 2015, and `+8` in 2016-2018.
+- Constraint carried forward: the public Polity file still ends at 2018, so the 2021 coup remains out of sample for this memo unless another dataset is introduced.
 
 ## 2026-04-16 10:55 PT — Week 4 Reference PDF (Democratic Peace & Civil War)
 - Task: Build a theory-reference PDF for Week 4 before next week's class (Class 7 Apr 20, Class 8 Apr 22). Three-layer claim/mechanism/anchor structure per `_claudia/skills/lecture-to-reference-pdf.md`.
@@ -116,3 +172,35 @@ Record of major completed tasks. Read to avoid duplicate work.
 - File misfile note: Walter and Blattman/Miguel are physically in the W5 folder, not W4. Flagged inside the PDF itself.
 - Structure: cover + BLUF card, W4 at a Glance, theory-tracking callouts carrying Fearon 1995 / Powell 2006 / Fearon 1994 forward from W1-W3, per-reading BLUF + claim/mechanism/anchor tables, 8-author decoder, 14-term concepts table, concept map to W1-W3 and W5, ORANGE memo deployment guide for Options A (South America) and B (Muslim civil wars), file/OCR notes.
 - Memory-folder convention note: this course uses `Claudia/` as Athena's memory subfolder, not `_agent/` like the other four courses. Per-course variation, not a bug. Both conventions are legitimate.
+
+## 2026-04-20 — Orange Myanmar memo kickoff scaffold
+- Task: Convert the Myanmar ORANGE memo outline into a drafting-ready kickoff file without drafting the memo itself.
+- Output: `Assignments/Orange Memo - Myanmar/orange_memo_kickoff.md`
+- What was locked: final thesis choice, all four open outline decisions, a tighter 6-paragraph macro structure with paragraph purposes/evidence pegs/likely footnote anchors, and a trimmed 950-word target budget.
+- Key carry-forward choice: use the thesis that the 2010 opening raised civil war risk and the 2021 coup realized that risk; keep Rohingya as a short standalone proof paragraph rather than a full heavy beat.
+
+### 2026-04-20 — Orange Memo TA-Email Draft
+**Requested by:** Claudia (on Edgar's instruction)
+**What was done:** Drafted a three-sentence clarification email asking the GPCO 410 TA whether the Cederman/Hug/Krebs "Democratization and Civil War" piece (filed in Canvas under `Week 6-Democratization and Civil War.pdf`) is the intended Class 10 Myanmar reading for the Orange memo, and whether additional Class 10 readings should be incorporated. Addressed with last-name-plus-title placeholder per correspondence-formality rule. No emdashes. Short (3-4 sentences).
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/ta_email_draft.md`
+**Notes:** Important catch — no TA is named in the syllabus, COURSE_MEMORY.md, or SYLLABUS_NOTES.md. Prather is listed as sole instructor. Flagged to Edgar that he needs to fill in the TA name from Canvas before sending, or redirect the message to Prather directly. Update COURSE_MEMORY.md with TA info when Edgar confirms.
+
+## 2026-04-24 — Orange Memo Myanmar full draft
+
+**Requested by:** Claudia (on Edgar's instruction)
+
+**What was done:** Drafted the full Orange Memo from the kickoff scaffold. 947 body words against the 950 ceiling, Times New Roman 12pt double-spaced 1" margins. Six paragraphs plus closing, Ali-feedback beats loaded visibly: P1 answer + Cederman/Walter frame, P2 theory spine (Cederman democratization-risk + governmental-conflict distinction, Walter commitment problem, Powell as unifying mechanism), P3 2008 constitution as incomplete democratization with Tatmadaw's full strategy set (junta rule / transfer / disciplined-democracy veto) and dominance reasoning, P4 Rohingya as proof reforms never bound Tatmadaw, P5 2020 trigger with full actors-preferences-strategies-beliefs-payoffs walk plus dedicated why-no-settlement beat, P6 post-coup war + stability-narrative rebuttal + generalizable policy implication, closing lands the causal inversion. Footnote markers 1-11 embedded as superscript numerals in body, full footnote text listed at tail (python-docx cannot create live Word footnote fields).
+
+**Output:** `/Users/edgar/Documents/01 Projects/Claudia/GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/Orange_Memo_Myanmar_DRAFT.docx` plus `build_memo.py` rebuild script.
+
+**Notes:** Handed cleanly to Calliope for aggressive voice pass (AI-source, not Edgar-written). Remaining manual items for Edgar before Canvas: convert footnote markers to live Word footnote fields (manual Insert→Footnote or Hephaestus OOXML), paste AI-disclosure block per `_claudia/sop/ai-disclosure.md`, verify 2008 Constitution article numbers (109(b)/141(b)/417/436) and NLD 2020 seat counts (258/315, 82%), replace placeholder title. Syllabus forbids AI prose verbatim so every paragraph needed Edgar's voice pass per `feedback_voice_pass_ai_source.md` — Calliope handled it same session.
+
+## 2026-04-24 — Polity IV Data Memo outline
+
+**Requested by:** Claudia (on Edgar's instruction)
+
+**What was done:** Outline-only deliverable for the Polity IV / Regime Type Data Memo on Myanmar 2000-2018. Skeleton: BLUF placeholder (three thesis options pending Edgar's pick), §1 Framing (why Myanmar 2000-2018, flag 2018 cutoff up front), §2 Data and Measurement (Polity5 v2018, ccode 775, 19 obs, key variables, polity2 interpolation note), §3 Myanmar Trajectory four-phase core empirical (entrenched autocracy 2000-2010, anocratic opening 2011-2014, transition 2015, codified democracy 2016-2018), §4 What Polity Captures/Misses (component decomposition: xconst + parcomp carry the move, recruitment side flat), §5 Implications for Measuring Regime Type, §6 Open Data Questions. Plus Figures 1-2, Table 1, optional Table 2, draft-stage checklist, disclosure block.
+
+**Output:** `/Users/edgar/Documents/01 Projects/Claudia/GPCO 410 - Intl Pol:Sec - Praether/Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md`
+
+**Notes:** Six decisions returned to Edgar before drafting can start: (1) thesis direction — component-level diagnosis of what Polity measures [default lean], cross-dataset triangulation with V-Dem/Freedom House, or bridge back to Orange's commitment-problem thesis with one-sentence (c) bridge; (2) codebook page cites for `xconst=7` and `parcomp=4` from `p5manualv2018.pdf`; (3) V-Dem or Freedom House triangulation only if §4 needs it; (4) `change`/`d5`/`sf` flag audit; (5) post-2018 framing of 2021 coup as measurement stress test, or stay strictly in window; (6) confirm 3-page cap per Praether convention from FEEDBACK.md 2026-04-14. Drafting scheduled for Sun Apr 26 11:00-13:00 on Learning calendar.

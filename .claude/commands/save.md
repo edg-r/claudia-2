@@ -1,11 +1,11 @@
 ---
 name: save
-description: Save session insights to Claudia's memory and prompt every subagent used this session to update its own persistent memory files. Run before compaction or sign-off.
+description: Save session insights to Claudia's memory, prompt subagents used this session to update memory, then commit and push the scoped saved changes. Run before compaction or sign-off.
 ---
 
 # /save — End of Session Memory Sweep
 
-When Edgar invokes `/save`, Claudia (this orchestrator session) performs a structured memory sweep of the current conversation. The goal is to preserve everything durable and skip everything ephemeral so the next session starts with the right context loaded.
+When Edgar invokes `/save`, Claudia (this orchestrator session) performs a structured memory sweep of the current conversation, then commits and pushes the scoped saved changes to GitHub. The goal is to preserve everything durable, skip everything ephemeral, and leave the current branch backed up without sweeping unrelated dirty work into the commit.
 
 Claudia runs this command herself. It is not delegated to a subagent. Claudia may, however, re-dispatch individual subagents to update their own memory files, which is step 4 below.
 
@@ -91,12 +91,29 @@ For `TASK_LOG.md`:
 
 Note the harness write restriction documented in `feedback_agent_onboarding_roster_sync.md`: subagents cannot write inside `.claude/agents/`. Memory folders at `_claudia/agents/<name>/` are not affected by that restriction, so both options work for the standard memory files.
 
-## Step 5: Respect all SOPs
+## Step 5: Commit and push the save scope
+
+After the memory sweep is complete, persist the saved work to GitHub. This step is part of `/save`, but it must be scoped carefully.
+
+1. Inspect the worktree with `git status --short` before staging anything.
+2. Identify the save scope: memory files created or edited by this `/save` run, session output files produced or updated during the conversation, and any other files Edgar explicitly asked to include. Do not include unrelated pre-existing dirty files just because they are present in the worktree.
+3. If the scope is ambiguous, ask Edgar which files to include. If asking is not possible, leave ambiguous files unstaged and report them in the confirmation.
+4. Stage only explicit pathspecs with `git add -- <path> ...`. Do not use `git add -A`, `git add .`, or broad directory staging unless the entire directory is unquestionably inside the save scope.
+5. Review the staged set with `git diff --cached --name-only` and `git diff --cached --stat`. If unrelated paths are staged, unstage those exact paths before committing.
+6. If there are no scoped changes after the memory sweep, skip the commit and push, then say so in the confirmation.
+7. Create a concise, meaningful commit message derived from the session summary. Use an imperative subject line, prefer 50 to 72 characters, and avoid generic subjects like `save`, `update`, or `misc`.
+8. Commit the staged files only after the scoped diff looks right.
+9. Push the current branch after the commit succeeds. Use the branch's configured upstream when available. If no upstream exists, push the current HEAD to `origin` with upstream tracking only if the remote is clearly the intended GitHub remote.
+10. Surface any commit or push failure in the confirmation, including whether files remain staged, whether the commit was created, and whether the push reached the remote.
+
+The `/save` command must never blindly commit unrelated dirty files. A dirty worktree is normal in Claudia; scoped commits are the rule.
+
+## Step 6: Respect all SOPs
 
 Two SOPs govern this run:
 
 1. `_claudia/sop/agent-memory.md` defines the memory file structure and update discipline. Follow it exactly.
-2. `_claudia/sop/output-disclosure.md` requires every output end with a disclosure block. The `/save` confirmation message to Edgar counts as an output and must include the disclosure block.
+2. `_claudia/sop/output-disclosure.md` governs standalone deliverables written during the session. Live `/save` confirmation messages do not need a disclosure block.
 
 ## What NOT to save
 
@@ -118,19 +135,8 @@ At the end of the run, return to Edgar a short confirmation that lists:
 - The session log file path
 - Every new or modified memory file (user, feedback, project, reference)
 - Every subagent whose memory was updated, with the files touched for each
+- The commit hash and branch pushed, or the reason commit/push was skipped or failed
 - Anything that was considered but deliberately skipped, with a one-line reason
-
-Close with the standard output-disclosure block:
-
-```
----
-Generated for: Edgar Agunias
-Date: YYYY-MM-DD
-Model: [current model and version]
-Sources: this conversation
-Agent: Claudia
----
-```
 
 ## Invocation
 

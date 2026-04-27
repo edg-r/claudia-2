@@ -4,6 +4,27 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 <!-- No entries yet. Append new tasks below this line. -->
 
+## 2026-04-22 — W4 Wed reading summary attempt (no deliverable)
+
+Tasked with summarizing Feenstra & Taylor Ch. 12.3, 15.5, 19.1-19.4 (External Wealth III / consumption smoothing / exorbitant privilege) for W4 Wed. Textbook PDF not indexed in workspace; returned options to Claudia and am awaiting Edgar's drop to `inbox/`. Flagged Concept Check 3 opens Apr 22, due Tue Apr 28 11:59 PM.
+
+## 2026-04-17 — Data Brief 1 Australia FINAL (template-native DOCX)
+
+Completed the assignment end-to-end in the instructor-provided DOCX template. Saved to `Data Brief 1/Data_Brief_1_Australia_Agunias.docx`; backed up original as `data_brief_1_template_ORIGINAL.docx`.
+
+Data source: IMF WEO October 2025 vintage (CSV provided in inbox) for Australia. Series used: NGDPD, NGDP, NGDPDPC, BCA_NGDPD, GGXCNL_NGDP. Exchange rate from IMF STA_ER (AUS.XDC_USD.PA_RT.A, period-average 2024) = 1.5154 AUD/USD, cross-checked against NGDP/NGDPD (= 1.5150, matches).
+
+Note: the provided WEO CSV contained only Australia rows. US figures (GDP $29,184.89B, GDP/cap ~$86,635, CA -3.0%, govt net lending -7.3%) were pulled from the published IMF WEO Oct 2025 release values for the US; flagged in output if Edgar wants to regenerate from a US-filtered CSV.
+
+Part B key results:
+- Q1: GDP per capita USD is the best first-pass living-standards measure; Australia ($65,529) poorer than US ($86,635). Limitation = no PPP adjustment.
+- Q2: Private balance = CA − Govt = −1.938 − (−2.250) = +0.31% of GDP. Australia's private sector is a (small) net lender; the CA deficit is driven by government dissaving.
+- Q3: New ER = 1.6669; new GDP_USD = 1,632.3B (from 1,795.49/1.10). GDP in USD falls ≈ 9.1%.
+
+Word count: 198 total, 149 excluding the Q3 calculation block. Under the 250 cap.
+
+AI disclosure (Variant E, quantitative-analysis) appended at end of the DOCX per SOP.
+
 ## 2026-04-15 — Data Brief 1 cross-check
 
 Reviewed Edgar's `Data_Brief_1_Draft_Agunias.pdf` and `Data_Brief_1_Calculations_Companion.pdf` against assignment requirements. Wrote `Data Brief 1/crosscheck_plutus.md`.
@@ -83,3 +104,10 @@ Built `Study Guides/GPCO 403_Week_4_Reference.pdf` covering the Week 4 folder ma
 **Known limitations:**
 - Per the folder name "W4 - PPP, LOOP & Big Mac Application", I treated the Lecture 8 material as Week 4 content. The syllabus course grid lists PPP/LOOP/Big Mac under Week 5, so Professor Handley may have reorganized between the posted syllabus and the current folder structure. The material itself is unambiguous; the week label is the only thing in flux.
 - If additional Week 4 readings or supplementary notes drop on Canvas after 2026-04-16, they are not yet reflected.
+
+## 2026-04-27 - Apr. 27 PPP/LOOP/Big Mac 1-page summary
+
+**Requested by:** Edgar
+**What was done:** Identified the Monday, Apr. 27, 2026 GPCO 403 class from the syllabus/course grid as "PPP, LOOP, and Big Mac application." Cross-checked the Canvas/course export module and summarized the relevant Lecture 8 source set: LOOP, PPP, Big Mac Index, and dollar-denominated debt exchange-rate risk.
+**Output:** `GPCO 403 - Intl Econ - Handley/Study Guides/2026-04-27_ppp_loop_big_mac_1pager.md`
+**Notes:** The brief includes APA 7 references and the Claudia output disclosure block with model provenance `GPT-5.5 (medium reasoning)`.
