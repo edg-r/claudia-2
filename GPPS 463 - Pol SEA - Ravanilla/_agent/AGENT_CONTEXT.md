@@ -29,6 +29,9 @@ These are hard rules. Follow them every time.
 5. Conversational seminar tone, not academic paper tone.
 6. General tendency: I overcook. Pull back. Be more direct, less elaborate.
 
+## Reading Summary Default (effective 2026-04-22)
+New default format for reading summaries is `_claudia/skills/theory-reference-pdf.md`, **not** BLUF/memo-summarizer. Use BLUF only when Edgar explicitly asks for it.
+
 ## Cross-Course Connections
 - Colonial institutions thread connects to development economics in GPCO 403 (Plutus)
 - Broader IR theory connections to GPCO 410 (Athena) where relevant

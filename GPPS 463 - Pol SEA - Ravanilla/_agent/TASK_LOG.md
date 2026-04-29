@@ -86,3 +86,9 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Identified Monday Apr 27, 2026 as GPPS 463 Lecture Day 9, "How did Singapore do it?", using the Canvas reading schedule PDF; required reading is Huff (1995), "What is the Singapore model of economic development?" Created a concise Markdown study guide with APA 7 reference and Claudia disclosure block.
 **Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/huff1995_singapore_model_summary.md`
 **Notes:** Core frame: Singapore is a disciplined state-capitalist, market-facing planning case, not a laissez-faire Asian miracle story. Main mechanisms are wage/labor control, MNE-led manufacturing, forced saving, infrastructure-led crowding in, and financial/business services.
+
+## 2026-04-28 -- Discussion Post LD10 (Asian Financial Crisis / Hicken 2008)
+**Requested by:** Edgar via Claudia/Poseidon invocation.
+**What was done:** Drafted Edgar-usable Canvas text for Lecture Day 10, "Why was the Asian Financial Crisis unequally felt in the region?", using Hicken (2008) on Thailand and the Philippines. Included compact grader AI disclosure because the syllabus extraction found no explicit AI policy but Claudia SOP requires disclosure for graded AI-assisted work.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/W5 - Singapore & Asian Financial Crisis/Discussion Post LD10 - Asian Financial Crisis.md`
+**Notes:** Key angle is the crisis-severity paradox: Thailand was hit harder but the shock created reform pressure, while the Philippines was hit less hard and therefore postponed costly reforms. Claudia clarified the Orange Memo on Myanmar belongs to Athena/GPCO 410, so Poseidon only added quick GPPS 463 regional-context pointers.

@@ -1,0 +1,826 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={GPEC 446 Homework 1},
+  pdfauthor={Codex draft},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{GPEC 446 Homework 1}
+\author{Codex draft}
+\date{2026-04-20}
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{atlas }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"atlas.csv"}\NormalTok{, }\AttributeTok{show\_col\_types =} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{majority\_non\_white =} \FunctionTok{if\_else}\NormalTok{(share\_white2000 }\SpecialCharTok{\textless{}} \FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\AttributeTok{missing =} \ConstantTok{NA\_integer\_}\NormalTok{),}
+    \AttributeTok{poverty\_pp =}\NormalTok{ poor\_share1990 }\SpecialCharTok{*} \DecValTok{100}\NormalTok{,}
+    \AttributeTok{mobility\_k =}\NormalTok{ kfr\_pooled\_p25 }\SpecialCharTok{/} \DecValTok{1000}\NormalTok{,}
+    \AttributeTok{tract\_code =} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%06d"}\NormalTok{, }\FunctionTok{as.integer}\NormalTok{(}\FunctionTok{round}\NormalTok{(tract))),}
+    \AttributeTok{fips =} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%02d\%03d\%s"}\NormalTok{, }\FunctionTok{as.integer}\NormalTok{(state), }\FunctionTok{as.integer}\NormalTok{(county), tract\_code)}
+\NormalTok{  )}
+
+\NormalTok{cities }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Los Angeles"}\NormalTok{, }\StringTok{"New York"}\NormalTok{, }\StringTok{"Chicago"}\NormalTok{, }\StringTok{"New Orleans"}\NormalTok{)}
+\NormalTok{city\_data }\OtherTok{\textless{}{-}}\NormalTok{ atlas }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(czname }\SpecialCharTok{\%in\%}\NormalTok{ cities)}
+
+\NormalTok{chosen\_city }\OtherTok{\textless{}{-}} \StringTok{"New Orleans"}
+\NormalTok{chosen\_city\_data }\OtherTok{\textless{}{-}}\NormalTok{ atlas }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(czname }\SpecialCharTok{==}\NormalTok{ chosen\_city)}
+
+\NormalTok{chosen\_tract }\OtherTok{\textless{}{-}}\NormalTok{ chosen\_city\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(kfr\_pooled\_p25)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(kfr\_pooled\_p25)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{slice}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+
+\NormalTok{chosen\_city\_mean }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(chosen\_city\_data}\SpecialCharTok{$}\NormalTok{kfr\_pooled\_p25, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{chosen\_city\_sd }\OtherTok{\textless{}{-}} \FunctionTok{sd}\NormalTok{(chosen\_city\_data}\SpecialCharTok{$}\NormalTok{kfr\_pooled\_p25, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{chosen\_state\_data }\OtherTok{\textless{}{-}}\NormalTok{ atlas }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(state }\SpecialCharTok{==}\NormalTok{ chosen\_tract}\SpecialCharTok{$}\NormalTok{state)}
+\NormalTok{chosen\_state\_rest }\OtherTok{\textless{}{-}}\NormalTok{ chosen\_state\_data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(fips }\SpecialCharTok{!=}\NormalTok{ chosen\_tract}\SpecialCharTok{$}\NormalTok{fips)}
+\NormalTok{chosen\_state\_sd }\OtherTok{\textless{}{-}}\NormalTok{ atlas }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(state }\SpecialCharTok{==}\NormalTok{ chosen\_tract}\SpecialCharTok{$}\NormalTok{state) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{sd\_state =} \FunctionTok{sd}\NormalTok{(kfr\_pooled\_p25, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pull}\NormalTok{(sd\_state)}
+
+\NormalTok{tract\_comparison\_table }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}
+  \StringTok{\textasciigrave{}}\AttributeTok{Comparison group}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{c}\NormalTok{(}
+    \FunctionTok{paste0}\NormalTok{(}\StringTok{"Selected tract: "}\NormalTok{, chosen\_tract}\SpecialCharTok{$}\NormalTok{fips),}
+\NormalTok{    chosen\_city,}
+    \StringTok{"Louisiana, excluding selected tract"}
+\NormalTok{  ),}
+  \StringTok{\textasciigrave{}}\AttributeTok{Tracts}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{c}\NormalTok{(}
+    \DecValTok{1}\NormalTok{,}
+    \FunctionTok{nrow}\NormalTok{(chosen\_city\_data),}
+    \FunctionTok{nrow}\NormalTok{(chosen\_state\_rest)}
+\NormalTok{  ),}
+  \StringTok{\textasciigrave{}}\AttributeTok{Mean upward mobility ($)}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{c}\NormalTok{(}
+\NormalTok{    chosen\_tract}\SpecialCharTok{$}\NormalTok{kfr\_pooled\_p25,}
+\NormalTok{    chosen\_city\_mean,}
+    \FunctionTok{mean}\NormalTok{(chosen\_state\_rest}\SpecialCharTok{$}\NormalTok{kfr\_pooled\_p25, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  ),}
+  \StringTok{\textasciigrave{}}\AttributeTok{SD upward mobility ($)}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{c}\NormalTok{(}
+    \ConstantTok{NA\_real\_}\NormalTok{,}
+\NormalTok{    chosen\_city\_sd,}
+    \FunctionTok{sd}\NormalTok{(chosen\_state\_rest}\SpecialCharTok{$}\NormalTok{kfr\_pooled\_p25, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  ),}
+  \StringTok{\textasciigrave{}}\AttributeTok{Selected tract minus group mean ($)}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{c}\NormalTok{(}
+    \DecValTok{0}\NormalTok{,}
+\NormalTok{    chosen\_tract}\SpecialCharTok{$}\NormalTok{kfr\_pooled\_p25 }\SpecialCharTok{{-}}\NormalTok{ chosen\_city\_mean,}
+\NormalTok{    chosen\_tract}\SpecialCharTok{$}\NormalTok{kfr\_pooled\_p25 }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(chosen\_state\_rest}\SpecialCharTok{$}\NormalTok{kfr\_pooled\_p25, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  )}
+\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \StringTok{\textasciigrave{}}\AttributeTok{Mean upward mobility ($)}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{fmt\_num}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Mean upward mobility ($)}\StringTok{\textasciigrave{}}\NormalTok{, }\DecValTok{0}\NormalTok{),}
+    \StringTok{\textasciigrave{}}\AttributeTok{SD upward mobility ($)}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{if\_else}\NormalTok{(}
+      \FunctionTok{is.na}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{SD upward mobility ($)}\StringTok{\textasciigrave{}}\NormalTok{),}
+      \StringTok{"N/A"}\NormalTok{,}
+      \FunctionTok{fmt\_num}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{SD upward mobility ($)}\StringTok{\textasciigrave{}}\NormalTok{, }\DecValTok{0}\NormalTok{)}
+\NormalTok{    ),}
+    \StringTok{\textasciigrave{}}\AttributeTok{Selected tract minus group mean ($)}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{fmt\_num}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Selected tract minus group mean ($)}\StringTok{\textasciigrave{}}\NormalTok{, }\DecValTok{0}\NormalTok{)}
+\NormalTok{  )}
+
+\NormalTok{city\_models }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(}
+  \FunctionTok{setNames}\NormalTok{(cities, cities),}
+  \ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{lm}\NormalTok{(mobility\_k }\SpecialCharTok{\textasciitilde{}}\NormalTok{ poverty\_pp, }\AttributeTok{data =} \FunctionTok{filter}\NormalTok{(atlas, czname }\SpecialCharTok{==}\NormalTok{ x))}
+\NormalTok{)}
+
+\NormalTok{q4\_city }\OtherTok{\textless{}{-}} \StringTok{"New Orleans"}
+\NormalTok{q4\_data }\OtherTok{\textless{}{-}}\NormalTok{ atlas }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(czname }\SpecialCharTok{==}\NormalTok{ q4\_city)}
+\NormalTok{model\_3 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(mobility\_k }\SpecialCharTok{\textasciitilde{}}\NormalTok{ poverty\_pp, }\AttributeTok{data =}\NormalTok{ q4\_data)}
+\NormalTok{model\_4 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(mobility\_k }\SpecialCharTok{\textasciitilde{}}\NormalTok{ poverty\_pp }\SpecialCharTok{+}\NormalTok{ majority\_non\_white, }\AttributeTok{data =}\NormalTok{ q4\_data)}
+\NormalTok{model\_5 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(mobility\_k }\SpecialCharTok{\textasciitilde{}}\NormalTok{ poverty\_pp }\SpecialCharTok{*}\NormalTok{ majority\_non\_white, }\AttributeTok{data =}\NormalTok{ q4\_data)}
+\NormalTok{aux\_ovb }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(majority\_non\_white }\SpecialCharTok{\textasciitilde{}}\NormalTok{ poverty\_pp, }\AttributeTok{data =}\NormalTok{ q4\_data)}
+
+\NormalTok{beta\_naive }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(model\_3)[[}\StringTok{"poverty\_pp"}\NormalTok{]]}
+\NormalTok{beta\_controlled }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(model\_4)[[}\StringTok{"poverty\_pp"}\NormalTok{]]}
+\NormalTok{delta\_mnw }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(model\_4)[[}\StringTok{"majority\_non\_white"}\NormalTok{]]}
+\NormalTok{gamma\_pov\_to\_mnw }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(aux\_ovb)[[}\StringTok{"poverty\_pp"}\NormalTok{]]}
+\NormalTok{predicted\_bias }\OtherTok{\textless{}{-}}\NormalTok{ delta\_mnw }\SpecialCharTok{*}\NormalTok{ gamma\_pov\_to\_mnw}
+\NormalTok{actual\_change }\OtherTok{\textless{}{-}}\NormalTok{ beta\_naive }\SpecialCharTok{{-}}\NormalTok{ beta\_controlled}
+
+\NormalTok{all\_base }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(mobility\_k }\SpecialCharTok{\textasciitilde{}}\NormalTok{ poverty\_pp }\SpecialCharTok{+}\NormalTok{ majority\_non\_white, }\AttributeTok{data =}\NormalTok{ atlas)}
+\NormalTok{all\_fe }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(mobility\_k }\SpecialCharTok{\textasciitilde{}}\NormalTok{ poverty\_pp }\SpecialCharTok{+}\NormalTok{ majority\_non\_white }\SpecialCharTok{+} \FunctionTok{factor}\NormalTok{(cz), }\AttributeTok{data =}\NormalTok{ atlas)}
+
+\NormalTok{density\_breaks }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(atlas}\SpecialCharTok{$}\NormalTok{popdensity2000, }\AttributeTok{probs =} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{0.1}\NormalTok{), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{atlas\_open }\OtherTok{\textless{}{-}}\NormalTok{ atlas }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{density\_decile =} \FunctionTok{cut}\NormalTok{(popdensity2000, }\AttributeTok{breaks =}\NormalTok{ density\_breaks, }\AttributeTok{include.lowest =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{labels =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{),}
+    \AttributeTok{density\_group =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{      popdensity2000 }\SpecialCharTok{\textless{}=} \FunctionTok{quantile}\NormalTok{(popdensity2000, }\FloatTok{0.25}\NormalTok{, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \StringTok{"Rural proxy: bottom density quartile"}\NormalTok{,}
+\NormalTok{      popdensity2000 }\SpecialCharTok{\textgreater{}=} \FunctionTok{quantile}\NormalTok{(popdensity2000, }\FloatTok{0.75}\NormalTok{, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \StringTok{"Urban proxy: top density quartile"}\NormalTok{,}
+      \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}} \StringTok{"Middle 50\%"}
+\NormalTok{    )}
+\NormalTok{  )}
+
+\NormalTok{open\_table }\OtherTok{\textless{}{-}}\NormalTok{ atlas\_open }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(density\_group }\SpecialCharTok{!=} \StringTok{"Middle 50\%"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(density\_group) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}
+    \AttributeTok{Tracts =} \FunctionTok{n}\NormalTok{(),}
+    \StringTok{\textasciigrave{}}\AttributeTok{Mean mobility ($)}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{mean}\NormalTok{(kfr\_pooled\_p25, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{),}
+    \StringTok{\textasciigrave{}}\AttributeTok{SD mobility ($)}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{sd}\NormalTok{(kfr\_pooled\_p25, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{),}
+    \StringTok{\textasciigrave{}}\AttributeTok{Mean poverty rate (\%)}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{mean}\NormalTok{(poverty\_pp, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{),}
+    \StringTok{\textasciigrave{}}\AttributeTok{Mean white share (\%)}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{mean}\NormalTok{(share\_white2000 }\SpecialCharTok{*} \DecValTok{100}\NormalTok{, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  )}
+
+\NormalTok{urban\_mean\_mobility }\OtherTok{\textless{}{-}}\NormalTok{ open\_table }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(density\_group }\SpecialCharTok{==} \StringTok{"Urban proxy: top density quartile"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pull}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Mean mobility ($)}\StringTok{\textasciigrave{}}\NormalTok{)}
+
+\NormalTok{rural\_mean\_mobility }\OtherTok{\textless{}{-}}\NormalTok{ open\_table }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(density\_group }\SpecialCharTok{==} \StringTok{"Rural proxy: bottom density quartile"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pull}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Mean mobility ($)}\StringTok{\textasciigrave{}}\NormalTok{)}
+
+\NormalTok{open\_deciles }\OtherTok{\textless{}{-}}\NormalTok{ atlas\_open }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(density\_decile)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(density\_decile) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}
+    \AttributeTok{mean\_density =} \FunctionTok{mean}\NormalTok{(popdensity2000, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{),}
+    \AttributeTok{mean\_mobility =} \FunctionTok{mean}\NormalTok{(kfr\_pooled\_p25, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{),}
+    \AttributeTok{mean\_poverty =} \FunctionTok{mean}\NormalTok{(poverty\_pp, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  )}
+
+\FunctionTok{data}\NormalTok{(}\StringTok{"Fertility2"}\NormalTok{)}
+\NormalTok{fertility2 }\OtherTok{\textless{}{-}}\NormalTok{ Fertility2 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{morekids\_num =} \FunctionTok{if\_else}\NormalTok{(morekids }\SpecialCharTok{==} \StringTok{"yes"}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{),}
+    \AttributeTok{same\_gender =} \FunctionTok{if\_else}\NormalTok{(gender1 }\SpecialCharTok{==}\NormalTok{ gender2, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{)}
+\NormalTok{  )}
+
+\NormalTok{iv\_first\_stage }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(morekids\_num }\SpecialCharTok{\textasciitilde{}}\NormalTok{ same\_gender, }\AttributeTok{data =}\NormalTok{ fertility2)}
+\NormalTok{iv\_reduced\_form }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(work }\SpecialCharTok{\textasciitilde{}}\NormalTok{ same\_gender, }\AttributeTok{data =}\NormalTok{ fertility2)}
+\NormalTok{fertility2 }\OtherTok{\textless{}{-}}\NormalTok{ fertility2 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{morekids\_hat =} \FunctionTok{fitted}\NormalTok{(iv\_first\_stage))}
+\NormalTok{iv\_second\_stage }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(work }\SpecialCharTok{\textasciitilde{}}\NormalTok{ morekids\_hat, }\AttributeTok{data =}\NormalTok{ fertility2)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Opportunity Atlas}\label{opportunity-atlas}
+
+\subsection{1. Descriptive statistics}\label{descriptive-statistics}
+
+I chose \textbf{New Orleans} on the Opportunity Atlas map. The most
+striking pattern is clustering: high-opportunity tracts are bunched
+together, and low-opportunity tracts are bunched together, rather than
+being randomly scattered across the metro area. There is also
+\textbf{large variation} in income outcomes across nearby neighborhoods,
+which suggests that where a child grows up inside the same commuting
+zone is strongly associated with later-life income.
+
+\subsection{2. One tract within the selected
+city}\label{one-tract-within-the-selected-city}
+
+For the tract comparison I selected tract \textbf{22071012102} in the
+New Orleans commuting zone. In \texttt{atlas.csv}, that tract has
+estimated upward mobility of \textbf{\$72,747} for children whose
+parents were at the 25th percentile.
+
+The commuting-zone average for the same group is \textbf{\$30,615}, so
+this tract is about \textbf{\$42,133} above the city average. The
+standard deviation of \texttt{kfr\_pooled\_p25} across New Orleans
+tracts is \textbf{\$8,114}, while the standard deviation across all
+Louisiana tracts is \textbf{\$7,155}. Because the city-level standard
+deviation is larger than the statewide one, I learn that
+\textbf{within-city inequality in opportunity is especially large in New
+Orleans}: the city contains both very high-opportunity and very
+low-opportunity neighborhoods, so city averages hide substantial local
+heterogeneity.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{kable}\NormalTok{(}
+\NormalTok{  tract\_comparison\_table,}
+  \AttributeTok{caption =} \StringTok{"Selected New Orleans tract compared with New Orleans and the rest of Louisiana"}\NormalTok{,}
+  \AttributeTok{align =} \FunctionTok{c}\NormalTok{(}\StringTok{"l"}\NormalTok{, }\StringTok{"c"}\NormalTok{, }\StringTok{"r"}\NormalTok{, }\StringTok{"r"}\NormalTok{, }\StringTok{"r"}\NormalTok{)}
+\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{kable\_styling}\NormalTok{(}\AttributeTok{full\_width =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[t]{lcrrr}
+\caption{\label{tab:tract-comparison-table}Selected New Orleans tract compared with New Orleans and the rest of Louisiana}\\
+\toprule
+Comparison group & Tracts & Mean upward mobility (\$) & SD upward mobility (\$) & Selected tract minus group mean (\$)\\
+\midrule
+Selected tract: 22071012102 & 1 & 72,747 & N/A & 0\\
+New Orleans & 409 & 30,615 & 8,114 & 42,133\\
+Louisiana, excluding selected tract & 1134 & 31,625 & 7,052 & 41,123\\
+\bottomrule
+\end{longtable}
+
+\subsection{3. Poverty and upward mobility in the four
+cities}\label{poverty-and-upward-mobility-in-the-four-cities}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(city\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ poverty\_pp, }\AttributeTok{y =}\NormalTok{ kfr\_pooled\_p25)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.25}\NormalTok{, }\AttributeTok{size =} \DecValTok{1}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#1f4e79"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{, }\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#b22222"}\NormalTok{, }\AttributeTok{linewidth =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{ czname, }\AttributeTok{scales =} \StringTok{"free"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{x =} \StringTok{"Poverty rate in 1990 (\%)"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Child income for p25 parents ($)"}\NormalTok{,}
+    \AttributeTok{title =} \StringTok{"Higher tract poverty is associated with lower upward mobility in all four cities"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{(}\AttributeTok{base\_size =} \DecValTok{12}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Income of children from the 25th parental percentile against tract poverty rates, by city.}]{Homework_1_Codex_files/figure-latex/city-scatter-1.pdf}}
+\caption{Income of children from the 25th parental percentile against
+tract poverty rates, by city.}
+\end{figure}
+
+The association is consistently negative across all four cities, but its
+strength varies. A 10 percentage point increase in tract poverty is
+associated with about
+\textbf{\(-3.33k** lower mobility in Los Angeles, **\)-4.11k} in New
+York, \textbf{\(-4.55k** in Chicago, and **\)-3.39k} in New Orleans.
+Chicago and New York show the steepest negative slopes, while Los
+Angeles and New Orleans are somewhat flatter. So the sign is stable, but
+the magnitude is not identical across cities.
+
+\subsection{4. Omitted variable bias: racial
+composition}\label{omitted-variable-bias-racial-composition}
+
+I created \texttt{majority\_non\_white\ =\ 1} when
+\texttt{share\_white2000\ \textless{}\ 0.5}. The omitted-variable-bias
+logic is:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Tracts with higher poverty tend to be more likely to be majority
+  non-white, so the covariance between poverty and the omitted variable
+  is positive.
+\item
+  In the New Orleans data, majority non-white tracts have lower average
+  upward mobility conditional on poverty, so the effect of the omitted
+  variable on the outcome is negative.
+\item
+  Positive correlation times a negative outcome effect implies
+  \textbf{negative omitted variable bias}.
+\end{enumerate}
+
+That means the simple regression in Question 3 should make the poverty
+coefficient look \textbf{too negative}.
+
+Using New Orleans only, the simple model gives a poverty coefficient of
+\textbf{-0.339} (thousand dollars of child income for each 1 percentage
+point increase in poverty). After controlling for
+\texttt{majority\_non\_white}, the coefficient becomes \textbf{-0.219}.
+The auxiliary regression needed for the OVB formula implies a predicted
+bias of \textbf{-0.120}, which is extremely close to the actual change
+of \textbf{-0.120} between the naive and controlled models. The
+coefficient moves in the predicted direction: once I control for racial
+composition, the poverty slope becomes \textbf{less negative}.
+
+\subsection{5. Interaction model and regression
+table}\label{interaction-model-and-regression-table}
+
+The interaction model tests whether the poverty slope is steeper in
+majority non-white tracts. In my estimates, the interaction term is
+\textbf{positive}, not negative, so the data do \textbf{not} support the
+colleague's hypothesis for New Orleans. Poverty is negatively associated
+with mobility in both kinds of tracts, but the slope is less negative in
+majority non-white tracts once the interaction is included. At the same
+time, majority non-white tracts have a much lower baseline level of
+mobility, so the levels gap remains large even though the marginal
+poverty slope is flatter.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{table\_345 }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}
+  \AttributeTok{Term =} \FunctionTok{c}\NormalTok{(}
+    \StringTok{"Poverty rate in 1990 (percentage points)"}\NormalTok{,}
+    \StringTok{"Majority non{-}white tract (= 1)"}\NormalTok{,}
+    \StringTok{"Poverty rate × Majority non{-}white"}\NormalTok{,}
+    \StringTok{"Constant"}\NormalTok{,}
+    \StringTok{"Observations"}\NormalTok{,}
+    \StringTok{"R{-}squared"}
+\NormalTok{  ),}
+  \StringTok{\textasciigrave{}}\AttributeTok{Model 3: Poverty only}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{c}\NormalTok{(}
+    \FunctionTok{fmt\_coef}\NormalTok{(}\FunctionTok{tidy}\NormalTok{(model\_3)}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{2}\NormalTok{], }\FunctionTok{tidy}\NormalTok{(model\_3)}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{2}\NormalTok{]),}
+    \StringTok{""}\NormalTok{,}
+    \StringTok{""}\NormalTok{,}
+    \FunctionTok{fmt\_coef}\NormalTok{(}\FunctionTok{tidy}\NormalTok{(model\_3)}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{1}\NormalTok{], }\FunctionTok{tidy}\NormalTok{(model\_3)}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{1}\NormalTok{]),}
+    \FunctionTok{as.character}\NormalTok{(}\FunctionTok{nobs}\NormalTok{(model\_3)),}
+    \FunctionTok{fmt\_num}\NormalTok{(}\FunctionTok{summary}\NormalTok{(model\_3)}\SpecialCharTok{$}\NormalTok{r.squared, }\DecValTok{3}\NormalTok{)}
+\NormalTok{  ),}
+  \StringTok{\textasciigrave{}}\AttributeTok{Model 4: + Race dummy}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{c}\NormalTok{(}
+    \FunctionTok{fmt\_coef}\NormalTok{(}\FunctionTok{tidy}\NormalTok{(model\_4)}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{2}\NormalTok{], }\FunctionTok{tidy}\NormalTok{(model\_4)}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{2}\NormalTok{]),}
+    \FunctionTok{fmt\_coef}\NormalTok{(}\FunctionTok{tidy}\NormalTok{(model\_4)}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{3}\NormalTok{], }\FunctionTok{tidy}\NormalTok{(model\_4)}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{3}\NormalTok{]),}
+    \StringTok{""}\NormalTok{,}
+    \FunctionTok{fmt\_coef}\NormalTok{(}\FunctionTok{tidy}\NormalTok{(model\_4)}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{1}\NormalTok{], }\FunctionTok{tidy}\NormalTok{(model\_4)}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{1}\NormalTok{]),}
+    \FunctionTok{as.character}\NormalTok{(}\FunctionTok{nobs}\NormalTok{(model\_4)),}
+    \FunctionTok{fmt\_num}\NormalTok{(}\FunctionTok{summary}\NormalTok{(model\_4)}\SpecialCharTok{$}\NormalTok{r.squared, }\DecValTok{3}\NormalTok{)}
+\NormalTok{  ),}
+  \StringTok{\textasciigrave{}}\AttributeTok{Model 5: + Interaction}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{c}\NormalTok{(}
+    \FunctionTok{fmt\_coef}\NormalTok{(}\FunctionTok{tidy}\NormalTok{(model\_5)}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{2}\NormalTok{], }\FunctionTok{tidy}\NormalTok{(model\_5)}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{2}\NormalTok{]),}
+    \FunctionTok{fmt\_coef}\NormalTok{(}\FunctionTok{tidy}\NormalTok{(model\_5)}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{3}\NormalTok{], }\FunctionTok{tidy}\NormalTok{(model\_5)}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{3}\NormalTok{]),}
+    \FunctionTok{fmt\_coef}\NormalTok{(}\FunctionTok{tidy}\NormalTok{(model\_5)}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{4}\NormalTok{], }\FunctionTok{tidy}\NormalTok{(model\_5)}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{4}\NormalTok{]),}
+    \FunctionTok{fmt\_coef}\NormalTok{(}\FunctionTok{tidy}\NormalTok{(model\_5)}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{1}\NormalTok{], }\FunctionTok{tidy}\NormalTok{(model\_5)}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{1}\NormalTok{]),}
+    \FunctionTok{as.character}\NormalTok{(}\FunctionTok{nobs}\NormalTok{(model\_5)),}
+    \FunctionTok{fmt\_num}\NormalTok{(}\FunctionTok{summary}\NormalTok{(model\_5)}\SpecialCharTok{$}\NormalTok{r.squared, }\DecValTok{3}\NormalTok{)}
+\NormalTok{  )}
+\NormalTok{)}
+
+\FunctionTok{kable}\NormalTok{(}
+\NormalTok{  table\_345,}
+  \AttributeTok{caption =} \StringTok{"New Orleans regressions: poverty, racial composition, and heterogeneous associations with upward mobility"}\NormalTok{,}
+  \AttributeTok{align =} \FunctionTok{c}\NormalTok{(}\StringTok{"l"}\NormalTok{, }\StringTok{"c"}\NormalTok{, }\StringTok{"c"}\NormalTok{, }\StringTok{"c"}\NormalTok{)}
+\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{kable\_styling}\NormalTok{(}\AttributeTok{full\_width =} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{footnote}\NormalTok{(}
+    \AttributeTok{general =} \StringTok{"Dependent variable is child income for parents at the 25th percentile, measured in thousands of dollars. Standard errors are in parentheses. Poverty is measured in percentage points. Majority non{-}white equals 1 when the tract\textquotesingle{}s white share in 2000 is below 50 percent."}\NormalTok{,}
+    \AttributeTok{general\_title =} \StringTok{"Notes: "}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[t]{lccc}
+\caption{\label{tab:models-345-table}New Orleans regressions: poverty, racial composition, and heterogeneous associations with upward mobility}\\
+\toprule
+Term & Model 3: Poverty only & Model 4: + Race dummy & Model 5: + Interaction\\
+\midrule
+Poverty rate in 1990 (percentage points) & -0.339 (0.017) & -0.219 (0.019) & -0.442 (0.035)\\
+Majority non-white tract (= 1) &  & -6.704 (0.656) & -12.727 (1.007)\\
+Poverty rate × Majority non-white &  &  & 0.306 (0.041)\\
+Constant & 38.267 (0.480) & 38.305 (0.428) & 41.431 (0.577)\\
+Observations & 405 & 405 & 405\\
+\addlinespace
+R-squared & 0.493 & 0.597 & 0.647\\
+\bottomrule
+\multicolumn{4}{l}{\rule{0pt}{1em}\textit{Notes: }}\\
+\multicolumn{4}{l}{\rule{0pt}{1em}Dependent variable is child income for parents at the 25th percentile, measured in thousands of dollars. Standard errors are in parentheses. Poverty is measured in percentage points. Majority non-white equals 1 when the tract's white share in 2000 is below 50 percent.}\\
+\end{longtable}
+
+\subsection{6. Can these models be interpreted
+causally?}\label{can-these-models-be-interpreted-causally}
+
+No.~All three models are associational, not causal. Poverty rates and
+racial composition are not randomly assigned across tracts, and many
+omitted variables could still be driving both neighborhood composition
+and children's later outcomes: school quality, policing, housing
+segregation, local labor markets, public transit, environmental hazards,
+family selection into neighborhoods, and historical policy differences.
+Controlling for one omitted variable improves the specification, but it
+does not solve the broader endogeneity problem.
+
+\subsection{7-9. Commuting-zone fixed
+effects}\label{commuting-zone-fixed-effects}
+
+Including \texttt{factor(cz)} is analogous to Dale and Krueger's
+strategy because it changes the comparison set. Dale and Krueger
+compared students \textbf{within the same application set}, so
+identification came from students facing a similar menu of schools.
+Here, including commuting-zone dummies compares tracts \textbf{within
+the same commuting zone}, so identification comes from neighborhoods
+that share the same broader city-level labor market and regional
+environment. In that sense, the commuting zone is the local equivalent
+of the ``choice set.''
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tidy\_base }\OtherTok{\textless{}{-}} \FunctionTok{tidy}\NormalTok{(all\_base)}
+\NormalTok{tidy\_fe }\OtherTok{\textless{}{-}} \FunctionTok{tidy}\NormalTok{(all\_fe)}
+
+\NormalTok{table\_fe }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}
+  \AttributeTok{Term =} \FunctionTok{c}\NormalTok{(}
+    \StringTok{"Poverty rate in 1990 (percentage points)"}\NormalTok{,}
+    \StringTok{"Majority non{-}white tract (= 1)"}\NormalTok{,}
+    \StringTok{"Commuting{-}zone fixed effects"}\NormalTok{,}
+    \StringTok{"Constant"}\NormalTok{,}
+    \StringTok{"Observations"}\NormalTok{,}
+    \StringTok{"R{-}squared"}
+\NormalTok{  ),}
+  \StringTok{\textasciigrave{}}\AttributeTok{Model 4 replicated: national pooled OLS}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{c}\NormalTok{(}
+    \FunctionTok{fmt\_coef}\NormalTok{(tidy\_base}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{2}\NormalTok{], tidy\_base}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{2}\NormalTok{]),}
+    \FunctionTok{fmt\_coef}\NormalTok{(tidy\_base}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{3}\NormalTok{], tidy\_base}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{3}\NormalTok{]),}
+    \StringTok{"No"}\NormalTok{,}
+    \FunctionTok{fmt\_coef}\NormalTok{(tidy\_base}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{1}\NormalTok{], tidy\_base}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{1}\NormalTok{]),}
+    \FunctionTok{as.character}\NormalTok{(}\FunctionTok{nobs}\NormalTok{(all\_base)),}
+    \FunctionTok{fmt\_num}\NormalTok{(}\FunctionTok{summary}\NormalTok{(all\_base)}\SpecialCharTok{$}\NormalTok{r.squared, }\DecValTok{3}\NormalTok{)}
+\NormalTok{  ),}
+  \StringTok{\textasciigrave{}}\AttributeTok{Model 4 + commuting{-}zone FE}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{c}\NormalTok{(}
+    \FunctionTok{fmt\_coef}\NormalTok{(tidy\_fe}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{2}\NormalTok{], tidy\_fe}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{2}\NormalTok{]),}
+    \FunctionTok{fmt\_coef}\NormalTok{(tidy\_fe}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{3}\NormalTok{], tidy\_fe}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{3}\NormalTok{]),}
+    \StringTok{"Yes"}\NormalTok{,}
+    \FunctionTok{fmt\_coef}\NormalTok{(tidy\_fe}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{1}\NormalTok{], tidy\_fe}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{1}\NormalTok{]),}
+    \FunctionTok{as.character}\NormalTok{(}\FunctionTok{nobs}\NormalTok{(all\_fe)),}
+    \FunctionTok{fmt\_num}\NormalTok{(}\FunctionTok{summary}\NormalTok{(all\_fe)}\SpecialCharTok{$}\NormalTok{r.squared, }\DecValTok{3}\NormalTok{)}
+\NormalTok{  )}
+\NormalTok{)}
+
+\FunctionTok{kable}\NormalTok{(}
+\NormalTok{  table\_fe,}
+  \AttributeTok{caption =} \StringTok{"National regressions with and without commuting{-}zone fixed effects"}\NormalTok{,}
+  \AttributeTok{align =} \FunctionTok{c}\NormalTok{(}\StringTok{"l"}\NormalTok{, }\StringTok{"c"}\NormalTok{, }\StringTok{"c"}\NormalTok{)}
+\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{kable\_styling}\NormalTok{(}\AttributeTok{full\_width =} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{footnote}\NormalTok{(}
+    \AttributeTok{general =} \StringTok{"Dependent variable is child income for parents at the 25th percentile, measured in thousands of dollars. Standard errors are in parentheses. Poverty is measured in percentage points."}\NormalTok{,}
+    \AttributeTok{general\_title =} \StringTok{"Notes: "}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[t]{lcc}
+\caption{\label{tab:fe-table}National regressions with and without commuting-zone fixed effects}\\
+\toprule
+Term & Model 4 replicated: national pooled OLS & Model 4 + commuting-zone FE\\
+\midrule
+Poverty rate in 1990 (percentage points) & -0.293 (0.003) & -0.260 (0.002)\\
+Majority non-white tract (= 1) & -3.310 (0.070) & -5.614 (0.069)\\
+Commuting-zone fixed effects & No & Yes\\
+Constant & 39.078 (0.039) & 32.047 (0.486)\\
+Observations & 71922 & 71921\\
+\addlinespace
+R-squared & 0.274 & 0.503\\
+\bottomrule
+\multicolumn{3}{l}{\rule{0pt}{1em}\textit{Notes: }}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}Dependent variable is child income for parents at the 25th percentile, measured in thousands of dollars. Standard errors are in parentheses. Poverty is measured in percentage points.}\\
+\end{longtable}
+
+Once I add commuting-zone fixed effects, the poverty coefficient becomes
+slightly less negative in magnitude (\textbf{-0.293} to
+\textbf{-0.260}), while the majority non-white coefficient becomes more
+negative (\textbf{-3.310} to \textbf{-5.614}). This suggests that some
+of the original association was indeed reflecting differences across
+cities, but substantial within-city tract-level differences remain.
+
+\section{Open question}\label{open-question}
+
+To answer the urban-versus-rural question, I use \textbf{tract
+population density in 2000 as a proxy for urbanicity}. This is not a
+perfect urban/rural classifier, but it provides a transparent way to
+compare dense and sparse places using the variables available in
+\texttt{atlas.csv}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{open\_table\_fmt }\OtherTok{\textless{}{-}}\NormalTok{ open\_table }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{where}\NormalTok{(is.numeric), }\SpecialCharTok{\textasciitilde{}} \FunctionTok{fmt\_num}\NormalTok{(.x, }\DecValTok{2}\NormalTok{)))}
+
+\FunctionTok{kable}\NormalTok{(}
+\NormalTok{  open\_table\_fmt,}
+  \AttributeTok{caption =} \StringTok{"Urban{-}versus{-}rural comparison using tract population density as a proxy"}\NormalTok{,}
+  \AttributeTok{align =} \FunctionTok{c}\NormalTok{(}\StringTok{"l"}\NormalTok{, }\StringTok{"c"}\NormalTok{, }\StringTok{"c"}\NormalTok{, }\StringTok{"c"}\NormalTok{, }\StringTok{"c"}\NormalTok{, }\StringTok{"c"}\NormalTok{)}
+\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{kable\_styling}\NormalTok{(}\AttributeTok{full\_width =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[t]{lccccc}
+\caption{\label{tab:open-table}Urban-versus-rural comparison using tract population density as a proxy}\\
+\toprule
+density\_group & Tracts & Mean mobility (\$) & SD mobility (\$) & Mean poverty rate (\%) & Mean white share (\%)\\
+\midrule
+Rural proxy: bottom density quartile & 18,118.00 & 34,742.86 & 7,378.20 & 14.37 & 84.20\\
+Urban proxy: top density quartile & 18,118.00 & 33,384.88 & 8,559.32 & 16.74 & 45.82\\
+\bottomrule
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(open\_deciles, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(density\_decile)), }\AttributeTok{y =}\NormalTok{ mean\_mobility)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{color =} \StringTok{"\#1f4e79"}\NormalTok{, }\AttributeTok{linewidth =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{color =} \StringTok{"\#b22222"}\NormalTok{, }\AttributeTok{size =} \DecValTok{2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{breaks =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{x =} \StringTok{"Population{-}density decile (1 = sparsest tracts, 10 = densest tracts)"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Mean child income for p25 parents ($)"}\NormalTok{,}
+    \AttributeTok{title =} \StringTok{"The densest tracts do not deliver uniformly higher upward mobility"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{(}\AttributeTok{base\_size =} \DecValTok{12}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Mean upward mobility by national tract-density decile.}]{Homework_1_Codex_files/figure-latex/open-figure-1.pdf}}
+\caption{Mean upward mobility by national tract-density decile.}
+\end{figure}
+
+My answer is that \textbf{cities do not automatically produce better
+mobility outcomes for everyone}. Using density as a tract-level proxy
+for urbanicity, the top-density quartile has lower average mobility than
+the bottom-density quartile (\textbf{\$33,385} versus
+\textbf{\$34,743}), and the figure shows that mobility generally
+declines at the highest density levels. The pattern seems to run through
+concentrated disadvantage rather than ``urbanity'' itself: dense tracts
+also have higher poverty and much lower white population shares on
+average. So the cleanest conclusion is that urban areas contain both
+extraordinary opportunity and deep disadvantage, and the average effect
+depends heavily on which neighborhoods inside those urban areas we are
+talking about.
+
+\section{Instrumental variable
+exercise}\label{instrumental-variable-exercise}
+
+\subsection{10. Instrument definition}\label{instrument-definition}
+
+I define \texttt{same\_gender\ =\ 1} when the first two children are
+both boys or both girls, and \texttt{0} otherwise. This is a plausible
+instrument for \texttt{morekids} because:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Relevance:} parents are more likely to have a third child when
+  the first two children are the same sex, since some parents want a
+  mixed-sex composition.
+\item
+  \textbf{As-good-as-random assignment:} the sex of the first two
+  children is effectively random from the parents' point of view.
+\item
+  \textbf{Exclusion restriction:} conditional on the first two births,
+  the sex mix should affect maternal labor supply mainly through its
+  effect on the probability of having a third child, not through a
+  separate direct channel.
+\end{enumerate}
+
+\subsection{11. Manual 2SLS}\label{manual-2sls}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{iv\_table }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}
+  \AttributeTok{Term =} \FunctionTok{c}\NormalTok{(}\StringTok{"Same{-}gender instrument"}\NormalTok{, }\StringTok{"Predicted third child"}\NormalTok{, }\StringTok{"Constant"}\NormalTok{, }\StringTok{"Observations"}\NormalTok{, }\StringTok{"R{-}squared"}\NormalTok{),}
+  \StringTok{\textasciigrave{}}\AttributeTok{First stage: morekids on same\_gender}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{c}\NormalTok{(}
+    \FunctionTok{fmt\_coef}\NormalTok{(}\FunctionTok{tidy}\NormalTok{(iv\_first\_stage)}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{2}\NormalTok{], }\FunctionTok{tidy}\NormalTok{(iv\_first\_stage)}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{2}\NormalTok{]),}
+    \StringTok{""}\NormalTok{,}
+    \FunctionTok{fmt\_coef}\NormalTok{(}\FunctionTok{tidy}\NormalTok{(iv\_first\_stage)}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{1}\NormalTok{], }\FunctionTok{tidy}\NormalTok{(iv\_first\_stage)}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{1}\NormalTok{]),}
+    \FunctionTok{as.character}\NormalTok{(}\FunctionTok{nobs}\NormalTok{(iv\_first\_stage)),}
+    \FunctionTok{fmt\_num}\NormalTok{(}\FunctionTok{summary}\NormalTok{(iv\_first\_stage)}\SpecialCharTok{$}\NormalTok{r.squared, }\DecValTok{3}\NormalTok{)}
+\NormalTok{  ),}
+  \StringTok{\textasciigrave{}}\AttributeTok{Reduced form: work on same\_gender}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{c}\NormalTok{(}
+    \FunctionTok{fmt\_coef}\NormalTok{(}\FunctionTok{tidy}\NormalTok{(iv\_reduced\_form)}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{2}\NormalTok{], }\FunctionTok{tidy}\NormalTok{(iv\_reduced\_form)}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{2}\NormalTok{]),}
+    \StringTok{""}\NormalTok{,}
+    \FunctionTok{fmt\_coef}\NormalTok{(}\FunctionTok{tidy}\NormalTok{(iv\_reduced\_form)}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{1}\NormalTok{], }\FunctionTok{tidy}\NormalTok{(iv\_reduced\_form)}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{1}\NormalTok{]),}
+    \FunctionTok{as.character}\NormalTok{(}\FunctionTok{nobs}\NormalTok{(iv\_reduced\_form)),}
+    \FunctionTok{fmt\_num}\NormalTok{(}\FunctionTok{summary}\NormalTok{(iv\_reduced\_form)}\SpecialCharTok{$}\NormalTok{r.squared, }\DecValTok{3}\NormalTok{)}
+\NormalTok{  ),}
+  \StringTok{\textasciigrave{}}\AttributeTok{Second stage: work on fitted morekids}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{c}\NormalTok{(}
+    \StringTok{""}\NormalTok{,}
+    \FunctionTok{fmt\_coef}\NormalTok{(}\FunctionTok{tidy}\NormalTok{(iv\_second\_stage)}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{2}\NormalTok{], }\FunctionTok{tidy}\NormalTok{(iv\_second\_stage)}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{2}\NormalTok{]),}
+    \FunctionTok{fmt\_coef}\NormalTok{(}\FunctionTok{tidy}\NormalTok{(iv\_second\_stage)}\SpecialCharTok{$}\NormalTok{estimate[}\DecValTok{1}\NormalTok{], }\FunctionTok{tidy}\NormalTok{(iv\_second\_stage)}\SpecialCharTok{$}\NormalTok{std.error[}\DecValTok{1}\NormalTok{]),}
+    \FunctionTok{as.character}\NormalTok{(}\FunctionTok{nobs}\NormalTok{(iv\_second\_stage)),}
+    \FunctionTok{fmt\_num}\NormalTok{(}\FunctionTok{summary}\NormalTok{(iv\_second\_stage)}\SpecialCharTok{$}\NormalTok{r.squared, }\DecValTok{3}\NormalTok{)}
+\NormalTok{  )}
+\NormalTok{)}
+
+\FunctionTok{kable}\NormalTok{(}
+\NormalTok{  iv\_table,}
+  \AttributeTok{caption =} \StringTok{"Manual two{-}stage least squares using same{-}sex first two children as an instrument"}\NormalTok{,}
+  \AttributeTok{align =} \FunctionTok{c}\NormalTok{(}\StringTok{"l"}\NormalTok{, }\StringTok{"c"}\NormalTok{, }\StringTok{"c"}\NormalTok{, }\StringTok{"c"}\NormalTok{)}
+\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{kable\_styling}\NormalTok{(}\AttributeTok{full\_width =} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{footnote}\NormalTok{(}
+    \AttributeTok{general =} \StringTok{"The first stage shows that same{-}sex first two children increase the probability of having a third child by about 6.7 percentage points. The reduced form is negative, and the second{-}stage estimate implies that an additional child lowers maternal work in this sample."}\NormalTok{,}
+    \AttributeTok{general\_title =} \StringTok{"Notes: "}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[t]{lccc}
+\caption{\label{tab:iv-table}Manual two-stage least squares using same-sex first two children as an instrument}\\
+\toprule
+Term & First stage: morekids on same\_gender & Reduced form: work on same\_gender & Second stage: work on fitted morekids\\
+\midrule
+Same-gender instrument & 0.067 (0.006) & -0.403 (0.253) & \\
+Predicted third child &  &  & -6.033 (3.792)\\
+Constant & 0.344 (0.004) & 19.412 (0.180) & 21.488 (1.437)\\
+Observations & 30000 & 30000 & 30000\\
+R-squared & 0.005 & 0.000 & 0.000\\
+\bottomrule
+\multicolumn{4}{l}{\rule{0pt}{1em}\textit{Notes: }}\\
+\multicolumn{4}{l}{\rule{0pt}{1em}The first stage shows that same-sex first two children increase the probability of having a third child by about 6.7 percentage points. The reduced form is negative, and the second-stage estimate implies that an additional child lowers maternal work in this sample.}\\
+\end{longtable}
+
+The first stage is clearly relevant: the coefficient on
+\texttt{same\_gender} is positive and statistically precise. The reduced
+form is negative, and the second-stage estimate is also negative,
+implying that having a third child reduces maternal labor supply in this
+sample. The second-stage estimate is not especially precise here, but
+the sign is consistent with the usual interpretation of the Angrist and
+Evans design.
+
+\section{Code Understanding Sufficiency
+Test}\label{code-understanding-sufficiency-test}
+
+This section is a \textbf{draft study aid}, not a final submission-safe
+answer. It should be rewritten in your own words before use.
+
+\subsection{Libraries used}\label{libraries-used}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{dplyr}: data wrangling package for filtering rows, creating
+  variables, grouping data, and summarizing results.
+\item
+  \texttt{ggplot2}: graphing package for building layered figures such
+  as scatter plots, fitted lines, and line charts.
+\item
+  \texttt{readr}: package for importing flat files like CSVs quickly and
+  cleanly.
+\item
+  \texttt{broom}: package that turns model output into tidy data frames.
+\item
+  \texttt{knitr}: package for rendering tables and controlling document
+  output inside R Markdown.
+\item
+  \texttt{kableExtra}: package for improving the formatting of
+  \texttt{knitr::kable()} tables.
+\item
+  \texttt{stargazer}: package for producing regression tables.
+\item
+  \texttt{AER}: package that includes applied econometrics datasets,
+  including \texttt{Fertility2}.
+\end{itemize}
+
+\subsection{Fifteen functions used in the
+code}\label{fifteen-functions-used-in-the-code}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{code\_understanding }\OtherTok{\textless{}{-}}\NormalTok{ tibble}\SpecialCharTok{::}\FunctionTok{tribble}\NormalTok{(}
+  \SpecialCharTok{\textasciitilde{}}\NormalTok{Package, }\SpecialCharTok{\textasciitilde{}}\NormalTok{Function, }\SpecialCharTok{\textasciitilde{}}\NormalTok{Description,}
+  \StringTok{"readr"}\NormalTok{, }\StringTok{"read\_csv()"}\NormalTok{, }\StringTok{"Imports a CSV file into R as a data frame or tibble."}\NormalTok{,}
+  \StringTok{"dplyr"}\NormalTok{, }\StringTok{"mutate()"}\NormalTok{, }\StringTok{"Creates new variables or transforms existing ones."}\NormalTok{,}
+  \StringTok{"dplyr"}\NormalTok{, }\StringTok{"filter()"}\NormalTok{, }\StringTok{"Keeps only rows that satisfy a condition."}\NormalTok{,}
+  \StringTok{"dplyr"}\NormalTok{, }\StringTok{"arrange()"}\NormalTok{, }\StringTok{"Sorts rows in ascending or descending order."}\NormalTok{,}
+  \StringTok{"dplyr"}\NormalTok{, }\StringTok{"slice()"}\NormalTok{, }\StringTok{"Selects rows by their position in the data frame."}\NormalTok{,}
+  \StringTok{"dplyr"}\NormalTok{, }\StringTok{"group\_by()"}\NormalTok{, }\StringTok{"Creates groups so later calculations are done within each group."}\NormalTok{,}
+  \StringTok{"dplyr"}\NormalTok{, }\StringTok{"summarise()"}\NormalTok{, }\StringTok{"Reduces each group to one or more summary statistics."}\NormalTok{,}
+  \StringTok{"ggplot2"}\NormalTok{, }\StringTok{"ggplot()"}\NormalTok{, }\StringTok{"Starts a graph by defining the dataset and aesthetics."}\NormalTok{,}
+  \StringTok{"ggplot2"}\NormalTok{, }\StringTok{"geom\_point()"}\NormalTok{, }\StringTok{"Adds a scatter{-}plot layer."}\NormalTok{,}
+  \StringTok{"ggplot2"}\NormalTok{, }\StringTok{"geom\_smooth()"}\NormalTok{, }\StringTok{"Adds a fitted line, such as a linear regression line."}\NormalTok{,}
+  \StringTok{"ggplot2"}\NormalTok{, }\StringTok{"facet\_wrap()"}\NormalTok{, }\StringTok{"Splits one plot into multiple panels by category."}\NormalTok{,}
+  \StringTok{"broom"}\NormalTok{, }\StringTok{"tidy()"}\NormalTok{, }\StringTok{"Extracts model coefficients and standard errors into a tidy table."}\NormalTok{,}
+  \StringTok{"knitr"}\NormalTok{, }\StringTok{"kable()"}\NormalTok{, }\StringTok{"Creates a clean table for R Markdown output."}\NormalTok{,}
+  \StringTok{"kableExtra"}\NormalTok{, }\StringTok{"kable\_styling()"}\NormalTok{, }\StringTok{"Adds formatting options to a \textasciigrave{}kable()\textasciigrave{} table."}\NormalTok{,}
+  \StringTok{"AER"}\NormalTok{, }\StringTok{"data()"}\NormalTok{, }\StringTok{"Loads a dataset that comes bundled with a package."}
+\NormalTok{)}
+
+\FunctionTok{kable}\NormalTok{(code\_understanding, }\AttributeTok{align =} \FunctionTok{c}\NormalTok{(}\StringTok{"l"}\NormalTok{, }\StringTok{"l"}\NormalTok{, }\StringTok{"l"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{kable\_styling}\NormalTok{(}\AttributeTok{full\_width =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[t]{lll}
+\toprule
+Package & Function & Description\\
+\midrule
+readr & read\_csv() & Imports a CSV file into R as a data frame or tibble.\\
+dplyr & mutate() & Creates new variables or transforms existing ones.\\
+dplyr & filter() & Keeps only rows that satisfy a condition.\\
+dplyr & arrange() & Sorts rows in ascending or descending order.\\
+dplyr & slice() & Selects rows by their position in the data frame.\\
+\addlinespace
+dplyr & group\_by() & Creates groups so later calculations are done within each group.\\
+dplyr & summarise() & Reduces each group to one or more summary statistics.\\
+ggplot2 & ggplot() & Starts a graph by defining the dataset and aesthetics.\\
+ggplot2 & geom\_point() & Adds a scatter-plot layer.\\
+ggplot2 & geom\_smooth() & Adds a fitted line, such as a linear regression line.\\
+\addlinespace
+ggplot2 & facet\_wrap() & Splits one plot into multiple panels by category.\\
+broom & tidy() & Extracts model coefficients and standard errors into a tidy table.\\
+knitr & kable() & Creates a clean table for R Markdown output.\\
+kableExtra & kable\_styling() & Adds formatting options to a `kable()` table.\\
+AER & data() & Loads a dataset that comes bundled with a package.\\
+\bottomrule
+\end{longtable}
+
+\section{References}\label{references}
+
+Angrist, J. D., \& Evans, W. N. (1998). \emph{Children and their
+parents' labor supply: Evidence from exogenous variation in family
+size}. \emph{American Economic Review, 88}(3), 450-477.
+
+Dale, S. B., \& Krueger, A. B. (2002). \emph{Estimating the payoff to
+attending a more selective college: An application of selection on
+observables and unobservables}. \emph{Quarterly Journal of Economics,
+117}(4), 1491-1527. \url{https://doi.org/10.1162/003355302320935089}
+
+Opportunity Insights. (2018). \emph{Opportunity Atlas}.
+\url{https://www.opportunityatlas.org/}
+
+\end{document}

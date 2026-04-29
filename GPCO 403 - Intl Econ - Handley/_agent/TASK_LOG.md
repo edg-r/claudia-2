@@ -111,3 +111,10 @@ Built `Study Guides/GPCO 403_Week_4_Reference.pdf` covering the Week 4 folder ma
 **What was done:** Identified the Monday, Apr. 27, 2026 GPCO 403 class from the syllabus/course grid as "PPP, LOOP, and Big Mac application." Cross-checked the Canvas/course export module and summarized the relevant Lecture 8 source set: LOOP, PPP, Big Mac Index, and dollar-denominated debt exchange-rate risk.
 **Output:** `GPCO 403 - Intl Econ - Handley/Study Guides/2026-04-27_ppp_loop_big_mac_1pager.md`
 **Notes:** The brief includes APA 7 references and the Claudia output disclosure block with model provenance `GPT-5.5 (medium reasoning)`.
+
+## 2026-04-28 - Syllabus extraction refresh
+
+**Requested by:** Edgar
+**What was done:** Refreshed the artifact-first syllabus extraction for GPCO 403 using the posted syllabus PDF and current `claudia.db` assignment/readings rows. Included normalized deadline metadata, readings by week, policies, and DB normalization notes without writing to the database.
+**Output:** `GPCO 403 - Intl Econ - Handley/Course Admin/syllabus_extracted.md`
+**Notes:** Concept Check 5 remains ambiguous because the syllabus narrative says 2026-06-01 while the course grid and current DB use 2026-06-02. Concept Check 2 status should be verified because the DB still shows pending after its due date.

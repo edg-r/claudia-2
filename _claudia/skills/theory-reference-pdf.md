@@ -200,7 +200,7 @@ t.setStyle(TableStyle([
 ## Attribution Footnote (required)
 
 The attribution footnote appears at the bottom of the TOC page, separated by a thin horizontal rule (`HRFlowable` at 35% width, left-aligned). It must include:
-- AI generation disclosure: "Generated with Claude [version] by Anthropic."
+- AI generation disclosure: "Generated with [model/tool name] via the Claudia agent system."
 - Course, instructor, and institution
 - Verification note: "Always verify against official course materials and readings. This document is a study aid and does not substitute for careful reading of the assigned texts."
 

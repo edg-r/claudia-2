@@ -29,6 +29,9 @@
 ## Professor Tendencies
 - TBD -- update as patterns emerge from lectures and exams
 
+## Operating Defaults
+- Reading summaries: default skill is `_claudia/skills/theory-reference-pdf.md` (effective 2026-04-22), not BLUF memo-summarizer. Edgar's new standard for this course.
+
 ## Course Arc
 - Weeks 1-4: Macro foundations (GDP, national income, BOP, exchange rates, PPP, external wealth, crises)
 - Week 5: Midterm review / buffer

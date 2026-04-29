@@ -11,7 +11,7 @@ When a new agent is spun up, it must be provisioned with all required persistent
 ## Required Steps
 
 ### 1. Create the agent definition
-Write the agent definition file at `.claude/agents/<name>.md` with all standard sections, including a "Standard Operating Procedures" section pointing to `_claudia/sop/`.
+Write the canonical agent definition file at `_claudia/agent_definitions/<name>.md` with all standard sections, including a "Standard Operating Procedures" section pointing to `_claudia/sop/`.
 
 ### 2. Create the persistent memory folder
 
@@ -30,14 +30,14 @@ Every new agent must have these files created and ready before the agent is acti
 | `ASSIGNMENTS.md` | Deadline tracker (course agents only) | Header with sections for Completed, In Progress, Upcoming |
 
 ### 4. Update the roster
-- Add the new agent to the Agent Roster in `CLAUDE.md`
-- Update Hermes's own roster list in `.claude/agents/hermes.md` to prevent name reuse
+- Add the new agent to the Agent Roster in `_claudia/system/CLAUDIA.md`
+- Update Hermes's own roster list in `_claudia/agent_definitions/hermes.md` to prevent name reuse.
 
-**Permission note:** The `.claude/agents/` directory is write-protected for subagents. If Hermes (or any delegated agent) is blocked from editing `hermes.md`, she must surface the exact one-line patch in her activation summary and flag it for Claudia to apply from the parent session. This sync is not optional, it is the final gate of onboarding. The agent is not considered active until both `CLAUDE.md` and `hermes.md` rosters reflect the new name.
+**Permission note:** If Hermes (or any delegated agent) is blocked from editing the definition directory, she must surface the exact one-line patch in her activation summary and flag it for Claudia to apply from the parent session. This sync is not optional, it is the final gate of onboarding. The agent is not considered active until `_claudia/system/CLAUDIA.md` and `_claudia/agent_definitions/hermes.md` reflect the new name.
 
 ### 5. Register in the system manifest
 - Add the new agent to the `agents` array in `_claudia/system/manifest.json`
-- Include: name, type (course or utility), role, model, definition path, memory path, and course code (if course agent)
+- Include: name, type (course or utility), role, model, canonical definition path, memory path, and course code (if course agent)
 
 ### 6. Confirm to Claudia
 Return to Claudia with:

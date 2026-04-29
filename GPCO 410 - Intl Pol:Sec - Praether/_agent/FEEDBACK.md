@@ -55,3 +55,57 @@ Exam-winning move: Powell's payoff is showing that the mechanism holds under com
 Before proposing metaphor replacements in Edgar's drafts, check whether the metaphor has a literal anchor in the case. If yes, sharpen the subtitle to signal theory while keeping the hook. Replace metaphors only when they are purely decorative.
 
 Example: "Oil and Water" initially looked decorative but oil is literally load-bearing in the 2003 Iraq case — 1990s sanctions were an oil-export chokehold; Oil-for-Food shaped Saddam's signaling incentives (concealing WMD absence to deter Iran while appearing compliant enough for sanctions relief); US coalition-building leaned on Gulf oil security. Recommended title preserving the hook: "Oil and Water: Sanctions, Signals, and the Immiscibility of War Aims."
+
+---
+
+## 2026-04-23 — Ali feedback on Memo 2, 90/100 (Second Gulf War)
+
+TA Abdirisak Ali graded Memo 2 90/100. Argument and theory deployment were strong; the lost points were all about under-applying the strategic choice framework. In this course the framework is not optional scaffolding — it is the analytical grammar, and Praether/Ali expect each of its five elements to be named and worked explicitly rather than implied inside a narrative.
+
+Durable rule for every GPCO 410 memo going forward: structure the analysis around the full strategic choice framework — **actors, preferences, strategies, beliefs, payoffs** — and make each element visible on the page. Do not invoke the framework rhetorically ("applying strategic choice...") and then collapse it into a preference story. Walk the reader through all five slots for each primary actor.
+
+Three specific underweight points Ali flagged. Screen for all three in every future memo draft:
+
+1. **Full strategy set, including alternatives not chosen.** For each actor, lay out the plausible strategies they could have pursued, not only the one they ultimately chose. Then explain why the unchosen alternatives were rejected (dominated by payoff, ruled out by beliefs, domestically infeasible, etc.). Memo 2 only narrated the chosen path; it did not construct the choice set.
+
+2. **Beliefs and expected payoffs for each actor's actions.** State what each actor believed about the other's likely moves, and attach an expected payoff to each strategy in the choice set given those beliefs. Beliefs are where information problems and miscalculation actually enter the model — skipping them collapses the analysis into post-hoc description.
+
+3. **Why no settlement was reached — dedicated deep analysis.** The "was a negotiated settlement possible, what would the terms have been, why wasn't one signed" question is where the strategic choice framework pays off. Give it its own paragraph (or two). Tie the no-deal outcome back to specific framework elements: whose preferences ruled out which bargaining range, whose beliefs made which offers non-credible, which payoff structure made war preferable to the best available settlement.
+
+Operational screen before returning any Athena memo draft: can the reader point to paragraphs (or clearly marked passages) that do each of — name actors, state preferences, enumerate strategies including rejected ones with reasons, specify beliefs, compute/compare expected payoffs, explain the settlement failure? If any of the six is implicit-only, mark it for a rewrite pass before the memo goes to Edgar.
+
+---
+
+## 2026-04-27 — ORANGE Myanmar memo macro rewrite lesson
+
+**Type:** correction
+**What:** Edgar flagged the Myanmar ORANGE memo as too long, too micro-level, and overusing em dashes. Specific constitution article numbers were unnecessary for the final memo.
+**Why:** For short Praether memos, the theory application should carry the grade. Case evidence should work in broad strokes unless a detail is analytically load-bearing.
+**Rule going forward:** For this memo type, prefer macro theory-driven structure over granular institutional mechanics; avoid em dashes; omit specific legal article numbers unless the prompt or argument truly needs them.
+
+---
+
+## 2026-04-28 — Iterative file naming for memo drafts
+
+**Type:** correction
+**What:** Edgar flagged the ORANGE Myanmar memo file sequence as confusing because suffixes like `DRAFT`, `TRACKED`, `FINAL_REVIEW`, and `MACRO_REWRITE` describe workflow states but not revision order.
+**Why:** Athena memo folders often contain multiple Word outputs. Without version numbers, it is hard to tell which file supersedes which, especially when a later draft changes architecture rather than merely polishing prose.
+**Rule going forward:** Follow `_claudia/sop/iterative-file-naming.md`: use `vMAJOR.MINOR.PATCH` as the ordering truth, then add optional channel suffixes such as `_source`, `_working`, `_tracked`, `_clean`, or `_submission`.
+
+---
+
+## 2026-04-28 — ORANGE Myanmar one-theory and named-actor preference
+
+**Type:** correction
+**What:** Edgar narrowed the ORANGE Myanmar memo to one theory only: Lars-Erik Cederman, Simon Hug, and Lutz F. Krebs. Edgar also requested Blue-memo-style named actors rather than broad group labels where possible.
+**Why:** The memo is clearer when the theory load is concentrated and the strategic actors are explicit on the page.
+**Rule going forward:** For this Myanmar memo, do not include Walter or Powell. Frame theory through Cederman/Hug/Krebs only, and name Aung San Suu Kyi and Senior General Min Aung Hlaing as the main actors instead of relying only on "the NLD" or "the Tatmadaw."
+
+---
+
+## 2026-04-29 — Theory terminology must come from the reading
+
+**Type:** correction
+**What:** Edgar flagged "capturing the center" / "center-seeking" language in the ORANGE Myanmar theory outline as local shorthand that became too central to the theoretical framing.
+**Why:** In theory work, the goal is to use the concepts and terminology learned from the assigned theory to describe and apply the situation. Invented shorthand can blur the author's actual framework and make the memo look less anchored in the reading.
+**Rule going forward:** In GPCO 410 theory outlines and memos, make the assigned reading's own concepts the main analytical language. For Cederman, Hug, and Krebs, use "governmental conflict," "conflict over government," and "territorial conflict" rather than making "capture the center" or similar shorthand the major thrust. Plain-language paraphrase may clarify, but it must stay subordinate to the source terminology.

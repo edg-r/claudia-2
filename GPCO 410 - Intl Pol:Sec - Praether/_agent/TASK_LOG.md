@@ -2,6 +2,18 @@
 
 Record of major completed tasks. Read to avoid duplicate work.
 
+### 2026-04-29 — ORANGE Myanmar reading/context triage
+**Requested by:** Edgar
+**What was done:** Built a concise ranked reading/context list for the Myanmar ORANGE memo, prioritizing the actual prompt, Ali/Praether feedback, Cederman, Walter, the kickoff architecture, Myanmar fact-check brief, and Powell as limited vocabulary. Checked the macro rewrite, recent dispatches, assignment database row, prompt, notes, course memory, and SOPs before writing.
+**Output:** `edgar/orange_memo_myanmar_reading_context.md`
+**Notes:** ASSIGNMENTS.md updated with the Apr 29 11:00am deadline and live macro rewrite path. Final submission pass should protect macro theory application, footnote-only citations, under-950-word discipline, and grader-facing AI disclosure.
+
+### 2026-04-27 — ORANGE Myanmar macro rewrite
+**Requested by:** Edgar
+**What was done:** Rewrote the Myanmar ORANGE memo from the final review draft into a shorter macro-level version using the requested Intro / Context / Theory / Conclusion structure and the Blue Memo's direct theory-application style. Removed em dashes, avoided specific constitution article references, tightened body text to 617 words, kept citations visible, and included only a grader-facing AI disclosure.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/Orange_Memo_Myanmar_MACRO_REWRITE.docx`
+**Notes:** Originals preserved. Rendered with the Documents skill artifact renderer and visually checked as a clean 3-page DOCX. Logged Edgar's macro-over-micro/no-em-dash correction in Athena FEEDBACK.
+
 ### 2026-04-27 — Class 9 Walter Ch. 2 one-page summary
 **Requested by:** Edgar
 **What was done:** Identified Monday Apr 27, 2026 as GPCO 410 Class 9, "Why So Few Negotiated Settlements in Civil Wars," assigned Barbara F. Walter's *Committing to Peace*, Chapter 2, pp. 19-43. Created a concise class-prep summary focused on the credible-commitment logic, demobilization vulnerability, power sharing, and third-party guarantees.
@@ -204,3 +216,14 @@ Record of major completed tasks. Read to avoid duplicate work.
 **Output:** `/Users/edgar/Documents/01 Projects/Claudia/GPCO 410 - Intl Pol:Sec - Praether/Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md`
 
 **Notes:** Six decisions returned to Edgar before drafting can start: (1) thesis direction — component-level diagnosis of what Polity measures [default lean], cross-dataset triangulation with V-Dem/Freedom House, or bridge back to Orange's commitment-problem thesis with one-sentence (c) bridge; (2) codebook page cites for `xconst=7` and `parcomp=4` from `p5manualv2018.pdf`; (3) V-Dem or Freedom House triangulation only if §4 needs it; (4) `change`/`d5`/`sf` flag audit; (5) post-2018 framing of 2021 coup as measurement stress test, or stay strictly in window; (6) confirm 3-page cap per Praether convention from FEEDBACK.md 2026-04-14. Drafting scheduled for Sun Apr 26 11:00-13:00 on Learning calendar.
+### 2026-04-28 — Added iterative file naming convention
+**Requested by:** Edgar
+**What was done:** Added a cross-workspace SOP for software-style versioned filenames after reviewing the ORANGE Myanmar memo folder's confusing state-only suffixes.
+**Output:** `_claudia/sop/iterative-file-naming.md`
+**Notes:** Future Athena memo drafts should use version numbers as the ordering truth and channel suffixes only to describe artifact role.
+
+### 2026-04-28 — ORANGE Myanmar Cederman-only revision
+**Requested by:** Edgar
+**What was done:** Revised the live Myanmar memo into a versioned Cederman/Hug/Krebs-only draft, removed Walter and Powell from the body and footnotes, and named Aung San Suu Kyi and Senior General Min Aung Hlaing as the main actors in the Blue memo style.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/Orange_Memo_Myanmar_v3.0.0_working_cederman-only.docx`
+**Notes:** Rendered with the Documents skill artifact renderer and visually checked. Body word count is 569 after preserving Edgar's recent cuts and removing redundant theory machinery.

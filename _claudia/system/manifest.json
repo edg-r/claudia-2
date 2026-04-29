@@ -1,18 +1,23 @@
 {
   "name": "Claudia",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "AI orchestrator for Edgar's UCSD GPS graduate workspace",
   "term": "Spring 2026",
   "database": "_claudia/claudia.db",
-  "orchestrator": "Claudia (CLAUDE.md)",
+  "orchestrator": "Claudia",
+  "orchestrator_source": "_claudia/system/CLAUDIA.md",
+  "orchestrator_legacy": "CLAUDE.md",
+  "orchestrator_legacy_status": "deprecated compatibility pointer only",
   "bootstrap": "AGENTS.md",
+  "codex_workflow": "_claudia/system/CODEX_WORKFLOW.md",
+  "agent_definitions_dir": "_claudia/agent_definitions/",
   "agents": [
     {
       "name": "Atlas",
       "type": "utility",
       "role": "Deep research, literature review, cross-class synthesis",
       "model": "opus",
-      "definition": ".claude/agents/atlas.md",
+      "definition": "_claudia/agent_definitions/atlas.md",
       "memory": "_claudia/agents/atlas/"
     },
     {
@@ -20,7 +25,7 @@
       "type": "utility",
       "role": "HR -- creates and briefs new agents",
       "model": "opus",
-      "definition": ".claude/agents/hermes.md",
+      "definition": "_claudia/agent_definitions/hermes.md",
       "memory": "_claudia/agents/hermes/"
     },
     {
@@ -28,7 +33,7 @@
       "type": "utility",
       "role": "Knowledge base, cross-class queries, SQLite, file index",
       "model": "sonnet",
-      "definition": ".claude/agents/mnemosyne.md",
+      "definition": "_claudia/agent_definitions/mnemosyne.md",
       "memory": "_claudia/agents/mnemosyne/"
     },
     {
@@ -36,7 +41,7 @@
       "type": "utility",
       "role": "Coding and implementation -- scripting, HTML/CSS/JS, Python, SQL",
       "model": "sonnet",
-      "definition": ".claude/agents/hephaestus.md",
+      "definition": "_claudia/agent_definitions/hephaestus.md",
       "memory": "_claudia/agents/hephaestus/"
     },
     {
@@ -44,7 +49,7 @@
       "type": "utility",
       "role": "Dispatch -- daily briefings, weekly summaries, recurring reports",
       "model": "haiku",
-      "definition": ".claude/agents/eos.md",
+      "definition": "_claudia/agent_definitions/eos.md",
       "memory": "_claudia/agents/eos/"
     },
     {
@@ -52,7 +57,7 @@
       "type": "utility",
       "role": "Cross-course writing and style -- line editing, developmental feedback, word-choice consultation (Strunk & White lineage)",
       "model": "opus",
-      "definition": ".claude/agents/calliope.md",
+      "definition": "_claudia/agent_definitions/calliope.md",
       "memory": "_claudia/agents/calliope/"
     },
     {
@@ -60,7 +65,7 @@
       "type": "course",
       "role": "GPCO 403 -- International Economics (Handley)",
       "model": "sonnet",
-      "definition": ".claude/agents/plutus.md",
+      "definition": "_claudia/agent_definitions/plutus.md",
       "memory": "GPCO 403 - Intl Econ - Handley/_agent/",
       "course": "GPCO 403"
     },
@@ -69,7 +74,7 @@
       "type": "course",
       "role": "GPCO 410 -- International Politics & Security (Praether)",
       "model": "sonnet",
-      "definition": ".claude/agents/athena.md",
+      "definition": "_claudia/agent_definitions/athena.md",
       "memory": "GPCO 410 - Intl Pol:Sec - Praether/_agent/",
       "course": "GPCO 410"
     },
@@ -78,7 +83,7 @@
       "type": "course",
       "role": "GPEC 446 -- Quantitative Methods 3 (Valasquez)",
       "model": "sonnet",
-      "definition": ".claude/agents/tyche.md",
+      "definition": "_claudia/agent_definitions/tyche.md",
       "memory": "GPEC 446 - QM3 - Valasquez/_agent/",
       "course": "GPEC 446"
     },
@@ -87,7 +92,7 @@
       "type": "course",
       "role": "GPPS 444 -- History of Warfare (Thomas)",
       "model": "sonnet",
-      "definition": ".claude/agents/ares.md",
+      "definition": "_claudia/agent_definitions/ares.md",
       "memory": "GPPS 444 - History of Warfare - Thomas/_agent/",
       "course": "GPPS 444"
     },
@@ -96,7 +101,7 @@
       "type": "course",
       "role": "GPPS 463 -- Politics of Southeast Asia (Ravanilla)",
       "model": "sonnet",
-      "definition": ".claude/agents/poseidon.md",
+      "definition": "_claudia/agent_definitions/poseidon.md",
       "memory": "GPPS 463 - Pol SEA - Ravanilla/_agent/",
       "course": "GPPS 463"
     }
@@ -130,6 +135,7 @@
     {"name": "output-disclosure", "file": "_claudia/sop/output-disclosure.md", "description": "Every output ends with disclosure block"},
     {"name": "agent-memory", "file": "_claudia/sop/agent-memory.md", "description": "All agents maintain persistent memory files"},
     {"name": "agent-onboarding", "file": "_claudia/sop/agent-onboarding.md", "description": "New agents provisioned with required files before activation"},
-    {"name": "apa7-citations", "file": "_claudia/sop/apa7-citations.md", "description": "All outputs referencing academic sources must include APA 7 formatted references"}
+    {"name": "apa7-citations", "file": "_claudia/sop/apa7-citations.md", "description": "All outputs referencing academic sources must include APA 7 formatted references"},
+    {"name": "iterative-file-naming", "file": "_claudia/sop/iterative-file-naming.md", "description": "Versioned naming convention for drafts and other iterated files"}
   ]
 }

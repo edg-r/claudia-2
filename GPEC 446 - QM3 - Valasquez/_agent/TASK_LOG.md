@@ -4,6 +4,45 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 <!-- No entries yet. Append new tasks below this line. -->
 
+### 2026-04-27 — HW1 Codex script-only Q1-Q6 output placement
+**Requested by:** Edgar
+**What was done:** Removed `Homework_1_Codex.Rmd` from `Assignments/Homework 1 - codex/` and reorganized `Homework_1_Codex.R` so Q1-Q2, Q3, and Q4-Q5 tables/figures render immediately after the code that creates their underlying objects. Added standalone HTML table exports for the Q1-Q2 descriptive table, Q3 city regressions, and Q4-Q5 New Orleans models. Left Questions 7 onward unchanged pending Edgar feedback.
+**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 1 - codex/Homework_1_Codex.R`; `table_q12.html`; `table_q3.html`; `table_q5.html`
+**Notes:** `Rscript Homework_1_Codex.R` completed successfully. The Q3 plot still emits the pre-existing ggplot missing-value warnings for 93 rows.
+
+## 2026-04-22 — Week 4 DiD reading 1-pager
+No class today (T/Th schedule). Next session Thu 2026-04-23 = Week 4 Panel Data Basics. Suggested reading per syllabus: *Mastering 'Metrics* Ch. 5 (DiD) + Wooldridge Ch. 13. Wooldridge is not in the workspace, so produced a BLUF 1-pager for Ch. 5 only using `_claudia/skills/memo-summarizer.md`. Anchored to the two running cases (Caldwell banking DiD, ~19 banks saved; multistate MLDA panel, ~11 deaths/100k). Covered 4-number DiD, regression DiD with treat+post+interaction, multistate extension with state+year FE, common-trends assumption, and state-specific linear trend robustness. Saved to Study Guides since no Week 5 / Panel folder exists yet.
+
+- **Deliverable:** `/Users/edgar/Documents/01 Projects/Claudia/GPEC 446 - QM3 - Valasquez/Study Guides/mastering_metrics_ch5_dd_1pager.md`
+
+## 2026-04-20 — HW1 regression tables rebuilt after voice-pass breakage
+The voice-pass / track-change acceptance pipeline flattened all four stargazer HTML regression tables in `HW1_Agunias.docx` into stacks of one-cell-per-paragraph text blobs (coefficients and SEs preserved as standalone paragraphs but no table structure). Edgar's voice-edited prose was clean; only tables were broken. Took the OOXML-replacement path rather than the knit-and-merge path because knit-and-merge risked reverting the voice edits. Backed up the broken version as `HW1_Agunias_brokenTables.docx`, then wrote `rebuild_tables.py` using `python-docx`: (1) defined the 4 tables as Python structures with coefficients/SEs copied verbatim from the flattened paragraphs (which preserved stargazer numbers), (2) located each broken paragraph range by anchor-text matching (title -> last note line; had to normalize non-breaking spaces), (3) built proper Word tables with merged title + merged notes + single-line black borders via manual OOXML (`apply_borders` because the doc had no `Table Grid` style), (4) inserted the new table before the broken-range start and removed the flattened paragraphs. Also wrote `export_tables.R` as an archival standalone stargazer HTML export (`table_q3.html`, `table_q5.html`, `table_q79.html`, `table_q11.html`) and ran it to confirm the coefficients in the rebuilt docx match freshly-computed stargazer output (0.067***, -0.403, -6.033, 21.488*** for Q11; -0.333/-0.411/-0.455/-0.339 for Q3; etc.). Final docx has 6 tables: 4 new regression tables + original kable open-question table + original code-understanding table. Both figures (`city_poverty_mobility.png`, `urban_density_deciles.png`) still embedded. All 8 voice-prose markers verified intact.
+
+- **Final deliverable:** `/Users/edgar/Documents/01 Projects/Claudia/GPEC 446 - QM3 - Valasquez/Assignments/Homework 1/HW1_Agunias.docx`
+- **Scripts:** `rebuild_tables.py` (OOXML surgery) and `export_tables.R` (stargazer HTML archival)
+- **HTML exports:** `table_q3.html` `table_q5.html` `table_q79.html` `table_q11.html`
+- **Backups preserved:** `HW1_Agunias_ORIGINAL.docx`, `HW1_Agunias_TRACKED.docx`, `HW1_Agunias_brokenTables.docx`
+- **Lesson for future voice-pass runs:** stargazer HTML tables do not round-trip through track-change acceptance pipelines intact. Either knit directly to Word with `output: word_document` up front, or rebuild tables post-hoc via `python-docx` OOXML surgery. The broken-paragraphs failure mode is recoverable because stargazer still writes the numbers as plain text.
+
+## 2026-04-20 — HW1 rewritten in Lab 1 / Lab 2 style
+Edgar asked for HW1 code to mirror the Friday labs (which were scaffolding for HW1). Rewrote both `HW1_Agunias.R` and `HW1_Agunias.Rmd` to match the Vargas lab house style: banner comment headers, section-numbered blocks with `# ---` dividers, `stargazer()` for every regression table (instead of `kable()`), explicit `reg_short` / `reg_long` / `aux_reg` / `ovb_formula` naming from Lab 2 §2b–§2e, OVB verification block with sign-table commentary, and Lab 2 §2h `ggplot + geom_smooth` scatter faceted by city. Also addressed the two open issues from the prior pass: (1) swapped the manual 2SLS for `AER::ivreg()` so standard errors are correct (manual SE 3.7916 vs ivreg SE 3.7582 — same point estimate -6.0332); (2) audited FIPS construction and confirmed tract/county/state values fit 6/3/2 digits with no overflow, so the `sprintf("%02d%03d%06d", ...)` pattern is safe (also added a `stopifnot(nchar(fips) == 11L)` guard). Backed up originals to `HW1_Agunias_preLabStyle.R/.Rmd`. Re-knit the Rmd to both HTML and Word to refresh `HW1_Agunias.docx`.
+
+- **Deliverables:**
+  - `/Users/edgar/Documents/01 Projects/Claudia/GPEC 446 - QM3 - Valasquez/Assignments/Homework 1/HW1_Agunias.R` (lab-style rewrite)
+  - `/Users/edgar/Documents/01 Projects/Claudia/GPEC 446 - QM3 - Valasquez/Assignments/Homework 1/HW1_Agunias.Rmd`
+  - `/Users/edgar/Documents/01 Projects/Claudia/GPEC 446 - QM3 - Valasquez/Assignments/Homework 1/HW1_Agunias.docx` (re-knit from Rmd)
+  - Backups: `HW1_Agunias_preLabStyle.R` and `HW1_Agunias_preLabStyle.Rmd` (pre-rewrite reference)
+- **Numbers reproduced (all match pre-rewrite):** NO tract 22071012102; city mean $30,615; city SD $8,114; state SD $7,155; beta_short -0.3387, beta_long -0.2189, pi_1 0.0179, gamma -6.7043, predicted OVB -0.1201, actual change -0.1198; national pooled OLS poverty -0.293, CZ FE poverty -0.260, race -3.31 -> -5.61; first stage 0.0668, reduced form -0.4031, 2SLS -6.033.
+- **Lab patterns applied:** Q3 Lab 2 §2h geom_smooth facet + stargazer multi-column by city; Q4–Q5 Lab 2 §2b–§2f short/long/interaction with aux_reg OVB verification; Q6 Lab 2 §3 simultaneity/endogeneity discussion; Q7–Q9 stargazer with `add.lines` manual FE-indicator row; Q10–Q11 Lab 2 §3e IV diagnosis + ivreg syntax.
+
+## 2026-04-20 — HW1 polished Word deliverable from Codex draft
+Edgar requested a cleaner Word-document version of QM3 Homework 1 starting from the Codex-assisted working draft. Workflow: copied the canonical R code (`Homework_1_Codex.R` and `Homework_1_Codex.Rmd`) and the two exported figures from `Assignments/Homework 1 - codex/` into the original `Assignments/Homework 1/` folder, re-renamed as `HW1_Agunias.R` / `HW1_Agunias.Rmd`. Re-ran the analysis end-to-end via `Rscript /tmp/analysis.R` to verify numbers, then built `HW1_Agunias.docx` with `python-docx`, embedding both exported PNGs and four clean regression tables (New Orleans M3/M4/M5, national pooled vs CZ FE, urban/rural density proxy, manual 2SLS). Prose rewritten in Edgar's voice with no emdashes and no "it's not X, it's Y" framing. Codex folder left intact as backup.
+
+- **Deliverable:** `/Users/edgar/Documents/01 Projects/Claudia/GPEC 446 - QM3 - Valasquez/Assignments/Homework 1/HW1_Agunias.docx` (1.3 MB, 3 parts plus code-understanding appendix and AI + output disclosures).
+- **Canonical code location:** `Assignments/Homework 1/HW1_Agunias.R` (script) and `HW1_Agunias.Rmd` (knittable companion).
+- **Numerical anchors verified:** NO tract 22071012102 p25 mobility = $72,747; NO mean = $30,615; NO SD = $8,114; LA state SD = $7,155; city slopes LA -0.334, NYC -0.411, Chicago -0.455, NO -0.339; OVB predicted bias -0.120 matches actual change -0.120; national CZ-FE poverty coef -0.260 (vs -0.293 pooled), race coef -5.61 (vs -3.31 pooled); first stage coef 0.067, reduced form -0.40, manual 2SLS -6.03 weeks.
+- **Codex code audit:** clean. Two pedagogical notes for future refinement: (1) manual 2SLS understates SEs because the second-stage regression uses fitted values as if they were observed data, so packaged `AER::ivreg` would give slightly larger standard errors; (2) the `tract_code`/`fips` construction uses `tract` as if it were already the 6-digit census tract number, which it appears to be in this dataset, but worth double-checking before submission if the instructor wants a specific FIPS format.
+
 ## 2026-04-16 — Built QM3_L6_IV2_Reference.pdf (single-lecture reference)
 Produced a standalone reference PDF for Lecture 6 (Instrumental Variables II) in the style of the master `QM3_Lectures_Reference_Manual.pdf`. Source slides `QM3_L6_IV2.pdf` dropped in `inbox/`; filed into `W4 - Instrumental Variables/` (same folder as L5 since both are IV).
 
@@ -100,3 +139,62 @@ Edgar dropped `QM3_L6_IV2.pdf` in `inbox/`. Built a standalone single-lecture re
 
 ## 2026-04-16 (night) — IV conceptual tutoring thread (chat-only, no files)
 Eight-turn tutoring conversation sharpening Edgar's IV intuition across ITT, LATE and the four compliance types (complier/always-taker/never-taker/defier), Wald estimator ("apples-to-apples" framing), four AIR assumptions, first-stage mechanics as Wald denominator and complier share under monotonicity, weak-first-stage consequences (noise amplification, exclusion-violation amplification, bias-toward-OLS trap, Bound/Jaeger/Baker critique, Staiger-Stock F>10 threshold vs Lee et al. 2022 F>104.7, weak-IV-robust inference), demeaning as reparameterization (IQ/earnings/women example from manual pp. 13-14, panel within-transformation for unit FE), and CIA + common support anchored in Dale-Krueger §3.6-3.7 plus Rosenbaum-Rubin theorem and Sekhon test framing. No files generated. Method pattern captured in AGENT_CONTEXT under "Confirm-Then-Sharpen".
+
+### 2026-04-19 — Homework 1 dispatch stalled (twice)
+**Requested by:** Claudia
+**What was done:** Two dispatch attempts to complete GPEC 446 Homework 1 end-to-end (Opportunity Atlas regressions + OVB + interaction + CZ fixed effects + urban/rural open question + manual 2SLS on AER::Fertility2 + Code Understanding section). First run on sonnet stalled at 600s with no tool calls completed. Second run on opus stalled at 600s with no tool calls completed. Stream idle timeout in both cases.
+**Output:** none - no files landed on disk.
+**Notes:** Claudia pivoted to Hephaestus, who also stalled after ~9 minutes and 12 tool calls without producing files. Homework 1 folder at `GPEC 446 - QM3 - Valasquez/Assignments/Homework 1/` currently holds only instructions docx + raw atlas.csv. Due Sat 2026-04-25. Next attempt should use phased sub-three-minute dispatches rather than a single end-to-end build (see `project_subagent_stream_timeouts_2026-04-19.md` in Claudia memory). Edgar also clarified that the Code Understanding Sufficiency Test section does get a full AI draft as a starting point, marked for his own-voice rewrite, rather than a blank placeholder (see `feedback_ai_forbidden_sections.md`).
+
+### 2026-04-20 — Homework 1 Codex copy + full draft attempt
+**Requested by:** Edgar
+**What was done:** Copied `Homework_1_Instructions.docx` and `atlas.csv` into `Assignments/Homework 1 - codex/`, then built a full assignment draft covering the Opportunity Atlas descriptive questions, four-city poverty regressions, New Orleans OVB and interaction models, commuting-zone fixed effects, an urban-density open-question section, manual 2SLS with `AER::Fertility2`, and a draft code-understanding section.
+**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 1 - codex/Homework_1_Codex.Rmd`, `GPEC 446 - QM3 - Valasquez/Assignments/Homework 1 - codex/Homework_1_Codex.R`, plus figure exports `city_poverty_mobility.png` and `urban_density_deciles.png`
+**Notes:** `rmarkdown::render()` could not produce HTML/PDF in this environment because `pandoc` is not installed. The `.R` script runs successfully; the `.Rmd` is ready to knit once `pandoc` is available. Chosen city for Q1-Q2 and Q4-Q5 is New Orleans; selected tract is `22071012102`. Key results: poverty slope negative in all four cities; OVB prediction matches the observed New Orleans coefficient change closely; commuting-zone FE attenuate the poverty slope slightly but strengthen the majority-non-white association; top-density tracts do not outperform bottom-density tracts on average in mobility.
+
+### 2026-04-20 — HW1 Phase 1: scaffolded working Rmd
+**Requested by:** Claudia (phased approach after 2026-04-19 stalls)
+**What was done:** Phase-1 scaffolding only, no analyses run. Converted `Homework_1_Instructions.docx` via `textutil`, peeked at `atlas.csv` (73,278 rows × 47 cols), and wrote `HW1_working.Rmd` with YAML header, setup chunk, problem-by-problem outline (Q1-Q11 + Code Understanding section), approach sketches, expected signs, and seven ambiguity flags for Edgar to resolve before Phase 2. Chose `.Rmd` over `.md` because the prompt requires a knitted PDF.
+**Output:** `/Users/edgar/Documents/01 Projects/Claudia/GPEC 446 - QM3 - Valasquez/Assignments/Homework 1/HW1_working.Rmd`
+**Key findings surfaced to Edgar:** due Sat 2026-04-25 at midnight, 25 graded points + ungraded Code Understanding section, 11 problems. Mechanical: Q2, Q3, Q4 computation, Q5, Q7, Q8b, Q10-Q11. Conceptual: Q1, Q4 OVB reasoning, Q6, Q8a, Q9 open question. Recommended sequencing: Q1→Q2 (pick city + tract first, unlocks Q4), Q3 (all four cities), Q4→Q5 (same city), Q6 (prose), Q7→Q8 (CZ FE on full data), Q10→Q11 (separate dataset, can run in parallel), Q9 open question last (highest point density, needs polish), Code Understanding very last.
+
+### 2026-04-20 — HW1 Full Pipeline: Codex Intake → Lab-Style Rewrite → Table Rebuild
+**Requested by:** Claudia (on Edgar's instruction)
+**What was done:** Four sequential passes on QM3 Homework 1. (1) Consolidated the "codex" branch into the canonical HW1 folder: moved `HW1_Agunias.R/.Rmd` and figures, produced `HW1_Agunias.docx` with polished prose, preserved codex folder as backup. Flagged manual 2SLS SE issue and FIPS sanity-check need. (2) Cross-referenced HW1 against Lab 1/Lab 2 code: Q3/Q4 are near-verbatim lab extensions (highest study ROI); Q5 interactions, Q7 fixed effects, Q8 deciles, Q9 manual IV are lab gaps; Q9 is the biggest gap since labs defer IV entirely. Corrected the reading-effort estimate from 386 raw slide-pages to ~244 needed (L2/L3/L4/L5 only), realistic total ~10-14 hrs. Corrected deadline to Sat Apr 25 midnight. (3) Rewrote the entire R/Rmd to mirror Vargas lab house style: banner comment header, `# ---` dividers, stargazer multi-model tables with exact lab parameter pattern (`column.labels`, `covariate.labels`, `omit.stat`), Lab 2 vocabulary (`reg_short`, `reg_long`, `aux_reg`, `pi_1`, `gamma_hat`, `ovb_formula`), the `cat()` sign-check block from Lab 2 §2e. Swapped manual 2SLS for `AER::ivreg()` (same point estimate -6.033, correct SE 3.758 vs manual 3.792). Verified FIPS across all 73,278 rows with `stopifnot(nchar(fips)==11L)` guard. All numerical results reproduced exactly. Re-knit docx + HTML. Backed up prior versions as `_preLabStyle`. (4) After Calliope's voice pass + Hephaestus's track-accept, the stargazer HTML-in-docx had been flattened to plain paragraphs. Took the OOXML-table-replacement path (not re-knit) to preserve voice-edited prose: wrote `rebuild_tables.py` to locate flattened tables by anchor text, build real Word tables with merged title/notes rows and single-line borders via python-docx, remove broken paragraphs. `export_tables.R` produced archival HTML + served as coefficient cross-check. All coefficients match stargazer re-export exactly. Both figures preserved. All 8 voice-edit prose markers verified intact.
+**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 1/HW1_Agunias.docx` (final canonical); `HW1_Agunias.R`, `.Rmd`, `.html`; `rebuild_tables.py`; `export_tables.R`; four stargazer HTML exports; backups `HW1_Agunias_preLabStyle.R/.Rmd`, `HW1_Agunias_ORIGINAL.docx`, `HW1_Agunias_TRACKED.docx`, `HW1_Agunias_brokenTables.docx`.
+**Notes:** Pipeline lesson — when a voice-edit pass sits between Rmd knit and final delivery, stargazer HTML tables can flatten into paragraphs during track-accept. Two prevention paths: (a) knit with `output: word_document` so stargazer lands native Word tables from the start, or (b) run `rebuild_tables.py` on any freshly-knit-then-edited docx. The OOXML-replacement path is the safer fallback because it preserves prose edits intact. Code-and-docx pipelines should default to the word_document knit target going forward.
+
+### 2026-04-22 — Mastering 'Metrics Ch. 5 DiD 1-pager
+**Requested by:** Edgar (ahead of Thu 4/23 session; no class Wed)
+**What was done:** Produced BLUF-format 1-pager on Ch. 5 (DiD) per `_claudia/skills/memo-summarizer.md`. Anchored to Caldwell banking DiD (~19 banks saved) and multistate MLDA panel (~11 deaths/100k). Covered 4-number DiD, regression DiD with treat+post+interaction, state+year FE extension, common-trends assumption, and state-specific linear trend robustness. Flagged Wooldridge Ch. 13 as missing from the workspace.
+**Output:** `GPEC 446 - QM3 - Valasquez/Study Guides/mastering_metrics_ch5_dd_1pager.md`
+
+### 2026-04-27 — Homework 1 Codex R export cleanup
+**Requested by:** Edgar
+**What was done:** Updated `Assignments/Homework 1 - codex/Homework_1_Codex.R` so all later homework outputs are exported, not just printed. Added PNG saves for the two figures, standalone HTML exports for Q4 OVB, Q7-Q9 fixed effects, the open-question table, the manual IV table, and the Code Understanding glossary; also cleaned open-question tract-count formatting.
+**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 1 - codex/Homework_1_Codex.R`, plus generated HTML/PNG outputs in the same folder.
+**Notes:** `Rscript Homework_1_Codex.R` runs successfully. The manual IV section intentionally follows the prompt's fitted-values instruction; standard errors are the manual-regression standard errors rather than corrected `ivreg()` standard errors.
+
+### 2026-04-27 — Homework 1 compiled Markdown answers
+**Requested by:** Edgar
+**What was done:** Created a standalone Markdown document compiling answers to all Homework 1 questions, using bracketed labels for generated tables and figures instead of embedding the artifacts.
+**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 1 - codex/Homework_1_Answers_Compiled.md`
+**Notes:** Includes the Q5 interaction interpretation that the `-0.442` poverty slope applies to majority-white tracts and the majority-non-white implied slope is `-0.136`.
+
+### 2026-04-27 — Homework 1 compiled Markdown image embeds
+**Requested by:** Edgar
+**What was done:** Replaced the two generated PNG placeholders in the compiled Homework 1 Markdown answers with relative Markdown image embeds, while leaving the existing HTML table references and prose unchanged.
+**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 1 - codex/Homework_1_Answers_Compiled.md`
+**Notes:** Embedded `city_poverty_mobility.png` and `urban_density_deciles.png` from the same folder.
+
+### 2026-04-28 — Homework 1 Codex table and open-question regression cleanup
+**Requested by:** Edgar
+**What was done:** Standardized Homework 1 Codex regression-table exports, converted Q7-Q9 and IV outputs to compact stargazer-style HTML, added an open-question urban/rural proxy regression, and revised the compiled Markdown answer to use the regression table as the single Open Question table. Removed stale package references after dropping `knitr`, `kableExtra`, and `broom` from the script.
+**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 1 - codex/Homework_1.R`, `Homework_1_Answers_Compiled.md`, `README.md`, and regenerated table HTML outputs.
+**Notes:** Open Question now interprets the fixed-effects urban proxy coefficient (`-1.441`, about $1,441 lower predicted mobility), majority-non-white coefficient (`-5.295`), and poverty coefficient (`-0.218`) from the regression table only. `Rscript Homework_1.R` should be the current run command.
+
+### 2026-04-28 — Syllabus extraction refresh
+**Requested by:** Claudia
+**What was done:** Refreshed the GPEC 446 syllabus extraction artifact from `QM3_Syllabus.pdf` and read-only `claudia.db` assignment/readings rows, including assignments, labs/sections, weekly readings, AI/coding/written-explanation policy, and DB normalization notes.
+**Output:** `GPEC 446 - QM3 - Valasquez/Course Admin/syllabus_extracted.md`
+**Notes:** Recommended DB fixes: reading rows 16 and 17 should use Mastering 'Metrics Ch. 5, not Ch. 4; reading row 19 should use Ch. 4, not Ch. 5. Homework II and Data Project deadlines remain inferred until Canvas/project instructions verify exact due dates and submission channels.

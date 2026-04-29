@@ -13,3 +13,4 @@ This folder contains procedures and standards that **all agents** in the Claudia
 - [agent-memory.md](agent-memory.md) — All agents must maintain persistent memory files (context, feedback, task log) and update them after tasks and feedback
 - [agent-onboarding.md](agent-onboarding.md) — New agents must be provisioned with all required memory files before activation
 - [apa7-citations.md](apa7-citations.md) — All outputs referencing academic sources must include APA 7th edition formatted references
+- [iterative-file-naming.md](iterative-file-naming.md) — Versioned naming convention for drafts and other iterated files

@@ -12,7 +12,7 @@ This SOP is distinct from `output-disclosure.md`. That SOP covers agent-to-Edgar
 
 ## Source Framing
 
-The language is grounded in Anthropic's Usage Policy, which prohibits users from plagiarizing "or submit AI-assisted work without proper permission or attribution" and which assigns the user responsibility for "the accuracy and appropriateness" of AI-generated content. UCSD and the Graduate School of Global Policy and Strategy do not prescribe a campus-wide student disclosure template as of April 2026. The Academic Integrity Office directs students to follow the instructor's course-level AI policy. Edgar's disclosure must therefore be compatible with any instructor policy stated in the syllabus. If a syllabus forbids AI use for a given assignment, no disclosure is sufficient, and the agent pipeline should not be used for that assignment at all.
+The language is grounded in the general academic-integrity principle that AI-assisted work must not be submitted without proper permission, attribution, and author review. UCSD and the Graduate School of Global Policy and Strategy do not prescribe a campus-wide student disclosure template as of April 2026. The Academic Integrity Office directs students to follow the instructor's course-level AI policy. Edgar's disclosure must therefore be compatible with any instructor policy stated in the syllabus. If a syllabus forbids AI use for a given assignment, no disclosure is sufficient, and the agent pipeline should not be used for that assignment at all.
 
 ## When the Disclosure Is Required
 
@@ -25,13 +25,13 @@ Attach the disclosure to any assignment submitted for a grade when any of the fo
 
 If the assignment's course policy forbids AI use, do not submit AI-assisted work. Disclosure does not cure a policy violation.
 
-If the assignment's course policy is silent on AI, default to attaching the disclosure. Silence is not permission, but transparent disclosure is the safer posture and is consistent with Anthropic's attribution requirement.
+If the assignment's course policy is silent on AI, default to attaching the disclosure. Silence is not permission, but transparent disclosure is the safer posture.
 
 ## Four Substantive Elements
 
 Every disclosure must cover all four of the following:
 
-1. **Tools used.** Name the model and the orchestrator. Example: "Claude Opus 4.6, accessed through the Claudia agent system (Anthropic)."
+1. **Tools used.** Name the model and the orchestrator. Example: "GPT-5, accessed through the Claudia agent system."
 2. **How they were used.** State the function honestly. Research, drafting, editing, proofreading, coding, analysis, translation, formatting. Be specific enough that the grader can judge the scope of assistance. Do not euphemize.
 3. **Author review and verification.** Affirm that Edgar personally read the final submission, verified factual claims and citations, and agrees with the content as his own considered work.
 4. **Acceptance of responsibility.** Affirm that Edgar accepts full intellectual and academic responsibility for the submission, including any errors.

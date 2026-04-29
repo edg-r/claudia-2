@@ -1,0 +1,382 @@
+---
+title: "GPEC 446 Homework 1"
+author: "Edgar Agunias"
+date: "2026-04-20"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+# Global knit options. Follows the Lab 1/Lab 2 convention of keeping echo on
+# (so the grader can see the code) and muting package chatter.
+knitr::opts_chunk$set(
+  echo    = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width  = 9,
+  fig.height = 6
+)
+
+library(AER)          # Fertility2 data and ivreg()
+library(tidyverse)    # dplyr + ggplot2 + readr
+library(stargazer)    # regression tables (Lab 1/Lab 2 convention)
+library(broom)        # tidy() for inline numbers in prose
+
+# Small formatting helper used inside prose (`r fmt_num(...)`)
+fmt_num <- function(x, digits = 2) {
+  formatC(x, format = "f", digits = digits, big.mark = ",")
+}
+```
+
+```{r data}
+# -----------------------------------------------------------------------------
+# Load and prepare the Opportunity Atlas tract data.
+# Mirrors Lab 1 §2 / Lab 2 §2a: read, inspect, build indicators + rescaled vars.
+# -----------------------------------------------------------------------------
+
+atlas_raw <- read_csv("atlas.csv", show_col_types = FALSE)
+
+atlas <- atlas_raw %>%
+  mutate(
+    # Indicator variable for tracts where the white share is below 50% (2000).
+    majority_non_white = as.numeric(share_white2000 < 0.5),
+    # Put poverty on a percentage-point scale so coefficients read as $1000/pp.
+    poverty_pp         = poor_share1990 * 100,
+    # Child income at p25 parents, rescaled to $1000s for coefficient readability.
+    mobility_k         = kfr_pooled_p25 / 1000,
+    # Build the 11-digit census tract FIPS (2 state + 3 county + 6 tract).
+    # All three components are integer-valued in this file (verified:
+    # tracts <= 999999, counties <= 999, states <= 99), so zero-pad and paste.
+    fips = sprintf("%02d%03d%06d",
+                   as.integer(state),
+                   as.integer(county),
+                   as.integer(tract))
+  )
+
+# Sanity check: every FIPS should be exactly 11 characters.
+stopifnot(all(nchar(atlas$fips) == 11L))
+
+# ---- Q1/Q2 setup: chosen city + highest-mobility tract ----
+chosen_city      <- "New Orleans"
+chosen_city_data <- atlas %>% filter(czname == chosen_city)
+
+chosen_tract <- chosen_city_data %>%
+  filter(!is.na(kfr_pooled_p25)) %>%
+  arrange(desc(kfr_pooled_p25)) %>%
+  slice(1)
+
+chosen_city_mean <- mean(chosen_city_data$kfr_pooled_p25, na.rm = TRUE)
+chosen_city_sd   <- sd(chosen_city_data$kfr_pooled_p25,   na.rm = TRUE)
+chosen_state_sd  <- atlas %>%
+  filter(state == chosen_tract$state) %>%
+  summarise(sd_state = sd(kfr_pooled_p25, na.rm = TRUE)) %>%
+  pull(sd_state)
+
+# ---- Q3 setup: four-city scatter + simple regressions ----
+cities    <- c("Los Angeles", "New York", "Chicago", "New Orleans")
+city_data <- atlas %>% filter(czname %in% cities)
+
+reg_la  <- lm(mobility_k ~ poverty_pp, data = filter(atlas, czname == "Los Angeles"))
+reg_ny  <- lm(mobility_k ~ poverty_pp, data = filter(atlas, czname == "New York"))
+reg_chi <- lm(mobility_k ~ poverty_pp, data = filter(atlas, czname == "Chicago"))
+reg_no  <- lm(mobility_k ~ poverty_pp, data = filter(atlas, czname == "New Orleans"))
+
+# ---- Q4/Q5 setup: short / long / interaction on New Orleans ----
+# Naming follows Lab 2 §2b–§2e exactly.
+no_data   <- atlas %>% filter(czname == "New Orleans")
+reg_short <- lm(mobility_k ~ poverty_pp,                      data = no_data)  # Model 3
+reg_long  <- lm(mobility_k ~ poverty_pp + majority_non_white, data = no_data)  # Model 4
+reg_intx  <- lm(mobility_k ~ poverty_pp * majority_non_white, data = no_data)  # Model 5
+
+# OVB decomposition (Lab 2 §2e): pi_1 from the auxiliary regression.
+aux_reg <- lm(majority_non_white ~ poverty_pp, data = no_data)
+
+beta_short <- coef(reg_short)[["poverty_pp"]]
+beta_long  <- coef(reg_long)[["poverty_pp"]]
+pi_1       <- coef(aux_reg)[["poverty_pp"]]
+gamma_hat  <- coef(reg_long)[["majority_non_white"]]
+
+ovb_actual  <- beta_short - beta_long
+ovb_formula <- pi_1 * gamma_hat
+
+# ---- Q7–Q9 setup: national pooled OLS vs. CZ fixed effects ----
+reg_all    <- lm(mobility_k ~ poverty_pp + majority_non_white,              data = atlas)
+reg_all_fe <- lm(mobility_k ~ poverty_pp + majority_non_white + factor(cz), data = atlas)
+
+# ---- Open question: density deciles ----
+density_breaks <- quantile(atlas$popdensity2000, probs = seq(0, 1, 0.1),
+                           na.rm = TRUE)
+
+atlas_open <- atlas %>%
+  mutate(
+    density_decile = cut(popdensity2000, breaks = density_breaks,
+                         include.lowest = TRUE, labels = 1:10),
+    density_group = case_when(
+      popdensity2000 <= quantile(popdensity2000, 0.25, na.rm = TRUE) ~ "Rural proxy",
+      popdensity2000 >= quantile(popdensity2000, 0.75, na.rm = TRUE) ~ "Urban proxy",
+      TRUE ~ "Middle 50%"
+    )
+  )
+
+open_table <- atlas_open %>%
+  filter(density_group != "Middle 50%") %>%
+  group_by(density_group) %>%
+  summarise(
+    Tracts             = n(),
+    `Mean mobility ($)`  = mean(kfr_pooled_p25,   na.rm = TRUE),
+    `SD mobility ($)`    = sd(kfr_pooled_p25,     na.rm = TRUE),
+    `Mean poverty (pp)`  = mean(poverty_pp,       na.rm = TRUE),
+    `Mean white share (%)` = mean(share_white2000 * 100, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+urban_mean_mobility <- open_table %>%
+  filter(density_group == "Urban proxy") %>%
+  pull(`Mean mobility ($)`)
+
+rural_mean_mobility <- open_table %>%
+  filter(density_group == "Rural proxy") %>%
+  pull(`Mean mobility ($)`)
+
+open_deciles <- atlas_open %>%
+  filter(!is.na(density_decile)) %>%
+  group_by(density_decile) %>%
+  summarise(
+    mean_density  = mean(popdensity2000, na.rm = TRUE),
+    mean_mobility = mean(kfr_pooled_p25, na.rm = TRUE),
+    mean_poverty  = mean(poverty_pp,     na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# ---- Q10/Q11 setup: Angrist-Evans IV ----
+data("Fertility2")
+fertility2 <- Fertility2 %>%
+  mutate(
+    morekids_num = as.numeric(morekids == "yes"),
+    same_gender  = as.numeric(gender1 == gender2)
+  )
+
+# Three-step IV (for teaching clarity) + ivreg() for correct SEs.
+iv_first_stage  <- lm(morekids_num ~ same_gender, data = fertility2)
+iv_reduced_form <- lm(work         ~ same_gender, data = fertility2)
+fertility2 <- fertility2 %>% mutate(morekids_hat = fitted(iv_first_stage))
+iv_second_stage <- lm(work ~ morekids_hat, data = fertility2)
+iv_aer          <- ivreg(work ~ morekids_num | same_gender, data = fertility2)
+```
+
+# Opportunity Atlas
+
+## 1. Descriptive statistics
+
+I chose **New Orleans** on the Opportunity Atlas map. The most striking pattern is clustering: high-opportunity tracts are bunched together, and low-opportunity tracts are bunched together, rather than being randomly scattered across the metro area. There is also **large variation** in income outcomes across nearby neighborhoods, which suggests that where a child grows up inside the same commuting zone is strongly associated with later-life income.
+
+## 2. One tract within the selected city
+
+For the tract comparison I selected tract **`r chosen_tract$fips`** in the New Orleans commuting zone. In `atlas.csv`, that tract has estimated upward mobility of **$`r fmt_num(chosen_tract$kfr_pooled_p25, 0)`** for children whose parents were at the 25th percentile.
+
+The commuting-zone average for the same group is **$`r fmt_num(chosen_city_mean, 0)`**, so this tract is about **$`r fmt_num(chosen_tract$kfr_pooled_p25 - chosen_city_mean, 0)`** above the city average. The standard deviation of `kfr_pooled_p25` across New Orleans tracts is **$`r fmt_num(chosen_city_sd, 0)`**, while the standard deviation across all Louisiana tracts is **$`r fmt_num(chosen_state_sd, 0)`**. Because the city-level standard deviation is larger than the statewide one, I learn that **within-city inequality in opportunity is especially large in New Orleans**: the city contains both very high-opportunity and very low-opportunity neighborhoods, so city averages hide substantial local heterogeneity.
+
+## 3. Poverty and upward mobility in the four cities
+
+```{r city-scatter, fig.cap="Tract poverty and upward mobility in four cities."}
+# Lab 2 §2h visualisation pattern: scatter + geom_smooth, faceted by city.
+ggplot(city_data, aes(x = poverty_pp, y = kfr_pooled_p25)) +
+  geom_point(alpha = 0.25, size = 1, colour = "#1f4e79") +
+  geom_smooth(method = "lm", se = FALSE, colour = "#b22222", linewidth = 1) +
+  facet_wrap(~ czname, scales = "free") +
+  labs(
+    title    = "Tract poverty and upward mobility, four cities",
+    subtitle = "Higher tract poverty is associated with lower mobility in all four cities",
+    x        = "Poverty rate in 1990 (percentage points)",
+    y        = "Child income for p25 parents ($)"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+```{r city-regs-table, results='asis'}
+# One simple regression per city, same shape as Lab 2 reg_short.
+stargazer(reg_la, reg_ny, reg_chi, reg_no,
+          type = "html",
+          title = "Poverty and Mobility: Simple Regressions by City",
+          column.labels = c("Los Angeles", "New York", "Chicago", "New Orleans"),
+          dep.var.labels = "Child Income at p25 ($1000s)",
+          covariate.labels = c("Poverty Rate 1990 (pp)"),
+          omit.stat = c("f", "ser"),
+          notes = c("One simple OLS per city.",
+                    "Coefficient = $1000 change in mobility per 1pp of poverty."))
+```
+
+The association is consistently negative across all four cities, but its strength varies. A 10 percentage point increase in tract poverty is associated with about **$`r fmt_num(10 * coef(reg_la)[['poverty_pp']], 2)`k** lower mobility in Los Angeles, **$`r fmt_num(10 * coef(reg_ny)[['poverty_pp']], 2)`k** in New York, **$`r fmt_num(10 * coef(reg_chi)[['poverty_pp']], 2)`k** in Chicago, and **$`r fmt_num(10 * coef(reg_no)[['poverty_pp']], 2)`k** in New Orleans. Chicago and New York show the steepest negative slopes, while Los Angeles and New Orleans are somewhat flatter. So the sign is stable, but the magnitude is not identical across cities.
+
+## 4. Omitted variable bias: racial composition
+
+I created `majority_non_white = 1` when `share_white2000 < 0.5`. The omitted-variable-bias logic follows the Lab 2 §2e–§2f sign table:
+
+1. **pi_1 > 0:** tracts with higher poverty are more likely to be majority non-white.
+2. **gamma < 0:** majority non-white tracts have lower mobility, conditional on poverty.
+3. **=> OVB < 0:** the short regression makes the poverty coefficient look **too negative**.
+
+Using New Orleans only, the simple ("short") model gives a poverty coefficient of **`r fmt_num(beta_short, 3)`** ($1000s of child income per 1pp of poverty). After controlling for `majority_non_white` in the "long" regression, it becomes **`r fmt_num(beta_long, 3)`**. The OVB formula predicts a bias of `pi_1 * gamma` = **`r fmt_num(ovb_formula, 3)`**, which matches the actual coefficient shift of **`r fmt_num(ovb_actual, 3)`** to within rounding. Once I control for racial composition the poverty slope becomes **less negative**, exactly as the sign table predicts.
+
+## 5. Interaction model and regression table
+
+The interaction model (Model 5) tests whether the poverty slope is steeper in majority non-white tracts. The interaction term is **positive**, not negative, so the data do **not** support the colleague's hypothesis for New Orleans. Poverty is negatively associated with mobility in both kinds of tracts, but the slope is less negative in majority non-white tracts once the interaction is included. At the same time, majority non-white tracts have a much lower baseline level of mobility, so the **levels** gap remains large even though the marginal poverty slope is flatter.
+
+```{r models-345-table, results='asis'}
+# Lab 2 convention: stargazer side-by-side, short / long / interaction.
+stargazer(reg_short, reg_long, reg_intx,
+          type = "html",
+          title = "New Orleans: Poverty, Race, and Upward Mobility",
+          column.labels = c("Short (Q3)", "Long (Q4)", "Interaction (Q5)"),
+          dep.var.labels = "Child Income at p25 ($1000s)",
+          covariate.labels = c("Poverty Rate 1990 (pp)",
+                               "Majority Non-White (= 1)",
+                               "Poverty x Majority Non-White"),
+          omit.stat = c("f", "ser"),
+          notes = c("Sample: New Orleans commuting zone tracts.",
+                    "Coefficient units: $1000s per pp of poverty."))
+```
+
+## 6. Can these models be interpreted causally?
+
+No. All three models are associational, not causal — the Lab 2 §3 lesson applies. Poverty rates and racial composition are not randomly assigned across tracts, and many omitted variables could still be driving both neighborhood composition and children's later outcomes: school quality, policing, housing segregation, local labor markets, public transit, environmental hazards, family selection into neighborhoods, and historical policy differences. Controlling for one omitted variable improves the specification, but it does not solve the broader endogeneity problem, and it cannot address simultaneity (families sort into neighborhoods partly on the basis of expected child outcomes).
+
+## 7-9. Commuting-zone fixed effects
+
+Including `factor(cz)` is analogous to Dale and Krueger's strategy because it changes the comparison set. Dale and Krueger compared students **within the same application set**, so identification came from students facing a similar menu of schools. Here, including commuting-zone dummies compares tracts **within the same commuting zone**, so identification comes from neighborhoods that share the same broader city-level labor market and regional environment. The commuting zone is the local analog of the "choice set."
+
+```{r fe-table, results='asis'}
+stargazer(reg_all, reg_all_fe,
+          type = "html",
+          title = "National Sample: Pooled OLS vs. Commuting-Zone FE",
+          column.labels = c("Pooled OLS", "+ CZ Fixed Effects"),
+          dep.var.labels = "Child Income at p25 ($1000s)",
+          covariate.labels = c("Poverty Rate 1990 (pp)",
+                               "Majority Non-White (= 1)"),
+          omit = "factor\\(cz\\)",
+          omit.stat = c("f", "ser"),
+          add.lines = list(c("Commuting-zone FE", "No", "Yes")),
+          notes = c("CZ fixed effects absorb all between-city variation.",
+                    "Identification in column (2) is within-CZ only."))
+```
+
+Once I add commuting-zone fixed effects, the poverty coefficient becomes slightly less negative in magnitude (**`r fmt_num(coef(reg_all)[['poverty_pp']], 3)`** to **`r fmt_num(coef(reg_all_fe)[['poverty_pp']], 3)`**), while the majority non-white coefficient becomes more negative (**`r fmt_num(coef(reg_all)[['majority_non_white']], 3)`** to **`r fmt_num(coef(reg_all_fe)[['majority_non_white']], 3)`**). Some of the original association was reflecting differences **across** cities, but substantial **within-city** tract-level differences remain.
+
+# Open question
+
+To answer the urban-versus-rural question, I use **tract population density in 2000 as a proxy for urbanicity**. This is not a perfect urban/rural classifier, but it provides a transparent way to compare dense and sparse places using the variables available in `atlas.csv`.
+
+```{r open-table}
+# Simple comparison of the top- and bottom-density quartiles.
+# (kable here because stargazer's summary=FALSE path chokes on character cols.)
+knitr::kable(open_table,
+             digits = 2,
+             caption = "Urban vs. Rural Tracts (top and bottom density quartiles)")
+```
+
+```{r open-figure, fig.cap="Mean upward mobility by national tract-density decile."}
+ggplot(open_deciles,
+       aes(x = as.numeric(as.character(density_decile)), y = mean_mobility)) +
+  geom_line(colour = "#1f4e79", linewidth = 1) +
+  geom_point(colour = "#b22222", size = 2) +
+  scale_x_continuous(breaks = 1:10) +
+  labs(
+    title    = "Mean mobility by tract-density decile",
+    subtitle = "Denser tracts do not deliver uniformly higher mobility",
+    x        = "Population-density decile (1 = sparsest, 10 = densest)",
+    y        = "Mean child income at p25 ($)"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+My answer is that **cities do not automatically produce better mobility outcomes for everyone**. Using density as a tract-level proxy for urbanicity, the top-density quartile has lower average mobility than the bottom-density quartile (**$`r fmt_num(urban_mean_mobility, 0)`** versus **$`r fmt_num(rural_mean_mobility, 0)`**), and the figure shows that mobility generally declines at the highest density levels. The pattern seems to run through concentrated disadvantage rather than "urbanity" itself: dense tracts also have higher poverty and much lower white population shares on average. So the cleanest conclusion is that urban areas contain both extraordinary opportunity and deep disadvantage, and the average effect depends heavily on which neighborhoods inside those urban areas we are talking about.
+
+# Instrumental variable exercise
+
+## 10. Instrument definition
+
+I define `same_gender = 1` when the first two children are both boys or both girls, and `0` otherwise. This is a plausible instrument for `morekids` because:
+
+1. **Relevance (first stage):** parents are more likely to have a third child when the first two children are the same sex, since some parents want a mixed-sex composition.
+2. **As-good-as-random assignment:** the sex of the first two children is effectively random from the parents' point of view.
+3. **Exclusion restriction:** conditional on the first two births, the sex mix should affect maternal labor supply **only** through its effect on the probability of having a third child.
+
+This is exactly the Lab 2 §3e diagnosis: simultaneity/selection between `morekids` and `work` breaks OLS, and we need a source of variation in `morekids` that is driven by something other than the outcome.
+
+## 11. Two-stage least squares
+
+```{r iv-table, results='asis'}
+# Three-step version for transparency + AER::ivreg() for correct SEs.
+# Manual 2SLS gives the right point estimate but the wrong standard error
+# (the second-stage regression treats fitted `morekids` as if it were observed).
+# ivreg() adjusts the residual variance to use the original `morekids_num`.
+stargazer(iv_first_stage, iv_reduced_form, iv_second_stage, iv_aer,
+          type = "html",
+          title = "Angrist-Evans IV: Same-Sex Instrument for Third Child",
+          column.labels = c("1st Stage", "Reduced Form",
+                            "Manual 2SLS", "AER ivreg()"),
+          dep.var.labels.include = TRUE,
+          covariate.labels = c("Same Gender (instrument)",
+                               "Predicted More Kids (manual 2SLS)",
+                               "More Kids (IV)"),
+          omit.stat = c("f", "ser"),
+          notes = c("Manual 2SLS point estimate = ivreg() point estimate.",
+                    "Manual 2SLS standard errors are understated.",
+                    "Use ivreg() for inference."))
+```
+
+The first stage is clearly relevant: the coefficient on `same_gender` is **`r fmt_num(coef(iv_first_stage)[['same_gender']], 3)`** — same-sex first two children raise the probability of a third child by about 6.7 percentage points. The reduced form is **`r fmt_num(coef(iv_reduced_form)[['same_gender']], 3)`**: being assigned "same sex" lowers maternal work weeks slightly. The Wald estimator (reduced form / first stage) gives **`r fmt_num(coef(iv_reduced_form)[['same_gender']] / coef(iv_first_stage)[['same_gender']], 3)`**, which matches the 2SLS point estimate exactly. Using `AER::ivreg()`, the IV estimate is **`r fmt_num(coef(iv_aer)[['morekids_num']], 3)`** with a standard error of **`r fmt_num(summary(iv_aer)$coef['morekids_num','Std. Error'], 3)`** — slightly different from the manual second-stage SE of **`r fmt_num(summary(iv_second_stage)$coef['morekids_hat','Std. Error'], 3)`** because `ivreg()` correctly uses the original (not fitted) `morekids_num` when computing residuals. The sign is consistent with the usual Angrist-Evans interpretation: an additional child reduces maternal labor supply.
+
+# Code Understanding Sufficiency Test
+
+## Libraries used
+
+- `AER`: applied econometrics package — provides the `Fertility2` dataset and the `ivreg()` function for two-stage least squares with correct standard errors.
+- `tidyverse`: meta-package that loads `dplyr` (data wrangling: `filter`, `mutate`, `group_by`, `summarise`), `ggplot2` (graphs), and `readr` (`read_csv`).
+- `stargazer`: produces publication-style regression tables (the default table format in both labs).
+- `broom`: `tidy()` converts model objects into data frames for use in inline prose.
+
+## Fifteen functions used in the code
+
+```{r code-understanding-table, results='asis'}
+code_understanding <- tibble::tribble(
+  ~Package,    ~Function,           ~Description,
+  "readr",     "read_csv()",        "Reads a CSV file into a tibble.",
+  "dplyr",     "mutate()",          "Creates or transforms variables.",
+  "dplyr",     "filter()",          "Keeps rows that satisfy a condition.",
+  "dplyr",     "arrange()",         "Sorts rows by one or more columns.",
+  "dplyr",     "slice()",           "Selects rows by position.",
+  "dplyr",     "group_by()",        "Groups rows for subsequent summaries.",
+  "dplyr",     "summarise()",       "Collapses each group to summary statistics.",
+  "ggplot2",   "ggplot()",          "Initialises a plot with data + aesthetics.",
+  "ggplot2",   "geom_point()",      "Adds a scatter-plot layer.",
+  "ggplot2",   "geom_smooth()",     "Adds a fitted line (e.g. OLS).",
+  "ggplot2",   "facet_wrap()",      "Splits a plot into panels by a category.",
+  "base",      "lm()",              "Fits a linear regression by OLS.",
+  "stargazer", "stargazer()",       "Formats regression / data tables.",
+  "AER",       "ivreg()",           "Two-stage least squares with correct SEs.",
+  "base",      "factor()",          "Converts a variable into a categorical factor (used to build CZ dummies)."
+)
+
+knitr::kable(code_understanding, align = c("l", "l", "l"))
+```
+
+# References
+
+Angrist, J. D., & Evans, W. N. (1998). *Children and their parents' labor supply: Evidence from exogenous variation in family size*. *American Economic Review, 88*(3), 450-477.
+
+Angrist, J. D., & Pischke, J.-S. (2015). *Mastering 'Metrics: The Path from Cause to Effect*. Princeton University Press.
+
+Dale, S. B., & Krueger, A. B. (2002). *Estimating the payoff to attending a more selective college: An application of selection on observables and unobservables*. *Quarterly Journal of Economics, 117*(4), 1491-1527.
+
+Opportunity Insights. (2018). *Opportunity Atlas*. https://www.opportunityatlas.org/
+
+---
+Generated for: Edgar Agunias
+Date: 2026-04-20
+Model: Claude Opus 4.7 (1M context)
+Sources: Homework_1_Instructions.docx, atlas.csv, AER::Fertility2, Lab1_randomisation.R, Lab2_intro_causal_inference.R
+Agent: Tyche
+---

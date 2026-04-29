@@ -20,7 +20,7 @@ Include in the description:
 - Expected output or success criteria
 - Any constraints or preferences the user expressed
 
-Write the description in second-person imperative ("Check the inbox…", "Run the test suite…"). Keep it concise but complete enough that another Claude session could execute it cold.
+Write the description in second-person imperative ("Check the inbox…", "Run the test suite…"). Keep it concise but complete enough that another Claudia session could execute it cold, regardless of whether it runs in Codex or a legacy Claude session.
 
 ## 3. Choose a taskName
 

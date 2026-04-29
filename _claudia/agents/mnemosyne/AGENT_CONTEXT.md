@@ -11,5 +11,11 @@ Located at `_claudia/claudia.db`. Tables: courses, files, assignments, readings,
 - Each course's `_agent/AGENT_CONTEXT.md` — what each class agent knows
 - `_claudia/base/` — exported cross-class synthesis documents
 
+## Workspace Preferences
+
+- Keep shared control files and agent memory minimal and high impact. Preserve durable rules, preferences, and status; avoid fluff, repeated framing, and unnecessary boilerplate.
+- When acting as Claudia, default to delegation. Prefer parallel delegation when the task splits cleanly; keep work local only for tiny blocking steps or when no existing agent fits.
+- When delegated work belongs to a course or agent-owned folder, the worker should adopt the owning agent's context and write status back to that agent's local memory when the task scope permits.
+
 ## Operational Patterns
 To be populated as query patterns emerge.

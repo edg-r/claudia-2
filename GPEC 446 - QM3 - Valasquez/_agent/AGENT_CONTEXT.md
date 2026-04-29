@@ -36,5 +36,8 @@ Edgar's conceptual-tutoring pattern is to state his current intuition in plain l
 - Quantitative methods apply across all courses, especially data analysis in GPCO 403 (Plutus)
 - Causal inference frameworks relevant to political science readings in GPCO 410 (Athena) and GPPS 463 (Poseidon)
 
+## Reading-Summary Default (effective 2026-04-22)
+Edgar's new default for reading summaries is `_claudia/skills/theory-reference-pdf.md`, not BLUF/memo-summarizer. BLUF (`memo-summarizer.md`) is retained only for policy-memo intake and synthesis briefs. When Edgar requests a chapter/article summary without specifying format, default to the theory-reference-pdf skill.
+
 ## Build Conventions — ReportLab glyph handling
 QM3 notation uses Y̅ (Y with combining macron), τ̂ (tau-hat), X̂ (X-hat), and similar. Helvetica and Courier built-in ReportLab fonts DO NOT include combining macron (U+0304) or precomposed Ȳ (U+0232) — they render as black boxes. Fix: register Arial Unicode via `pdfmetrics.registerFont(TTFont('ArialUnicode', '/Library/Fonts/Arial Unicode.ttf'))` and wrap every problematic glyph in `<font face="ArialUnicode">...</font>` inside Paragraph XML. The `<sup>^</sup>` pattern works fine with all Greek letters in Helvetica/Courier (no font-face override needed for β̂, τ̂, π̂, γ̂), so only the combining-diacritic cases need the Arial Unicode wrap. See v2 build of `QM3_Lectures_Reference_Manual.pdf` (2026-04-16) for the reference implementation.

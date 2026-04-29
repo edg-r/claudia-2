@@ -46,7 +46,7 @@ Every reference manual produced with this skill follows this structure:
 ```
 1. Cover page
    - Title, course, instructor, institution
-   - "Generated with Claude Sonnet [version]" attribution
+   - "Generated with [model/tool name] via the Claudia agent system" attribution
    - Clickable Table of Contents (all sections hyperlinked)
    - No version history on the final release
 
@@ -305,7 +305,7 @@ def make_footer(page_num, title="Reference Manual"):
 ### On final release
 - Remove the version history table from the cover
 - Keep the version number in the filename for reference
-- Add to the attribution page: "Generated with Claude Sonnet [version] by Anthropic"
+- Add to the attribution page: "Generated with [model/tool name] via the Claudia agent system"
 - Add: "Always verify formulas against official course materials"
 
 ---

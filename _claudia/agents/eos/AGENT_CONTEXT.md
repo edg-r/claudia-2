@@ -10,4 +10,4 @@ Runs dispatches (daily briefings, weekly summaries, recurring reports) and saves
 To be populated from task log entries.
 
 ## Operational Patterns
-To be populated as dispatch patterns emerge.
+- **Sonnet stall -> Opus retry**: Daily-briefing dispatch occasionally stalls on Sonnet mid-stream (watchdog timeout, usually during email/calendar fan-out). Recovery pattern: retry the same dispatch with model="opus" override. Confirmed working 2026-04-14 (original Poseidon/Eos fix) and again 2026-04-23. If first Sonnet run stalls, go straight to Opus on retry rather than re-attempting Sonnet.

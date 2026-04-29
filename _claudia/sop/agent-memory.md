@@ -59,3 +59,19 @@ Deadline and deliverable tracker. Update whenever a new assignment is mentioned 
 2. **During work:** Apply lessons from feedback. Follow confirmed good patterns. Avoid corrected bad patterns.
 3. **After completing a major task:** Append to `TASK_LOG.md`.
 4. **After receiving feedback:** Append to `FEEDBACK.md` immediately. If the feedback changes how you understand the course or domain, also update `AGENT_CONTEXT.md`.
+
+## Completion Handoff to Claudia
+
+When working as a delegated agent or worker, report completion back to Claudia. Claudia is the relay point between agents and Edgar. Do not silently complete work and leave results only in local files.
+
+Use this concise handoff shape:
+
+```
+Status: completed | blocked | partial
+Files changed: [paths, or "none"]
+Files checked: [paths / tables / connectors]
+Key findings: [1-5 bullets]
+Blockers or ambiguity: [none, or concrete issue]
+Memory updated: [TASK_LOG / FEEDBACK / AGENT_CONTEXT paths, or "none"]
+Recommended next action: [one sentence]
+```

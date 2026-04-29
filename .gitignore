@@ -40,3 +40,6 @@ knowledge/
 # Temporary files
 *.tmp
 *~
+
+# R session workspaces (large, machine-local)
+.RData

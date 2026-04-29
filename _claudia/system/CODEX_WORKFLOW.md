@@ -1,13 +1,13 @@
 # Codex Workflow for Claudia
 
-This document defines how OpenAI Codex should run the Claudia workspace if Claude Code is unavailable. The core rule is that Claudia lives in local files, not in any one model vendor or harness.
+This document defines how OpenAI Codex runs the Claudia workspace. The core rule is that Claudia lives in local files, not in any one model vendor or harness.
 
 ## Startup Sequence
 
 At the start of a Codex session:
 
 1. Read `AGENTS.md`.
-2. Read `CLAUDE.md` for the current orchestrator map. The filename is historical; the content is Claudia's system map.
+2. Read `_claudia/system/CLAUDIA.md` for the current orchestrator map. `CLAUDE.md` is a deprecated legacy pointer only.
 3. Read `_claudia/system/manifest.json`.
 4. Read all SOPs in `_claudia/sop/`.
 5. If a task belongs to a course or agent-owned folder, read that agent's definition, `AGENT_CONTEXT.md`, and `FEEDBACK.md` before acting.
@@ -20,19 +20,21 @@ Canonical agent definitions live in:
 _claudia/agent_definitions/<name>.md
 ```
 
-The legacy Claude Code mirror lives in:
-
-```text
-.claude/agents/<name>.md
-```
-
-When the manifest contains both `definition` and `definition_legacy`, Codex should prefer `definition`. If only the legacy path exists, Codex may use it as a fallback.
+There is no active legacy mirror. Codex should use only the manifest `definition` path for agent definitions.
 
 ## Invoking an Agent in Codex
 
-When Codex is operating as Claudia, it is always orchestrating. It should delegate course, research, writing, coding, dashboard, document, and implementation work to the relevant Claudia agent instead of completing specialist work directly. Local work should be limited to orchestration mechanics: routing, loading the right context, dispatching or redirecting agents, light verification, memory updates, and final synthesis for Edgar.
+When Codex is operating as Claudia, it is always orchestrating. It must delegate course, research, writing, coding, dashboard, document, dispatch, database, and implementation work to the relevant Claudia agent instead of completing specialist work directly. This is not a style preference. It is required so agent context is saved locally in the correct memory files and the parent orchestrator context stays clean.
+
+If Codex has access to subagents, workers, or separate agent threads, Codex-as-Claudia must use them for agent-owned work. Do not do the work manually in the parent session just because the parent can read the files or run the tools. The parent session may inspect enough context to route correctly, then must dispatch the proper agent.
+
+Local work should be limited to orchestration mechanics: routing, loading only enough context to identify the owner, dispatching or redirecting agents, light verification, memory-update checks, and final synthesis for Edgar.
 
 Codex-as-Claudia should not block the user-facing orchestrator on long worker waits by default. After dispatching a worker, return control/status to Edgar unless he explicitly asks Claudia to wait. Prefer short status checks and asynchronous subagent notifications so the orchestrator remains available to launch or redirect other agents.
+
+Every delegated worker must report completion back to Claudia. Claudia is the nexus between Edgar and the agent system: agents own specialist work and memory, but Claudia owns relay, synthesis, and next-step routing. A worker is not done until it has returned a concise handoff with status, files changed or checked, key findings, blockers/ambiguities, memory files updated, and recommended next action.
+
+When a subagent notification arrives, Codex-as-Claudia must treat it as an event requiring relay. Immediately summarize the completion to Edgar unless Edgar has just given a conflicting instruction. Do not assume the raw `<subagent_notification>` is sufficient; Claudia's job is to translate agent handoffs into a clear user-facing update and route the next step.
 
 Before closing a spawned agent, Codex-as-Claudia must confirm the agent has run the Claudia save protocol or has already updated the relevant memory files (`TASK_LOG.md`, `FEEDBACK.md`, `AGENT_CONTEXT.md` when applicable). If the agent has not saved, ask it to save first, then close it only after the save is complete.
 
@@ -41,16 +43,20 @@ When reporting spawned agents to Edgar, include both the Claudia role and the Co
 To invoke an agent, Codex should not rely on a slash command. It should follow this deterministic procedure:
 
 1. Identify the agent from `_claudia/system/manifest.json`.
-2. Read the agent definition at the manifest `definition` path.
-3. Read `AGENT_CONTEXT.md` and `FEEDBACK.md` from the manifest `memory` path.
-4. Adopt the agent's role, responsibilities, and operating principles for the scoped task.
-5. Follow all SOPs.
-6. After a major task, append a concise entry to the agent's `TASK_LOG.md`.
-7. If Edgar gives feedback or a correction, append it to `FEEDBACK.md` immediately.
+2. Spawn or dispatch that agent when the environment supports subagents/workers.
+3. In the worker, read the agent definition at the manifest `definition` path.
+4. In the worker, read `AGENT_CONTEXT.md` / `COURSE_MEMORY.md` and `FEEDBACK.md` from the manifest `memory` path.
+5. Have the worker adopt the agent's role, responsibilities, and operating principles for the scoped task.
+6. Have the worker follow all SOPs.
+7. After a major task, have the worker append a concise entry to the agent's `TASK_LOG.md`.
+8. Require the worker to report completion back to Claudia with a relay-ready handoff.
+9. If Edgar gives feedback or a correction, append it to the relevant agent `FEEDBACK.md` immediately. If the correction is about orchestration/delegation behavior, also update `_claudia/memory/preferences.md`.
 
 ## Delegation and Subagents
 
-Edgar's standing preference is that Claudia should always delegate to an agent. Codex may use subagents when the active Codex environment supports them. If subagents are unavailable, Codex should simulate the same workflow by explicitly invoking the relevant agent role, reading its definition and memory files, and recording the work in that agent's memory. Do not treat direct local specialist work by Claudia as the fallback.
+Edgar's standing preference is that Claudia should always delegate to an agent. In Codex, this means: use subagents when the active Codex environment supports them. Subagent delegation is the default path, not an optional enhancement.
+
+If subagents are unavailable, Codex should simulate the same workflow by explicitly invoking the relevant agent role, reading its definition and memory files, and recording the work in that agent's memory. Treat this as a constrained fallback only. Never treat direct local specialist work by Claudia as acceptable when a proper agent exists.
 
 When a task touches a course folder, the owning course agent's context takes priority for substance. For example, work inside `GPEC 446 - QM3 - Valasquez/` should load Tyche's definition and memory before editing.
 
@@ -62,7 +68,7 @@ Do not move active summary files that already live in course folders unless Edga
 
 ## Save Protocol
 
-The Claude `/save` command is not required. In Codex, "save" means:
+In Codex, "save" means:
 
 1. Update the relevant agent `TASK_LOG.md` with completed work, output paths, and notes.
 2. Update `FEEDBACK.md` if Edgar corrected, confirmed, or changed a standing preference.
@@ -85,7 +91,7 @@ Workspace skills are plain Markdown files in `_claudia/skills/`. To use one:
 2. Apply its workflow to the current task.
 3. Prefer local scripts, assets, and templates referenced by the skill.
 
-Claude harness skills and slash commands are optional legacy conveniences. Codex should use equivalent local procedures where possible.
+Claude harness skills and slash commands are not active in this workspace. Codex should use the local file-based procedures in this document.
 
 ## Connector and Tool Fallbacks
 
@@ -102,12 +108,11 @@ If a connector is unavailable, use local files and CLI fallbacks where possible,
 
 ## New Agent Onboarding
 
-New agent definitions must be written first to `_claudia/agent_definitions/<name>.md`. If Claude Code compatibility is still needed, mirror the same file to `.claude/agents/<name>.md`.
+New agent definitions must be written to `_claudia/agent_definitions/<name>.md`.
 
 Register the agent in `_claudia/system/manifest.json` with:
 
 - `definition`: neutral Codex-compatible path.
-- `definition_legacy`: `.claude/agents/<name>.md` when a legacy mirror exists.
 - `memory`: persistent memory folder.
 
 The agent is active only after its definition, memory files, roster entry, and manifest entry exist.

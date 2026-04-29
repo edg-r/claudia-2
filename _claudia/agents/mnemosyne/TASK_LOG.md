@@ -4,6 +4,16 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 <!-- No entries yet. Append new tasks below this line. -->
 
+## 2026-04-23 — Planning Brief for Thu 4/23 + Fri 4/24
+**Requested by:** Claudia
+**What was done:** Compiled a structured two-day planning brief covering QM3 HW1 status, assignments due within 7 days, class schedule for Thu/Fri, and existing Google Calendar events.
+**Output:** Structured brief returned to Claudia in chat.
+
+## 2026-04-23 — Readings-Due-This-Week Inventory (Mon 4/20 - Sun 4/26)
+**Requested by:** Claudia
+**What was done:** Inventoried readings due across all five courses for the week of Apr 20-26. Classified each against existing summaries and flagged citation weight. Prioritized three ANCHOR readings (Walter Ch. 2, Bueno de Mesquita et al., Fearon) plus secondary (Herrmann, Tetlock, Visser) and noted missing Cederman PDF.
+**Output:** Gap list returned to Claudia in chat.
+
 ### 2026-04-15 — Readings Due Today Theory-Reference Summary
 **Requested by:** Edgar
 **What was done:** Queried the Claudia database and checked official course syllabi/calendar context for readings due Wednesday, April 15, 2026. Applied `_claudia/skills/theory-reference-pdf.md` as a Markdown structure, producing one concise page each for GPCO 403, GPCO 410, GPPS 444, and GPPS 463. Resolved a GPCO 403 mismatch by following the official syllabus and lecture materials over the database's Week 3 PPP label.
@@ -51,3 +61,29 @@ Ran the embedding indexing pipeline for all five courses. All files were already
 
 ## 2026-04-12 — Workspace Inventory Query
 Full database and folder scan. Confirmed: 5 courses, 842 tracked files, 77 readings (all pending), 26 assignments across 4 courses, 0 grades entered, 0 agent_logs for Mnemosyne yet. Course folders all present with _agent subdirectories. GPEC 446 and GPPS 444 have no direct assignment entries for GPEC 446's QM3 content or GPPS 444's oral presentation status.
+
+## 2026-04-20 — Open-Assignments Sweep + HW1/Orange Reading Page Counts
+Ran two cross-course queries. First: full open-assignments rundown across GPCO 403, GPCO 410, GPEC 446, GPPS 444, GPPS 463 sorted by due date for chat-only delivery. DB found well up-to-date; flagged BLUE memo (Apr 8), Data Brief 1 (Apr 17), and Apr 13/14 discussion posts still marked `pending` but confirmed completed per session memory. Added Breitenfeld presentation (Apr 20) from session memory since it wasn't a DB row. Second: page counts for Orange Memo readings (Cederman/Hug/Krebs core = 18pp; full W4-W5 window = 178pp) and QM3 HW1 readings (386 slide-pages across 9 files). The 386 figure was raw slide-pages; Tyche later walked it back to ~244 needed slide-pages after scoping by question. Confirmed HW1 deadline as Sat Apr 25 midnight, not Apr 26 as previously thought.
+
+### 2026-04-27 — Closed Completed Assignment DB Rows
+**Requested by:** Edgar
+**What was done:** Updated exactly seven stale assignment rows in `_claudia/claudia.db` to `status='completed'` based on agent-log-completed items: GPCO 410 BLUE memo, GPPS 463 LD5/LD6 discussion posts, GPCO 403 Data Brief 1, GPPS 444 Oral Presentation, GPPS 463 Midterm Exam 1, and GPEC 446 Homework I. Queried assignments due on 2026-04-27 afterward.
+**Output:** Returned to Edgar in chat.
+**Notes:** Three requested labels used shorthand; matched to stored rows by course and due date: `Analytic Memo — BLUE (choose 1)`, `Discussion Post for Lecture Day 5...`, and `Discussion Post for Lecture Day 6...`. No assignments were due on 2026-04-27 in the DB.
+
+### 2026-04-27 — Inbox Knowledge Sorting
+**Requested by:** Edgar
+**What was done:** Sorted five inbox items into `knowledge/obsidian/` after inspecting filenames and representative content. Added AI-researched provenance via Markdown frontmatter or adjacent metadata notes, and updated matching `files` records in `_claudia/claudia.db`.
+**Output:** Moved files under `knowledge/obsidian/000 AI Analysis/AI Tools/`, `knowledge/obsidian/000 AI Analysis/GPCO 410/`, and `knowledge/obsidian/Notes/`.
+**Notes:** Left `inbox/.DS_Store` untouched because the scope prohibited deletion and it is not a knowledge item. `Claude.pdf` was image-based; first rendered page identified it as the AI Workflow Reconnaissance report.
+### 2026-04-28 — Deadline Data Contract and Assignment Schema Upgrade
+**Requested by:** Claudia / Edgar
+**What was done:** Added the normalized deadline data contract and upgraded `_claudia/claudia.db` assignments with structured deadline metadata fields. Backfilled existing rows conservatively with timezone, source/confidence, date kind, recurring flags, recurrence rules, selected explicit due times, and `last_verified_at`.
+**Output:** `_claudia/system/deadline-data-contract.md`; `_claudia/system/syllabus-extraction-template.md`; `_claudia/claudia.db`
+**Notes:** Course agents should write `Course Admin/syllabus_extracted.md`; Mnemosyne owns DB normalization; Hephaestus owns dashboard/tooling. Current data remains mostly `legacy_db` until course agents re-run extraction against the new contract.
+
+### 2026-04-28 — Syllabus Extraction Normalization Pass
+**Requested by:** Claudia / Edgar
+**What was done:** Normalized `_claudia/claudia.db` from the five course-owned `Course Admin/syllabus_extracted.md` files after course-agent dispatches stalled and Claudia used the explicit local fallback. Updated source paths, due times, confidence/date-kind metadata, recurring rules, and added missing GPPS 463 LD8/LD9/LD10 discussion-post rows.
+**Output:** `_claudia/claudia.db`; `_claudia/dashboard.html`
+**Notes:** Today's dashboard-critical rows now include GPPS 463 LD10 discussion post due 2026-04-28 17:00, GPCO 403 Concept Check 3 due 2026-04-28 23:59, and GPCO 410 ORANGE memo due 2026-04-29 11:00.

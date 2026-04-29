@@ -64,3 +64,26 @@
 **What was done:** Created the repo-root `edgar/` folder with a lightweight README and updated central workflow docs so agents can place Edgar-facing day-scoped summaries there when Edgar asks for a collect-first workflow. Documented that durable course copies can later be sorted into course Study Guides and that existing course-folder summaries should not be moved without instruction.
 **Output:** `edgar/README.md`, `CLAUDE.md`, `_claudia/system/CODEX_WORKFLOW.md`
 **Notes:** Searched for Apr 27 summary files by date/name and found none to move.
+
+### 2026-04-27 — Vendor-neutral Claudia orchestrator migration
+**Requested by:** Claudia (on Edgar's instruction)
+**What was done:** Created `_claudia/system/CLAUDIA.md` as the canonical vendor-neutral orchestrator map, replaced `CLAUDE.md` with a deprecated compatibility pointer, and updated startup/workflow/manifest references away from `CLAUDE.md`. Documented `.claude/agents/` as a deprecated compatibility mirror rather than the source of truth.
+**Output:** `_claudia/system/CLAUDIA.md`, `CLAUDE.md`, `AGENTS.md`, `_claudia/system/CODEX_WORKFLOW.md`, `_claudia/system/manifest.json`, `_claudia/system/README.md`, `_claudia/sop/agent-onboarding.md`, `_claudia/agent_definitions/hermes.md`, `_claudia/memory/preferences.md`
+**Notes:** Verified `manifest.json` parses. Did not delete `.claude/` mirrors because current consumers may still rely on them.
+
+### 2026-04-27 - Codex-only Claude Code support cleanup
+**Requested by:** Edgar
+**What was done:** Removed the scoped Claude Code support surfaces and updated active Claudia docs so agent definitions are Codex-only through `_claudia/agent_definitions/`. Removed `definition_legacy` and legacy agent-definition directory metadata from the manifest while keeping `CLAUDE.md` as a deprecated pointer.
+**Output:** Deleted `.claude/.DS_Store`, `.claude/settings.local.json`, `.claude/commands/save.md`, and `.claude/agents/`; updated `AGENTS.md`, `_claudia/system/CLAUDIA.md`, `_claudia/system/CODEX_WORKFLOW.md`, `_claudia/system/README.md`, `_claudia/system/manifest.json`, `_claudia/sop/agent-onboarding.md`, and `_claudia/agent_definitions/hermes.md`.
+**Notes:** Assignment artifacts in `GPEC 446 - QM3 - Valasquez/Assignments/Homework 1 - claude/` were intentionally left untouched. `CLAUDE.md` remains as the deprecated legacy pointer.
+### 2026-04-28 — Dashboard Deadline Field Support
+**Requested by:** Claudia / Edgar
+**What was done:** Updated `_claudia/dashboard.py` to derive the current academic week from the local date, read optional normalized assignment deadline fields, serialize due times/source metadata to the dashboard, use local browser dates for today highlighting, and use due time when computing matrix urgency. Regenerated `_claudia/dashboard.html`.
+**Output:** `_claudia/dashboard.py`; `_claudia/dashboard.html`
+**Notes:** Dashboard code is backward-compatible when normalized columns are absent. Past-week assignments are no longer auto-marked completed in the UI; status must come from the DB.
+
+### 2026-04-28 — Dashboard Regenerated After Syllabus Normalization
+**Requested by:** Claudia
+**What was done:** Regenerated `_claudia/dashboard.html` after Mnemosyne's syllabus-extraction normalization pass added structured due times and missing discussion-post rows.
+**Output:** `_claudia/dashboard.html`
+**Notes:** Verification query shows Apr 28/29 deadlines and May 4/5 exams with structured due times.

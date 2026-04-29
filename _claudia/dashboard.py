@@ -19,8 +19,21 @@ DB_PATH = SCRIPT_DIR / "claudia.db"
 OUTPUT_PATH = SCRIPT_DIR / "dashboard.html"
 
 QUARTER_START = date(2026, 3, 30)  # Monday of week 1
-CURRENT_WEEK = 3
 TOTAL_WEEKS = 11
+ASSIGNMENT_OPTIONAL_COLUMNS = [
+    "due_time",
+    "timezone",
+    "deadline_source",
+    "source_path",
+    "source_confidence",
+    "date_kind",
+    "is_recurring",
+    "recurrence_rule",
+    "opens_at",
+    "submitted_at",
+    "last_verified_at",
+    "external_id",
+]
 
 COURSE_COLORS = {
     "GPCO 403": "#7cb3ff",
@@ -49,11 +62,24 @@ def get_week_number(due_date_str):
         return None
 
 
+def get_current_week(today_date):
+    """Derive the academic week number from the local date."""
+    delta = (today_date - QUARTER_START).days
+    if delta < 0:
+        return 0
+    return min(delta // 7 + 1, TOTAL_WEEKS)
+
+
+def table_columns(conn, table_name):
+    return {row["name"] for row in conn.execute(f"PRAGMA table_info({table_name})")}
+
+
 def generate_dashboard():
     conn = sqlite3.connect(str(DB_PATH))
     conn.row_factory = sqlite3.Row
     now = datetime.now()
-    today = now.strftime("%Y-%m-%d")
+    today_date = now.date()
+    current_week = get_current_week(today_date)
 
     # --- Gather data ---
     courses = query_db(conn, "SELECT * FROM courses ORDER BY code")
@@ -68,8 +94,13 @@ def generate_dashboard():
     total_embedded_files = query_db(conn, "SELECT COUNT(DISTINCT source_path) as n FROM embeddings")[0]["n"]
     total_pages_all = query_db(conn, "SELECT COALESCE(SUM(pages), 0) as n FROM readings")[0]["n"]
 
-    assignments = query_db(conn, """
-        SELECT a.id, a.title, a.due_date, a.status, a.grade, a.weight, a.notes,
+    assignment_columns = table_columns(conn, "assignments")
+    optional_selects = [
+        f"a.{col}" for col in ASSIGNMENT_OPTIONAL_COLUMNS if col in assignment_columns
+    ]
+    optional_select_sql = ", " + ", ".join(optional_selects) if optional_selects else ""
+    assignments = query_db(conn, f"""
+        SELECT a.id, a.title, a.due_date, a.status, a.grade, a.weight, a.notes{optional_select_sql},
                c.code, c.name as course_name
         FROM assignments a
         LEFT JOIN courses c ON a.course_id = c.id
@@ -142,7 +173,7 @@ def generate_dashboard():
         week_reading_loads[wk] = {"pages": wk_pages, "hrs": round(wk_hrs, 1)}
 
     # Week 3 reading load
-    current_week_readings = [r for r in readings_data if r["week"] == CURRENT_WEEK]
+    current_week_readings = [r for r in readings_data if r["week"] == current_week]
     current_week_pages = sum(r["pages"] for r in current_week_readings if r["pages"])
     current_week_hrs = 0.0
     for r in current_week_readings:
@@ -169,8 +200,9 @@ def generate_dashboard():
     for a in assignments:
         week = get_week_number(a["due_date"])
         status = a["status"] or "pending"
-        if week is not None and week <= 2:
-            status = "completed"
+        is_recurring = a["is_recurring"] if "is_recurring" in assignment_columns else None
+        if is_recurring is None:
+            is_recurring = status == "recurring" or not a["due_date"]
         assignments_json.append({
             "id": a["id"],
             "title": a["title"],
@@ -182,6 +214,18 @@ def generate_dashboard():
             "course": a["code"] or "",
             "course_name": a["course_name"] or "",
             "week": week,
+            "due_time": a["due_time"] if "due_time" in assignment_columns and a["due_time"] else "",
+            "timezone": a["timezone"] if "timezone" in assignment_columns and a["timezone"] else "",
+            "deadline_source": a["deadline_source"] if "deadline_source" in assignment_columns and a["deadline_source"] else "",
+            "source_path": a["source_path"] if "source_path" in assignment_columns and a["source_path"] else "",
+            "source_confidence": a["source_confidence"] if "source_confidence" in assignment_columns and a["source_confidence"] else "",
+            "date_kind": a["date_kind"] if "date_kind" in assignment_columns and a["date_kind"] else "",
+            "is_recurring": bool(is_recurring),
+            "recurrence_rule": a["recurrence_rule"] if "recurrence_rule" in assignment_columns and a["recurrence_rule"] else "",
+            "opens_at": a["opens_at"] if "opens_at" in assignment_columns and a["opens_at"] else "",
+            "submitted_at": a["submitted_at"] if "submitted_at" in assignment_columns and a["submitted_at"] else "",
+            "last_verified_at": a["last_verified_at"] if "last_verified_at" in assignment_columns and a["last_verified_at"] else "",
+            "external_id": a["external_id"] if "external_id" in assignment_columns and a["external_id"] else "",
         })
 
     # --- Static sections (courses, readings, logs, coverage) ---
@@ -239,7 +283,7 @@ def generate_dashboard():
         week_pages = sum(r["pages"] for r in week_readings if r["pages"] is not None)
         pages_label = f' <span style="font-size:0.75rem;font-weight:400;color:#aaa;margin-left:0.5rem">{week_pages} pp</span>' if week_pages else ""
         # Past weeks collapsed, current and future expanded
-        is_past = (week is not None) and (week < CURRENT_WEEK)
+        is_past = (week is not None) and (week < current_week)
         open_cls = "" if is_past else " open"
         rows = ""
         for r in week_readings:
@@ -591,7 +635,7 @@ p {{ margin-bottom: 0.75rem; color: #999; font-size: 0.82rem; }}
 <!-- Header -->
 <div class="header">
     <h1>Claudia</h1>
-    <div class="subtitle">Generated {now.strftime('%Y-%m-%d %H:%M')} &middot; Spring 2026 &middot; GPS &middot; Week {CURRENT_WEEK} of {TOTAL_WEEKS}</div>
+    <div class="subtitle">Generated {now.strftime('%Y-%m-%d %H:%M')} &middot; Spring 2026 &middot; GPS &middot; Week {current_week} of {TOTAL_WEEKS}</div>
 </div>
 
 <!-- Summary Cards -->
@@ -602,7 +646,7 @@ p {{ margin-bottom: 0.75rem; color: #999; font-size: 0.82rem; }}
     <div class="card"><div class="card-value">{total_assignments}</div><div class="card-label">Assignments</div><div class="card-sub">{upcoming_assignments} up &middot; {completed_assignments} done</div></div>
     <div class="card"><div class="card-value">{total_embeddings}</div><div class="card-label">Chunks</div><div class="card-sub">{total_embedded_files} files indexed</div></div>
     <div class="card"><div class="card-value">{total_pages_all}</div><div class="card-label">Pages</div><div class="card-sub">all courses</div></div>
-    <div class="card"><div class="card-value" style="font-size:0.95rem;line-height:1.3">{weekly_load_str}</div><div class="card-label">Wk {CURRENT_WEEK} Load</div></div>
+    <div class="card"><div class="card-value" style="font-size:0.95rem;line-height:1.3">{weekly_load_str}</div><div class="card-label">Wk {current_week} Load</div></div>
 </div>
 
 <!-- Legend -->
@@ -735,7 +779,7 @@ p {{ margin-bottom: 0.75rem; color: #999; font-size: 0.82rem; }}
 <script>
 const ASSIGNMENTS = {json.dumps(assignments_json)};
 const QUARTER_START = new Date('2026-03-30');
-const CURRENT_WEEK = {CURRENT_WEEK};
+const CURRENT_WEEK = {current_week};
 const COURSE_COLORS = {json.dumps(COURSE_COLORS)};
 const WEEK_READING_LOADS = {json.dumps(week_reading_loads)};
 
@@ -776,6 +820,26 @@ function formatDate(d) {{
     return dt.toLocaleDateString('en-US', {{ month: 'short', day: 'numeric' }});
 }}
 
+function localDateString(dt) {{
+    const y = dt.getFullYear();
+    const m = String(dt.getMonth() + 1).padStart(2, '0');
+    const d = String(dt.getDate()).padStart(2, '0');
+    return `${{y}}-${{m}}-${{d}}`;
+}}
+
+function dueDateTime(a) {{
+    if (!a.due_date) return null;
+    const time = a.due_time || '23:59';
+    return new Date(`${{a.due_date}}T${{time}}:00`);
+}}
+
+function formatDue(a) {{
+    if (!a.due_date) return a.is_recurring ? 'Recurring' : '';
+    let label = formatDate(a.due_date);
+    if (a.due_time) label += ` ${{a.due_time}}`;
+    return label;
+}}
+
 // ===== WEEK VIEW =====
 function renderWeekView() {{
     const container = document.getElementById('week-view');
@@ -796,7 +860,7 @@ function renderWeekView() {{
         const badge = isCurrent ? '<span class="badge badge-current">Current</span>' :
                       isPast ? '<span class="badge badge-completed">Completed</span>' : '';
 
-        const dateRange = formatDate(weekStart.toISOString().slice(0,10)) + ' - ' + formatDate(weekEnd.toISOString().slice(0,10));
+        const dateRange = formatDate(localDateString(weekStart)) + ' - ' + formatDate(localDateString(weekEnd));
 
         html += `<div class="week-group ${{cls}}">`;
         const wkLoad = WEEK_READING_LOADS[w];
@@ -816,7 +880,7 @@ function renderWeekView() {{
             html += courseTag(a.course);
             html += `<span>${{a.title}}</span>`;
             if (a.weight) html += `<span style="font-size:0.7rem;color:#666">${{a.weight}}</span>`;
-            html += `<span class="due">${{formatDate(a.due_date)}}</span>`;
+            html += `<span class="due">${{formatDue(a)}}</span>`;
             html += `</div>`;
         }}
 
@@ -851,7 +915,7 @@ function renderCalendar() {{
 
     const firstDay = new Date(calYear, calMonth, 1).getDay(); // 0=Sun
     const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
-    const todayStr = new Date().toISOString().slice(0,10);
+    const todayStr = localDateString(new Date());
 
     let html = '<div class="cal-grid">';
     ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {{
@@ -872,7 +936,7 @@ function renderCalendar() {{
         html += `<div class="day-num">${{d}}</div>`;
         for (const a of dayAssignments) {{
             const bg = COURSE_COLORS[a.course] || '#555';
-            html += `<div class="cal-event" style="background:${{bg}}" title="${{a.course}}: ${{a.title}}">${{a.title}}</div>`;
+            html += `<div class="cal-event" style="background:${{bg}}" title="${{a.course}}: ${{a.title}} ${{formatDue(a)}}">${{a.due_time ? a.due_time + ' ' : ''}}${{a.title}}</div>`;
         }}
         html += '</div>';
     }}
@@ -908,7 +972,7 @@ function defaultQuadrant(a) {{
     const title = a.title.toLowerCase();
     const isExam = title.includes('exam') || title.includes('midterm');
     const hasDate = !!a.due_date;
-    const dueDate = hasDate ? new Date(a.due_date + 'T00:00:00') : null;
+    const dueDate = hasDate ? dueDateTime(a) : null;
     const now = new Date();
     const daysOut = dueDate ? (dueDate - now) / 86400000 : 999;
 
@@ -958,7 +1022,7 @@ function renderMatrix() {{
                 <div class="matrix-card" draggable="true" data-id="${{a.id}}">
                     ${{courseTag(a.course)}}
                     <span class="card-title">${{a.title}}</span>
-                    <span class="card-due">${{formatDate(a.due_date)}}</span>
+                    <span class="card-due">${{formatDue(a)}}</span>
                 </div>
             `).join('');
         }}
