@@ -4,6 +4,12 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 <!-- No entries yet. Append new tasks below this line. -->
 
+### 2026-04-30 — Midterm Framework Reference v1.1.0 Visual-Slot Update
+**Requested by:** Edgar
+**What was done:** Created a versioned successor to the existing GPPS 444 midterm framework reference without modifying the original reference. Version 1.1.0 adds imagegen-style conceptual visual slots, compact causal graph statements, planned asset paths/prompts, and short ELI5 conclusions for all 12 major frameworks/topics while preserving the original framework order, source base, PDF bookmarks, and hyperlinked TOC pattern.
+**Output:** `/Users/edgar/Documents/01 Projects/Claudia/GPPS 444 - History of Warfare - Thomas/Study Guides/GPPS_444_Midterm_Framework_Reference_v1.1.0.pdf`; `/Users/edgar/Documents/01 Projects/Claudia/GPPS 444 - History of Warfare - Thomas/Study Guides/GPPS_444_Midterm_Framework_Reference_v1.1.0_notes.md`; `/Users/edgar/Documents/01 Projects/Claudia/GPPS 444 - History of Warfare - Thomas/Study Guides/build_midterm_framework_reference_v1.1.0.py`
+**Notes:** Actual bitmap assets were not generated; the PDF and notes contain concrete prompts and intended paths under `assets/midterm_framework_reference_v1.1.0/`. Verification: generated PDF has 14 pages, 12 sidebar outline entries, and extracted text confirms 12 conceptual graph slots, 12 imagegen slots, 12 planned asset paths, and 12 ELI5 conclusion blocks. Original unversioned PDF/notes/builder left unchanged.
+
 ### 2026-04-29 — Session 10 Reading Summary (Napoleonic Wars II / Russia and Waterloo)
 **Requested by:** Edgar
 **What was done:** Created a new one-page Markdown summary for Wednesday, April 29, 2026, Session 10, "Napoleonic Wars II." Verified the local syllabus maps Session 10 to the same TCHW Part Three Ch. 11 Napoleonic reading block as Session 9, and checked the local TCHW PDF chapter start/TOC to confirm the actual chapter is John A. Lynn's "Nations in Arms, 1763-1815." Tuned the summary to large-scale warfare, coalition dynamics, environment/logistics, Russia 1812, Waterloo, and Thomas's recurring themes.
@@ -105,3 +111,9 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Built a structured GPPS 444 midterm framework reference using `_claudia/skills/theory-reference-pdf.md` and `_claudia/skills/pdf.md`. Treated warfare concepts as practical theories/frameworks, building first from existing Study Guides, Ares course memory, extracted syllabus, machine-readable slides/handouts, and machine-readable TCHW text. Generated a ReportLab PDF with cover-page TOC, 12 framework bookmarks, one page per framework, references, and source notes.
 **Output:** `GPPS 444 - History of Warfare - Thomas/Study Guides/GPPS_444_Midterm_Framework_Reference.pdf`; `GPPS 444 - History of Warfare - Thomas/Study Guides/GPPS_444_Midterm_Framework_Reference_notes.md`; `GPPS 444 - History of Warfare - Thomas/Study Guides/build_midterm_framework_reference.py`
 **Notes:** No OCR performed because the requested machine-readable sources were sufficient. Keegan PDFs checked but not used substantively because Ares memory and `syllabus_extracted.md` identify Parker/TCHW as the Spring 2026 core text. Verification: generated PDF has 14 pages and 12 sidebar outline entries.
+
+### 2026-04-30 — Midterm Framework Reference v1.1.1 Asset Integration
+**Requested by:** Edgar
+**What was done:** Created a v1.1.1 successor to the GPPS 444 midterm framework reference that embeds the 12 completed PNG assets from `Study Guides/assets/midterm_framework_reference_v1.1.0/` while preserving the original unversioned release and v1.1.0. Rebuilt the ReportLab PDF and kept the scope away from unrelated session one-pagers.
+**Output:** `GPPS 444 - History of Warfare - Thomas/Study Guides/GPPS_444_Midterm_Framework_Reference_v1.1.1.pdf`; `GPPS 444 - History of Warfare - Thomas/Study Guides/GPPS_444_Midterm_Framework_Reference_v1.1.1_notes.md`; `GPPS 444 - History of Warfare - Thomas/Study Guides/build_midterm_framework_reference_v1.1.1.py`
+**Notes:** Verification: `pypdf` reports 14 pages, 12 outline entries, and 12 embedded image XObjects; pages 2-13 each contain one embedded image. PyMuPDF rendered all pages into `_verification_v1.1.1/`; rendered-page stats were nonblank and contact-sheet review showed no obvious overflow.

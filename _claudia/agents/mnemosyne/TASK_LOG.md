@@ -9,6 +9,12 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Compiled a structured two-day planning brief covering QM3 HW1 status, assignments due within 7 days, class schedule for Thu/Fri, and existing Google Calendar events.
 **Output:** Structured brief returned to Claudia in chat.
 
+### 2026-04-29 — Current Academic Action Checklist DB Scan
+**Requested by:** Claudia / Edgar
+**What was done:** Queried `_claudia/claudia.db` for pending, overdue, upcoming, and recurring academic obligations as of 2026-04-29 America/Los_Angeles. Crosswalked assignment rows to course owners and treated readings as undated pending backlog by course/week.
+**Output:** Relay-ready checklist returned to Claudia in chat.
+**Notes:** Hard-dated urgent items are GPCO 410 ORANGE memo due 2026-04-29 11:00, overdue GPPS 463 LD9/LD10 discussion posts, and overdue GPCO 403 Concept Checks 2/3. Pending readings lack due-date fields, so they should be interpreted through course schedule context before dispatching reading work.
+
 ## 2026-04-23 — Readings-Due-This-Week Inventory (Mon 4/20 - Sun 4/26)
 **Requested by:** Claudia
 **What was done:** Inventoried readings due across all five courses for the week of Apr 20-26. Classified each against existing summaries and flagged citation weight. Prioritized three ANCHOR readings (Walter Ch. 2, Bueno de Mesquita et al., Fearon) plus secondary (Herrmann, Tetlock, Visser) and noted missing Cederman PDF.
@@ -87,3 +93,15 @@ Ran two cross-course queries. First: full open-assignments rundown across GPCO 4
 **What was done:** Normalized `_claudia/claudia.db` from the five course-owned `Course Admin/syllabus_extracted.md` files after course-agent dispatches stalled and Claudia used the explicit local fallback. Updated source paths, due times, confidence/date-kind metadata, recurring rules, and added missing GPPS 463 LD8/LD9/LD10 discussion-post rows.
 **Output:** `_claudia/claudia.db`; `_claudia/dashboard.html`
 **Notes:** Today's dashboard-critical rows now include GPPS 463 LD10 discussion post due 2026-04-28 17:00, GPCO 403 Concept Check 3 due 2026-04-28 23:59, and GPCO 410 ORANGE memo due 2026-04-29 11:00.
+
+### 2026-04-29 — Checklist Status Refresh and Midterm Priority Query
+**Requested by:** Edgar
+**What was done:** Updated five handled checklist rows in `_claudia/claudia.db`: GPCO 403 Concept Checks 2 and 3 marked `completed`; GPPS 463 LD9 and LD10 discussion posts plus GPCO 410 ORANGE memo marked `submitted`. Stamped `submitted_at` and `last_verified_at` with the current local time, then queried active upcoming assignments with midterms prioritized.
+**Output:** `_claudia/claudia.db`; priority list returned to Claudia in chat.
+**Notes:** Active near-term priority is now midterms first: GPCO 410 and GPCO 403 on 2026-05-04, GPEC 446 on 2026-05-05, GPPS 463 Midterm Exam 2 on 2026-05-11.
+
+### 2026-04-30 — Reference Sheet Visual Preference
+**Requested by:** Edgar
+**What was done:** Persisted Edgar's cross-course preference that future reference sheets should treat imagegen-created conceptual visuals/infographics as a standard component when useful and feasible, following the QM3 v1.3.0 reference-sheet pattern.
+**Output:** `_claudia/memory/preferences.md`
+**Notes:** Preference applies across courses and should be checked before future lecture-to-reference or theory-reference sheet builds.

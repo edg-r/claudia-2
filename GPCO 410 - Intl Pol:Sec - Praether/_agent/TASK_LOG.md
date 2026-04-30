@@ -2,6 +2,18 @@
 
 Record of major completed tasks. Read to avoid duplicate work.
 
+### 2026-04-30 — Midterm theory reference v1.3.1 embedded-image rebuild
+**Requested by:** Edgar
+**What was done:** Integrated the completed 11 PNG conceptual visuals into the GPCO 410 midterm theory reference, creating v1.3.1 while preserving v1.2.0 and v1.3.0. Rebuilt the PDF from the existing builder, replaced placeholder visual-slot prompt panels with actual embedded images and concise concept captions, and kept the v1.3.0 ELI5 sections.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/GPCO410_Midterm_Theory_Reference_v1.3.1.pdf`; notes at `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/GPCO410_Midterm_Theory_Reference_v1.3.1_notes.md`; revised builder at `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/build_midterm_theory_reference.py`; embedded assets from `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/assets/GPCO410_Midterm_Theory_Reference_v1.3.0/`
+**Notes:** Verification passed: Python compile, 34 PDF pages, 11 embedded PDF image XObjects, 11 source PNGs nonblank, embedded image pages at 3/6/9/12/15/18/21/24/27/30/33, all pages rendered nonblank via PyMuPDF, contact-sheet review showed no obvious overflow/clipping, and provenance remains `GPT-5 (Codex, medium reasoning)`. Existing v1.2.0 and v1.3.0 PDFs were preserved.
+
+### 2026-04-30 — Midterm theory reference v1.3.0 visual-slot and ELI5 revision
+**Requested by:** Edgar
+**What was done:** Revised the GPCO 410 midterm theory reference from v1.2.0 into v1.3.0 while preserving v1.2.0 unchanged. Added imagegen-style conceptual visual slots to all 11 major theory/topic entries, including exact prompts and planned asset paths, and added a short ELI5 conclusion to each entry.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/GPCO410_Midterm_Theory_Reference_v1.3.0.pdf`; notes at `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/GPCO410_Midterm_Theory_Reference_v1.3.0_notes.md`; revised builder at `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/build_midterm_theory_reference.py`; planned asset directory at `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/assets/GPCO410_Midterm_Theory_Reference_v1.3.0/`
+**Notes:** Verification passed: Python compile, 23 PDF pages, 11 sidebar bookmarks, 11 cover-page link annotations, successful `pypdf` text extraction, 11 visual-slot sections, 11 imagegen prompts, 11 planned asset paths, 11 ELI5 conclusions, source-faithful terms present, and provenance present as `GPT-5 (Codex, medium reasoning)`. No raster assets were generated yet; asset directory is ready and empty.
+
 ### 2026-04-29 — Midterm theory reference v1.2.0 larger-text expansion
 **Requested by:** Claudia
 **What was done:** Revised the current best GPCO 410 midterm theory reference from v1.1.0 into v1.2.0. Increased the builder's main body text style to 12pt, expanded each theory with author/reading context, deeper mechanism explanation, exam deployment logic, common pitfalls, and compare-with notes, while preserving source-faithful terminology for Cederman, Walter, Powell, and Fearon. History of Warfare remained skipped.

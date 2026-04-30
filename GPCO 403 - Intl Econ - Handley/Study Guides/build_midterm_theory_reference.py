@@ -6,6 +6,7 @@ from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.lib.pagesizes import landscape, letter
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import inch
+from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 from reportlab.platypus import (
     Flowable,
@@ -20,9 +21,11 @@ from reportlab.platypus import (
 )
 
 
-OUT = Path(__file__).resolve().parent / "GPCO 403_Midterm_Theory_Reference_v1.3.0.pdf"
+VERSION = "v1.4.1"
+OUT = Path(__file__).resolve().parent / f"GPCO 403_Midterm_Theory_Reference_{VERSION}.pdf"
+ASSET_DIR = Path(__file__).resolve().parent / "assets" / "gpco403_midterm_v1.4.0"
 TITLE = "GPCO 403 Midterm Theory Reference"
-DATE = "2026-04-29"
+DATE = "2026-04-30"
 MODEL = "GPT-5.5 (medium reasoning)"
 
 DARK_NAVY = colors.HexColor("#1B2A4A")
@@ -586,14 +589,34 @@ def draw_box(c, x, y_top, w, h, title, paragraphs, fill=None, border=BORDER_GREY
     for para_text in paragraphs:
         if isinstance(para_text, tuple):
             bullet_title, body = para_text
-            text = f"{bullet_title}: {brief(body)}"
+            limit = 112 if title == "KEY TERMS" else 150
+            text = f"{bullet_title}: {brief(body, limit)}"
             prefix = "- "
         else:
-            text = para_text if title in {"SITUATION + MECHANISM", "AUTHOR / SOURCE CONTEXT", "Use"} else brief(para_text)
+            if title in {"SITUATION + MECHANISM", "AUTHOR / SOURCE CONTEXT", "Use"}:
+                text = para_text
+            elif title == "EXAM LOGIC":
+                text = brief(para_text, 132)
+            elif title == "ELI5 CONCLUSION":
+                text = brief(para_text, 165)
+            else:
+                text = brief(para_text, 150)
             prefix = ""
         font = "Helvetica"
         size = 12
         leading = 13.35
+        if title == "KEY TERMS":
+            size = 10.2
+            leading = 11.25
+        elif title == "EXAM LOGIC":
+            size = 8.9
+            leading = 9.75
+        elif title == "ELI5 CONCLUSION":
+            size = 12
+            leading = 13.2
+        elif title in {"ASSUMPTIONS", "STRENGTHS", "WEAKNESSES"}:
+            size = 10.5
+            leading = 11.6
         lines = wrap_line(c, text, w - 14, font, size)
         if prefix and lines:
             lines[0] = prefix + lines[0]
@@ -610,6 +633,232 @@ def draw_box(c, x, y_top, w, h, title, paragraphs, fill=None, border=BORDER_GREY
         OVERFLOW_LOG.append((title, len(overflow), overflow[0]))
     c.restoreState()
     return overflow
+
+
+ELI5 = {
+    "National Income Accounting and Open-Economy GDP": "ELI5: GDP counts what gets made at home; the open-economy accounts explain who buys it, who earns from it, and whether foreign trade fills the gap.",
+    "Current Account and Balance of Payments Identity": "ELI5: If goods or money move one way, an IOU, asset, or payment entry moves the other way. The ledger always has two sides.",
+    "Savings-Investment Gap and Twin Deficits": "ELI5: If a country wants to invest more than it saves, someone abroad must lend the missing resources.",
+    "External Wealth and Valuation Effects": "ELI5: A country's world balance sheet changes because it borrows/lends and because asset prices and exchange rates move.",
+    "Intertemporal Trade and Consumption Smoothing": "ELI5: Borrowing from abroad is like moving purchasing power from tomorrow to today, useful after temporary shocks but dangerous if tomorrow cannot repay.",
+    "Exchange-Rate Basics and Cross-Rate Arbitrage": "ELI5: Exchange rates are price tags for money. If three price tags do not line up, traders can loop through them for profit.",
+    "Interest Parity and Forward Exchange Rates": "ELI5: A high interest rate is not free money if the currency is expected to fall or the forward rate locks away the gain.",
+    "Exchange-Rate Regimes and Crisis Balance Sheets": "ELI5: Depreciation can help exporters, but it hurts borrowers who owe dollars and earn local currency.",
+    "Law of One Price": "ELI5: The same tradable good should not stay much cheaper in one place after exchange rates and trade costs are counted.",
+    "Purchasing Power Parity and the Real Exchange Rate": "ELI5: Over time, exchange rates tend to adjust toward what equal baskets cost, but short-run currency prices can wander far away.",
+    "Big Mac Index as Applied PPP": "ELI5: The Big Mac turns PPP into one familiar sandwich, useful for intuition but too simple to be a final answer.",
+}
+
+
+CONCEPTUAL_IMAGES = {
+    "National Income Accounting and Open-Economy GDP": "gdp_supply_chain_cutaway.png",
+    "Intertemporal Trade and Consumption Smoothing": "consumption_smoothing_bridge.png",
+    "Exchange-Rate Regimes and Crisis Balance Sheets": "dollar_debt_balance_sheet_scene.png",
+    "Big Mac Index as Applied PPP": "big_mac_ppp_market_scene.png",
+}
+
+
+def draw_label(c, x, y, text, size=8.2, bold=False, color=TEXT):
+    c.setFillColor(color)
+    c.setFont("Helvetica-Bold" if bold else "Helvetica", size)
+    c.drawString(x, y, text)
+
+
+def draw_arrow(c, x1, y1, x2, y2, color=MED_BLUE):
+    c.saveState()
+    c.setStrokeColor(color)
+    c.setLineWidth(1.1)
+    c.line(x1, y1, x2, y2)
+    if x2 >= x1:
+        c.line(x2, y2, x2 - 5, y2 + 3)
+        c.line(x2, y2, x2 - 5, y2 - 3)
+    else:
+        c.line(x2, y2, x2 + 5, y2 + 3)
+        c.line(x2, y2, x2 + 5, y2 - 3)
+    c.restoreState()
+
+
+def draw_visual_frame(c, x, y_top, w, h, title):
+    c.saveState()
+    c.setStrokeColor(BORDER_GREY)
+    c.setLineWidth(0.45)
+    c.setFillColor(colors.white)
+    c.rect(x, y_top - h, w, h, fill=1, stroke=1)
+    c.setFillColor(DARK_NAVY)
+    c.setFont("Helvetica-Bold", 9.2)
+    c.drawString(x + 6, y_top - 13, title)
+    c.restoreState()
+
+
+def draw_conceptual_image(c, x, y_top, w, h, image_path):
+    reader = ImageReader(str(image_path))
+    img_w, img_h = reader.getSize()
+    pad_x = 7
+    pad_top = 22
+    pad_bottom = 8
+    box_x = x + pad_x
+    box_y = y_top - h + pad_bottom
+    box_w = w - 2 * pad_x
+    box_h = h - pad_top - pad_bottom
+    scale = min(box_w / img_w, box_h / img_h)
+    draw_w = img_w * scale
+    draw_h = img_h * scale
+    draw_x = box_x + (box_w - draw_w) / 2
+    draw_y = box_y + (box_h - draw_h) / 2
+    c.drawImage(reader, draw_x, draw_y, width=draw_w, height=draw_h, preserveAspectRatio=True, mask="auto")
+
+
+def draw_visual(c, x, y_top, w, h, theory):
+    title = theory["title"]
+    draw_visual_frame(c, x, y_top, w, h, "VISUAL")
+    left = x + 9
+    right = x + w - 9
+    top = y_top - 24
+    bottom = y_top - h + 10
+    mid = (left + right) / 2
+
+    if title in CONCEPTUAL_IMAGES:
+        image_path = ASSET_DIR / CONCEPTUAL_IMAGES[title]
+        if not image_path.exists():
+            raise FileNotFoundError(f"Missing conceptual image for {title}: {image_path}")
+        draw_conceptual_image(c, x, y_top, w, h, image_path)
+        return
+
+    if title == "National Income Accounting and Open-Economy GDP":
+        labels = [("Inputs", "not final"), ("Firm", "value added"), ("Final car", "GDP counts once")]
+        box_w = (w - 42) / 3
+        for i, (a, b) in enumerate(labels):
+            bx = left + i * (box_w + 12)
+            c.setFillColor(LIGHT_BLUE if i == 2 else LIGHT_GREY)
+            c.rect(bx, top - 42, box_w, 38, fill=1, stroke=1)
+            draw_label(c, bx + 5, top - 18, a, 8.2, True)
+            draw_label(c, bx + 5, top - 31, b, 7.4)
+            if i < 2:
+                draw_arrow(c, bx + box_w + 2, top - 23, bx + box_w + 10, top - 23)
+        draw_label(c, left, bottom, "Rule: count final output or value added, not both.", 7.6, False)
+    elif title == "Current Account and Balance of Payments Identity":
+        c.setFillColor(LIGHT_BLUE)
+        c.rect(left, top - 38, (w - 28) / 2, 34, fill=1, stroke=1)
+        c.setFillColor(WARM_AMBER)
+        c.rect(mid + 5, top - 38, (w - 28) / 2, 34, fill=1, stroke=1)
+        draw_label(c, left + 7, top - 18, "CA deficit", 8.4, True)
+        draw_label(c, left + 7, top - 31, "imports/income now", 7.4)
+        draw_label(c, mid + 12, top - 18, "FA surplus", 8.4, True)
+        draw_label(c, mid + 12, top - 31, "claims sold abroad", 7.4)
+        draw_arrow(c, mid - 10, top - 21, mid + 3, top - 21, ACCENT_GOLD)
+        draw_label(c, left, bottom, "BOP logic: CA + KA + FA + reserves + error = 0.", 7.6)
+    elif title == "Savings-Investment Gap and Twin Deficits":
+        axis_y = bottom + 18
+        c.line(left + 8, axis_y, right - 6, axis_y)
+        c.setFillColor(MED_BLUE)
+        c.rect(left + 30, axis_y, 34, 42, fill=1, stroke=0)
+        c.setFillColor(ACCENT_GOLD)
+        c.rect(left + 78, axis_y, 34, 64, fill=1, stroke=0)
+        draw_label(c, left + 33, axis_y - 11, "S", 8, True)
+        draw_label(c, left + 82, axis_y - 11, "I", 8, True)
+        draw_arrow(c, left + 120, axis_y + 32, right - 25, axis_y + 32, ACCENT_GOLD)
+        draw_label(c, left + 126, axis_y + 39, "gap financed abroad", 7.4)
+        draw_label(c, left, top - 6, "CA = S - I", 10, True, DARK_NAVY)
+        draw_label(c, left, bottom, "If I > S, CA is negative: net borrowing.", 7.6)
+    elif title == "External Wealth and Valuation Effects":
+        y = top - 19
+        draw_label(c, left, y, "Opening NFA", 7.8, True)
+        draw_arrow(c, left + 68, y + 3, left + 92, y + 3)
+        draw_label(c, left + 98, y, "+ CA flow", 7.8, True)
+        draw_arrow(c, left + 154, y + 3, left + 178, y + 3)
+        draw_label(c, left + 184, y, "+ valuation", 7.8, True)
+        c.setStrokeColor(ACCENT_GOLD)
+        c.setLineWidth(1.2)
+        pts = [(left + 12, bottom + 10), (left + 55, bottom + 25), (left + 98, bottom + 18), (left + 141, bottom + 48), (right - 8, bottom + 38)]
+        for (x1, y1), (x2, y2) in zip(pts, pts[1:]):
+            c.line(x1, y1, x2, y2)
+        draw_label(c, left, bottom, "Stocks move through flows and asset-price/FX changes.", 7.4)
+    elif title == "Intertemporal Trade and Consumption Smoothing":
+        y = top - 28
+        c.line(left + 8, y, right - 8, y)
+        for px, lab in [(left + 18, "today"), (mid, "shock"), (right - 45, "future")]:
+            c.circle(px, y, 4, fill=1, stroke=0)
+            draw_label(c, px - 12, y - 16, lab, 7.2)
+        draw_arrow(c, right - 45, y + 24, mid + 6, y + 24, ACCENT_GOLD)
+        draw_label(c, mid - 32, y + 33, "borrow", 7.4, True)
+        draw_arrow(c, mid + 6, y - 28, right - 45, y - 28, MED_BLUE)
+        draw_label(c, mid + 18, y - 39, "repay", 7.4, True)
+        draw_label(c, left, bottom, "Good if the shock is temporary and future income can repay.", 7.4)
+    elif title == "Exchange-Rate Basics and Cross-Rate Arbitrage":
+        pts = [(mid, top - 4), (left + 18, bottom + 9), (right - 18, bottom + 9)]
+        labs = ["USD", "JPY", "MXN"]
+        for (px, py), lab in zip(pts, labs):
+            c.setFillColor(LIGHT_BLUE)
+            c.circle(px, py, 15, fill=1, stroke=1)
+            draw_label(c, px - 10, py - 3, lab, 7.8, True)
+        draw_arrow(c, pts[0][0] - 12, pts[0][1] - 10, pts[1][0] + 12, pts[1][1] + 10)
+        draw_arrow(c, pts[1][0] + 18, pts[1][1], pts[2][0] - 18, pts[2][1])
+        draw_arrow(c, pts[2][0] - 12, pts[2][1] + 10, pts[0][0] + 12, pts[0][1] - 10)
+        draw_label(c, left, bottom - 1, "No arbitrage: direct and indirect paths match.", 7.4)
+    elif title == "Interest Parity and Forward Exchange Rates":
+        draw_label(c, left, top - 2, "Home return", 7.8, True)
+        draw_label(c, left, top - 18, "1 + i", 9, True, MED_BLUE)
+        draw_label(c, mid - 34, top - 2, "Foreign covered return", 7.8, True)
+        draw_label(c, mid - 34, top - 18, "(1 + i*) x F/S", 9, True, ACCENT_GOLD)
+        c.setStrokeColor(DARK_NAVY)
+        c.line(left, bottom + 24, right, bottom + 24)
+        c.setFillColor(DARK_NAVY)
+        c.circle(mid, bottom + 24, 4, fill=1)
+        draw_label(c, left, bottom + 5, "CIP says these are equal after forward cover.", 7.4)
+    elif title == "Exchange-Rate Regimes and Crisis Balance Sheets":
+        c.setFillColor(LIGHT_BLUE)
+        c.rect(left, top - 42, 78, 38, fill=1, stroke=1)
+        c.setFillColor(WARM_AMBER)
+        c.rect(right - 86, top - 42, 78, 38, fill=1, stroke=1)
+        draw_label(c, left + 7, top - 18, "Local revenue", 7.8, True)
+        draw_label(c, left + 7, top - 31, "taxes, wages", 7.2)
+        draw_label(c, right - 79, top - 18, "Dollar debt", 7.8, True)
+        draw_label(c, right - 79, top - 31, "burden rises", 7.2)
+        draw_arrow(c, mid - 18, bottom + 22, mid + 18, bottom + 22, ACCENT_GOLD)
+        draw_label(c, mid - 30, bottom + 35, "depreciation", 7.4, True)
+        draw_label(c, left, bottom, "Mismatch turns FX moves into solvency stress.", 7.4)
+    elif title == "Law of One Price":
+        axis_y = bottom + 22
+        c.line(left + 8, axis_y, right - 8, axis_y)
+        c.setStrokeColor(ACCENT_GOLD)
+        c.line(left + 18, axis_y + 18, right - 18, axis_y + 18)
+        c.line(left + 18, axis_y - 18, right - 18, axis_y - 18)
+        draw_label(c, left, top - 3, "No-arbitrage band", 8.2, True)
+        c.setFillColor(MED_BLUE)
+        c.circle(mid, axis_y + 7, 4, fill=1)
+        draw_label(c, mid + 8, axis_y + 4, "common-currency price gap", 7.2)
+        draw_label(c, left, bottom, "Arbitrage only bites outside trade-cost bands.", 7.4)
+    elif title == "Purchasing Power Parity and the Real Exchange Rate":
+        axis_y = bottom + 17
+        c.line(left + 4, axis_y, right - 4, axis_y)
+        c.setStrokeColor(BORDER_GREY)
+        c.line(left + 4, axis_y + 35, right - 4, axis_y + 35)
+        c.setStrokeColor(MED_BLUE)
+        c.setLineWidth(1.4)
+        pts = [(left + 8, axis_y + 18), (left + 50, axis_y + 29), (left + 92, axis_y + 13), (left + 134, axis_y + 37), (right - 8, axis_y + 23)]
+        for (x1, y1), (x2, y2) in zip(pts, pts[1:]):
+            c.line(x1, y1, x2, y2)
+        draw_label(c, left, top - 3, "q = E x Pforeign / Phome", 8.6, True)
+        draw_label(c, left, bottom, "PPP is a long-run anchor, not a short-run forecast.", 7.4)
+    elif title == "Big Mac Index as Applied PPP":
+        axis_y = bottom + 17
+        c.line(left + 8, axis_y, right - 6, axis_y)
+        vals = [42, 26, 34]
+        labs = ["US", "Market FX", "PPP FX"]
+        cols = [MED_BLUE, ACCENT_GOLD, DARK_NAVY]
+        for i, val in enumerate(vals):
+            bx = left + 24 + i * 52
+            c.setFillColor(cols[i])
+            c.rect(bx, axis_y, 24, val, fill=1, stroke=0)
+            draw_label(c, bx - 5, axis_y - 11, labs[i], 6.9)
+        draw_label(c, left, top - 3, "Convert price first, then judge over/under.", 7.8, True)
+        draw_label(c, left, bottom, "Single-good PPP is a signal, not a verdict.", 7.4)
+    else:
+        draw_label(c, left, top, "Deterministic diagram slot.", 8.0)
+
+
+def draw_eli5(c, x, y_top, w, h, title):
+    draw_box(c, x, y_top, w, h, "ELI5 CONCLUSION", [ELI5[title]], fill=LIGHT_BLUE)
 
 
 def draw_footer(c, page_num):
@@ -641,9 +890,9 @@ def draw_cover(c):
     c.setFont("Helvetica", 12)
     c.drawCentredString(w / 2, h - 0.75 * inch, "International Economics | Prof. Kyle Handley | UCSD GPS | Spring 2026")
     desc = (
-        "Version 1.3.0 rebuilds the v1.2.0 reference with 12pt body text, fuller theory-page explanation, "
-        "and source context at the start of each theory. History of Warfare material remains skipped. "
-        "Landscape pages, tight margins, and compact blocks preserve one page per theory."
+        "Version 1.4.1 preserves the v1.3.0 theory set and 12pt readable landscape layout, keeps "
+        "code-generated economics diagrams and ELI5 conclusions on each theory page, and embeds the four "
+        "finished conceptual PNG assets from assets/gpco403_midterm_v1.4.0 in place of the v1.4.0 imagegen markers."
     )
     draw_box(c, margin, h - 1.35 * inch, w - 2 * margin, 0.95 * inch, "Use", [desc], fill=LIGHT_GREY)
     c.setFillColor(DARK_NAVY)
@@ -692,7 +941,7 @@ def draw_theory(c, theory, page_num):
     c.drawString(margin + 8, h - 0.53 * inch, plain(f"{theory['source']} - {theory['author']}")[:150])
 
     top_y = h - 0.76 * inch
-    context_h = 1.02 * inch
+    context_h = 0.98 * inch
     draw_box(c, margin, top_y, usable_w, context_h, "AUTHOR / SOURCE CONTEXT", [AUTHOR_CONTEXT[theory["title"]]], fill=LIGHT_GREY)
 
     col_gap = 7
@@ -712,14 +961,19 @@ def draw_theory(c, theory, page_num):
         plain(theory["intuition"]) + " Exam logic: write the identity, parity condition, or balance-sheet channel first; then explain the mechanism and the violated assumption."
     ]
     draw_box(c, c1, y2, main_left_w, main_h, "SITUATION + MECHANISM", mechanism, fill=None)
-    draw_box(c, right_x, y2, main_right_w, 1.78 * inch, "KEY TERMS", top_concepts(theory, 2), fill=None)
+    visual_h = 1.24 * inch
+    key_h = 1.08 * inch
+    exam_h = main_h - visual_h - key_h - 14
+    draw_visual(c, right_x, y2, main_right_w, visual_h, theory)
+    draw_box(c, right_x, y2 - visual_h - 7, main_right_w, key_h, "KEY TERMS", top_concepts(theory, 2), fill=None)
     exam_items = theory.get("exam_applications", [])
-    draw_box(c, right_x, y2 - 1.78 * inch - 7, main_right_w, main_h - 1.78 * inch - 7, "EXAM LOGIC", top_items(exam_items, 2), fill=None)
+    draw_box(c, right_x, y2 - visual_h - key_h - 14, main_right_w, exam_h, "EXAM LOGIC", top_items(exam_items, 2), fill=None)
 
     y3 = y2 - main_h - 7
     draw_box(c, c1, y3, col_w, lower_h, "ASSUMPTIONS", top_items(theory["assumptions"], 2), fill=WARM_AMBER)
     draw_box(c, c2, y3, col_w, lower_h, "STRENGTHS", top_items(theory["strengths"], 2), fill=LIGHT_BLUE)
     draw_box(c, c3, y3, col_w, lower_h, "WEAKNESSES", top_items(theory["weaknesses"], 2), fill=WARM_AMBER)
+    draw_eli5(c, margin, y3 - lower_h - 6, usable_w, 0.86 * inch, theory["title"])
     draw_footer(c, page_num)
     c.showPage()
 
@@ -747,7 +1001,7 @@ def draw_references(c, page_num):
         y -= 7
     disclosure = (
         f"---\nGenerated for: Edgar Agunias\nDate: {DATE}\nModel: {MODEL}\n"
-        "Sources: GPCO 403 syllabus/course memory; v1.2.0 theory reference and notes; existing Week 4 reference and Apr. 27 PPP/LOOP one-pager; machine-readable Spring 2021 and 2025 midterm answer keys, practice questions, Lecture 6, Lecture 7 PPP, and formula-check files listed in the sibling v1.3.0 notes.\n"
+        "Sources: GPCO 403 syllabus/course memory; v1.3.0 theory reference and notes; existing Week 4 reference and Apr. 27 PPP/LOOP one-pager; machine-readable Spring 2021 and 2025 midterm answer keys, practice questions, Lecture 6, Lecture 7 PPP, and formula-check files listed in the sibling v1.3.0 notes.\n"
         "Agent: Plutus\n---"
     )
     y -= 8
@@ -762,8 +1016,9 @@ def draw_references(c, page_num):
 
 def build():
     OVERFLOW_LOG.clear()
+    ASSET_DIR.mkdir(parents=True, exist_ok=True)
     c = canvas.Canvas(str(OUT), pagesize=landscape(letter))
-    c.setTitle(TITLE + " v1.3.0")
+    c.setTitle(TITLE + f" {VERSION}")
     draw_cover(c)
     for i, theory in enumerate(THEORIES, start=2):
         draw_theory(c, theory, i)

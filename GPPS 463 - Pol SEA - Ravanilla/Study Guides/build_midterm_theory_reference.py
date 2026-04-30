@@ -9,6 +9,7 @@ from reportlab.lib.units import inch
 from reportlab.platypus import (
     Flowable,
     HRFlowable,
+    Image,
     KeepTogether,
     PageBreak,
     Paragraph,
@@ -20,8 +21,8 @@ from reportlab.platypus import (
 
 
 OUT_DIR = Path(__file__).resolve().parent
-VERSION = "v1.2.0"
-MODEL_PROVENANCE = "GPT-5.5 (medium reasoning)"
+VERSION = "v1.3.1"
+MODEL_PROVENANCE = "GPT-5 via Codex (reasoning effort not exposed)"
 PDF_PATH = OUT_DIR / f"GPPS_463_Midterm_Theory_Reference_{VERSION}.pdf"
 USABLE_WIDTH = 7.85 * inch
 
@@ -158,6 +159,80 @@ styles.add(
         textColor=colors.HexColor("#DDE7F3"),
     )
 )
+
+
+VISUAL_SLOTS = {
+    "constructed_region": {
+        "asset": "Study Guides/assets/midterm_theory_reference_v1.3.0/constructed_region_shared_experience_map.png",
+        "graph": "Concept map: diversity nodes feeding into shared regional category and ASEAN/Cold War institutionalization.",
+        "prompt": "Create a clean editorial concept-map graphic for a graduate study guide. Show Southeast Asia as a constructed political region, not a natural cultural unit. Use labeled nodes for maritime trade, colonial disruption, Cold War strategy, ASEAN institutionalization, and shared experience in diversity, with arrows converging on a central label 'Southeast Asia as political category'. Minimal cream background, navy lines, muted teal and gold accents, no flags, no cartoons, no small unreadable text.",
+    },
+    "mandala": {
+        "asset": "Study Guides/assets/midterm_theory_reference_v1.3.0/mandala_fading_authority_rings.png",
+        "graph": "Radial diagram: sacred/commercial center, fading authority rings, conditional peripheral allegiance.",
+        "prompt": "Create a polished conceptual diagram of a precolonial Southeast Asian mandala polity. Show a bright central court or port hub, concentric rings of fading authority, tribute and trade arrows, and peripheral chiefs with conditional allegiance. Academic reference-sheet style, flat vector-like illustration, navy/teal/gold palette, labels limited to center, tribute, trade, fading authority, no modern borders, no cartoon people.",
+    },
+    "sinic_village": {
+        "asset": "Study Guides/assets/midterm_theory_reference_v1.3.0/sinic_village_civic_capital_flow.png",
+        "graph": "Causal flow: Dai Viet state delegation -> village councils/quotas/public works -> civic capital -> modern public goods/consumption.",
+        "prompt": "Create a horizontal causal-flow graphic for Dell, Lane, and Querubin's Vietnam village-governance argument. Show Dai Viet state delegation leading to village councils, tax and conscription quotas, public works, repeated cooperation, civic capital, and modern public goods and consumption. Clean graduate political-economy style, subtle map-boundary motif, navy text boxes, green arrows, no decorative characters, no tiny paragraphs.",
+    },
+    "diamond_geography": {
+        "asset": "Study Guides/assets/midterm_theory_reference_v1.3.0/diamond_geography_scale_ladder.png",
+        "graph": "Scale ladder: continental biogeography -> proximate conquest toolkit -> institutional mediation -> within-SEA variation.",
+        "prompt": "Create a conceptual scale-ladder diagram for Jared Diamond's geography argument as used in Southeast Asia politics. Show bottom layer 'continental biogeography', then domesticable species and east-west diffusion, then guns/germs/steel as proximate toolkit, then institutional mediation, ending with a warning label 'too coarse for within-SEA variation'. Editorial academic style, restrained colors, simple icons for crops, animals, ships, and institutions, no deterministic world map.",
+    },
+    "european_diversion": {
+        "asset": "Study Guides/assets/midterm_theory_reference_v1.3.0/european_diversion_timeline.png",
+        "graph": "Timeline: Rome collapse -> feudalism -> free towns/merchant coalitions -> nation-states -> naval projection into SEA.",
+        "prompt": "Create a compact timeline graphic titled European Diversion for a politics study guide. Show five stages: Fall of Rome, feudal security bargains, free towns and merchant coalitions, fiscal-military nation-states, overseas naval projection into Southeast Asia. Use small symbolic icons, arrows, and one contrast callout 'mandalas stayed flexible/personalistic'. Navy, slate, and gold palette, clean print-friendly layout, no crowded text.",
+    },
+    "ajr_reversal": {
+        "asset": "Study Guides/assets/midterm_theory_reference_v1.3.0/ajr_reversal_extractive_spillover.png",
+        "graph": "Mechanism map: VOC monopoly violence -> output restriction/autarky -> destroyed commerce -> reversal of development.",
+        "prompt": "Create an academic mechanism map for Acemoglu and Robinson's reversal-of-development argument in the Moluccas. Show VOC monopoly violence leading to spice-tree destruction, output restriction, defensive autarky by neighboring polities, destroyed commerce, and long-run underdevelopment. Use an abstract island-and-trade-network motif, red only for coercion, navy/gray for institutions, concise labels, no gore, no stereotyped imagery.",
+    },
+    "dell_olken": {
+        "asset": "Study Guides/assets/midterm_theory_reference_v1.3.0/dell_olken_java_factory_catchment.png",
+        "graph": "Spatial diagram: sugar factory catchment radius, roads/rail/irrigation/schools, durable agglomeration.",
+        "prompt": "Create a spatial political-economy diagram for Dell and Olken's Java Cultivation System findings. Show a sugar factory at center, a 4-7 km catchment ring, cane villages, roads, rail, irrigation, schools, and modern manufacturing clustering around the old factory site. Clean reference-sheet graphic, muted green and navy palette, precise labels, no romantic plantation imagery, no people in distress.",
+    },
+    "war_eoi": {
+        "asset": "Study Guides/assets/midterm_theory_reference_v1.3.0/stubbs_war_eoi_conditional_path.png",
+        "graph": "Conditional path: war/security pressure + aid/market access + elite weakening -> strong state -> EOI, with Philippines failure branch.",
+        "prompt": "Create a conditional causal-path diagram for Richard Stubbs on war and export-oriented industrialization. Show war and Cold War security pressure, U.S./Japanese aid and market access, elite disruption, strong state formation, and EOI success. Include a clearly marked Philippines failure branch where landed elites and weak tax capacity survive. Academic flowchart style, navy boxes, teal success path, amber caution branch, no battlefield imagery.",
+    },
+    "thai_miracle": {
+        "asset": "Study Guides/assets/midterm_theory_reference_v1.3.0/thailand_non_developmental_state_growth_mix.png",
+        "graph": "Balance chart: open economy, Chinese-Thai entrepreneurs, macro stability, land frontier, demography -> growth; 1997 fragility limit.",
+        "prompt": "Create a polished balance-chart graphic for Thailand's non-developmental-state miracle. Show growth inputs on one side: open economy, Chinese-Thai entrepreneurial class, macro stability, land frontier, demographic transition, and cautious pro-business state. Show 1997 crisis, financial fragility, and inequality as limit tests on the other side. Graduate study-guide style, Thai case without flags or tourist imagery, navy/green/gold palette.",
+    },
+    "singapore_model": {
+        "asset": "Study Guides/assets/midterm_theory_reference_v1.3.0/singapore_state_capitalism_control_panel.png",
+        "graph": "Control-panel diagram: PAP state coordinates labor, savings, land, infrastructure, MNE attraction, logistics.",
+        "prompt": "Create a clean control-panel style conceptual graphic for the Singapore development model. Center a capable PAP state coordinating labor discipline, CPF forced savings, land assembly, public housing, infrastructure, MNE-led manufacturing, and port/logistics services. Show markets operating inside state-shaped conditions, not laissez-faire. Modern editorial style, navy and teal with gold highlights, no skyline photo, no flag, no propaganda feel.",
+    },
+    "afc_paradox": {
+        "asset": "Study Guides/assets/midterm_theory_reference_v1.3.0/hicken_crisis_reform_pressure_paradox.png",
+        "graph": "Two-line comparison: Thailand severe shock -> reform pressure; Philippines mild shock -> institutional stickiness.",
+        "prompt": "Create a two-track comparison graphic for Allen Hicken's Asian Financial Crisis reform-pressure paradox. Top track: Thailand, severe 1997 shock, visible institutional failure, reform pressure. Bottom track: Philippines, milder shock, status quo coalition survives, weak institutions remain sticky. Use simple line graphs or pressure gauges, academic reference-sheet style, navy/amber/teal palette, no stock-market clutter, concise labels.",
+    },
+}
+
+
+ELI5_CONCLUSIONS = {
+    "constructed_region": "ELI5: Southeast Asia is like a study group made from very different classmates. They became one group because outsiders, wars, trade, and ASEAN kept treating them as connected.",
+    "mandala": "ELI5: A mandala kingdom was strongest near the king and weaker farther away, like a lamp whose light fades at the edge of the room.",
+    "sinic_village": "ELI5: Dai Viet villages got practice solving problems together, so even after rulers changed, the habit of cooperation stuck around.",
+    "diamond_geography": "ELI5: Geography gave some places an early toolbox, but it does not explain everything people later built with that toolbox.",
+    "european_diversion": "ELI5: Europe's messy medieval fights accidentally trained rulers, towns, and merchants to raise money, build states, and send ships far away.",
+    "ajr_reversal": "ELI5: The VOC did not just take spices. It broke the trading system so badly that places became poorer than they might have been.",
+    "dell_olken": "ELI5: Java's sugar system was coercive, but it left roads, factories, and skills that later communities could still use.",
+    "war_eoi": "ELI5: War can push states to get stronger, but only if it actually weakens old elites and gives the state room to build new export industries.",
+    "thai_miracle": "ELI5: Thailand grew fast without a bossy developmental state because business networks, openness, and stability did a lot of the work, until finance got shaky.",
+    "singapore_model": "ELI5: Singapore used markets, but the state set the rules, built the pipes, trained the workers, and kept everyone moving in the same direction.",
+    "afc_paradox": "ELI5: A big crisis can force repairs, while a smaller crisis can let a weak system limp along unchanged.",
+}
 
 
 theories = [
@@ -686,6 +761,50 @@ def paired_table(left_items, right_items, left_title, right_title):
     return t
 
 
+def asset_path(slot):
+    asset = Path(slot["asset"])
+    if asset.parts[:2] == ("Study Guides", "assets"):
+        asset = Path(*asset.parts[1:])
+    return OUT_DIR / asset
+
+
+def visual_asset_block(theory):
+    slot = VISUAL_SLOTS[theory["anchor"]]
+    image_path = asset_path(slot)
+    if not image_path.exists():
+        raise FileNotFoundError(f"Missing visual asset for {theory['anchor']}: {image_path}")
+
+    image = Image(str(image_path))
+    max_w = 5.85 * inch
+    max_h = 3.28 * inch
+    scale = min(max_w / image.imageWidth, max_h / image.imageHeight)
+    image.drawWidth = image.imageWidth * scale
+    image.drawHeight = image.imageHeight * scale
+
+    data = [
+        [image],
+        [Paragraph(f"<b>Visual logic:</b> {esc(slot['graph'])}", styles["Small"])],
+        [Paragraph(f"<b>Asset:</b> {esc(slot['asset'])}", styles["Small"])],
+    ]
+    t = Table(data, colWidths=[USABLE_WIDTH])
+    t.setStyle(
+        TableStyle(
+            [
+                ("ALIGN", (0, 0), (-1, 0), "CENTER"),
+                ("BACKGROUND", (0, 0), (-1, -1), colors.white),
+                ("BOX", (0, 0), (-1, -1), 0.35, BORDER_GREY),
+                ("LINEBELOW", (0, 0), (-1, -2), 0.25, BORDER_GREY),
+                ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 5),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 5),
+                ("TOPPADDING", (0, 0), (-1, -1), 4),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+            ]
+        )
+    )
+    return t
+
+
 def theory_page(theory):
     story = [BookmarkAnchor(theory["anchor"], theory["title"]), header_bar(theory), Spacer(1, 2)]
     story.append(Paragraph("SITUATION", styles["SectionHead"]))
@@ -709,6 +828,10 @@ def theory_page(theory):
     story.append(Paragraph(esc(theory["exam_application"]), styles["Body"]))
     story.append(Paragraph("CASE / COMPARISON CUES", styles["SectionHead"]))
     story.append(Paragraph(esc(theory["case_cues"]), styles["Body"]))
+    story.append(Paragraph("CONCEPTUAL VISUAL", styles["SectionHead"]))
+    story.append(KeepTogether(visual_asset_block(theory)))
+    story.append(Paragraph("ELI5 CONCLUSION", styles["SectionHead"]))
+    story.append(Paragraph(esc(ELI5_CONCLUSIONS[theory["anchor"]]), styles["Body"]))
     story.append(PageBreak())
     return story
 
@@ -734,7 +857,8 @@ def cover_story():
         "Exam-ready reference built from Poseidon's existing GPPS 463 study guides and machine-readable "
         "course PDFs. The first eight entries consolidate Midterm 1 theory and lecture scaffolding; the final "
         "three entries extend the same framework through the post-midterm Asian Miracle, Singapore, and Asian "
-        "Financial Crisis materials."
+        "Financial Crisis materials. v1.3.1 embeds the 11 generated conceptual visuals and retains short "
+        "ELI5 conclusions for each major theory/topic."
     )
     box = Table([[Paragraph(desc, styles["Small"])]], colWidths=[USABLE_WIDTH])
     box.setStyle(

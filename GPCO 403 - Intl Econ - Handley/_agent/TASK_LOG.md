@@ -146,3 +146,17 @@ Built `Study Guides/GPCO 403_Week_4_Reference.pdf` covering the Week 4 folder ma
 **What was done:** Revised the current best GPCO 403 midterm theory reference from v1.2.0 to v1.3.0 for larger 12pt body text and fuller theory pages. Rebuilt the PDF in landscape orientation, added author/source context to every theory page, expanded the main mechanism/exam-logic block, and added a builder overflow detector so clipped boxes fail the build.
 **Output:** `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.3.0.pdf`; `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.3.0_notes.md`; updated `GPCO 403 - Intl Econ - Handley/Study Guides/build_midterm_theory_reference.py`.
 **Notes:** Verified with `pypdf`: 13 pages, 11 outline entries/bookmarks, 11 TOC link annotations, 11 author/source context sections, exact model provenance `GPT-5.5 (medium reasoning)`, and no older generic model strings. Builder contains `size = 12` for body drawing and exits nonzero if a text box overflows. History of Warfare remains skipped.
+
+## 2026-04-30 - Midterm Theory Reference v1.4.0 visuals and ELI5 revision
+
+**Requested by:** Edgar
+**What was done:** Created v1.4.0 of the GPCO 403 midterm theory reference while preserving v1.3.0 unchanged. Added deterministic ReportLab/canvas economics diagrams for all 11 theory pages, added ELI5 conclusion boxes, and created `Study Guides/assets/gpco403_midterm_v1.4.0/` with imagegen placeholder briefs for conceptual upgrade slots.
+**Output:** `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.4.0.pdf`; `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.4.0_notes.md`; updated `GPCO 403 - Intl Econ - Handley/Study Guides/build_midterm_theory_reference.py`; asset markers under `GPCO 403 - Intl Econ - Handley/Study Guides/assets/gpco403_midterm_v1.4.0/`.
+**Notes:** Verified builder overflow detector passes; `pypdf` reports 13 pages, 11 outline entries, 11 link annotations, 11 `VISUAL` markers, 11 `ELI5 CONCLUSION` markers, 4 imagegen markers, and exact model provenance `GPT-5.5 (medium reasoning)` with no older generic model strings. Rendered page 2 with `pdftoppm` for visual layout sanity. Remaining optional assets: global supply-chain GDP cutaway, consumption-smoothing bridge, dollar-debt balance-sheet scene, and Big Mac PPP market scene.
+
+## 2026-04-30 - Midterm Theory Reference v1.4.1 asset integration
+
+**Requested by:** Edgar
+**What was done:** Created v1.4.1 of the GPCO 403 midterm theory reference while preserving v1.3.0 and v1.4.0. Embedded the four completed PNG conceptual assets into the former imagegen marker slots: GDP supply-chain cutaway, consumption-smoothing bridge, dollar-debt balance-sheet scene, and Big Mac PPP market scene.
+**Output:** `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.4.1.pdf`; `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.4.1_notes.md`; updated `GPCO 403 - Intl Econ - Handley/Study Guides/build_midterm_theory_reference.py`.
+**Notes:** Verified builder overflow detector passes; `pdfinfo` reports 13 pages; `pypdf` reports 11 outline entries, 11 TOC link annotations, 11 `VISUAL` markers, 11 `ELI5 CONCLUSION` markers, 0 `Imagegen marker` strings, and embedded image XObjects on pages 2, 6, 9, and 12. Rendered those four pages with `pdftoppm` and checked nonblank visual-region crop statistics with Pillow.

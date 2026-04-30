@@ -36,6 +36,7 @@ updated: 2026-04-29
 ## Skill Preferences
 - Memo Summarizer: ≤300 words, BLUF-first, include page citations
 - PDF outputs: use lecture-to-reference-pdf or theory-reference-pdf depending on content type
+- Reference sheets: when useful and feasible, make imagegen-created conceptual visuals/infographics a standard component, not an optional afterthought. Successful pattern: QM3 v1.3.0 reference sheet with narrative explanations, 12pt readable PDF, 1-inch margins, wrapped formulas, first-use acronym expansion, ELI5 conclusions, and imagegen visuals per lecture/source-map section.
 - Policy memos: short, advisory, decision-maker audience
 - Theory outlines and theory-heavy writing: use the concepts and terminology from the assigned theory as the main analytical language. Do not make local shorthand, nicknames, or invented phrases the major thrust. Plain-language paraphrase is fine only when it clarifies the official concept and stays subordinate to it.
 ### 2026-04-28 — Syllabus and Deadline Ownership

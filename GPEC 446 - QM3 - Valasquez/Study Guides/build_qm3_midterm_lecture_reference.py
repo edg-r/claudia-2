@@ -10,6 +10,7 @@ from reportlab.lib.units import inch
 from reportlab.platypus import (
     Flowable,
     HRFlowable,
+    Image,
     ListFlowable,
     ListItem,
     PageBreak,
@@ -20,13 +21,14 @@ from reportlab.platypus import (
     Table,
     TableStyle,
 )
+from reportlab.lib.utils import ImageReader
 
 
 BASE = Path(__file__).resolve().parent
-SOURCE = BASE / "QM3_Midterm_Lecture_Reference_v1.2.1_notes.md"
-OUT = BASE / "QM3_Midterm_Lecture_Reference_v1.2.1.pdf"
+SOURCE = BASE / "QM3_Midterm_Lecture_Reference_v1.4.0_notes.md"
+OUT = BASE / "QM3_Midterm_Lecture_Reference_v1.4.0.pdf"
 TITLE = "QM3 Midterm Lecture Reference"
-SUBTITLE = "Lecture-slide based reference sheet, v1.2.1"
+SUBTITLE = "Lecture-slide based reference sheet, v1.4.0"
 
 DARK = colors.HexColor("#1B2A4A")
 BLUE = colors.HexColor("#2C5282")
@@ -239,6 +241,25 @@ def code_block(lines, styles):
     return Preformatted("\n".join(wrapped), styles["LectureCode"])
 
 
+def image_flowable(raw_path, styles):
+    image_path = Path(raw_path)
+    if not image_path.is_absolute():
+        image_path = BASE / image_path
+    if not image_path.exists():
+        return para(f"[Missing image: {raw_path}]", styles["Body"])
+
+    img = ImageReader(str(image_path))
+    width_px, height_px = img.getSize()
+    max_width = 6.5 * inch
+    max_height = 4.0 * inch
+    draw_width = max_width
+    draw_height = draw_width * (height_px / width_px)
+    if draw_height > max_height:
+        draw_height = max_height
+        draw_width = draw_height * (width_px / height_px)
+    return Image(str(image_path), width=draw_width, height=draw_height)
+
+
 def build_styles():
     styles = getSampleStyleSheet()
     styles.add(
@@ -406,6 +427,13 @@ def markdown_to_story(markdown, styles):
         visual = re.fullmatch(r"\[\[VISUAL:([a-z_]+)\]\]", stripped)
         if visual:
             story.append(ConceptDiagram(visual.group(1)))
+            story.append(Spacer(1, 8))
+            i += 1
+            continue
+
+        image = re.fullmatch(r"\[\[IMAGE:(.+?)\]\]", stripped)
+        if image:
+            story.append(image_flowable(image.group(1), styles))
             story.append(Spacer(1, 8))
             i += 1
             continue

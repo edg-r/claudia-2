@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import letter
@@ -6,6 +8,7 @@ from reportlab.lib.units import inch
 from reportlab.platypus import (
     Flowable,
     HRFlowable,
+    Image,
     KeepTogether,
     PageBreak,
     Paragraph,
@@ -16,11 +19,14 @@ from reportlab.platypus import (
 )
 
 
-OUT = "GPCO410_Midterm_Theory_Reference_v1.2.0.pdf"
+BASE_DIR = Path(__file__).resolve().parent
+OUT = BASE_DIR / "GPCO410_Midterm_Theory_Reference_v1.3.1.pdf"
 TITLE = "GPCO 410 Midterm Theory Reference"
 COURSE = "GPCO 410 International Politics & Security"
-DATE = "2026-04-29"
-MODEL = "GPT-5.5 (medium reasoning)"
+DATE = "2026-04-30"
+MODEL = "GPT-5 (Codex, medium reasoning)"
+ASSET_DIR = BASE_DIR / "assets" / "GPCO410_Midterm_Theory_Reference_v1.3.0"
+ASSET_DISPLAY_DIR = "Study Guides/assets/GPCO410_Midterm_Theory_Reference_v1.3.0"
 
 DARK_NAVY = colors.HexColor("#1B2A4A")
 MED_BLUE = colors.HexColor("#2C5282")
@@ -69,6 +75,12 @@ styles.add(ParagraphStyle(
     fontSize=9.4, leading=11, textColor=DARK_NAVY, spaceBefore=6, spaceAfter=2))
 styles.add(ParagraphStyle(
     name="Body", parent=styles["Normal"], fontSize=12, leading=14.1, spaceAfter=4))
+styles.add(ParagraphStyle(
+    name="VisualLabel", parent=styles["Normal"], fontName="Helvetica-Bold",
+    fontSize=8.2, leading=10, textColor=MED_BLUE, spaceAfter=1))
+styles.add(ParagraphStyle(
+    name="VisualBody", parent=styles["Normal"], fontSize=8.1, leading=9.6,
+    textColor=colors.HexColor("#222222"), spaceAfter=2))
 styles.add(ParagraphStyle(
     name="TheoryBullet", parent=styles["Normal"], fontSize=9.4, leading=11.2,
     leftIndent=10, firstLineIndent=-6, spaceAfter=2))
@@ -570,11 +582,98 @@ PITFALLS_AND_CONTRASTS = {
 }
 
 
+VISUAL_SLOTS = {
+    "w1_strategic_choice": {
+        "asset": ASSET_DIR / "w1_strategic_choice_decision_board.png",
+        "display_asset": f"{ASSET_DISPLAY_DIR}/w1_strategic_choice_decision_board.png",
+        "graph": "Actors -> preferences -> strategies -> beliefs -> expected payoffs -> equilibrium, with rejected strategies shown as dimmed paths.",
+        "prompt": "Create a clean conceptual study-guide graphic showing two states facing a strategic-choice decision board. Use simple labeled lanes for actors, preferences, strategies, beliefs, payoffs, and equilibrium. Include dimmed rejected options and one highlighted stable outcome. Style: flat editorial infographic, academic, high-contrast navy/gold accents, no decorative clutter, 16:9, readable labels.",
+    },
+    "w2_preferences_signaling": {
+        "asset": ASSET_DIR / "w2_preferences_signaling_filter.png",
+        "display_asset": f"{ASSET_DISPLAY_DIR}/w2_preferences_signaling_filter.png",
+        "graph": "Hidden type/resolve -> cheap talk or costly signal -> receiver updates beliefs -> target chooses concession, resistance, or escalation.",
+        "prompt": "Create a conceptual infographic of crisis signaling. Show a sender with hidden resolve choosing between cheap talk, tying hands, and sinking costs, then a receiver updating beliefs. Use arrows, small cost icons, and labels for preferences, private information, costly signal, and credibility. Style: clean political-science study graphic, slate navy with amber signal highlights, 16:9, readable labels.",
+    },
+    "w3_fearon": {
+        "asset": ASSET_DIR / "w3_fearon_bargaining_range.png",
+        "display_asset": f"{ASSET_DISPLAY_DIR}/w3_fearon_bargaining_range.png",
+        "graph": "War costs create a bargaining range; private information, incentives to misrepresent, commitment problems, or indivisibility can block agreement.",
+        "prompt": "Create a bargaining-range diagram for Fearon's rationalist explanations for war. Show a horizontal issue line, each side's war value after costs, the bargaining range between them, and three overlays labeled private information, commitment problem, and issue indivisibility. Style: crisp textbook infographic, minimal icons, blue and gold, 16:9, large readable labels.",
+    },
+    "w3_powell": {
+        "asset": ASSET_DIR / "w3_powell_power_shift_timeline.png",
+        "display_asset": f"{ASSET_DISPLAY_DIR}/w3_powell_power_shift_timeline.png",
+        "graph": "Today's bargain -> power shift tomorrow -> future renegotiation threat -> preventive or first-strike incentive now.",
+        "prompt": "Create a power-shift timeline for Powell's war as a commitment problem. Show a declining state and rising state across time, with today's bargain becoming non-credible after tomorrow's distribution of power changes. Include labels for commitment problem, preventive war, first-strike advantage, and no central enforcer. Style: restrained academic infographic, navy/red risk accent, 16:9, readable labels.",
+    },
+    "w3_cases": {
+        "asset": ASSET_DIR / "w3_cases_diagnostic_flowchart.png",
+        "display_asset": f"{ASSET_DISPLAY_DIR}/w3_cases_diagnostic_flowchart.png",
+        "graph": "Case evidence -> beliefs at the time -> information filters -> mechanism match, with separate branches for 1990-91 Iraq and 2002-03 Iraq.",
+        "prompt": "Create a case-diagnostic flowchart for strategic misperception. Show evidence feeding into beliefs-at-the-time, information filters, and mechanism choice. Include two separate Iraq branches labeled 1990-91 U.S. resolve misreading and 2002-03 sanctions/WMD/veto beliefs. Style: clean classroom flowchart, no photos, blue/gray with warning accents, 16:9, readable labels.",
+    },
+    "w4_audience_costs": {
+        "asset": ASSET_DIR / "w4_audience_costs_public_threat.png",
+        "display_asset": f"{ASSET_DISPLAY_DIR}/w4_audience_costs_public_threat.png",
+        "graph": "Public threat -> domestic audience observes -> retreat becomes costly -> opponent updates resolve -> crisis ends or escalates.",
+        "prompt": "Create an audience-cost crisis-signaling graphic. Show a leader making a public threat, domestic audience watching, retreat cost rising, and an opponent updating beliefs about resolve. Include labels for tying hands, audience costs, public commitment, and backing down. Style: flat editorial infographic, navy/gold, 16:9, readable labels.",
+    },
+    "w4_selectorate": {
+        "asset": ASSET_DIR / "w4_selectorate_winning_coalition.png",
+        "display_asset": f"{ASSET_DISPLAY_DIR}/w4_selectorate_winning_coalition.png",
+        "graph": "Selectorate -> winning coalition size -> public/private goods strategy -> war selectivity and effort -> dyadic democratic peace.",
+        "prompt": "Create a selectorate-theory infographic comparing small winning coalition and large winning coalition leaders. Show private goods versus public goods, political survival, war selectivity, and trying harder when fighting. Style: clean comparative chart, academic, teal/navy/gold, 16:9, readable labels.",
+    },
+    "w4_public_opinion": {
+        "asset": ASSET_DIR / "w4_public_opinion_interaction_matrix.png",
+        "display_asset": f"{ASSET_DISPLAY_DIR}/w4_public_opinion_interaction_matrix.png",
+        "graph": "Foreign-policy disposition + case image cues -> support, opposition, or polarization, with ordinal and disordinal interaction examples.",
+        "prompt": "Create a cognitive-interactionist public-opinion graphic. Show stable dispositions such as internationalism and assertiveness crossing with case images such as enemy, ally, and barbarian. Include output cells for support, opposition, and polarization, plus labels ordinal interaction and disordinal interaction. Style: clean matrix infographic, restrained colors, 16:9, readable labels.",
+    },
+    "w4_civil_war": {
+        "asset": ASSET_DIR / "w4_civil_war_correlates_to_mechanisms.png",
+        "display_asset": f"{ASSET_DISPLAY_DIR}/w4_civil_war_correlates_to_mechanisms.png",
+        "graph": "Correlates such as low income, weak capacity, and rough terrain feed into mobilization and enforcement mechanisms, not directly into war.",
+        "prompt": "Create a civil-war study graphic showing the difference between correlates and mechanisms. On the left list low income, weak state capacity, rough terrain, and slow growth; arrows pass through mobilization, enforcement failure, and security dilemma before reaching civil war onset. Style: clear academic process diagram, earth-neutral with blue accents, 16:9, readable labels.",
+    },
+    "w5_walter": {
+        "asset": ASSET_DIR / "w5_walter_demobilization_endgame.png",
+        "display_asset": f"{ASSET_DISPLAY_DIR}/w5_walter_demobilization_endgame.png",
+        "graph": "Peace agreement -> demobilization -> window of vulnerability -> cheat/hegemony temptation unless guarantees and power sharing change payoffs.",
+        "prompt": "Create a Walter civil-war settlement implementation diagram. Show combatants signing a peace agreement, then entering demobilization and a window of vulnerability. Add third-party security guarantees and power sharing as safeguards that change the endgame. Style: clean policy infographic, navy/green security accents, 16:9, readable labels.",
+    },
+    "w5_democratization": {
+        "asset": ASSET_DIR / "w5_democratization_governmental_conflict.png",
+        "display_asset": f"{ASSET_DISPLAY_DIR}/w5_democratization_governmental_conflict.png",
+        "graph": "Democratization opens competition over central government; weak institutions and coercive veto players raise governmental conflict risk, distinct from territorial conflict.",
+        "prompt": "Create a democratization-and-civil-war infographic. Show regime opening leading to competition over central government, elite fears, weak institutions, and coercive actors, ending in governmental conflict risk. Include a side branch labeled territorial conflict as a separate logic. Style: crisp academic infographic, navy/gold/red risk accents, 16:9, readable labels.",
+    },
+}
+
+
+ELI5_CONCLUSIONS = {
+    "w1_strategic_choice": "ELI5 conclusion: Do not just ask what a country wanted. Ask who was choosing, what choices they saw, what they thought the other side would do, and why one choice looked better than the rest.",
+    "w2_preferences_signaling": "ELI5 conclusion: A signal only teaches the other side something if it would hurt to fake it. If anyone could say the same words for free, the message is probably cheap talk.",
+    "w3_fearon": "ELI5 conclusion: War is like both sides burning money to settle an argument. Fearon asks why they could not make a deal before burning it.",
+    "w3_powell": "ELI5 conclusion: Sometimes the problem is not what each side knows today. It is that tomorrow's stronger side cannot promise it will stay nice once it has more power.",
+    "w3_cases": "ELI5 conclusion: Bad decisions are not all the same kind of bad. First figure out what the actor believed at that moment, then choose the theory that actually fits.",
+    "w4_audience_costs": "ELI5 conclusion: When a leader makes a threat in public, backing down can become embarrassing or dangerous at home. That cost can make the threat more believable abroad.",
+    "w4_selectorate": "ELI5 conclusion: Leaders fight differently depending on who can fire them. A leader who needs lots of public support cannot survive failure the same way a patronage ruler can.",
+    "w4_public_opinion": "ELI5 conclusion: People do not support wars from facts alone or ideology alone. They mix their usual worldview with how this particular enemy, ally, or crisis looks.",
+    "w4_civil_war": "ELI5 conclusion: Poverty or weak government can tell us where civil war is more likely, but the answer still has to explain how people organize, distrust deals, and choose fighting.",
+    "w5_walter": "ELI5 conclusion: A peace deal is scariest right when soldiers put down their weapons. Walter says peace needs protection during that moment, not just signatures on paper.",
+    "w5_democratization": "ELI5 conclusion: Opening elections can be dangerous when everyone suddenly competes for the central state but nobody yet trusts the rules or the people with guns.",
+}
+
+
 for theory in theories:
     theory["context"] = AUTHOR_CONTEXT[theory["id"]]
     theory["mechanism"] = MECHANISM_DETAIL[theory["id"]]
     theory["deployment"] = EXAM_DEPLOYMENT[theory["id"]]
     theory["pitfall"], theory["contrast"] = PITFALLS_AND_CONTRASTS[theory["id"]]
+    theory["visual"] = VISUAL_SLOTS[theory["id"]]
+    theory["eli5"] = ELI5_CONCLUSIONS[theory["id"]]
 
 
 def bullet_list(items):
@@ -602,12 +701,40 @@ def section(title, flowables):
     return [Paragraph(title, styles["Section"])] + flowables
 
 
+def visual_slot(t):
+    visual = t["visual"]
+    asset = visual["asset"]
+    if not asset.exists():
+        raise FileNotFoundError(f"Missing visual asset for {t['id']}: {asset}")
+    image = Image(str(asset), width=7.05 * inch, height=3.97 * inch)
+    data = [[
+        [
+            image,
+            Spacer(1, 3),
+            Paragraph("Concept graph", styles["VisualLabel"]),
+            Paragraph(visual["graph"], styles["VisualBody"]),
+            Paragraph(f"Embedded asset: {visual['display_asset']}", styles["Small"]),
+        ]
+    ]]
+    tbl = Table(data, colWidths=[7.05 * inch])
+    tbl.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#F3F8FA")),
+        ("BOX", (0, 0), (-1, -1), 0.5, BORDER_GREY),
+        ("LEFTPADDING", (0, 0), (-1, -1), 7),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 7),
+        ("TOPPADDING", (0, 0), (-1, -1), 5),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+    ]))
+    return tbl
+
+
 def theory_page(t):
     story = [BookmarkAnchor(t["id"], f"{t['session']} - {t['title']}"), header_table(t), Spacer(1, 5)]
     story += section("AUTHOR / READING CONTEXT", [Paragraph(t["context"], styles["Body"])])
     story += section("SITUATION", [Paragraph(t["situation"], styles["Body"])])
     story += section("CORE INTUITION", [Paragraph(t["intuition"], styles["Body"])])
     story += section("MECHANISM", [Paragraph(t["mechanism"], styles["Body"])])
+    story += section("VISUAL SLOT / CONCEPT GRAPH", [visual_slot(t)])
     story += section("KEY CONCEPTS, KEYWORDS & TERMINOLOGY", bullet_list(t["concepts"]))
     story += section("ASSUMPTIONS", plain_bullets(t["assumptions"]))
 
@@ -630,6 +757,7 @@ def theory_page(t):
     story += [Paragraph("STRENGTHS / WEAKNESSES", styles["Section"]), table]
     story += section("COMMON PITFALL", [Paragraph(t["pitfall"], styles["Body"])])
     story += section("COMPARE WITH", [Paragraph(t["contrast"], styles["Body"])])
+    story += section("ELI5 CONCLUSION", [Paragraph(t["eli5"], styles["Body"])])
     return story
 
 
@@ -644,7 +772,7 @@ def footer(canvas, doc):
 
 def build():
     doc = SimpleDocTemplate(
-        OUT,
+        str(OUT),
         pagesize=letter,
         leftMargin=0.55 * inch,
         rightMargin=0.55 * inch,
@@ -656,7 +784,7 @@ def build():
         Paragraph("GPCO 410 International Politics & Security | Prof. Lauren Prather | UC San Diego GPS | Spring 2026", styles["CoverSub"]),
     ]
     desc = Paragraph(
-        "Exam-ready midterm reference for W1-W5 theory. This v1.2.0 revision uses larger 12pt body text and expands each theory with author context, mechanism explanation, assumptions, source-faithful terminology, and exam deployment logic. Use it to identify the right mechanism for a case, name the assigned-reading vocabulary, and compare strengths and limits during exam prep.",
+        "Exam-ready midterm reference for W1-W5 theory. This v1.3.1 revision preserves the v1.2.0 source-faithful theory architecture and the v1.3.0 ELI5 additions, then embeds the completed conceptual PNG assets for all 11 major theory/topic entries. Use it to identify the right mechanism for a case, name the assigned-reading vocabulary, sketch a concept graph, and compare strengths and limits during exam prep.",
         styles["Box"],
     )
     box = Table([[desc]], colWidths=[7.05 * inch])
