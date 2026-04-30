@@ -198,3 +198,21 @@ Eight-turn tutoring conversation sharpening Edgar's IV intuition across ITT, LAT
 **What was done:** Refreshed the GPEC 446 syllabus extraction artifact from `QM3_Syllabus.pdf` and read-only `claudia.db` assignment/readings rows, including assignments, labs/sections, weekly readings, AI/coding/written-explanation policy, and DB normalization notes.
 **Output:** `GPEC 446 - QM3 - Valasquez/Course Admin/syllabus_extracted.md`
 **Notes:** Recommended DB fixes: reading rows 16 and 17 should use Mastering 'Metrics Ch. 5, not Ch. 4; reading row 19 should use Ch. 4, not Ch. 5. Homework II and Data Project deadlines remain inferred until Canvas/project instructions verify exact due dates and submission channels.
+
+### 2026-04-29 — QM3 midterm methods reference PDF
+**Requested by:** Claudia
+**What was done:** Built an exam-ready QM3 midterm reference PDF using the theory-reference-pdf and pdf skill patterns, adapted for formula/method-heavy causal inference rather than pure theory pages. Used existing lecture/lab/IV/DiD guides first, then calibrated to new machine-readable Canvas PDFs in `inbox/QM3/` on IV, DiD beta interpretation, and DiD/FE/FD equivalence.
+**Output:** `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Methods_Reference_v1.0.0.pdf`; notes at `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Methods_Reference_v1.0.0_notes.md`; build script at `GPEC 446 - QM3 - Valasquez/Study Guides/build_qm3_midterm_methods_reference.py`
+**Notes:** No OCR was needed; all source PDFs used extracted meaningful machine-readable text via `pdftotext`. Verification confirmed 9 PDF pages, 7 outline/bookmark entries, and extractable text. Gaps: no official practice midterm found in `Exam Materials/`; no local Wooldridge Ch. 13/14 or matching/synthetic-control Canvas files were available.
+
+### 2026-04-29 — QM3 midterm methods reference v1.1.0 expansion
+**Requested by:** Claudia, from Edgar feedback
+**What was done:** Revised the v1.0.0 midterm methods reference into v1.1.0 without changing the overall architecture. Expanded each method page with a fuller "Theory behind the method" explanation, added key-concept vocabulary boxes, enlarged assumptions/common-mistake coverage, and updated page headers to include fuller source names such as *Mastering 'Metrics: The Path from Cause to Effect* with Angrist & Pischke, AIR/LATE sources, Wooldridge-style panel-data source references, and lecture/exercise sources. Corrected model provenance in the v1.1.0 PDF/notes to `GPT-5.5 (medium reasoning)`.
+**Output:** `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Methods_Reference_v1.1.0.pdf`; notes at `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Methods_Reference_v1.1.0_notes.md`; updated build script at `GPEC 446 - QM3 - Valasquez/Study Guides/build_qm3_midterm_methods_reference.py`
+**Notes:** Verification confirmed 9 PDF pages, 7 outline/bookmark entries, extractable text on every page, and corrected `GPT-5.5 (medium reasoning)` provenance in the generated v1.1.0 PDF. The preserved v1.0.0 PDF remains as historical base and still contains its original embedded provenance string.
+
+### 2026-04-29 — QM3 midterm methods reference v1.2.0 large-text expansion
+**Requested by:** Claudia, from Edgar feedback
+**What was done:** Revised the current best v1.1.0 midterm methods reference into v1.2.0. Set the ReportLab body text style to 12pt, tightened margins before cutting substance, and expanded every method with author/source context, deeper theory, identification logic, failure modes, interpretation guidance, and exam mini-examples. Preserved `GPT-5.5 (medium reasoning)` provenance and kept History of Warfare out of scope.
+**Output:** `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Methods_Reference_v1.2.0.pdf`; notes at `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Methods_Reference_v1.2.0_notes.md`; updated build script at `GPEC 446 - QM3 - Valasquez/Study Guides/build_qm3_midterm_methods_reference.py`
+**Notes:** Verification confirmed 16 PDF pages, 7 outline/bookmark entries, 7 cover-page TOC link annotations, extractable text on every page, v1.2.0 section text in `pdftotext`, and `fontSize=12` for the builder's `Body` style.

@@ -92,3 +92,33 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Drafted Edgar-usable Canvas text for Lecture Day 10, "Why was the Asian Financial Crisis unequally felt in the region?", using Hicken (2008) on Thailand and the Philippines. Included compact grader AI disclosure because the syllabus extraction found no explicit AI policy but Claudia SOP requires disclosure for graded AI-assisted work.
 **Output:** `GPPS 463 - Pol SEA - Ravanilla/W5 - Singapore & Asian Financial Crisis/Discussion Post LD10 - Asian Financial Crisis.md`
 **Notes:** Key angle is the crisis-severity paradox: Thailand was hit harder but the shock created reform pressure, while the Philippines was hit less hard and therefore postponed costly reforms. Claudia clarified the Orange Memo on Myanmar belongs to Athena/GPCO 410, so Poseidon only added quick GPPS 463 regional-context pointers.
+
+## 2026-04-29 -- LD10 Discussion Question Revision
+**Requested by:** Claudia (delegated Poseidon worker for Edgar's "draft the discussion question for today")
+**What was done:** Verified the Canvas schedule places LD10 on Apr. 29, then tightened the existing Hicken discussion question around the crisis-severity paradox and removed unrelated Myanmar memo notes from the deliverable.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/W5 - Singapore & Asian Financial Crisis/Discussion Post LD10 - Asian Financial Crisis.md`
+**Notes:** Submission-ready Canvas text now asks how the 2008 global financial crisis should change the reading of Hicken's warning that surviving 1997 too easily may have delayed harder reforms.
+
+## 2026-04-29 -- Discussion Post LD11 (Vietnam Under Communism / Malesky, Abrami & Zheng 2011)
+**Requested by:** Edgar via Claudia/Poseidon follow-up after LD10 was already complete.
+**What was done:** Confirmed the next GPPS 463 discussion post is LD11, "How is Vietnam doing under communism?", for May 4 with Malesky, Abrami, and Zheng (2011) as the required reading. Drafted a concise Canvas-ready discussion question and supporting notes.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/W6 - Vietnam Under Communism/Discussion Post LD11 - Vietnam Under Communism.md`
+**Notes:** Key angle is Vietnam as a single-party regime with broader elite accountability than China, producing more redistribution and lower inequality without democratization.
+
+## 2026-04-29 -- Midterm Theory Reference PDF v1.0.0
+**Requested by:** Claudia (delegated Poseidon worker for GPPS 463 midterm theory/reference update)
+**What was done:** Built an exam-ready theory reference PDF using `_claudia/skills/theory-reference-pdf.md` and `_claudia/skills/pdf.md`, starting from existing generated GPPS 463 study guides rather than re-summarizing readings from scratch. The PDF has one cover/TOC page plus 11 framework pages with sidebar bookmarks: constructed region, mandala, Sinic village governance, Diamond geography, European Diversion, AJR reversal, Dell-Olken positive persistence, Stubbs war/EOI, Jansen Thailand, Huff Singapore, and Hicken Asian Financial Crisis.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/GPPS_463_Midterm_Theory_Reference_v1.0.0.pdf`; notes at `GPPS 463 - Pol SEA - Ravanilla/Study Guides/GPPS_463_Midterm_Theory_Reference_v1.0.0_notes.md`; builder at `GPPS 463 - Pol SEA - Ravanilla/Study Guides/build_midterm_theory_reference.py`
+**Notes:** Machine-readable sources only. No OCR was run because the relevant existing reference PDFs extracted with `pypdf` and the task asked not to redo already summarized material from scratch. Inbox files were checked and skipped as unrelated to GPPS 463.
+
+## 2026-04-29 -- Midterm Theory Reference PDF v1.1.0 Revision
+**Requested by:** Claudia (delegated Poseidon worker for Edgar feedback)
+**What was done:** Revised the existing midterm theory-reference generator instead of rebuilding from scratch. Expanded each framework page's theory explanation, key concepts, assumptions, strengths, and weaknesses; added full article/paper/book-chapter or lecture-framework title plus author/instructor in each header; updated model provenance to `GPT-5.5 (medium reasoning)`.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/GPPS_463_Midterm_Theory_Reference_v1.1.0.pdf`; notes at `GPPS 463 - Pol SEA - Ravanilla/Study Guides/GPPS_463_Midterm_Theory_Reference_v1.1.0_notes.md`; revised builder at `GPPS 463 - Pol SEA - Ravanilla/Study Guides/build_midterm_theory_reference.py`
+**Notes:** Verification passed with 12 pages total, 11 sidebar bookmarks, bookmark destinations on pages 2-12, 34,420 extracted text characters, and extracted text containing the new model provenance plus representative full-title headers for Hayton, Dell/Lane/Querubin, and Hicken. No files staged or committed.
+
+## 2026-04-29 -- Midterm Theory Reference PDF v1.2.0 Revision
+**Requested by:** Claudia (delegated Poseidon worker for Edgar feedback)
+**What was done:** Revised the v1.1.0 midterm theory-reference generator to produce v1.2.0 with 12pt body text, fuller author/time-period context, deeper mechanism framing, compact course-vocabulary/assumption tables, explicit exam-application sections, and case/comparison cues for each GPPS 463 framework. History of Warfare remains skipped.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/GPPS_463_Midterm_Theory_Reference_v1.2.0.pdf`; notes at `GPPS 463 - Pol SEA - Ravanilla/Study Guides/GPPS_463_Midterm_Theory_Reference_v1.2.0_notes.md`; revised builder at `GPPS 463 - Pol SEA - Ravanilla/Study Guides/build_midterm_theory_reference.py`
+**Notes:** Verification passed with 23 pages total, 11 sidebar bookmarks, bookmark destinations on pages 2/4/6/8/10/12/14/16/18/20/22, 11 clickable TOC links, no blank pages, 45,979 extracted text characters, extracted text containing `GPT-5.5 (medium reasoning)`, `AUTHOR / TIME-PERIOD CONTEXT`, `EXAM APPLICATION`, and `CASE / COMPARISON CUES`, and builder body style set to `fontSize=12`. No files staged or committed.

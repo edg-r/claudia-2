@@ -4,6 +4,13 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 <!-- No entries yet. Append new tasks below this line. -->
 
+## 2026-04-29 — Midterm theory reference PDF
+
+**Requested by:** Claudia
+**What was done:** Built an exam-ready GPCO 403 midterm theory reference using `_claudia/skills/theory-reference-pdf.md` and `_claudia/skills/pdf.md`. Started from existing study outputs (`2026-04-27_ppp_loop_big_mac_1pager.md`, `GPCO 403_Week_4_Reference.pdf`) and used new `inbox/Intl Econ/` files for updates and exam calibration rather than rebuilding from scratch.
+**Output:** `Study Guides/GPCO 403_Midterm_Theory_Reference_v1.0.0.pdf`; sibling notes at `Study Guides/GPCO 403_Midterm_Theory_Reference_v1.0.0_notes.md`; build script at `Study Guides/build_midterm_theory_reference.py`.
+**Notes:** Verified with pypdf: 13 pages, 11 sidebar bookmarks, 11 clickable TOC annotations. Skipped/de-emphasized handwritten or garbled-extraction sources; details are in the notes markdown. Interest parity and exchange-rate crisis/regime pages should be checked against any Spring 2026 review recording or dedicated roadmap if one appears before the May 4 midterm.
+
 ## 2026-04-22 — W4 Wed reading summary attempt (no deliverable)
 
 Tasked with summarizing Feenstra & Taylor Ch. 12.3, 15.5, 19.1-19.4 (External Wealth III / consumption smoothing / exorbitant privilege) for W4 Wed. Textbook PDF not indexed in workspace; returned options to Claudia and am awaiting Edgar's drop to `inbox/`. Flagged Concept Check 3 opens Apr 22, due Tue Apr 28 11:59 PM.
@@ -118,3 +125,24 @@ Built `Study Guides/GPCO 403_Week_4_Reference.pdf` covering the Week 4 folder ma
 **What was done:** Refreshed the artifact-first syllabus extraction for GPCO 403 using the posted syllabus PDF and current `claudia.db` assignment/readings rows. Included normalized deadline metadata, readings by week, policies, and DB normalization notes without writing to the database.
 **Output:** `GPCO 403 - Intl Econ - Handley/Course Admin/syllabus_extracted.md`
 **Notes:** Concept Check 5 remains ambiguous because the syllabus narrative says 2026-06-01 while the course grid and current DB use 2026-06-02. Concept Check 2 status should be verified because the DB still shows pending after its due date.
+
+## 2026-04-29 - Midterm Theory Reference v1.1.0 revision
+
+**Requested by:** Claudia / Edgar
+**What was done:** Revised the GPCO 403 midterm theory reference from v1.0.0 to v1.1.0, keeping the same theory set and structure while expanding theory explanations, assumptions, concepts, and strengths/weaknesses. Updated source header lines to name the relevant source first and author(s) second, and corrected model provenance to `GPT-5.5 (medium reasoning)`.
+**Output:** `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.1.0.pdf`; `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.1.0_notes.md`
+**Notes:** Verified with `pypdf`: 13 pages, 11 outline entries/bookmarks, 11 link annotations, clean text extraction with no generic `ChatGPT-5` / `GPT-5 via Codex` provenance strings and no leaked ReportLab bold tags.
+
+## 2026-04-29 - Midterm Theory Reference v1.2.0 targeted audit rerun
+
+**Requested by:** Claudia / Edgar
+**What was done:** Created a targeted v1.2.0 rerun of the GPCO 403 midterm theory reference, preserving v1.1.0 and adding compact exam-application blocks from the separate Plutus audit of newly usable files. Incorporated Spring 2021 short-answer examples, the Spring 2025 answer key, practice questions, Lecture 6 LRBC/intertemporal trade material, Lecture 7 LOOP/PPP material, and `Equations_Midterm_1.pdf` as a formula check only.
+**Output:** `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.2.0.pdf`; `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.2.0_notes.md`; updated `GPCO 403 - Intl Econ - Handley/Study Guides/build_midterm_theory_reference.py`.
+**Notes:** Verified with `pypdf`: 13 pages, 11 outline entries/bookmarks, 11 link annotations, extraction includes exact model provenance `GPT-5.5 (medium reasoning)` and excludes older generic model-provenance strings. Skipped handwritten 2021 solution layer pending OCR/visual transcription, garbled Canvas quiz/MC solution PDFs, and post-midterm trade materials as out of scope.
+
+## 2026-04-29 - Midterm Theory Reference v1.3.0 readability revision
+
+**Requested by:** Claudia / Edgar
+**What was done:** Revised the current best GPCO 403 midterm theory reference from v1.2.0 to v1.3.0 for larger 12pt body text and fuller theory pages. Rebuilt the PDF in landscape orientation, added author/source context to every theory page, expanded the main mechanism/exam-logic block, and added a builder overflow detector so clipped boxes fail the build.
+**Output:** `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.3.0.pdf`; `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.3.0_notes.md`; updated `GPCO 403 - Intl Econ - Handley/Study Guides/build_midterm_theory_reference.py`.
+**Notes:** Verified with `pypdf`: 13 pages, 11 outline entries/bookmarks, 11 TOC link annotations, 11 author/source context sections, exact model provenance `GPT-5.5 (medium reasoning)`, and no older generic model strings. Builder contains `size = 12` for body drawing and exits nonzero if a text box overflows. History of Warfare remains skipped.

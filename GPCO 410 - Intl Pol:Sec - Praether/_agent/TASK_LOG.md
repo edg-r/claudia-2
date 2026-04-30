@@ -2,6 +2,30 @@
 
 Record of major completed tasks. Read to avoid duplicate work.
 
+### 2026-04-29 — Midterm theory reference v1.2.0 larger-text expansion
+**Requested by:** Claudia
+**What was done:** Revised the current best GPCO 410 midterm theory reference from v1.1.0 into v1.2.0. Increased the builder's main body text style to 12pt, expanded each theory with author/reading context, deeper mechanism explanation, exam deployment logic, common pitfalls, and compare-with notes, while preserving source-faithful terminology for Cederman, Walter, Powell, and Fearon. History of Warfare remained skipped.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/GPCO410_Midterm_Theory_Reference_v1.2.0.pdf`; notes at `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/GPCO410_Midterm_Theory_Reference_v1.2.0_notes.md`; revised builder at `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/build_midterm_theory_reference.py`
+**Notes:** Verification passed: 23 PDF pages (1 cover + 22 expanded theory-content pages), 11 sidebar bookmarks, 11 cover-page link annotations, successful `pypdf` text extraction from all 23 pages, expanded section labels present, `GPT-5.5 (medium reasoning)` provenance present, and builder `Body` style verified at `fontSize=12`.
+
+### 2026-04-29 — Midterm theory reference v1.1.0 revision
+**Requested by:** Claudia
+**What was done:** Revised the existing midterm theory reference rather than rebuilding from scratch. Expanded each theory page's explanation, terminology, assumptions, and strengths/weaknesses; changed header source lines to show the full article/paper/book chapter title before the author(s); corrected model provenance to `GPT-5.5 (medium reasoning)` in the current builder and notes; preserved v1.0.0 while creating v1.1.0 outputs.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/GPCO410_Midterm_Theory_Reference_v1.1.0.pdf`; notes at `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/GPCO410_Midterm_Theory_Reference_v1.1.0_notes.md`; revised builder at `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/build_midterm_theory_reference.py`
+**Notes:** Verification passed: 12 PDF pages (1 cover + 11 theory pages), 11 sidebar bookmarks, 11 cover-page link annotations, successful `pypdf` text extraction from every page, and no remaining generic model-provenance strings in Study Guides text files. The preserved v1.0.0 PDF still contains its historical embedded provenance text.
+
+### 2026-04-29 — Midterm theory reference PDF
+**Requested by:** Claudia
+**What was done:** Built a structured exam-ready midterm theory reference using `_claudia/skills/theory-reference-pdf.md` and `_claudia/skills/pdf.md`. Consolidated W1-W5 theory into a one-page-per-theory PDF with hyperlinked TOC, PDF sidebar bookmarks, consistent situation/core-intuition/concepts/assumptions/strengths/weaknesses sections, and companion source notes.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/GPCO410_Midterm_Theory_Reference_v1.0.0.pdf`; notes at `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/GPCO410_Midterm_Theory_Reference_v1.0.0_notes.md`; builder at `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/build_midterm_theory_reference.py`
+**Notes:** Built from existing generated study guides, `_agent/THEORIES.md`, course memory, syllabus extraction, and machine-readable prior PDFs/Markdown. OCR was skipped because existing Week 3/4 theory PDFs and Walter/Cederman notes were machine-readable enough for the exam-reference deliverable; revisit OCR only for direct page/quote verification from scanned Walter Ch. 2.
+
+### 2026-04-29 — ORANGE Myanmar v4 full Markdown memo
+**Requested by:** Edgar
+**What was done:** Drafted a full Markdown memo from `inbox/myanmar_democratization_outline.md`, matching the Blue Memo's title-page, word-count, AI-disclaimer, numbered-footnote, and references conventions as closely as Markdown permits. Applied current Athena feedback: Cederman/Hug/Krebs only, named actors, governmental-conflict / conflict-over-government / territorial-conflict terminology, macro theory-driven structure, no em dashes, and images/figures placed last.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/Orange_Memo_Myanmar_v4.0.0_working_full.md`
+**Notes:** Mechanical checks passed: 763 body words, no em dashes, no Walter/Powell/commitment/bargaining leakage, and no APA-style parenthetical citations in the memo body. Word conversion should preserve the title page, convert `<sup>` markers into live Word footnotes if possible, and remove the internal Claudia output-disclosure block before submission.
+
 ### 2026-04-29 — ORANGE Myanmar reading/context triage
 **Requested by:** Edgar
 **What was done:** Built a concise ranked reading/context list for the Myanmar ORANGE memo, prioritizing the actual prompt, Ali/Praether feedback, Cederman, Walter, the kickoff architecture, Myanmar fact-check brief, and Powell as limited vocabulary. Checked the macro rewrite, recent dispatches, assignment database row, prompt, notes, course memory, and SOPs before writing.
@@ -227,3 +251,21 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Revised the live Myanmar memo into a versioned Cederman/Hug/Krebs-only draft, removed Walter and Powell from the body and footnotes, and named Aung San Suu Kyi and Senior General Min Aung Hlaing as the main actors in the Blue memo style.
 **Output:** `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/Orange_Memo_Myanmar_v3.0.0_working_cederman-only.docx`
 **Notes:** Rendered with the Documents skill artifact renderer and visually checked. Body word count is 569 after preserving Edgar's recent cuts and removing redundant theory machinery.
+
+### 2026-04-29 — ORANGE Myanmar full memo from inbox outline
+**Requested by:** Edgar
+**What was done:** Expanded `inbox/myanmar_democratization_outline.md` into a full Cederman/Hug/Krebs-only memo, then produced a clean Markdown submission source and Word document using the Blue Memo title-page/citation conventions. Kept the title page and grader-facing AI disclosure, stripped internal Claudia provenance from the submission source, converted citations to live Word footnotes, and rendered the DOCX for visual QA.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/Orange_Memo_Myanmar_v4.0.0_working_full.md`; `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/Orange_Memo_Myanmar_v4.0.0_submission.md`; `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/Orange_Memo_Myanmar_v4.0.0_submission.docx`
+**Notes:** Final body word count is 763. No images were embedded in the source outline, so no image appendix was added; rendered QA pages are in `Assignments/Orange Memo - Myanmar/render_v4.0.0/`.
+
+### 2026-04-29 — ORANGE Myanmar final-draft preference capture
+**Requested by:** Edgar
+**What was done:** Compared Edgar's final hand-written/submission draft (`Myanmar Orange Memo Agunias.pdf` / `Orange Memo v5.docx`) against the Athena/Claudia draft trajectory (`v3.1.0`, `v4.0.0`, `v4.1.0`) at a high level, focusing on reusable stylistic and structural differences rather than proofread corrections.
+**Output:** Updated Athena memory: `FEEDBACK.md` and `COURSE_MEMORY.md`.
+**Notes:** Key lesson: Edgar's final ORANGE memo voice favored explicit sectioning, chronological case narration, one-reading/one-footnote discipline, plainer causal phrasing, and less polished model-answer actor-preference scaffolding.
+
+### 2026-04-29 — ORANGE Myanmar quantitative draft from inbox outline
+**Requested by:** Claudia
+**What was done:** Followed `inbox/myanmar_democratization_outline.md` to create a new Edgar-facing Markdown draft anchored in Cederman, Hug, and Krebs's quantitative findings and Myanmar's actor-preference sequence. Preserved the final-draft preferences for visible sections, plain voice, narrow source load, no invented theory shorthand, and no em dashes.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/Orange_Memo_Myanmar_v5.1.0_working_quantitative-draft.md`
+**Notes:** Draft treats Myanmar as a case application of Cederman et al., not as part of their dataset; it uses governmental conflict / conflict over government terminology and keeps ethnic armed organizations secondary.

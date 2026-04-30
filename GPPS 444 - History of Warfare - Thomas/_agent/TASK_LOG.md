@@ -4,6 +4,12 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 <!-- No entries yet. Append new tasks below this line. -->
 
+### 2026-04-29 — Session 10 Reading Summary (Napoleonic Wars II / Russia and Waterloo)
+**Requested by:** Edgar
+**What was done:** Created a new one-page Markdown summary for Wednesday, April 29, 2026, Session 10, "Napoleonic Wars II." Verified the local syllabus maps Session 10 to the same TCHW Part Three Ch. 11 Napoleonic reading block as Session 9, and checked the local TCHW PDF chapter start/TOC to confirm the actual chapter is John A. Lynn's "Nations in Arms, 1763-1815." Tuned the summary to large-scale warfare, coalition dynamics, environment/logistics, Russia 1812, Waterloo, and Thomas's recurring themes.
+**Output:** `/Users/edgar/Documents/01 Projects/Claudia/GPPS 444 - History of Warfare - Thomas/Study Guides/session10_napoleonic_wars_ii_1pager.md`
+**Notes:** Continue flagging the syllabus-vs-TCHW chapter-numbering issue in Napoleonic summaries. Session 10 should not simply duplicate Session 9's Austerlitz/Trafalgar emphasis; the distinct angle is Napoleon's system under strategic scale, coalition learning, environment, and logistics.
+
 ### 2026-04-27 — Session 9 Reading Summary (Napoleonic Wars I / Nations in Arms)
 **Requested by:** Edgar
 **What was done:** Identified Session 9 for Monday, April 27, 2026 as "Napoleonic Wars I" and verified the syllabus assignment against the actual TCHW PDF TOC. The syllabus says Part Three Ch. 11; the PDF TOC confirms actual Ch. 11 is John A. Lynn's "Nations in Arms, 1763-1815." Produced a one-page Markdown summary focused on the revolutionary "nation in arms," Napoleonic corps/logistics/artillery, Austerlitz, Trafalgar, and Thomas's recurring framework.
@@ -93,3 +99,9 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Read all prior AI research on Battle of Breitenfeld (full .md analysis), presentation assignment list (HoW Presentation Assignments.pdf), and syllabus. Produced full briefing covering: what research exists, presentation format/requirements, gaps, and key talking points for April 20 oral presentation.
 **Output:** Returned directly to Edgar as assistant message
 **Notes:** Presentation assignment list has no stated format/length/grading criteria — the syllabus only says "oral presentations depending on class size." Session 7 (April 20) covers the Gunpowder Revolution (TCHW Part Two Ch. 6) — Breitenfeld fits squarely into this context. Edgar presents with partner Blake Becker (bmbecker@ucsd.edu).
+
+### 2026-04-29 — Midterm Framework Reference PDF
+**Requested by:** Claudia / Edgar
+**What was done:** Built a structured GPPS 444 midterm framework reference using `_claudia/skills/theory-reference-pdf.md` and `_claudia/skills/pdf.md`. Treated warfare concepts as practical theories/frameworks, building first from existing Study Guides, Ares course memory, extracted syllabus, machine-readable slides/handouts, and machine-readable TCHW text. Generated a ReportLab PDF with cover-page TOC, 12 framework bookmarks, one page per framework, references, and source notes.
+**Output:** `GPPS 444 - History of Warfare - Thomas/Study Guides/GPPS_444_Midterm_Framework_Reference.pdf`; `GPPS 444 - History of Warfare - Thomas/Study Guides/GPPS_444_Midterm_Framework_Reference_notes.md`; `GPPS 444 - History of Warfare - Thomas/Study Guides/build_midterm_framework_reference.py`
+**Notes:** No OCR performed because the requested machine-readable sources were sufficient. Keegan PDFs checked but not used substantively because Ares memory and `syllabus_extracted.md` identify Parker/TCHW as the Spring 2026 core text. Verification: generated PDF has 14 pages and 12 sidebar outline entries.
