@@ -4,6 +4,30 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 <!-- No entries yet. Append new tasks below this line. -->
 
+### 2026-04-30 — QM3 midterm lecture reference sheet v1.2.1 patch
+**Requested by:** Edgar
+**What was done:** Created the v1.2.1 patch while preserving v1.2.0 unchanged. Updated the builder to target v1.2.1 outputs and wrap long formula/code lines inside the page margins using 10.5pt Courier for formula blocks only; expanded Conditional Independence Assumption (CIA) on first use; added one short "Explain Like I'm 5" conclusion for each of the 12 numbered topics.
+**Output:** `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Lecture_Reference_v1.2.1_notes.md`; `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Lecture_Reference_v1.2.1.pdf`; updated `GPEC 446 - QM3 - Valasquez/Study Guides/build_qm3_midterm_lecture_reference.py`
+**Notes:** Verification used `pdftotext`, `pdfinfo`, PyMuPDF span bounds, and rendered page images for the widest formula pages. The widest Courier/formula span ended at x=536.1 pts on a 612-pt letter page, with no non-footer text beyond the right content threshold; the PDF has 26 pages, extractable CIA expansion, 12 ELI5 conclusions, and the output disclosure at the end.
+
+### 2026-04-30 — QM3 midterm lecture reference sheet v1.2.0 readability and visuals
+**Requested by:** Edgar
+**What was done:** Created the next iteration of the lecture-based midterm reference sheet while preserving v1.1.0 outputs. Copied the v1.1.0 notes into v1.2.0, kept the narrative/exam-facing structure and first-use acronym pattern, retargeted the builder to generate v1.2.0 with 12pt body/table/code text and 1-inch margins, and added original ReportLab-generated visual aids for potential outcomes, OLS, OVB, bad controls, IV/Wald/LATE, compliance types, and assumptions.
+**Output:** `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Lecture_Reference_v1.2.0_notes.md`; `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Lecture_Reference_v1.2.0.pdf`; updated `GPEC 446 - QM3 - Valasquez/Study Guides/build_qm3_midterm_lecture_reference.py`
+**Notes:** Verification confirmed the v1.2.0 PDF has 24 pages, extractable text, disclosure at the end, all seven visual-aid captions present, and builder settings for 12pt content plus 1-inch margins. Rendered spot checks of pages 4, 19, 21, and 23 caught and fixed two diagram title overlaps before the final PDF was regenerated.
+
+### 2026-04-30 — QM3 midterm lecture reference sheet v1.0.0
+**Requested by:** Edgar
+**What was done:** Built a new lecture-slide-based QM3 midterm reference sheet distinct from the textbook/methods guide. Extracted and checked lecture-slide text from L1-L6, then wrote a practical exam-facing Markdown guide covering concept, lecture source, when/how to use it, interpretation traps, exam cues, and formulas. Added a small ReportLab builder and generated a matching PDF.
+**Output:** `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Lecture_Reference_v1.0.0_notes.md`; `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Lecture_Reference_v1.0.0.pdf`; `GPEC 446 - QM3 - Valasquez/Study Guides/build_qm3_midterm_lecture_reference.py`
+**Notes:** Source basis is lecture slides L1-L6 only, with the existing methods reference used for style/format orientation. Verification confirmed the PDF has 14 pages, extractable text on every page, and the required output-disclosure content. The generated PDF is present locally but ignored by the repo's PDF ignore rule unless force-added in a later save.
+
+### 2026-04-30 — QM3 midterm lecture reference sheet v1.1.0 narrative pass
+**Requested by:** Edgar
+**What was done:** Implemented the Edgar-approved next iteration of the lecture-based midterm reference sheet while preserving v1.0.0 outputs. Rewrote the guide into a denser narrative/exam-facing structure with core idea, exam recognition cues, comparison, identifying assumption, formula/notation, interpretation sentence, and common trap; expanded first-use acronyms; regenerated the PDF from the updated builder.
+**Output:** `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Lecture_Reference_v1.1.0_notes.md`; `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Lecture_Reference_v1.1.0.pdf`; updated `GPEC 446 - QM3 - Valasquez/Study Guides/build_qm3_midterm_lecture_reference.py`
+**Notes:** Source basis remains L1-L6 lecture slides plus the current v1.0.0 lecture reference. Verification confirmed the v1.1.0 PDF has 14 pages, extractable text on every page, the required output-disclosure block, and first-use expansions for the main course acronyms. The generated PDF is present locally but remains ignored by the repo's PDF ignore rule unless force-added in a later save.
+
 ### 2026-04-27 — HW1 Codex script-only Q1-Q6 output placement
 **Requested by:** Edgar
 **What was done:** Removed `Homework_1_Codex.Rmd` from `Assignments/Homework 1 - codex/` and reorganized `Homework_1_Codex.R` so Q1-Q2, Q3, and Q4-Q5 tables/figures render immediately after the code that creates their underlying objects. Added standalone HTML table exports for the Q1-Q2 descriptive table, Q3 city regressions, and Q4-Q5 New Orleans models. Left Questions 7 onward unchanged pending Edgar feedback.
