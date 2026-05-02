@@ -1,0 +1,682 @@
+# Quantitative Methods 3 (QM3) Midterm Lecture Reference v1.5.0
+
+This reference sheet is built from the QM3 lecture slides, not the textbook-centered methods guide. The v1.5.0 update preserves v1.4.0's exam-facing structure, 12pt body text, 1-inch margins, formula wrapping, first-use acronym format, and "Explain Like I'm 5" conclusions, then adds the missing panel-data sequence from Lectures 7-10 and the local DiD/FE/FD exercise handouts.
+
+## Source Map
+
+| Lecture | Slides | Core midterm use |
+|---|---|---|
+| Lecture 1 (L1) | `QM3_L1_Intro.pdf` | Causal inference as policy evaluation; correlation versus causation; counterfactual logic; research design over pure math. |
+| Lecture 2 (L2) | `QM3_L2_CaInf.pdf` | Potential outcomes; Average Treatment Effect (ATE); Average Treatment Effect on the Treated (ATT); naive comparisons; selection bias; random assignment as the solution. |
+| Lecture 3 (L3) | `QM3_L3_Reg.pdf` | Ordinary Least Squares (OLS) mechanics; coefficients; dummy variables; interactions; regression as stratification; Conditional Independence Assumption (CIA); common support. |
+| Lecture 4 (L4) | `QM3_L4_Reg2.pdf` | OLS treatment effects; endogeneity; Omitted Variable Bias (OVB); simultaneity; measurement error and attenuation bias. |
+| Lecture 5 (L5) | `QM3_L5_IV.pdf` | Bad controls; Instrumental Variables (IV) notation; first stage; reduced form; exclusion restriction; weak instruments; Two-Stage Least Squares (2SLS). |
+| Lecture 6 (L6) | `QM3_L6_IV2.pdf` | IV as potential outcomes; compliance types; Intent-to-Treat (ITT); Treatment-On-The-Treated (TOT); Local Average Treatment Effect (LATE); Angrist-Imbens-Rubin (AIR) assumptions; Programa de Ampliacion de Cobertura de la Educacion Secundaria (PACES) voucher example. |
+| Lecture 7 (L7) | `QM3_L7_panel1.pdf` | Two-period Difference-in-Differences (DiD); counterfactual trends; naive comparison failures; parallel trends; road-repair employment example. |
+| Lecture 8 (L8) | `QM3_L8_Panel2.pdf` | DiD potential outcomes; no anticipation; first differences; Fixed Effects (FE); Two-Way Fixed Effects (TWFE); DiD as FE; event-study basics. |
+| Lecture 9 (L9) | `QM3_L9_Panel3.pdf` | Multi-period DiD; event studies; pre-trend checks; conditional parallel trends; staggered adoption; Goodman-Bacon decomposition. |
+| Lecture 10 (L10) | `QM3_L10_Panel4.pdf` | Staggered-adoption bias; clean group-time effects; Triple Differences (DDD); continuous-treatment DiD; threats to validity; falsification tests. |
+| Exercise handouts | `Week 6 Exercises DiD FE FD.pdf`; `Interpreting all beta's in DiD.pdf` | Business-training example; all-beta DiD interpretation; two-period DiD, FD, and FE equivalence. |
+
+Each numbered topic has either one dedicated visual source map or a compact schematic. The maps are visual memory aids; the causal interpretation still comes from the assumptions written in the text.
+
+## The Exam Algorithm
+
+1. **Name the causal object.** Decide whether the prompt wants ATE, ATT/TOT, ITT, or LATE. This usually determines the rest of the answer.
+2. **Name the comparison.** Say whether the estimate is a raw treated-control difference, a regression-adjusted comparison, a first stage, a reduced form, a Wald ratio, or 2SLS.
+3. **Name the identifying assumption.** The answer is not causal until you say why the comparison substitutes for the missing counterfactual: random assignment, Conditional Independence Assumption (CIA) plus common support, exogeneity, exclusion restriction, monotonicity, or accurate measurement.
+4. **Name the failure mode.** If the assumption is not credible, label the problem: selection, bad control, OVB, simultaneity, measurement error, weak instrument, or exclusion violation.
+5. **Interpret in units.** State the outcome units and direction. A 0.11 change in a rate is 11 percentage points, not 11 percent.
+6. **For panel designs, name the comparison over time.** Say whether the estimate is a two-by-two DiD, first difference, FE/TWFE coefficient, event-study coefficient, or staggered-adoption average.
+7. **For DiD, state parallel trends precisely.** The claim is that untreated potential-outcome trends would have been parallel, not that treated and control units had equal baseline levels.
+8. **For interaction regressions, identify the treatment-effect coefficient.** In the canonical DiD regression, `b3` or `delta` is the treatment effect; `b0`, `b1`, and `b2` are cell means or baseline/time differences.
+
+## 1. Causal Inference and Identification
+
+**Core idea:** QM3 treats causal inference as a design problem before it is a calculation problem. A policy question asks what would happen if a unit received treatment instead of not receiving it. Researchers never observe both potential outcomes for the same person at the same time: we either see the treated outcome or the untreated outcome. The whole task is therefore to estimate the missing counterfactual with a comparison group or source of variation that can credibly stand in for it. Identification means the causal quantity can be recovered from observed data under a stated set of assumptions.
+
+**How to recognize it on the exam:** If the prompt asks whether a comparison is "causal," whether a conclusion is "identified," or what makes a research design credible, start here. The key move is to separate the observed pattern from the causal claim. "Participants earn more than nonparticipants" is a descriptive comparison; "the program raised earnings" requires an identification story.
+
+**Comparison being made:** Any method in the course is a way of making a counterfactual comparison. Randomized difference in means compares assigned treatment and control groups. OLS compares units after conditioning on included variables. IV compares outcome changes induced by an instrument. The method is only the calculation; the identifying variation is the reason the calculation is meaningful.
+
+**Identifying assumption:** The comparison group must represent what treated units would have looked like without treatment, or what untreated units would have looked like with treatment. More observations reduce noise around a bad comparison; they do not make the comparison causal.
+
+**Formula/notation:**
+
+```text
+Identification strategy = source of identifying variation + method that exploits it
+Causal claim = observed comparison + assumption that supplies the missing counterfactual
+```
+
+**Visual aid:** The section map shows the core counterfactual problem: for the same unit, one potential outcome is observed and the other is missing.
+
+[[IMAGE:assets/qm3_midterm_v1.4.0/01_causal_inference_identification.png]]
+
+**Interpretation sentence:** "This estimate can be interpreted causally only if the design makes treatment status unrelated to the potential outcome that is missing for each unit."
+
+**Common trap:** Do not say a coefficient is causal because it is statistically significant, large, or estimated on a big dataset. Significance is about sampling uncertainty; identification is about bias.
+
+**Explain Like I'm 5:** A causal claim is not just noticing two things move together. It is showing that your comparison group is a believable stand-in for the missing "what would have happened otherwise" world that you cannot see for the same person.
+
+## 2. Potential Outcomes, ATE, ATT, and Selection
+
+**Core idea:** Potential outcomes force the counterfactual problem into notation. Each unit has `Y_i(1)` if treated and `Y_i(0)` if untreated, but researchers observe only one of those two outcomes for that unit. A causal effect is the difference between the two potential outcomes for the same unit, so every empirical method in this part of the course is trying to estimate the missing counterfactual. Since the missing potential outcome is never observed directly, group comparisons can mix treatment effects with pre-existing differences between treated and untreated units.
+
+**How to recognize it on the exam:** Use this section whenever a prompt gives treated and untreated groups and asks whether the raw difference is a treatment effect. The exam cue is usually a substantive contrast: program participants versus nonparticipants, private college attendees versus public college attendees, or households in a treated area versus others.
+
+**Comparison being made:** The naive Difference in Means is `E[Y_i | D_i = 1] - E[Y_i | D_i = 0]`. It is the raw observed group gap: treated people's observed outcomes minus untreated people's observed outcomes. It is not automatically an Average Treatment Effect (ATE), because ATE is the average of each unit's own treated-minus-untreated potential-outcome difference. It is also not automatically an Average Treatment Effect on the Treated (ATT), because ATT asks for the average causal effect among the treated group, written with the conditioning bar `| D_i = 1`.
+
+**Identifying assumption:** To read the naive comparison as causal, the untreated potential outcome for treated units must equal the untreated outcome for controls in expectation. If treated units selected into treatment because they were richer, poorer, more motivated, or more exposed to the policy, that equality fails.
+
+**Formula/notation:**
+
+```text
+Observed outcome:
+Y_i = D_i * Y_i(1) + (1 - D_i) * Y_i(0)
+
+ATE = E[Y_i(1) - Y_i(0)]
+ATT = E[Y_i(1) - Y_i(0) | D_i = 1]
+
+Difference in Means =
+E[Y_i | D_i = 1] - E[Y_i | D_i = 0]
+
+Decomposition:
+Difference in Means =
+ATT + {E[Y_i(0) | D_i = 1] - E[Y_i(0) | D_i = 0]}
+```
+
+**Visual aid:** The section map keeps the three objects separate: ATE is the population-average causal effect, ATT is the average causal effect given treatment status `D = 1`, and Difference in Means is the raw observed gap that becomes causal only with assumptions such as random assignment.
+
+[[IMAGE:assets/qm3_midterm_v1.4.0/02_potential_outcomes_ate_att_selection.png]]
+
+**Interpretation sentence:** "The raw treated-control gap equals the treatment effect for treated units plus a selection term, so it is causal only if the selection term is zero."
+
+**Common trap:** Do not call the raw treated-minus-untreated mean gap "the ATE" unless the design justifies that move. Do not infer harm just because participants do worse than nonparticipants. In the Maria/Khuzdar logic from lecture, the observed comparison can have the opposite sign from the causal effect if the treated group started from a worse counterfactual.
+
+**Explain Like I'm 5:** Each person has two possible outcomes, but we only see one. ATE and ATT are about missing same-person causal effects; Difference in Means is just the visible group gap until the design proves the groups were comparable.
+
+## 3. Random Assignment
+
+**Core idea:** Random assignment is the cleanest way to solve selection because it makes treatment status independent of potential outcomes. Treated and control groups may not match perfectly in a finite sample, but in expectation they come from the same distribution. That is why a simple difference in means can identify a causal effect under randomization.
+
+**How to recognize it on the exam:** Words like lottery, randomly assigned, experimental group, control group, balanced, or same population point here. The question may ask why randomization helps, what the difference in means estimates, or why baseline covariates should be balanced on average.
+
+**Comparison being made:** Compare average outcomes for the assigned treatment group to average outcomes for the assigned control group. The comparison is credible because assignment was not chosen by the units and was not chosen based on their potential outcomes.
+
+**Identifying assumption:** Treatment assignment `D_i` is independent of the pair of potential outcomes. In practice, also watch the distinction between assignment and actual take-up. If people assigned treatment do not all receive it, the assignment contrast is usually ITT rather than the effect of receiving treatment.
+
+**Formula/notation:**
+
+```text
+D_i independent of (Y_i(1), Y_i(0)), with 0 < Pr(D_i = 1) < 1
+E[Y_i(0) | D_i = 1] - E[Y_i(0) | D_i = 0] = 0
+Under random assignment:
+E[Y | D = 1] - E[Y | D = 0] = ATE
+```
+
+**Visual aid:** The section map shows why random assignment makes balance plausible: assignment separates treatment status from potential outcomes in expectation.
+
+[[IMAGE:assets/qm3_midterm_v1.4.0/03_random_assignment_balance.png]]
+
+**Interpretation sentence:** "Because treatment was randomly assigned, the control group's average outcome estimates the treated group's missing untreated counterfactual in expectation."
+
+**Common trap:** Do not require every baseline characteristic to be exactly equal after randomization. Random assignment balances in expectation; finite samples can still have chance imbalance.
+
+**Explain Like I'm 5:** Random assignment is like shuffling before dealing cards. It does not make every hand identical, but it makes the groups fair enough that the average difference can be treated as the program's effect.
+
+## 4. OLS and Regression Interpretation
+
+**Core idea:** OLS chooses coefficients that minimize squared residuals. In a simple regression, the slope is the covariance between the regressor and outcome divided by the variance of the regressor. In multiple regression, each coefficient is a conditional association: the predicted change in the outcome for a one-unit increase in that regressor, holding the included right-hand-side variables fixed.
+
+**How to recognize it on the exam:** Regression-output questions almost always want three things in order: identify the dependent variable, interpret the coefficient in units, and then say whether the coefficient has a causal interpretation. Look for language like "holding controls constant," "interpret beta," or "what does this coefficient mean?"
+
+**Comparison being made:** OLS compares units with different values of `X_i`. Multiple regression narrows the comparison to units with the same included controls. That can approximate stratification, but only over variables actually in the model.
+
+**Identifying assumption:** For a causal interpretation, the error term must be unrelated to the treatment or regressor after conditioning on included controls. In lecture notation, the key condition is mean independence of the error given the right-hand-side variables.
+
+**Formula/notation:**
+
+```text
+Fitted value: Yhat_i = beta_hat_0 + beta_hat_1 X_i
+Residual: uhat_i = Y_i - Yhat_i
+Simple OLS slope: beta_hat_1 = Cov(X, Y) / Var(X)
+
+Multiple regression:
+Y_i = beta_0 + beta_1 D_i + beta_2 X_i + epsilon_i
+Key causal condition: E(epsilon_i | D_i, X_i) = 0
+```
+
+**Visual aid:** The section map shows the fitted line, residuals, and coefficient interpretation. The line summarizes the comparison; the causal interpretation still depends on the error term being unrelated to the regressor after controls.
+
+[[IMAGE:assets/qm3_midterm_v1.4.0/04_ols_regression_interpretation.png]]
+
+**Interpretation sentence:** "A one-unit increase in `D_i` is associated with `beta_1` more units of `Y_i`, holding the included controls fixed; this is causal only if no remaining omitted factor in the error is correlated with `D_i`."
+
+**Common trap:** "Holding all else constant" means holding included variables constant, not literally all possible determinants of the outcome. A missing confounder can still bias the coefficient.
+
+**Explain Like I'm 5:** OLS draws the best-fitting line through the data. The line is causal only when the leftover reasons people differ are not secretly tied to the variable you care about.
+
+## 5. Dummy Variables, Interactions, and Demeaning
+
+**Core idea:** Dummy variables turn categories into comparisons against a reference group. Interactions let a relationship differ across groups or across values of another variable. A dummy-by-dummy interaction is an extra joint effect beyond the two main effects. A continuous-by-dummy interaction changes the slope for one group. Demeaning moves the zero point of a continuous variable so the dummy main effect is evaluated at an average, meaningful baseline.
+
+**How to recognize it on the exam:** Look for `factor(...)`, binary variables, group categories, terms with `*`, or questions asking for "the effect for this group." If a prompt asks about a subgroup, expect to add coefficients rather than point to a single row.
+
+**Comparison being made:** The omitted category is the baseline. A dummy coefficient compares the named group to that baseline. An interaction coefficient compares whether the gap or slope for one group differs from the baseline group's gap or slope.
+
+**Identifying assumption:** The same OLS exogeneity condition applies if the prompt asks for causality. The interaction changes what comparison is estimated; it does not solve selection or omitted variables by itself.
+
+**Formula/notation:**
+
+```text
+Dummy interaction:
+earnings_i = b0 + b1 female_i + b2 asian_i + b3(asian_i * female_i) + e_i
+
+b1 = female gap among non-Asian workers
+b2 = Asian male gap relative to non-Asian men
+b3 = additional Asian-woman difference beyond b1 and b2
+
+Demeaning:
+IQ_tilde_i = IQ_i - mean(IQ)
+Then b1 is the female gap at average IQ
+```
+
+**Visual aid:** The section map separates dummy-variable reference groups, interaction terms, and demeaning so subgroup effects are read by combining the right coefficients.
+
+[[IMAGE:assets/qm3_midterm_v1.4.0/05_dummies_interactions_demeaning.png]]
+
+**Interpretation sentence:** "For the interacted group, combine the relevant main effect and interaction term; the interaction alone is only the extra difference relative to the reference group."
+
+**Common trap:** Do not interpret the interaction coefficient as the full group effect. Do not interpret a main effect without checking both the reference category and the zero point of the interacted continuous variable.
+
+**Explain Like I'm 5:** Dummies tell you which group is being compared to the baseline. Interactions tell you whether that comparison changes for a particular group or at a particular value.
+
+## 6. Selection on Observables, Conditional Independence Assumption (CIA), and Common Support
+
+**Core idea:** When there is no random assignment, regression can be used as a structured comparison among units with the same observed covariates. The Conditional Independence Assumption (CIA) says that after conditioning on observed `X_i`, treatment is as good as randomly assigned. Common support says those within-`X_i` comparisons actually exist: for relevant covariate values, there are both treated and untreated units.
+
+**How to recognize it on the exam:** Use this section for observational studies with controls, matching-style logic, or prompts that say "compare people with the same background characteristics." The private-university example is the lecture anchor: compare students with similar application sets or ability proxies who chose different college types.
+
+**Comparison being made:** Treated and control units are compared within covariate cells or after regression adjustment for covariates. The comparison tries to replace a broad treated-control gap with like-versus-like comparisons.
+
+**Identifying assumption:** All confounding must be captured by the observed controls. If unobserved motivation, ability, family background, networks, neighborhood conditions, or expectations still affect both treatment and outcomes, CIA fails. Common support additionally requires overlap so the method is not extrapolating beyond comparable data.
+
+**Formula/notation:**
+
+```text
+CIA:
+(Y_i(1), Y_i(0)) independent of D_i conditional on X_i
+
+Common support:
+0 < Pr(D_i = 1 | X_i) < 1
+```
+
+**Visual aid:** The section map shows Conditional Independence Assumption (CIA) and common support as two separate gates: selection must be on observed covariates, and comparable treated/control observations must exist.
+
+[[IMAGE:assets/qm3_midterm_v1.4.0/06_cia_common_support.png]]
+
+**Interpretation sentence:** "Conditional on the observed covariates, the untreated comparison units are being used as the treated units' missing counterfactual."
+
+**Common trap:** Adding many controls is not the same as satisfying CIA. Controls only solve selection on observed variables, and lack of overlap means the regression is leaning on model extrapolation rather than real comparisons.
+
+**Explain Like I'm 5:** Controls help only if they make treated and untreated people truly comparable. If the important difference is hidden or there is no similar untreated person, the comparison is still shaky.
+
+## 7. OVB
+
+**Core idea:** OVB happens when a left-out variable both affects the outcome and is correlated with the included regressor. The short regression then gives the included regressor credit or blame for variation that belongs to the omitted variable. The lecture's private-university example uses applicant-group quality or ability as the confounder: if higher-earning applicant groups are also more likely to attend private schools, the raw private-school coefficient is upward biased.
+
+**How to recognize it on the exam:** Look for short-versus-long regressions, "direction of bias," "what happens when we omit ability/family background/location," or a prompt that gives an omitted variable's relationship with both treatment and outcome. The exam move is to sign the two links separately.
+
+**Comparison being made:** The short regression compares treated and untreated units without holding the omitted variable fixed. The long regression adds the omitted variable and compares units with the same value of that omitted factor. The difference between those two coefficients is the bias.
+
+**Identifying assumption:** The omitted variable must either be unrelated to the treatment/regressor or have no effect on the outcome. If both links are nonzero, the short regression is biased.
+
+**Formula/notation:**
+
+```text
+Long regression:  Y_i = alpha_l + beta_l P_i + gamma A_i + epsilon_li
+Short regression: Y_i = alpha_s + beta_s P_i + epsilon_si
+Auxiliary regression: A_i = pi_0 + pi_1 P_i + u_i
+
+OVB = beta_s - beta_l = pi_1 * gamma
+
+Cov/Var version used in exercises:
+c1 = Cov(Y, W) / Var(W)
+c2 = Cov(W, X) / Var(X)
+Bias = c1 * c2
+```
+
+**Visual aid:** The section map makes the sign logic mechanical. Bias requires one path from the omitted variable to the treatment/regressor and another path from the omitted variable to the outcome.
+
+[[IMAGE:assets/qm3_midterm_v1.4.0/07_ovb_bias_paths.png]]
+
+**Interpretation sentence:** "The short coefficient equals the controlled coefficient plus the part of the omitted variable's outcome effect that is mechanically loaded onto the included regressor."
+
+**Common trap:** Do not memorize only "positive omitted variable means upward bias." The sign depends on the product of two relationships: omitted variable with treatment, and omitted variable with outcome.
+
+**Explain Like I'm 5:** OVB is blame getting assigned to the wrong variable. If a missing factor is tied to both the treatment and the outcome, the coefficient mixes the treatment effect with that missing factor.
+
+## 8. Simultaneity and Measurement Error
+
+**Core idea:** Simultaneity is a feedback problem: the regressor affects the outcome, but the outcome also affects the regressor. The police/crime example is the lecture anchor because police may reduce crime, while high crime also causes more police deployment. Measurement error is a data-quality problem: the true regressor is observed with noise. Classical measurement error in the regressor pushes the coefficient toward zero.
+
+**How to recognize it on the exam:** Use simultaneity when the causal arrow plausibly runs both ways. Use measurement error when a key variable is self-reported, misclassified, proxied, or counted with noise.
+
+**Comparison being made:** In simultaneity, OLS compares units with different observed `X_i`, but part of that difference in `X_i` is itself a response to `Y_i` or the shocks inside the error term. In measurement error, OLS compares units using noisy measured values rather than the true values, so the signal is diluted.
+
+**Identifying assumption:** For simultaneity, exogeneity fails because the regressor is correlated with the error. For classical measurement error, the observed regressor equals true signal plus noise, and that noise weakens the relationship between observed `X_i` and `Y_i`.
+
+**Formula/notation:**
+
+```text
+Endogeneity:
+E(epsilon_i | X_i) != 0
+
+Simultaneity example:
+Y_1 = alpha_1 Y_2 + beta_1 Z_1 + mu_1
+Y_2 = alpha_2 Y_1 + beta_2 Z_2 + mu_2
+
+Classical measurement error:
+S_i = S_i* + m_i
+beta_hat_bad = r * beta
+r = Var(S_i*) / [Var(S_i*) + Var(m_i)], where 0 < r < 1
+```
+
+**Visual aid:** The section map keeps the two endogeneity stories separate: simultaneity is reverse feedback, while measurement error is noisy measurement that attenuates the signal.
+
+[[IMAGE:assets/qm3_midterm_v1.4.0/08_simultaneity_measurement_error.png]]
+
+**Interpretation sentence:** "The coefficient is not isolating the effect of `X_i` on `Y_i` because either `Y_i` also helps determine `X_i`, or the measured `X_i` is a noisy stand-in for the true regressor."
+
+**Common trap:** Adding ordinary controls does not automatically fix simultaneity. The issue is reciprocal causation, not just a missing background variable. For measurement error, remember attenuation: the estimate is biased toward zero, not necessarily toward a negative number.
+
+**Explain Like I'm 5:** Simultaneity is a two-way street, so OLS cannot tell which direction caused what. Measurement error is a blurry ruler, so the measured relationship usually looks weaker than the real one.
+
+## 9. Bad Controls and Post-Treatment Bias
+
+**Core idea:** More controls are not always better. A bad control is a variable that is itself affected by treatment, especially a mediator between treatment and outcome. Controlling for it blocks part of the causal pathway and changes the estimand. In the job-training example, later employment is not a clean pre-treatment control if training affects employment and employment affects earnings.
+
+**How to recognize it on the exam:** Watch for proposed controls measured after treatment or variables that treatment plausibly causes: employment after training, income after schooling, health status after insurance, or any "intermediate outcome." The exam may ask whether to control for the variable or why adding it changes the coefficient.
+
+**Comparison being made:** With the bad control included, the regression compares treated and untreated units with the same value of a post-treatment variable. That is no longer the total effect comparison; it holds fixed part of what treatment may have changed.
+
+**Identifying assumption:** A valid control should be predetermined relative to treatment and should help block confounding paths. A post-treatment control violates that logic because it lies downstream of treatment.
+
+**Formula/notation:**
+
+```text
+Treatment: Z
+Mediator/post-treatment variable: S = Z + error_S
+Outcome: Y = Z + S + error_Y
+
+Total effect of Z on Y = direct path from Z to Y + indirect path through S
+Controlling for S blocks the indirect path
+```
+
+**Visual aid:** The section map marks the bad-control danger: if treatment causes the control, holding it fixed changes the question from total effect to a direct-effect comparison.
+
+[[IMAGE:assets/qm3_midterm_v1.4.0/09_bad_controls_post_treatment_bias.png]]
+
+**Interpretation sentence:** "After controlling for the mediator, the coefficient is closer to a direct-effect comparison among units with the same post-treatment value, not the total policy effect."
+
+**Common trap:** A variable can be predictive and still be a bad control. The question is not whether it predicts the outcome; the question is whether treatment caused it.
+
+**Explain Like I'm 5:** Do not control for something that happens after the treatment if the treatment may have caused it. That is like judging a path while blocking part of the path you wanted to measure.
+
+## 10. IV and 2SLS
+
+**Core idea:** IV is used when the treatment or regressor is endogenous because of OVB, simultaneity, or measurement error. The instrument `Z_i` supplies external variation in the endogenous variable `X_i`. The first stage asks whether `Z_i` moves `X_i`. The reduced form asks whether `Z_i` moves `Y_i`. The exclusion restriction says the only reason `Z_i` moves `Y_i` is that it moves `X_i`.
+
+**How to recognize it on the exam:** Prompts about rainfall, lotteries, draft numbers, vouchers, weak instruments, or "instrument validity" point here. If the question asks whether an instrument is valid, state first stage and exclusion in words tied to the case before writing formulas.
+
+**Comparison being made:** IV compares outcome differences generated by instrument-induced changes in the endogenous regressor. 2SLS implements the same logic by first predicting `X_i` using the instrument and then using that predicted component in the outcome equation.
+
+**Identifying assumption:** The instrument must be relevant, meaning it has a nonzero first stage, and excludable, meaning it affects the outcome only through the endogenous regressor. In L5, first-stage strength can be checked in the data; exclusion is a design claim defended with domain knowledge.
+
+**Formula/notation:**
+
+```text
+Structural equation:
+Y_i = alpha + rho X_i + eta_i
+
+First stage:
+X_i = pi_0 + pi_1 Z_i + u_i
+
+IV/Wald estimand:
+rho = Cov(Y_i, Z_i) / Cov(X_i, Z_i)
+Equivalent binary form: Reduced Form / First Stage
+
+2SLS:
+1st stage: X_i = pi_0 + pi_1 Z_i + u_i, get Xhat_i
+2nd stage: Y_i = alpha + rho Xhat_i + v_i
+
+R pattern:
+ivreg(Y ~ X1 + X2 | Z + X2, data = dat)
+```
+
+**Visual aid:** The section map shows the exam sequence: prove the instrument moves treatment, show the instrument moves the outcome, then divide reduced form by first stage.
+
+[[IMAGE:assets/qm3_midterm_v1.4.0/10_iv_2sls_pipeline.png]]
+
+**Interpretation sentence:** "The IV estimate is the effect of `X_i` on `Y_i` for the variation in `X_i` that is induced by the instrument, assuming the instrument has no direct path to the outcome."
+
+**Common trap:** A strong first stage does not prove exclusion. A weak first stage makes the denominator small, so estimates become volatile and any exclusion violation can be amplified. L5 notes the old `F > 10` rule of thumb and newer stricter weak-instrument concerns.
+
+**Explain Like I'm 5:** An instrument is useful when it nudges treatment for reasons unrelated to the outcome except through treatment. First stage asks whether the nudge works; exclusion asks whether the nudge has only that one path.
+
+## 11. ITT, TOT, Compliance Types, and LATE
+
+**Core idea:** L6 separates assignment from take-up. A lottery or offer may change the probability of treatment without perfectly determining treatment. Intent-to-Treat (ITT) is the effect of assignment or offer. Treatment-On-The-Treated (TOT) is the effect of actually receiving treatment among takers in one-sided compliance settings. Average Treatment Effect on the Treated (ATT) is the average causal effect among units with `D = 1`; it is a potential-outcomes estimand for treated people, not simply any treated-control gap. Local Average Treatment Effect (LATE) is the effect for compliers, the people whose treatment status changes because of the assignment or instrument.
+
+**How to recognize it on the exam:** Use this section for lotteries, scholarships, vouchers, offers, eligibility rules, or any program where some assigned units do not take treatment and some nonassigned units may still get treatment. The PACES voucher example is the lecture anchor.
+
+**Comparison being made:** ITT compares outcomes by assignment `Z_i`, regardless of actual take-up `D_i`. The first stage compares take-up by assignment. The Wald ratio divides the outcome effect of assignment by the take-up effect of assignment, rescaling the assignment contrast into a complier treatment-effect estimate.
+
+**Identifying assumption:** For LATE, assignment must be as good as random, the first stage must be nonzero, the exclusion restriction must hold, and monotonicity must rule out defiers. Under one-sided compliance, a simple TOT scaling is available because no one in the control group receives treatment.
+
+**Formula/notation:**
+
+```text
+Compliance types:
+Always-takers: (D1, D0) = (1, 1)
+Never-takers:  (D1, D0) = (0, 0)
+Compliers:     (D1, D0) = (1, 0)
+Defiers:       (D1, D0) = (0, 1)
+
+One-sided compliance:
+TOT = ITT / compliance
+
+Two-sided compliance / LATE:
+LATE = [E(Y | Z = 1) - E(Y | Z = 0)] /
+       [E(D | Z = 1) - E(D | Z = 0)]
+     = Reduced Form / First Stage
+
+With monotonicity:
+p_A = Pr(D = 1 | Z = 0)
+p_N = Pr(D = 0 | Z = 1)
+p_C = Pr(D = 1 | Z = 1) - Pr(D = 1 | Z = 0)
+```
+
+**Visual aid:** The section map keeps the compliance and LATE objects separate from ATE, ATT, ITT, and TOT. The LATE interpretation belongs to compliers, because they are the group whose treatment status changes when assignment changes.
+
+[[IMAGE:assets/qm3_midterm_v1.4.0/11_itt_tot_late_compliance.png]]
+
+**Interpretation sentence:** "The Wald ratio estimates the treatment effect for compliers: the units whose treatment status is moved by the assignment."
+
+**Common trap:** Do not call LATE the ATE, ATT, ITT, or TOT. ITT is assignment's effect, TOT rescales ITT to actual takers in a one-sided setup, ATT conditions on already-treated units, and LATE is the complier effect under the IV assumptions. Always-takers and never-takers help determine take-up shares, but they do not identify the treatment effect because assignment does not change their treatment status.
+
+**Explain Like I'm 5:** With noncompliance, the lottery only changes treatment for some people. LATE is the effect for those people, the compliers, not for everyone in the study.
+
+## 12. IV Identification Assumptions Under Potential Outcomes
+
+**Core idea:** L6 rewrites IV in potential-outcomes terms. The AIR framework says the instrument identifies a complier average causal effect when four conditions hold: random assignment of the instrument, a nonzero first stage, exclusion, and monotonicity. This is the formal bridge between the intuitive Wald ratio and the LATE interpretation.
+
+**How to recognize it on the exam:** Use this when a prompt asks for IV assumptions, what IV identifies, or what the exclusion restriction means. The best answer gives the formal assumption and then translates it into the case.
+
+**Comparison being made:** The instrument splits units into `Z_i = 1` and `Z_i = 0` groups. The reduced form compares their outcomes. The first stage compares their treatment rates. The LATE theorem says the ratio of those two assignment-induced differences isolates compliers under the AIR assumptions.
+
+**Identifying assumption:** The instrument must be randomly assigned relative to all relevant potential outcomes and compliance types; it must move treatment for some units; it must affect the outcome only through treatment; and it must not make anyone move opposite the instrument.
+
+**Formula/notation:**
+
+```text
+Random assignment:
+({Y_i(d,z) for all d,z}, D_1i, D_0i) independent of Z_i
+
+First stage:
+E[D_i | Z_i = 1] - E[D_i | Z_i = 0] != 0
+
+Exclusion:
+Y_i(d,0) = Y_i(d,1) = Y_di for d = 0,1
+
+Monotonicity:
+D_1i - D_0i >= 0 for all i
+
+LATE theorem:
+rho_C = [E(Y | Z = 1) - E(Y | Z = 0)] /
+        [E(D | Z = 1) - E(D | Z = 0)]
+```
+
+**Visual aid:** The section map shows the Angrist-Imbens-Rubin (AIR) assumption checklist that turns the Wald ratio into a Local Average Treatment Effect (LATE).
+
+[[IMAGE:assets/qm3_midterm_v1.4.0/12_air_iv_assumptions.png]]
+
+**Interpretation sentence:** "If assignment is random, moves treatment, affects outcomes only through treatment, and has no defiers, the Wald ratio is the causal effect for compliers."
+
+**Common trap:** Random assignment of the instrument is not random assignment of treatment. Exclusion is usually the fragile assumption. Placebo tests and covariate balance checks can support the story, but they do not mechanically prove exclusion.
+
+**Explain Like I'm 5:** IV works only if the instrument is fair, actually moves treatment, has no side door to the outcome, and never pushes anyone the opposite way. If those hold, the Wald ratio tells you the complier effect.
+
+## 13. Difference-in-Differences (DiD)
+
+**Core idea:** Difference-in-Differences (DiD) is a change-in-changes estimator. It compares how outcomes change over time for treated units against how outcomes change over time for comparison units. A post-only treated-control comparison can be biased by baseline selection, and a before-after treated comparison can be biased by common time shocks. DiD uses the control group's change as the counterfactual trend for treated units in the absence of treatment.
+
+**How to recognize it on the exam:** Use DiD when the prompt gives a treated group, a comparison group, and at least one pre-treatment and post-treatment period. Cues include before and after, treated and control, parallel trends, panel data, or a two-by-two table.
+
+**Comparison being made:** The treated group's post-minus-pre change minus the control group's post-minus-pre change. In the L7 road-repair example, treated districts' employment rises from 0.60 to 0.74 while control districts rise from 0.78 to 0.81, so DiD is `(0.74 - 0.60) - (0.81 - 0.78) = 0.11`, or 11 percentage points. In the exercise handout business-training example, DiD is `(180 - 145) - (170 - 165) = 30`.
+
+**Identifying assumption:** Parallel trends in untreated potential outcomes. Treated and control units do not need the same baseline level. The assumption is that, without treatment, treated units would have followed the same trend as the control group. L8 adds no anticipation: treatment should not affect pre-treatment outcomes before it arrives.
+
+**Formula/notation:**
+
+```text
+Treated change = B - A
+Control change = D - C
+DiD = (B - A) - (D - C)
+
+ATT at t=1 = E[Y_i1(1) - Y_i1(0) | T_i = 1]
+
+Parallel trends:
+E[Y_i1(0) - Y_i0(0) | T_i = 1]
+= E[Y_i1(0) - Y_i0(0) | T_i = 0]
+
+No anticipation:
+Y_i0(1) = Y_i0(0)
+```
+
+**Visual aid:** The table map shows why DiD is not the post-only treated-control gap. The treatment effect is the extra treated-group change after subtracting the control trend.
+
+[[VISUAL:did_table]]
+
+**Interpretation sentence:** "The treated group changed by 11 percentage points more than the comparison group after the policy, which is causal only if the control trend is the treated group's untreated counterfactual trend."
+
+**Common trap:** Do not say parallel trends means equal baseline outcomes. Treated firms in the handout start below controls, 145 versus 165, but DiD can still work if their untreated changes would have been parallel. Also do not use the post-only gap: in the business-training handout, `180 - 170 = 10` is biased downward relative to the DiD estimate of 30 because treated firms started lower.
+
+**Explain Like I'm 5:** DiD asks, "How much did the treated group improve, and how much would they probably have improved anyway?" The control group's change is the "would have improved anyway" part.
+
+## 14. Interpreting the DiD Regression
+
+**Core idea:** The canonical DiD regression turns the two-by-two table into coefficients. The treatment effect is the interaction between being in the treated group and being in the post period. The other coefficients are not treatment effects; they reconstruct the baseline cell, baseline group gap, and common time trend.
+
+**How to recognize it on the exam:** Use this section whenever the prompt shows `Treat`, `Post`, and `Treat x Post` or asks what each beta means.
+
+**Comparison being made:** Controls in the pre period are the baseline. `Treat_i` adds the treated-control baseline gap. `Post_t` adds the control group's time trend. `Treat_i * Post_t` adds the extra treated-group post-period change.
+
+**Identifying assumption:** The coefficient on the interaction is causal under the same DiD assumptions: parallel trends and no anticipation. The regression notation does not create identification by itself.
+
+**Formula/notation:**
+
+```text
+Y_it = b0 + b1 Treat_i + b2 Post_t + b3(Treat_i * Post_t) + e_it
+
+Control, pre:     b0
+Treatment, pre:   b0 + b1
+Control, post:    b0 + b2
+Treatment, post:  b0 + b1 + b2 + b3
+
+b0 = control-group baseline mean
+b1 = baseline treated-control difference
+b2 = control-group time trend
+b3 = DiD treatment effect
+```
+
+| Coefficient | What it means | Example value |
+|---|---|---:|
+| `b0` | Control pre mean | 165 |
+| `b1` | Treated pre minus control pre | 145 - 165 = -20 |
+| `b2` | Control post minus control pre | 170 - 165 = 5 |
+| `b3` | Extra treated change beyond control trend | 30 |
+
+**Interpretation sentence:** "`b3` means treated firms' average daily sales rose by 30 dollars more than the control-group trend after the training program, assuming parallel trends."
+
+**Common trap:** Do not interpret `b1` as the treatment effect. It is a baseline group difference. Do not interpret `b2` as the policy effect either. It is the control group's time change.
+
+**Explain Like I'm 5:** The regression is just the DiD table in algebra clothes. The interaction term is the only piece that says, "treated and after at the same time."
+
+## 15. First Differences, Fixed Effects, and Two-Way Fixed Effects (TWFE)
+
+**Core idea:** Fixed Effects (FE) use within-unit comparisons over time. Unit fixed effects absorb time-invariant differences across units, such as geography, baseline productivity, persistent institutions, or management style. Time fixed effects absorb shocks common to all units in a period. In the simple two-group, two-period setup, DiD, first differences, and TWFE recover the same treatment-effect coefficient.
+
+**How to recognize it on the exam:** Use this section for prompts with repeated observations on the same units, `factor(id)`, `factor(year)`, `alpha_i`, `lambda_t`, demeaning, within estimator, or "compare each unit to itself over time."
+
+**Comparison being made:** First differences subtract each unit's baseline outcome from its post outcome. FE/TWFE subtract stable unit differences and common time shocks before estimating the treatment coefficient from remaining within-unit treatment variation.
+
+**Identifying assumption:** FE removes time-invariant confounders; it does not remove time-varying confounders. TWFE still needs the treatment timing to be as-good-as-random after removing unit and time effects, and DiD/TWFE still needs parallel trends. L8 also notes inference: cluster robust standard errors at the unit level, or at the treatment-assignment level when treatment is assigned above the unit level.
+
+**Formula/notation:**
+
+```text
+First-difference form:
+Delta Y_i = Delta lambda + delta T_i + Delta epsilon_i
+
+FE model:
+Y_it = beta X_it + tau D_it + alpha_i + v_it
+
+TWFE model:
+Y_it = beta X_it + tau D_it + alpha_i + lambda_t + v_it
+
+DiD as TWFE:
+Y_it = alpha_i + lambda_t + delta D_it + epsilon_it
+
+Within transformation:
+V_tilde_it = V_it - Vbar_i
+```
+
+**Visual aid:** The TWFE map shows the cleanup logic: unit fixed effects remove stable unit baselines, time fixed effects remove common period shocks, and the treatment coefficient uses the leftover within-unit treatment timing.
+
+[[VISUAL:twfe]]
+
+**Professor-style beta interpretations:** In the murder-panel example, `alpha_i` is a city's persistent difference relative to the omitted city, controlling for population and year shocks. `lambda_t` or `delta_t` is the common year shock relative to the omitted year, controlling for city fixed effects. `beta1` on population is identified from within-city population changes after removing common year shocks.
+
+**Interpretation sentence:** "`tau` is the within-unit treatment effect after absorbing all stable unit traits and all common time shocks."
+
+**Common trap:** FE is not magic. If treated units were already on different trends, or if an unobserved shock changes over time differently for treated units, FE can still be biased. With exactly two periods and a simple treatment/control setup, DiD = first differences = TWFE; with more periods, treatment timing and weighting can matter.
+
+**Explain Like I'm 5:** Fixed effects compare a place to itself instead of comparing it to a totally different place. That removes permanent differences, but it cannot remove new things that change differently over time.
+
+## 16. Event Studies, Dynamic Effects, and Staggered Adoption
+
+**Core idea:** Event studies extend DiD across multiple pre- and post-treatment periods. They estimate separate coefficients by time relative to treatment. Pre-treatment coefficients are placebo/pre-trend checks; post-treatment coefficients show dynamic effects. Staggered adoption adds another complication: different groups receive treatment at different times, so a simple TWFE coefficient can mix clean and contaminated comparisons.
+
+**How to recognize it on the exam:** Use this section for event-time plots, multiple pre-periods, multiple post-periods, staggered rollout, early-treated and late-treated cohorts, Goodman-Bacon decomposition, or questions asking whether TWFE is too big, too small, or wrong-signed.
+
+**Comparison being made:** In a clean event study where all treated units are treated at the same time, each post-period coefficient compares treated and control units in that event period relative to an omitted reference period. In staggered adoption, TWFE averages many two-by-two DiDs: treated versus never-treated, early versus not-yet-treated, and sometimes late-treated versus already-treated.
+
+**Identifying assumption:** Event studies still require parallel trends in untreated potential outcomes. Pre-trend coefficients near zero make the assumption more plausible but do not prove it. Staggered-adoption TWFE is especially fragile when effects are heterogeneous or dynamic, because already-treated units can become bad controls for later-treated units.
+
+**Formula/notation:**
+
+```text
+Dynamic ATT:
+tau_k = E[Y_i,k(1) - Y_i,k(0) | T_i = 1]
+
+Event-study model:
+Y_it = alpha_i + lambda_t
+     + sum_{k != 0} beta_k * T_i * 1(t = k)
+     + epsilon_it
+
+Static pooled TWFE:
+Y_it = alpha_i + lambda_t + delta D_it + epsilon_it
+
+If effects vary over event time:
+delta = sum_k w_k tau_k
+```
+
+**Visual aid:** The event-study map separates pre-period coefficients from post-period dynamic effects. Pre-period coefficients are diagnostic checks, not proof of identification.
+
+[[VISUAL:event_study]]
+
+**Goodman-Bacon intuition:** With never-treated `U`, early-treated `k`, and late-treated `l`, TWFE is a weighted average of possible two-by-two DiDs. Clean comparisons use never-treated or not-yet-treated units as controls. Contaminated comparisons use already-treated units as controls. In the L10 exercise, after the late group is treated, TWFE compares late-treated units to early-treated units whose treatment effect is still growing, pulling the late estimate below the true effect.
+
+**Visual aid:** The staggered-adoption map highlights the forbidden comparison: late-treated cohorts can be compared against already-treated early cohorts.
+
+[[VISUAL:staggered]]
+
+**Interpretation sentence:** "A static TWFE coefficient is a weighted average of group-time treatment effects; when treatment effects are dynamic or heterogeneous, that average can be misleading because some comparison groups are already treated."
+
+**Common trap:** Parallel trends can hold and TWFE can still be biased in staggered adoption when dynamic effects contaminate the controls. Also, flat pre-trends are reassuring but not a guarantee that post-treatment counterfactual trends would have remained parallel.
+
+**Explain Like I'm 5:** Event studies watch what happens before and after treatment over time. Staggered treatment is tricky because someone treated earlier may no longer be a clean "not treated" comparison for someone treated later.
+
+## 17. DiD Extensions, Threats, and Falsification
+
+**Core idea:** L10 adds three practical expansions of DiD. Triple Differences (DDD) subtracts one more comparison to remove subgroup-specific trends. Continuous-treatment DiD handles treatment dosage rather than a binary treatment. Falsification tests look for evidence that the design is picking up something other than treatment. None of these replace the core identification question: would the treated units' untreated trend have matched the comparison trend?
+
+**How to recognize it on the exam:** Use this section when there are three dimensions of comparison, such as subgroup, place, and time; when treatment intensity is continuous; or when the prompt asks for threats, placebo tests, alternative control groups, or robustness checks.
+
+**Comparison being made:** DDD estimates the DiD in the treated place minus the DiD in an untreated place. Continuous-treatment DiD estimates how outcome changes vary with treatment dosage. Falsification tests intentionally look where the treatment should have no effect.
+
+**Identifying assumption:** For DDD, absent treatment, the subgroup trend difference would have been the same in treated and untreated places. For continuous treatment, treatment dose must be uncorrelated with untreated outcome trends, and the dose-response relationship is usually assumed linear in the simple classroom model. For falsification, the logic is diagnostic: a failed placebo weakens the design, but a passed placebo does not prove parallel trends.
+
+**Formula/notation:**
+
+```text
+Triple differences:
+delta_tilde = delta_treated_place - delta_untreated_place
+
+DDD regression:
+Y_it = b0 + b1 G + b2 S + b3(G*S)
+     + p0 T + p1(G*T) + p2(S*T)
+     + delta_tilde(G*S*T) + e_it
+
+Continuous-treatment DiD:
+Y_it = alpha_i + lambda_t + delta D_i * Post_t + epsilon_it
+
+First-difference version:
+Delta Y_i = Delta lambda + delta D_i + Delta epsilon_i
+```
+
+**Visual aid:** The falsification map keeps the exam answer practical: use prior-period placebos, placebo outcomes, and alternative controls to test whether the design is seeing effects where treatment cannot operate.
+
+[[VISUAL:falsification]]
+
+**Threat checklist from L10:**
+
+- **Non-parallel dynamics:** treatment targeted based on pre-existing outcome trajectories, such as Ashenfelter's dip or regional targeting.
+- **Compositional differences:** the sample changes over time, especially in repeated cross-sections where treatment affects who appears in the data.
+- **Long-run reliability:** parallel trends is more plausible over short windows; decades of post-treatment history allow more confounders to accumulate.
+
+**Interpretation sentence:** "The DDD coefficient is the extra post-policy change for the targeted subgroup in the treated place, beyond subgroup differences, place differences, and common time changes."
+
+**Common trap:** A modern DiD estimator cannot rescue an invalid design. The first job is still to defend parallel trends, show the rollout, document cohort sizes, plot outcomes by cohort, and check pre-treatment coefficients or placebos.
+
+**Explain Like I'm 5:** DDD adds one more "subtract the background trend" step. Placebos ask, "Do we see an effect where the treatment could not possibly work?" If yes, the design is probably catching something else.
+
+## Final One-Page Memory Check
+
+- **Potential outcomes:** Ask which counterfactual is missing before interpreting a group difference; researchers never observe both potential outcomes for the same person.
+- **ATE/ATT/Difference in Means:** ATE and ATT are causal estimands; Difference in Means is the raw observed gap and becomes causal only under assumptions such as random assignment.
+- **Random assignment:** Difference in means is causal because selection bias is zero in expectation.
+- **OLS:** Interpret in outcome units, then ask whether the error is unrelated to the regressor after controls.
+- **Dummy variables and interactions:** Main effects depend on the reference group and zero point; subgroup effects often require adding coefficients.
+- **CIA/common support:** Regression adjustment works only if treated and control units are comparable on observed covariates and overlap exists.
+- **OVB:** Bias equals the omitted-treatment relationship times the omitted-outcome relationship.
+- **Simultaneity:** Feedback between `X_i` and `Y_i` makes the regressor endogenous.
+- **Measurement error:** Classical noise in the regressor attenuates the coefficient toward zero.
+- **Bad controls:** Do not control for variables caused by treatment unless you intentionally want a direct-effect or mediated-effect estimand.
+- **IV:** First stage makes the instrument relevant; exclusion makes it valid; weak first stage makes estimates unstable.
+- **LATE:** With noncompliance, IV estimates the effect for compliers, not everyone.
+- **DiD:** DiD is treated change minus control change. Parallel trends is about untreated trends, not equal baseline levels.
+- **DiD regression:** `Treat x Post` is the treatment-effect coefficient. The other terms recover baseline group gaps and common time changes.
+- **FE/TWFE:** FE removes time-invariant unit differences; time FE removes common shocks; neither fixes time-varying confounding.
+- **Event studies:** Pre-period coefficients diagnose parallel-trends plausibility; post-period coefficients show dynamic treatment effects.
+- **Staggered adoption:** TWFE can mix clean and contaminated two-by-two DiDs when effects differ by cohort or evolve over time.
+- **Falsification:** Placebo periods, placebo outcomes, and alternative controls raise or lower confidence; they do not prove identification.
+
+---
+Generated for: Edgar Agunias
+Date: 2026-05-01
+Model: GPT-5 (Codex, reasoning effort not exposed)
+Sources: QM3 lecture slides L1-L10 (`QM3_L1_Intro.pdf` through `QM3_L10_Panel4.pdf`); local QM3 inbox DiD/FE/FD exercise handouts; `QM3_Midterm_Lecture_Reference_v1.4.0_notes.md`; section-level imagegen assets in `Study Guides/assets/qm3_midterm_v1.4.0/`; delegated Tyche slide parses; Tyche memory files
+Agent: Tyche, coordinated by Claudia
+---

@@ -16,9 +16,17 @@ Lecture sequence as of 2026-04-15 (materials received for L1-L5, Labs 1-2). **No
 | L3 Regression | `W3 - Regression/` | Week 2 | OLS fundamentals |
 | L4 Regression 2 | `W3 - Regression/` | Week 3 | Multivariate / controls |
 | L5 Instrumental Variables | `W4 - Instrumental Variables/` | **Week 3** | IV estimation (*Mastering 'Metrics* Ch. 3) |
-| (not yet posted) | — | **Week 4** | Panel Data Basics: FE, DiD, parallel trends (*Mastering 'Metrics* Ch. 5) |
+| L7 Panel Data / DiD I | `Lectures/QM3_L7_panel1.pdf` | Week 4+ | Two-period DiD, counterfactual trends, parallel trends, road-repair example |
+| L8 Panel Data / FE and DiD | `Lectures/QM3_L8_Panel2.pdf` | Week 4+ | DiD potential outcomes, no anticipation, first differences, FE/TWFE, event-study basics |
+| L9 Panel Data / Event Study | `Lectures/QM3_L9_Panel3.pdf` | Week 4+ | Multi-period DiD, event studies, pre-trends, conditional parallel trends, staggered adoption, Goodman-Bacon |
+| L10 Panel Data / Extensions | `Lectures/QM3_L10_Panel4.pdf` | Week 4+ | Staggered-adoption bias, DDD, continuous-treatment DiD, threats to DiD, falsification tests |
 
-Syllabus Week 4 is **Panel Data Basics (FE + DiD)**, NOT IV. The course folder `W4 - Instrumental Variables/` contains what the syllabus calls Week 3 material. Week 4 panel-data slides have not been posted as of 2026-04-16. Any "Week 4" reference by Valasquez or the TA should be read as panel data.
+Syllabus Week 4 is **Panel Data Basics (FE + DiD)**, NOT IV. The course folder `W4 - Instrumental Variables/` contains what the syllabus calls Week 3 material. Week 4+ panel-data lecture slides are now present in `Lectures/` as L7-L10. Any "Week 4" reference by Valasquez or the TA should be read as panel data.
+
+## Panel Data / DiD Update (2026-05-01)
+- New panel-data lecture sequence is `QM3_L7_panel1.pdf`, `QM3_L8_Panel2.pdf`, `QM3_L9_Panel3.pdf`, and `QM3_L10_Panel4.pdf`.
+- Core topics now available: two-period DiD, all-beta DiD interpretation, parallel trends, no anticipation, first differences, FE/TWFE, event studies, staggered adoption, Goodman-Bacon decomposition, DDD, continuous-treatment DiD, threats to validity, and falsification tests.
+- Current lecture-reference output including these topics: `Study Guides/QM3_Midterm_Lecture_Reference_v1.5.0.pdf` with notes in `Study Guides/QM3_Midterm_Lecture_Reference_v1.5.0_notes.md`.
 
 Course folder is organized week-by-week (W1, W2, ...) by lecture sequence, mirroring Edgar's GPCO 410 and GPPS 463 layouts. Syllabus lives in `Course Admin/`. Textbook (Angrist & Pischke, *Mastering 'Metrics*) is at course root.
 

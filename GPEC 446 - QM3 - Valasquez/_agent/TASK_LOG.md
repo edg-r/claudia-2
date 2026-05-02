@@ -4,6 +4,12 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 <!-- No entries yet. Append new tasks below this line. -->
 
+### 2026-04-30 — QM3 inbox DiD/FE/FD source inspection and rescue note
+**Requested by:** Claudia
+**What was done:** Inspected the three local QM3 inbox PDFs from `inbox/QM3/` with `pdfinfo` and `pdftotext`. Confirmed that `Week 6 Exercises DiD FE FD.pdf` and `Interpreting all β's in DiD.pdf` supply the missing classroom panel-data material on two-by-two DiD, coefficient interpretation, first differences, and fixed effects; `week3_IV_exercise_v2.pdf` is IV review rather than DiD. Created a concise Markdown rescue note isolating the DiD/FE/FD formulas, interpretations, assumptions, and sorting recommendations.
+**Output:** `GPEC 446 - QM3 - Valasquez/Study Guides/did_fe_fd_inbox_rescue_note.md`
+**Notes:** Recommended sorting is to create a new topic folder such as `W5 - Panel Data & DiD/` for the two DiD/FE/FD files, and to place the IV exercise in `W4 - Instrumental Variables/`. No inbox files were moved or deleted.
+
 ### 2026-04-30 — QM3 midterm lecture reference sheet v1.3.0 imagegen and learning-thread update
 **Requested by:** Edgar
 **What was done:** Created the v1.3.0 notes and PDF while preserving v1.2.1 outputs. Updated the builder to target v1.3.0 and support `[[IMAGE:...]]` markers scaled to the 6.5-inch content width. Added six imagegen lecture-map assets and sharpened the causal-identification, ATE, ATT, Difference-in-Means, ITT, TOT, and LATE explanations from Edgar's learning thread.
@@ -252,3 +258,9 @@ Eight-turn tutoring conversation sharpening Edgar's IV intuition across ITT, LAT
 **What was done:** Forked `QM3_Midterm_Lecture_Reference_v1.3.0_notes.md` into v1.4.0, preserved the v1.3.0 content/readability improvements, and embedded one dedicated imagegen marker for each of the 12 numbered lecture-reference sections. Updated the ReportLab builder to emit the v1.4.0 PDF and cap section image height while preserving 12pt body text and 1-inch margins.
 **Output:** `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Lecture_Reference_v1.4.0_notes.md`; `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Lecture_Reference_v1.4.0.pdf`; updated `GPEC 446 - QM3 - Valasquez/Study Guides/build_qm3_midterm_lecture_reference.py`
 **Notes:** Verification confirmed 12 Markdown image markers, 12 embedded PDF image objects, extractable text on all 27 pages, section headings on pages 3/5/7/.../25 with paired image pages 4/6/8/.../26, no body text outside the 1-inch frame, no wide text spans, and `pdftotext` extraction of v1.4.0 provenance, ELI5 conclusions, acronym expansions, and final memory check.
+
+### 2026-05-01 — QM3 midterm lecture reference v1.5.0 panel-data expansion
+**Requested by:** Edgar
+**What was done:** Coordinated parallel Tyche workers to parse the new panel-data lecture slides L7-L10, then updated the lecture reference sheet with missing DiD, FE/TWFE, event-study, staggered-adoption, DDD, continuous-treatment DiD, threat, and falsification-test material. Added compact ReportLab schematic visuals for the new panel-data sections and preserved the v1.4.0 readability conventions.
+**Output:** `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Lecture_Reference_v1.5.0_notes.md`; `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Lecture_Reference_v1.5.0.pdf`; `GPEC 446 - QM3 - Valasquez/Study Guides/build_qm3_midterm_lecture_reference_v1_5_0.py`
+**Notes:** Verification confirmed a 40-page PDF with extractable text and presence of the new DiD, FE/TWFE, event-study, staggered-adoption, Goodman-Bacon, Triple Differences, and falsification sections. L7-L10 are now recorded in `AGENT_CONTEXT.md`.

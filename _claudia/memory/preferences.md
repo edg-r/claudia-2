@@ -22,6 +22,7 @@ updated: 2026-04-29
 - Reliability is the first priority; feature breadth is secondary. For connector-heavy or long-running work, verify the needed tools/connections in the current context before committing to the run, and prefer the steadier interface/model over the flashiest one.
 - For assignment/progress updates, prefer a clean Rich-style CLI display with compact aligned rows and progress bars over Markdown tables. Target display: `Due | Course | Progress | Assignment`, grouped into Active/Upcoming, Recurring, and Stale DB Rows when relevant.
 - Always ask before moving or deleting files
+- In the Claudia workspace, when Edgar says "inbox" without explicitly mentioning email, he means the local folder-structure inbox at `/Users/edgar/Documents/01 Projects/Claudia/inbox/`. Only check Gmail/email when he explicitly asks for email or mailbox work.
 
 ## File Handling
 - Inbox: drop zone for unsorted files — sort by reading top ~10 lines of context
