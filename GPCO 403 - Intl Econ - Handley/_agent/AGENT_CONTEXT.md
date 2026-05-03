@@ -31,6 +31,7 @@
 
 ## Operating Defaults
 - Reading summaries: default skill is `_claudia/skills/theory-reference-pdf.md` (effective 2026-04-22), not BLUF memo-summarizer. Edgar's new standard for this course.
+- Artifact archive: superseded AI-generated or iterative artifacts now belong in `GPCO 403 - Intl Econ - Handley/.archive/<project_slug>/`, with mappings in `GPCO 403 - Intl Econ - Handley/.archive/ARCHIVE_INDEX.md`. Keep source/professor files, final submitted files, and the latest active candidate visible in the course folder.
 
 ## Course Arc
 - Weeks 1-4: Macro foundations (GDP, national income, BOP, exchange rates, PPP, external wealth, crises)

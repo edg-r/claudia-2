@@ -160,3 +160,8 @@ Built `Study Guides/GPCO 403_Week_4_Reference.pdf` covering the Week 4 folder ma
 **What was done:** Created v1.4.1 of the GPCO 403 midterm theory reference while preserving v1.3.0 and v1.4.0. Embedded the four completed PNG conceptual assets into the former imagegen marker slots: GDP supply-chain cutaway, consumption-smoothing bridge, dollar-debt balance-sheet scene, and Big Mac PPP market scene.
 **Output:** `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.4.1.pdf`; `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.4.1_notes.md`; updated `GPCO 403 - Intl Econ - Handley/Study Guides/build_midterm_theory_reference.py`.
 **Notes:** Verified builder overflow detector passes; `pdfinfo` reports 13 pages; `pypdf` reports 11 outline entries, 11 TOC link annotations, 11 `VISUAL` markers, 11 `ELI5 CONCLUSION` markers, 0 `Imagegen marker` strings, and embedded image XObjects on pages 2, 6, 9, and 12. Rendered those four pages with `pdftoppm` and checked nonblank visual-region crop statistics with Pillow.
+### 2026-05-02 - Artifact Archive Protocol Notification
+**Requested by:** Claudia
+**What was done:** Recorded the new course-local archive convention and archived superseded GPCO 403 midterm theory reference iterations.
+**Output:** `GPCO 403 - Intl Econ - Handley/.archive/midterm_theory_reference/`
+**Notes:** Current visible candidate is v1.4.1; older generated versions are indexed in `GPCO 403 - Intl Econ - Handley/.archive/ARCHIVE_INDEX.md`.

@@ -2,6 +2,27 @@
 
 Record of major completed tasks. Read to avoid duplicate work.
 
+## 2026-05-02 — Daily Briefing Dispatch
+
+**Dispatch**: `_claudia/dispatches/2026-05-02_daily-briefing.md`
+
+**Status**: Completed with connector limitations. Time tracker sync and dashboard regeneration succeeded. Academic load was scanned from `claudia.db` and course memory. Native Google Calendar and Gmail connector attempts failed in this run with connector/transport issues; Claudia also reported Calendar `list_calendars` was forbidden. UCSD second Gmail terminal OAuth path was treated as email-only and working for `eagunias@ucsd.edu`; quick unread check returned zero unread messages from the last two days, and Claudia reported recent_3d count 10.
+
+**Summary**: Saturday briefing centers the May 4-5 midterm cluster: GPCO 410 Midterm Exam Monday May 4 11:00 AM, GPCO 403 Midterm Exam Monday May 4 2:00 PM, and GPEC 446 Midterm Exam Tuesday May 5 9:30 AM. Weather lookup via NWS API timed out, so forecast was marked unverified and prior May 1 context was carried forward cautiously. Calendar was explicitly marked connector-blocked as the existing personal calendar connector issue, not a UCSD OAuth integration gap.
+
+**Key Actions Flagged**:
+- Protect Saturday for GPCO 410, GPCO 403, then QM3 midterm prep
+- Dispatch Athena for GPCO 410 final study plan and recall drill
+- Dispatch Plutus for GPCO 403 weeks 1-5 midterm plan
+- Dispatch Tyche for QM3 panel data/DiD midterm checklist
+- Keep GPPS 463 LD11 and personal admin items secondary until the midterm wave is under control
+
+**Delegation Suggested**:
+- Athena -- GPCO 410 final midterm study plan (high)
+- Plutus -- GPCO 403 focused midterm review plan (high)
+- Tyche -- QM3 midterm checklist emphasizing panel data/DiD (high)
+- Poseidon -- GPPS 463 LD11 / Midterm Exam 2 monitoring after the immediate exam cluster (low)
+
 ## 2026-04-29 — Daily Briefing Dispatch
 
 **Dispatch**: `_claudia/dispatches/2026-04-29_daily-briefing.md`
@@ -361,3 +382,38 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Corrected the Apr 28 dispatch after Edgar flagged missing academic obligations. Added Near-Term Academic Load, updated action items, and added high-confidence delegation suggestions for GPPS 463 discussion post, GPCO 410 ORANGE memo, and GPCO 403 Concept Check 3.
 **Output:** `_claudia/dispatches/2026-04-28_daily-briefing.md`
 **Notes:** Root cause: reconciliation pass restored calendar/email data but failed to restore the DB/prior-dispatch academic-load scan. Added Eos feedback rule requiring this scan before calling a day open.
+
+### 2026-04-30 — Daily Briefing
+**Requested by:** Edgar
+**What was done:** Produced Edgar's Thursday daily dispatch using the daily-briefing skill. Ran timelog sync/dashboard, checked all five Google calendars, checked unread personal and UCSD-addressed Gmail, and scanned `claudia.db`, course assignment memory, syllabus extracts, and the Apr. 29 dispatch for near-term academic load.
+**Output:** `_claudia/dispatches/2026-04-30_daily-briefing.md`
+**Notes:** Calendar connector found one UCSD event: GPEC 446 QM3, 9:30-10:50 AM, RBC AUD. Gmail connector found five personal unread messages and no unread UCSD-addressed mail. Direct NWS shell request was slow, so the weather section uses fallback language and flags the limited verification.
+
+### 2026-05-01 — Evening Daily Briefing
+**Requested by:** Claudia
+**What was done:** Produced Edgar's Friday evening daily dispatch using the daily-briefing skill and already-gathered live data. Included time tracker sync, calendar, personal and UCSD Gmail, weather, near-term academic load, action items, and delegation suggestions.
+**Output:** `_claudia/dispatches/2026-05-01_daily-briefing.md`
+**Notes:** Framed as an evening dispatch, not a morning/open-day brief. Main pressure is the May 4-5 midterm cluster; personal legal/refund emails were surfaced as action items but marked for Claudia confirmation before any delegation.
+
+### 2026-05-01 — Second Gmail Access Ownership Handoff
+**Requested by:** Edgar
+**What was done:** Recorded Eos ownership of the terminal-based second Gmail account access path for future daily briefings and dispatches. Added the durable operating note that the built-in Gmail connector currently profiles as `edgar.agunias@gmail.com`, while any second Gmail account should use a local OAuth/token path outside the repo, suggested at `~/.config/claudia/gmail-second/`.
+**Output:** `_claudia/agents/eos/AGENT_CONTEXT.md`
+**Notes:** No OAuth login attempted and no credentials requested. Eos owns operations; Hephaestus should help only if scripts, token probes, or CLI wrappers are needed.
+
+### 2026-05-01 — Second Gmail OAuth Activation Test
+**Requested by:** Edgar
+**What was done:** Completed the local terminal OAuth flow for the second Gmail account using Edgar's user-approved Google OAuth client. Moved the OAuth client file from `inbox/` to `~/.config/claudia/gmail-second/client_secret.json`, kept tokens outside the repo, and verified read-only Gmail API access.
+**Output:** Local credentials at `~/.config/claudia/gmail-second/gcloud/application_default_credentials.json`; no repo output file.
+**Notes:** Gmail profile test confirmed `eagunias@ucsd.edu` with 1,591 total messages. A recent metadata query returned five messages from the last 30 days, including Canvas GPEC 446 notifications. Built-in Gmail connector remains tied to `edgar.agunias@gmail.com`; use the terminal OAuth path for the UCSD inbox.
+
+### 2026-05-02 — Daily Briefing Rebuild with UCSD Gmail OAuth
+**Requested by:** Edgar
+**What was done:** Rebuilt the Saturday daily dispatch using the new terminal OAuth path for `eagunias@ucsd.edu` alongside the native personal Gmail connector for `edgar.agunias@gmail.com`. Verified time tracker/dashboard, personal Gmail inbox state, UCSD Gmail recent metadata, and `claudia.db` academic load.
+**Output:** `_claudia/dispatches/2026-05-02_daily-briefing.md`
+**Notes:** UCSD Gmail OAuth is email-only; Edgar confirmed calendar is already synced through the personal calendar setup. Google Calendar connector returned `FORBIDDEN` in this run, so the calendar section is marked unavailable rather than treated as a UCSD integration gap.
+## 2026-05-02 - Artifact Archive Protocol Notification
+
+**Status**: Recorded the new course-local artifact archive convention for superseded iterative files in `_claudia/agents/eos/AGENT_CONTEXT.md`.
+
+**Summary**: Dispatch folders keep current briefs visible. Future superseded generated packets should use the relevant local `.archive/` folder and update that folder `.archive/ARCHIVE_INDEX.md`.

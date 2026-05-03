@@ -136,6 +136,7 @@
     {"name": "agent-memory", "file": "_claudia/sop/agent-memory.md", "description": "All agents maintain persistent memory files"},
     {"name": "agent-onboarding", "file": "_claudia/sop/agent-onboarding.md", "description": "New agents provisioned with required files before activation"},
     {"name": "apa7-citations", "file": "_claudia/sop/apa7-citations.md", "description": "All outputs referencing academic sources must include APA 7 formatted references"},
-    {"name": "iterative-file-naming", "file": "_claudia/sop/iterative-file-naming.md", "description": "Versioned naming convention for drafts and other iterated files"}
+    {"name": "iterative-file-naming", "file": "_claudia/sop/iterative-file-naming.md", "description": "Versioned naming convention for drafts and other iterated files"},
+    {"name": "artifact-archive", "file": "_claudia/sop/artifact-archive.md", "description": "Course-local archive protocol for superseded iterative artifacts"}
   ]
 }

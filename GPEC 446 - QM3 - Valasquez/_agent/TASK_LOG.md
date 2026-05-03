@@ -264,3 +264,8 @@ Eight-turn tutoring conversation sharpening Edgar's IV intuition across ITT, LAT
 **What was done:** Coordinated parallel Tyche workers to parse the new panel-data lecture slides L7-L10, then updated the lecture reference sheet with missing DiD, FE/TWFE, event-study, staggered-adoption, DDD, continuous-treatment DiD, threat, and falsification-test material. Added compact ReportLab schematic visuals for the new panel-data sections and preserved the v1.4.0 readability conventions.
 **Output:** `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Lecture_Reference_v1.5.0_notes.md`; `GPEC 446 - QM3 - Valasquez/Study Guides/QM3_Midterm_Lecture_Reference_v1.5.0.pdf`; `GPEC 446 - QM3 - Valasquez/Study Guides/build_qm3_midterm_lecture_reference_v1_5_0.py`
 **Notes:** Verification confirmed a 40-page PDF with extractable text and presence of the new DiD, FE/TWFE, event-study, staggered-adoption, Goodman-Bacon, Triple Differences, and falsification sections. L7-L10 are now recorded in `AGENT_CONTEXT.md`.
+### 2026-05-02 - Artifact Archive Protocol Notification
+**Requested by:** Claudia
+**What was done:** Recorded the new course-local archive convention and archived superseded QM3 lecture and methods reference iterations.
+**Output:** `GPEC 446 - QM3 - Valasquez/.archive/`
+**Notes:** Current visible candidates are lecture reference v1.5.0 and methods reference v1.2.0; older generated versions are indexed in `GPEC 446 - QM3 - Valasquez/.archive/ARCHIVE_INDEX.md`.

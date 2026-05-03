@@ -15,6 +15,20 @@ Record of completed prose reviews. Keep entries concise but written as prose, no
 
 ---
 
+### 2026-04-29 - Orange Memo Myanmar v4.1.0 voice rough Markdown pass
+**Requested by:** Edgar
+**Mode:** targeted style pass
+**What was done:** Edited only the Markdown submission source into a new sibling file, preserving the v4.0.0 source and avoiding Word/docx changes. The pass removed the smoothest AI-like contrast framing, added circumstance-first openings and concrete verbs, roughened paragraph landings, and rebuilt the actor-preference paragraph around collision rather than a model-answer list.
+**Output:** `/Users/edgar/Documents/01 Projects/Claudia/GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/Orange_Memo_Myanmar_v4.1.0_voice_rough.md`.
+**Notes:** The body word count in the new Markdown is 691 by local plain-text count before footnotes. The edit preserved footnote markers, footnote text, references, and the grader-facing AI disclaimer; no internal Claudia disclosure block was added to the submission source.
+
+### 2026-04-29 - Orange Memo Myanmar v4.0.0 submission voice similarity review
+**Requested by:** Edgar
+**Mode:** developmental feedback
+**What was done:** Compared `Orange_Memo_Myanmar_v4.0.0_submission.docx` against the Blue Memo final and Edgar's saved voice profile/rules without editing the docx. Rated the submission 7.2 out of 10 for voice similarity, diagnosing it as structurally clear and theory-forward but still more evenly polished and agent-shaped than Edgar's Blue Memo voice.
+**Output:** `/Users/edgar/Documents/01 Projects/Claudia/GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/Orange_Memo_Myanmar_v4.0.0_submission_REVIEW.md`.
+**Notes:** The highest-leverage next pass is light and targeted: correct the mechanical tells, make a few openings circumstance-first, add one or two short landings, and turn the actor-preference inventory into collision language while preserving the Cederman governmental-conflict theory spine.
+
 ### 2026-04-27 — GPCO 410 Orange Memo final-review copy
 **Requested by:** Edgar
 **Mode:** finalization and cleanup after tracked voice pass
@@ -55,3 +69,9 @@ Record of completed prose reviews. Keep entries concise but written as prose, no
 **What was done:** Track-changes pass on `Orange_Memo_Myanmar_DRAFT.docx` from Athena. Preserved original as `_ORIGINAL.docx`, shipped `_TRACKED.docx` with 21 tracked-change pairs (21 `w:del` + 21 matching `w:ins`) plus 2 additive `w:ins`-only paragraphs for the Calliope disclosure block, and 21 margin comments authored `Claudia/Calliope`. Body word count accepted: 913w, down from 947w, 37w headroom against the 950 ceiling. Biggest moves: thesis opener flipped to circumstance-first ("Across the 2010-2021 arc, Myanmar ran a rising risk..."), all six body emdashes removed (appositives to commas/parens, two split into short landing sentences), two mid-sentence semicolons converted to periods including the P5 landing pair ("Fraud allegations supplied the pretext. The commitment problem supplied the cause."), P3 agent-forward rewrite ("The Tatmadaw chose deliberately. A veto architecture beat either pole..."). Constrained passages where substance was load-bearing: Cederman/Walter/Powell theory claims in P2, constitutional article catalog (109(b)/141(b)/436/417) in P3, strategy-set trio in P5, 82/77 percent figures. Footnote markers 1-11 preserved.
 **Output:** `/Users/edgar/Documents/01 Projects/Claudia/GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/Orange_Memo_Myanmar_TRACKED.docx` and `..._ORIGINAL.docx`.
 **Notes:** Athena's disclosure block at the tail contained one emdash that fell outside the graded body — flagged via margin comment 20 but not auto-edited because it sits outside the 950w scope. Footnote conversion to live Word footnote fields still pending for Edgar (python-docx limitation inherited from Athena's draft); either Edgar does Insert→Footnote manually or Hephaestus runs an OOXML rewrite.
+### 2026-05-02 - Artifact Archive Protocol Notification
+**Requested by:** Claudia
+**Mode:** operational update
+**What was done:** Recorded the new course-local artifact archive convention for superseded iterative files.
+**Output:** `_claudia/agents/calliope/AGENT_CONTEXT.md`
+**Notes:** Check `[Course Folder]/.archive/ARCHIVE_INDEX.md` before restoring older drafts, tracked copies, clean copies, or review notes.

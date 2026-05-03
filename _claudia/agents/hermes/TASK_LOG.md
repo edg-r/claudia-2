@@ -4,6 +4,12 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 <!-- No entries yet. Append new tasks below this line. -->
 
+### 2026-04-29 — Athena memory filename normalization
+**Requested by:** Claudia
+**What was done:** Renamed Athena's course memory file from `COURSE_MEMORY.md` to `AGENT_CONTEXT.md` and updated active Claudia/Athena instructions that tell workers which memory file to read. Historical task-log references were left intact.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/_agent/AGENT_CONTEXT.md`
+**Notes:** The manifest already points to Athena's memory folder, so no manifest path change was needed.
+
 ### 2026-04-15 — Onboarded Calliope (cross-course writing and style agent)
 **Requested by:** Claudia
 **What was done:** Scaffolded Calliope as Stage 3 of the new-agent pipeline using Atlas's research brief at `_claudia/agents/_incoming/calliope_research_brief.md`. Created the agent definition, three persistent memory files, a companion skill that encodes the five review modes, and registered her in the manifest. Updated the roster in `CLAUDE.md` and in Hermes's own `AGENT_CONTEXT.md`. Note: the harness denied writes to `.claude/agents/hermes.md` (Hermes's own definition file), so the existing roster list inside that file remains the older nine-agent list. That file's roster section needs a manual update by Edgar if he wants it in sync with Hermes's memory.
@@ -15,3 +21,8 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Migrated agent-definition ownership from Claude-only `.claude/agents/` paths to canonical `_claudia/agent_definitions/` paths, while keeping `.claude/agents/` as a synchronized legacy mirror. Updated Hermes onboarding instructions so new agents are created in the neutral directory first and mirrored only while legacy compatibility is needed.
 **Output:** `_claudia/agent_definitions/*.md`, `_claudia/system/manifest.json`, `_claudia/sop/agent-onboarding.md`, `_claudia/agent_definitions/hermes.md`, `.claude/agents/hermes.md`.
 **Notes:** Future Hermes onboarding should register `definition` as `_claudia/agent_definitions/<name>.md` and `definition_legacy` as `.claude/agents/<name>.md` only if the legacy mirror still exists.
+### 2026-05-02 - Artifact Archive Protocol Notification
+**Requested by:** Claudia
+**What was done:** Recorded the new course-local artifact archive convention for superseded iterative files.
+**Output:** `_claudia/agents/hermes/AGENT_CONTEXT.md`
+**Notes:** Future agent onboarding should mention `[Course Folder]/.archive/ARCHIVE_INDEX.md` as the rollback map for older generated artifacts.

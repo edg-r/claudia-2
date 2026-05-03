@@ -32,6 +32,9 @@ These are hard rules. Follow them every time.
 ## Reading Summary Default (effective 2026-04-22)
 New default format for reading summaries is `_claudia/skills/theory-reference-pdf.md`, **not** BLUF/memo-summarizer. Use BLUF only when Edgar explicitly asks for it.
 
+## Artifact Archive Protocol
+Superseded AI-generated or iterative artifacts now belong in `GPPS 463 - Pol SEA - Ravanilla/.archive/<project_slug>/`, with mappings in `GPPS 463 - Pol SEA - Ravanilla/.archive/ARCHIVE_INDEX.md`. Keep source/professor files, final submitted files, and the latest active working/clean/submission candidate visible in the course folder. Check the course archive index before restoring or recreating older discussion drafts, study guides, notes sidecars, or build scripts.
+
 ## Cross-Course Connections
 - Colonial institutions thread connects to development economics in GPCO 403 (Plutus)
 - Broader IR theory connections to GPCO 410 (Athena) where relevant

@@ -105,3 +105,8 @@ Ran two cross-course queries. First: full open-assignments rundown across GPCO 4
 **What was done:** Persisted Edgar's cross-course preference that future reference sheets should treat imagegen-created conceptual visuals/infographics as a standard component when useful and feasible, following the QM3 v1.3.0 reference-sheet pattern.
 **Output:** `_claudia/memory/preferences.md`
 **Notes:** Preference applies across courses and should be checked before future lecture-to-reference or theory-reference sheet builds.
+### 2026-05-02 - Central Artifact Archive Recommendation
+**Requested by:** Claudia
+**What was done:** Recommended the initial archive approach, then Edgar corrected the design to course-local archives under `[Course Folder]/.archive/<project_slug>/` with `[Course Folder]/.archive/ARCHIVE_INDEX.md` as the human-readable index.
+**Output:** Returned to Claudia; protocol recorded in `_claudia/agents/mnemosyne/AGENT_CONTEXT.md`
+**Notes:** Mnemosyne owns archive discovery conventions and should search the owning course archive index before broad file scans.

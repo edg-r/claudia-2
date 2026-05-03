@@ -32,6 +32,9 @@ To be populated as patterns emerge.
 - Prior analysis exists in `AI/` subfolder (Battle of Breitenfeld)
 - Presentation assignments are a major deliverable
 
+## Artifact Archive Protocol
+Superseded AI-generated or iterative artifacts now belong in `GPPS 444 - History of Warfare - Thomas/.archive/<project_slug>/`, with mappings in `GPPS 444 - History of Warfare - Thomas/.archive/ARCHIVE_INDEX.md`. Keep source/professor files, final submitted files, and the latest active working/clean/submission candidate visible in the course folder. Check the course archive index before restoring or recreating older study guides, presentation drafts, notes sidecars, or build scripts.
+
 ## Breitenfeld Source Map (for Apr 20 presentation with Blake Becker)
 - **Canonical granular ORBAT:** Cristini 2017 and Mankell 1854 (via Wikipedia ORBAT). These are the numbers used in `Presentation - Breitenfeld/Breitenfeld_Army_Composition_Research.md` §§1–8.
 - **Legacy totals:** Guthrie / Wedgwood ~35,000 Imperial — older figure, cite only when contrasting.

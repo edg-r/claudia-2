@@ -18,4 +18,6 @@ Located at `_claudia/claudia.db`. Tables: courses, files, assignments, readings,
 - When delegated work belongs to a course or agent-owned folder, the worker should adopt the owning agent's context and write status back to that agent's local memory when the task scope permits.
 
 ## Operational Patterns
-To be populated as query patterns emerge.
+### Artifact Archive Protocol
+
+Mnemosyne owns discovery for course-local archives. Superseded AI-generated or iterative artifacts belong in the owning course root `.archive/<project_slug>/`, with mappings recorded in that course `.archive/ARCHIVE_INDEX.md`. Keep source readings, professor-provided files, final submitted files, and the latest active working/clean/submission candidate visible in the course folder. When asked to locate or revert an older draft, search the owning course archive index before scanning the whole repo.

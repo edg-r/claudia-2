@@ -87,3 +87,26 @@
 **What was done:** Regenerated `_claudia/dashboard.html` after Mnemosyne's syllabus-extraction normalization pass added structured due times and missing discussion-post rows.
 **Output:** `_claudia/dashboard.html`
 **Notes:** Verification query shows Apr 28/29 deadlines and May 4/5 exams with structured due times.
+
+### 2026-04-29 — Bureaucratic Boredom Index R Project Paused
+**Requested by:** Claudia / Edgar
+**What was done:** Created `democracy_as_boredom_bbi/` with R project structure, acquisition/cleaning/dictionary/scoring/visualization/modeling/validation scripts, README, methods/limitations/next-steps memos, and an R Markdown report shell. Ran the pipeline far enough to scrape and score 309 APP speeches, generate figures, and generate preliminary model/summary tables. Fixed scraper selectors for future reruns, but Edgar paused during the rerun before final validation.
+**Output:** `democracy_as_boredom_bbi/` project folder with raw, clean, scored, figure, table, script, doc, and log files.
+**Notes:** Current generated CSV/table/figure outputs should be treated as partial because they were produced before the president metadata selector fix and have `president` missing. Resume by rerunning `Rscript scripts/00_run_pipeline.R` from `democracy_as_boredom_bbi/`, then verify validation outputs and render `docs/bbi_report.Rmd`.
+
+### 2026-04-29 — Bureaucratic Boredom Index R Project Completed
+**Requested by:** Claudia / Edgar
+**What was done:** Resumed the BBI checkpoint, reran `Rscript scripts/00_run_pipeline.R` successfully, verified raw/clean/scored row counts and president metadata, rendered `docs/bbi_report.html`, and removed incidental `.DS_Store` files from the project folder.
+**Output:** `democracy_as_boredom_bbi/data_raw/presidential_speeches_raw.csv`, `data_clean/presidential_speeches_clean.csv`, `data_clean/presidential_speeches_bbi_scored.csv`, `outputs/figures/`, `outputs/tables/`, `docs/validation_memo.md`, `docs/bbi_report.html`.
+**Notes:** Final run contains 309 APP speeches, 63 inaugural and 246 State of the Union/written message items, with president populated in raw, clean, and scored outputs. Remaining limitations: U.S.-only pilot, no party/divided-government/crisis/war metadata, dictionary scores require close-reading validation.
+
+### 2026-04-29 — BBI Metadata Enrichment and ASR-Style Manuscript
+**Requested by:** Edgar
+**What was done:** Added `scripts/02b_enrich_metadata.R` and wired it into the BBI pipeline. Enriched raw, clean, and scored data with presidential party, Congress control/divided government, major-war period, recession indicator, GDP, and crisis-period fields; reran scoring, figures, validation, and regression tables. Updated project docs/report and exported refreshed HTML/PDF. Drafted an ASR-style manuscript after inspecting the ASR sample article in `inbox/`.
+**Output:** `democracy_as_boredom_bbi/data_clean/presidential_speeches_bbi_scored.csv`, `logs/metadata_enrichment_log.md`, `outputs/tables/preliminary_models_tidy.csv`, `docs/bbi_report.html`, `docs/bbi_report.pdf`, `docs/bbi_asr_style_manuscript.md`, `.html`, `.pdf`, `.docx`.
+**Notes:** Metadata coverage after enrichment: party 309/309, Congress status 309/309, major-war flag 309/309, recession 226/309, GDP 110/309. Model 3 now includes divided government, major war, recession, and speech type. GDP begins in 1947 and remains for later postwar models rather than the main long-series regression.
+### 2026-05-02 - Course-Local Artifact Archive Implementation
+**Requested by:** Edgar
+**What was done:** Implemented the course-local archive convention for obvious superseded version families across course folders; added archive SOP and index; updated agent contexts with the new protocol.
+**Output:** [Course Folder]/.archive/, `_claudia/sop/artifact-archive.md`, `_claudia/sop/iterative-file-naming.md`, agent `AGENT_CONTEXT.md` files
+**Notes:** Keep current candidates visible, move superseded generated iterations to `[Course Folder]/.archive/<project_slug>/`, and update `[Course Folder]/.archive/ARCHIVE_INDEX.md`.

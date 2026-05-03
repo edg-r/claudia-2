@@ -281,3 +281,8 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Followed `inbox/myanmar_democratization_outline.md` to create a new Edgar-facing Markdown draft anchored in Cederman, Hug, and Krebs's quantitative findings and Myanmar's actor-preference sequence. Preserved the final-draft preferences for visible sections, plain voice, narrow source load, no invented theory shorthand, and no em dashes.
 **Output:** `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/Orange_Memo_Myanmar_v5.1.0_working_quantitative-draft.md`
 **Notes:** Draft treats Myanmar as a case application of Cederman et al., not as part of their dataset; it uses governmental conflict / conflict over government terminology and keeps ethnic armed organizations secondary.
+### 2026-05-02 - Artifact Archive Protocol Notification
+**Requested by:** Claudia
+**What was done:** Recorded the new course-local archive convention and archived superseded GPCO 410 midterm theory reference and ORANGE memo iterations.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/.archive/`
+**Notes:** Current visible candidates and final/submission files remain in the course folder; older generated versions are indexed in `GPCO 410 - Intl Pol:Sec - Praether/.archive/ARCHIVE_INDEX.md`.

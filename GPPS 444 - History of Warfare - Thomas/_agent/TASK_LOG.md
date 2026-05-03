@@ -117,3 +117,8 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Created a v1.1.1 successor to the GPPS 444 midterm framework reference that embeds the 12 completed PNG assets from `Study Guides/assets/midterm_framework_reference_v1.1.0/` while preserving the original unversioned release and v1.1.0. Rebuilt the ReportLab PDF and kept the scope away from unrelated session one-pagers.
 **Output:** `GPPS 444 - History of Warfare - Thomas/Study Guides/GPPS_444_Midterm_Framework_Reference_v1.1.1.pdf`; `GPPS 444 - History of Warfare - Thomas/Study Guides/GPPS_444_Midterm_Framework_Reference_v1.1.1_notes.md`; `GPPS 444 - History of Warfare - Thomas/Study Guides/build_midterm_framework_reference_v1.1.1.py`
 **Notes:** Verification: `pypdf` reports 14 pages, 12 outline entries, and 12 embedded image XObjects; pages 2-13 each contain one embedded image. PyMuPDF rendered all pages into `_verification_v1.1.1/`; rendered-page stats were nonblank and contact-sheet review showed no obvious overflow.
+### 2026-05-02 - Artifact Archive Protocol Notification
+**Requested by:** Claudia
+**What was done:** Recorded the new course-local archive convention and archived superseded History of Warfare midterm framework reference iterations.
+**Output:** `GPPS 444 - History of Warfare - Thomas/.archive/midterm_framework_reference/`
+**Notes:** Current visible candidate is v1.1.1; older generated versions are indexed in `GPPS 444 - History of Warfare - Thomas/.archive/ARCHIVE_INDEX.md`.

@@ -47,6 +47,18 @@ The version is the source of ordering truth. The channel only describes the file
 4. When changing the direction of the piece, bump `MAJOR`; when improving the same direction, bump `MINOR`; when only polishing, bump `PATCH`.
 5. If an existing folder already contains state-only names, create a short `VERSION_MAP.md` before renaming or continuing the sequence.
 
+## Archiving Superseded Versions
+
+When a newer version supersedes older iterative artifacts, keep the latest active candidate visible and move older generated versions to the owning course's local artifact archive:
+
+```text
+[Course Folder]/.archive/<project_slug>/
+```
+
+Record the move in `[Course Folder]/.archive/ARCHIVE_INDEX.md`. Follow `_claudia/sop/artifact-archive.md` for what stays visible, what gets archived, and how to restore older files.
+
+Do not use `_archive` folders for new cleanup work. Use the course root `.archive/` folder so the context stays local to the owning course agent while remaining hidden from normal folder browsing.
+
 ## Myanmar Memo Example
 
 Current confusing style:

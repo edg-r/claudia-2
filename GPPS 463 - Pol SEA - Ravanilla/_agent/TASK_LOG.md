@@ -134,3 +134,8 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Preserved v1.2.0 and v1.3.0 unchanged, then revised the midterm theory-reference builder to output v1.3.1 with the 11 generated PNG assets embedded as actual images instead of prompt/placeholder visual-slot tables.
 **Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/GPPS_463_Midterm_Theory_Reference_v1.3.1.pdf`; notes at `GPPS 463 - Pol SEA - Ravanilla/Study Guides/GPPS_463_Midterm_Theory_Reference_v1.3.1_notes.md`; revised builder at `GPPS 463 - Pol SEA - Ravanilla/Study Guides/build_midterm_theory_reference.py`
 **Notes:** Verification passed with 23 pages total, 11 sidebar bookmarks, 11 embedded image XObjects, image pages 3/5/7/9/11/13/15/17/19/21/23, all 23 pages rendered nonblank, and contact-sheet visual inspection showing no obvious overflow. Unrelated dirty W5/W6 and ASSIGNMENTS files were left untouched.
+### 2026-05-02 - Artifact Archive Protocol Notification
+**Requested by:** Claudia
+**What was done:** Recorded the new course-local archive convention and archived superseded GPPS 463 midterm theory reference iterations.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/.archive/midterm_theory_reference/`
+**Notes:** Current visible candidate is v1.3.1; older generated versions are indexed in `GPPS 463 - Pol SEA - Ravanilla/.archive/ARCHIVE_INDEX.md`.
