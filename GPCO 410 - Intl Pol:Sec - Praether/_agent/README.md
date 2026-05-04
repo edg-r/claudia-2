@@ -12,7 +12,7 @@ Use this workspace to maintain:
 
 ## Folder map
 
-- `COURSE_MEMORY.md` — running memory of the course arc, professor tendencies, repeated themes, and important context
+- `AGENT_CONTEXT.md` — running memory of the course arc, professor tendencies, repeated themes, and important context
 - `THEORIES.md` — cumulative theory tracker with concise, reusable summaries
 - `ASSIGNMENTS.md` — assignment tracker and deliverable status
 - `WORKFLOWS.md` — repeatable workflows for readings, lecture review, and paper/exam prep

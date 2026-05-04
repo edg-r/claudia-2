@@ -109,3 +109,12 @@ Operational screen before returning any Athena memo draft: can the reader point 
 **What:** Edgar flagged "capturing the center" / "center-seeking" language in the ORANGE Myanmar theory outline as local shorthand that became too central to the theoretical framing.
 **Why:** In theory work, the goal is to use the concepts and terminology learned from the assigned theory to describe and apply the situation. Invented shorthand can blur the author's actual framework and make the memo look less anchored in the reading.
 **Rule going forward:** In GPCO 410 theory outlines and memos, make the assigned reading's own concepts the main analytical language. For Cederman, Hug, and Krebs, use "governmental conflict," "conflict over government," and "territorial conflict" rather than making "capture the center" or similar shorthand the major thrust. Plain-language paraphrase may clarify, but it must stay subordinate to the source terminology.
+
+---
+
+## 2026-04-29 — ORANGE Myanmar final draft voice and structure lessons
+
+**Type:** confirmation
+**What:** Edgar's final hand-written/submission draft moved away from Athena/Claudia's polished v4 trajectory in several durable ways: explicit section headers (`Introduction`, `Context`, `Theory`, `Conclusion`); a concrete hook title; a chronological context spine before theory application; a single Cederman footnote rather than a full multi-source apparatus; and plainer, rougher causal prose centered on "transition itself" and Min Aung Hlaing's preference to retain power.
+**Why:** The final draft shows Edgar's preferred student voice for short Praether ORANGE memos: visible scaffolding, direct causal narration, fewer sources, fewer institutional details, and less agent-smooth prose. The draft sacrifices some analytical neatness from Athena's version, but it sounds more like Edgar working through the claim himself.
+**Rule going forward:** For short GPCO 410 memos, Athena should draft in a structure Edgar can easily inhabit: use clear section labels when helpful; preserve a chronological case narrative; keep the theory source load very narrow; state quantitative findings plainly when they are the assignment's core reading; and avoid over-polishing actor-preference paragraphs into model-answer inventories. Treat Athena's polished versions as scaffolds, not the target final voice.

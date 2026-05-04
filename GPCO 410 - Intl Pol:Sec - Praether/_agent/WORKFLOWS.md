@@ -10,7 +10,7 @@
    - evidence/examples
    - relevance to international politics/security
    - relation to prior theories
-4. Add carry-forward insights to `COURSE_MEMORY.md` and `THEORIES.md`.
+4. Add carry-forward insights to `AGENT_CONTEXT.md` and `THEORIES.md`.
 
 ## 2) Post-lecture synthesis workflow
 1. Write a short weekly synthesis note in `WEEKLY_SYNTHESIS/`.

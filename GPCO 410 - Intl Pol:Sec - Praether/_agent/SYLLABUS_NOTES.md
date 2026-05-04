@@ -22,5 +22,5 @@ Initial scaffold created. Needs a proper syllabus pass.
 ## Next recommended step
 Do a full syllabus extraction and populate:
 - `ASSIGNMENTS.md`
-- `COURSE_MEMORY.md`
+- `AGENT_CONTEXT.md`
 - `THEORIES.md` with any listed course themes

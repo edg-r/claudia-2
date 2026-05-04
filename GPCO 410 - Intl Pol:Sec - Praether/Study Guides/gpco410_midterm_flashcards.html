@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GPCO 410 Midterm Flashcards</title>
+  <style>
+    :root {
+      --ink: #17202a;
+      --muted: #5a6270;
+      --paper: #f7f4ed;
+      --panel: #fffdf8;
+      --line: #d8d0c1;
+      --accent: #245b78;
+      --accent-2: #9f5b35;
+      --shadow: 0 18px 44px rgba(38, 32, 24, 0.16);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(23, 32, 42, 0.035) 1px, transparent 1px),
+        linear-gradient(rgba(23, 32, 42, 0.035) 1px, transparent 1px),
+        var(--paper);
+      background-size: 24px 24px;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    main {
+      width: min(760px, 100%);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.15rem, 3.4vw, 1.65rem);
+      letter-spacing: 0;
+    }
+
+    .progress {
+      min-width: 92px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .card-shell {
+      perspective: 1200px;
+    }
+
+    .card {
+      position: relative;
+      min-height: 390px;
+      transform-style: preserve-3d;
+      transition: transform 220ms ease;
+    }
+
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .face {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 18px;
+      padding: clamp(24px, 5vw, 46px);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backface-visibility: hidden;
+    }
+
+    .back {
+      transform: rotateY(180deg);
+    }
+
+    .kicker {
+      color: var(--accent-2);
+      font: 700 0.78rem ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .title {
+      margin: 0;
+      font-size: clamp(2rem, 7vw, 3.75rem);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    .authors {
+      max-width: 620px;
+      color: var(--muted);
+      font-size: clamp(0.92rem, 2.2vw, 1.08rem);
+      font-style: italic;
+      line-height: 1.35;
+    }
+
+    .essence {
+      margin: 0;
+      font-size: clamp(1.18rem, 3.2vw, 1.55rem);
+      line-height: 1.48;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    button {
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--ink);
+      background: #fffaf0;
+      font: 700 0.98rem ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      cursor: pointer;
+    }
+
+    button:hover,
+    button:focus-visible {
+      border-color: var(--accent);
+      outline: 2px solid rgba(36, 91, 120, 0.2);
+      outline-offset: 2px;
+    }
+
+    .flip {
+      color: white;
+      border-color: var(--accent);
+      background: var(--accent);
+    }
+
+    footer {
+      margin-top: 18px;
+      color: var(--muted);
+      font: 0.75rem/1.35 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    footer p { margin: 2px 0; }
+
+    @media (max-width: 560px) {
+      body { padding: 14px; }
+      .topbar { align-items: start; flex-direction: column; }
+      .progress { text-align: left; }
+      .card { min-height: 430px; }
+      .controls { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="topbar">
+      <h1>GPCO 410 Midterm Flashcards</h1>
+      <div class="progress" id="progress">1 / 11</div>
+    </div>
+
+    <section class="card-shell" aria-live="polite">
+      <article class="card" id="card">
+        <div class="face front">
+          <div class="kicker" id="session">W1</div>
+          <h2 class="title" id="title"></h2>
+          <div class="authors" id="authors"></div>
+        </div>
+        <div class="face back">
+          <div class="kicker">Essence</div>
+          <p class="essence" id="essence"></p>
+        </div>
+      </article>
+    </section>
+
+    <nav class="controls" aria-label="Flashcard controls">
+      <button type="button" id="prev">Previous</button>
+      <button type="button" class="flip" id="flip">Flip</button>
+      <button type="button" id="next">Next</button>
+    </nav>
+
+    <footer>
+      <p>Keyboard: left/right for previous/next, space to flip.</p>
+      <p>Generated for: Edgar Agunias | Date: 2026-05-03 | Model: GPT-5 Codex | Sources: GPCO410_Midterm_Theory_Reference_v1.3.1_notes.md and build_midterm_theory_reference.py | Agent: Hephaestus with Athena course context</p>
+    </footer>
+  </main>
+
+  <script>
+    const cards = [
+      {
+        session: "W1",
+        title: "Strategic Choice and Game Theory",
+        authors: "David A. Lake & Robert Powell (1999); Abhinay Muthoo (2000); course W1 lecture (2026)",
+        essence: "Strategic choice starts with actors, preferences, strategies, beliefs, and payoffs rather than with the outcome. The exam move is to show why the chosen strategy beat plausible alternatives given what each actor expected the other side to do."
+      },
+      {
+        session: "W2",
+        title: "Preferences, Signaling, and Credibility",
+        authors: "Jeffry A. Frieden (1999); Thomas C. Schelling (1966); Helen V. Milner (1997); Notes on Signaling Theory (year not listed)",
+        essence: "Preferences explain what actors want, while signals help others infer hidden resolve, capability, or type. A signal is credible only when it is costly enough that low-resolve actors cannot easily mimic it."
+      },
+      {
+        session: "W3.1",
+        title: "Fearon's Rationalist Bargaining Model of War",
+        authors: "James D. Fearon (1995)",
+        essence: "War is puzzling because it destroys resources, so there should usually be a bargain both sides prefer to fighting. Fearon says war can still happen when private information, incentives to misrepresent, commitment problems, or rare indivisibilities keep actors from reaching that bargain."
+      },
+      {
+        session: "W3.2",
+        title: "Powell's War as a Commitment Problem",
+        authors: "Robert Powell (2006)",
+        essence: "Powell's core mechanism is not missing information but future enforcement failure. If today's bargain changes tomorrow's power, the future stronger side cannot credibly promise restraint, so the vulnerable side may fight now."
+      },
+      {
+        session: "W3.3",
+        title: "Strategic Misperception and Case Diagnostics",
+        authors: "James D. Morrow (1999); Steve A. Yetiv (1997); Kevin M. Woods, James Lacey & Williamson Murray (2006); Samuel Charap & Sergey Radchenko (2024)",
+        essence: "Case diagnostics use historical evidence to choose the right mechanism rather than labeling every bad decision irrational. Reconstruct what actors believed at the time, keep chronology clean, and match the case to private information, misread resolve, commitment failure, assurance failure, or authoritarian distortion."
+      },
+      {
+        session: "W4.1",
+        title: "Audience Costs and Crisis Signaling",
+        authors: "James D. Fearon (1994)",
+        essence: "Audience-cost theory explains how public threats can become credible because backing down creates domestic punishment. Public escalation changes the information game: opponents update from the leader's willingness to accept visible political risk."
+      },
+      {
+        session: "W4.2",
+        title: "Institutional Democratic Peace / Selectorate Logic",
+        authors: "Bruce Bueno de Mesquita, James D. Morrow, Randolph M. Siverson & Alastair Smith (1999)",
+        essence: "Selectorate logic explains war through leaders' survival incentives, not democratic virtue. Large winning-coalition leaders need broad public-goods performance, are punished for failure, and therefore become selective about war while trying hard when they fight."
+      },
+      {
+        session: "W4.3",
+        title: "Cognitive-Interactionist Public Support for War",
+        authors: "Richard K. Herrmann, Philip E. Tetlock & Penny S. Visser (1999)",
+        essence: "Public opinion on war comes from the interaction between stable foreign-policy dispositions and case-specific images. The same crisis cue can persuade, barely move, or polarize different citizens depending on how they read motives, power, threat, legitimacy, and cultural status."
+      },
+      {
+        session: "W4.4",
+        title: "Civil War Bargaining Failures and Correlates",
+        authors: "Barbara F. Walter (2009); Christopher Blattman & Edward Miguel (2010)",
+        essence: "Civil-war correlates such as poverty, weak state capacity, and rough terrain predict risk, but they are not mechanisms by themselves. A good answer still shows who can mobilize, what bargain would avoid war, and why weak enforcement or security dilemmas make violence preferable."
+      },
+      {
+        session: "W5.1",
+        title: "Walter's Civil-War Settlement Commitment Problem",
+        authors: "Barbara F. Walter (2002)",
+        essence: "Walter's key problem is implementation: peace becomes most dangerous when fighters demobilize and expose themselves to cheating. Settlements need credible third-party guarantees and power sharing because signatures alone do not change the last-move temptation."
+      },
+      {
+        session: "W5.2",
+        title: "Democratization and Civil War Risk",
+        authors: "Lars-Erik Cederman, Simon Hug & Lutz F. Krebs (2010)",
+        essence: "Cederman, Hug, and Krebs do not argue that democracy simply causes civil war. Their source-faithful point is that democratization can raise governmental conflict risk during transitions, when competition over central state power intensifies before institutions can bind winners, protect losers, or control coercive actors."
+      }
+    ];
+
+    let index = 0;
+    let flipped = false;
+    const card = document.getElementById("card");
+    const sessionEl = document.getElementById("session");
+    const titleEl = document.getElementById("title");
+    const authorsEl = document.getElementById("authors");
+    const essenceEl = document.getElementById("essence");
+    const progressEl = document.getElementById("progress");
+
+    function render() {
+      const item = cards[index];
+      flipped = false;
+      card.classList.remove("flipped");
+      sessionEl.textContent = item.session;
+      titleEl.textContent = item.title;
+      authorsEl.textContent = item.authors;
+      essenceEl.textContent = item.essence;
+      progressEl.textContent = `${index + 1} / ${cards.length}`;
+    }
+
+    function move(delta) {
+      index = (index + delta + cards.length) % cards.length;
+      render();
+    }
+
+    function flip() {
+      flipped = !flipped;
+      card.classList.toggle("flipped", flipped);
+    }
+
+    document.getElementById("prev").addEventListener("click", () => move(-1));
+    document.getElementById("next").addEventListener("click", () => move(1));
+    document.getElementById("flip").addEventListener("click", flip);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") move(-1);
+      if (event.key === "ArrowRight") move(1);
+      if (event.key === " ") {
+        event.preventDefault();
+        flip();
+      }
+    });
+
+    render();
+  </script>
+</body>
+</html>

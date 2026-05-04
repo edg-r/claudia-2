@@ -286,3 +286,15 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Recorded the new course-local archive convention and archived superseded GPCO 410 midterm theory reference and ORANGE memo iterations.
 **Output:** `GPCO 410 - Intl Pol:Sec - Praether/.archive/`
 **Notes:** Current visible candidates and final/submission files remain in the course folder; older generated versions are indexed in `GPCO 410 - Intl Pol:Sec - Praether/.archive/ARCHIVE_INDEX.md`.
+
+### 2026-05-03 — GPCO 410 Midterm Study Plan Fallback
+**Requested by:** Claudia
+**What was done:** Claudia delegated the exam study plan to Athena, but the spawned worker stalled without writing files or returning a handoff. Claudia closed the stale worker and completed a constrained Athena fallback after verifying the exam target in `claudia.db` and `Course Admin/syllabus_extracted.md`, then built the plan from the existing midterm theory reference, Athena memory, feedback rules, and prior pre-midterm strategy.
+**Output:** `edgar/2026-05-04_gpco410_exam_study_plan.md`; `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/2026-05-04_gpco410_exam_study_plan.md`
+**Notes:** Verified exam evidence: GPCO 410 Midterm Exam, Monday 2026-05-04, 11:00-12:20, GPS Auditorium, 30%, verified from syllabus. Plan prioritizes W1-W5 theory retrieval, strategic-choice framework, and Praether/Ali terminology traps.
+
+### 2026-05-04 — Iran Conflict Theory Drill
+**Requested by:** Edgar
+**What was done:** Used the midterm theory reference and Herrmann/Tetlock/Visser reading to drill five U.S.-Iran/Israel exam-style prompts covering Fearon, Powell, signaling, audience costs, and cognitive-interactionist public opinion. Also verified the midterm time from the DB and syllabus.
+**Output:** Returned in chat.
+**Notes:** Grading key set at 10 points per answer: 3 theory definition, 4 Iran/U.S./Israel application, 2 strengths/weaknesses, 1 clarity and key terms.
