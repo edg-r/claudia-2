@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concept 1 - Apple Command Center</title>
+  <link rel="stylesheet" href="dashboard_concepts.css">
+  <style>
+    body {
+      background:
+        radial-gradient(circle at 10% 12%, rgba(40, 120, 216, 0.14), transparent 25%),
+        radial-gradient(circle at 86% 18%, rgba(47, 141, 70, 0.13), transparent 24%),
+        linear-gradient(180deg, #f7f8fb, #e9edf4);
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr 0.85fr;
+      gap: 12px;
+    }
+
+    .hero {
+      min-height: 378px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(18px);
+      box-shadow: 0 20px 60px rgba(50, 60, 80, 0.13);
+    }
+
+    .hero h2 {
+      font-size: clamp(38px, 5vw, 72px);
+      line-height: 0.92;
+      margin-top: 14px;
+    }
+
+    .hero-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .action {
+      border-radius: 8px;
+      padding: 14px;
+      background: #fff;
+      border: 1px solid var(--hairline);
+      min-height: 106px;
+    }
+
+    .action strong {
+      display: block;
+      font-size: 18px;
+      margin: 6px 0;
+    }
+
+    .stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .widget {
+      padding: 18px;
+      min-height: 183px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: 0 12px 35px rgba(45, 55, 72, 0.08);
+    }
+
+    .schedule {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .schedule-item {
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 10px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid var(--hairline);
+    }
+
+    .time {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .course-card {
+      padding: 12px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid var(--hairline);
+      min-height: 116px;
+    }
+
+    .course-card .bar {
+      margin: 18px 0 9px;
+    }
+
+    @media (max-width: 1050px) {
+      .board { grid-template-columns: 1fr; }
+      .course-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-actions { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <div class="kicker">Concept 1</div>
+        <h1>Apple Command Center</h1>
+        <p class="meta">Spring 2026 | Week 6 of 11 | Generated from live payload at 2026-05-05 14:23</p>
+      </div>
+      <nav class="concept-nav">
+        <a href="index.html">Index</a>
+        <a href="concept_2_epa_field_binder.html">EPA Binder</a>
+        <a href="concept_3_hybrid_operations.html">Hybrid Ops</a>
+      </nav>
+    </header>
+
+    <section class="board">
+      <article class="panel hero">
+        <div>
+          <div class="eyebrow">Due Today</div>
+          <h2>Nothing due today.</h2>
+          <p class="meta">Keep the day protected. The dashboard should still show what to do next instead of pretending an empty due-today list is empty work.</p>
+        </div>
+        <div class="hero-actions">
+          <div class="action">
+            <span class="course-code"><span class="course-dot c-403"></span>GPCO 403</span>
+            <strong>Midterm Exam</strong>
+            <p class="metric">Tomorrow at 2:00 PM | highest next-action priority</p>
+          </div>
+          <div class="action">
+            <span class="course-code"><span class="course-dot c-463"></span>GPPS 463</span>
+            <strong>Midterm Exam 2</strong>
+            <p class="metric">May 11 at 8:00 AM | next major checkpoint</p>
+          </div>
+        </div>
+      </article>
+
+      <div class="stack">
+        <article class="panel widget">
+          <div class="eyebrow">Next 48 Hours</div>
+          <div class="schedule">
+            <div class="schedule-item">
+              <div class="time">Wed<br>14:00</div>
+              <div>
+                <h3>GPCO 403 Midterm Exam</h3>
+                <p class="metric">International Economics | pending | hard deadline</p>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="time">Today</div>
+              <div>
+                <h3>Review open block</h3>
+                <p class="metric">Use as a study window, not as a dashboard task.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="panel widget">
+          <div class="eyebrow">Database State</div>
+          <span class="big-number">20</span>
+          <p class="metric">upcoming assignments | 14 completed | 34 total</p>
+        </article>
+      </div>
+
+      <div class="stack">
+        <article class="panel widget">
+          <div class="eyebrow">Reading Load</div>
+          <span class="big-number">1,531</span>
+          <p class="metric">assigned pages | 77 readings | 50 pending summaries</p>
+        </article>
+        <article class="panel widget">
+          <div class="eyebrow">Index Coverage</div>
+          <span class="big-number">160</span>
+          <p class="metric">indexed source files | 8,662 embedded chunks</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="course-grid">
+      <article class="course-card">
+        <span class="course-code"><span class="course-dot c-403"></span>GPCO 403</span>
+        <div class="bar"><span class="c-403" style="width: 86%"></span></div>
+        <p class="metric">Midterm tomorrow | current focus</p>
+      </article>
+      <article class="course-card">
+        <span class="course-code"><span class="course-dot c-410"></span>GPCO 410</span>
+        <div class="bar"><span class="c-410" style="width: 62%"></span></div>
+        <p class="metric">Three data memo options due May 15</p>
+      </article>
+      <article class="course-card">
+        <span class="course-code"><span class="course-dot c-446"></span>GPEC 446</span>
+        <div class="bar"><span class="c-446" style="width: 48%"></span></div>
+        <p class="metric">QM3 workload visible but not urgent</p>
+      </article>
+      <article class="course-card">
+        <span class="course-code"><span class="course-dot c-444"></span>GPPS 444</span>
+        <div class="bar"><span class="c-444" style="width: 54%"></span></div>
+        <p class="metric">Weekly quiz rhythm</p>
+      </article>
+      <article class="course-card">
+        <span class="course-code"><span class="course-dot c-463"></span>GPPS 463</span>
+        <div class="bar"><span class="c-463" style="width: 72%"></span></div>
+        <p class="metric">Midterm 2 on May 11</p>
+      </article>
+    </section>
+
+    <footer class="disclosure">
+---
+Generated for: Edgar Agunias<br>
+Date: 2026-05-05<br>
+Model: GPT-5 Codex<br>
+Sources: Claudia dashboard live /api/dashboard payload and local dashboard files<br>
+Agent: Hephaestus<br>
+---
+    </footer>
+  </main>
+</body>
+</html>

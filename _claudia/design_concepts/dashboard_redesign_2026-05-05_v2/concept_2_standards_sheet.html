@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concept 2 - Standards Sheet</title>
+  <link rel="stylesheet" href="dashboard_concepts_v2.css">
+  <style>
+    body {
+      background: #e9e8df;
+    }
+
+    .manual-page {
+      min-height: calc(100vh - 48px);
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      background:
+        linear-gradient(90deg, transparent 0 84px, rgba(21,21,18,0.08) 84px 85px, transparent 85px),
+        var(--field);
+      padding: 14px 18px 18px 108px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .manual-page:before,
+    .manual-page:after {
+      content: "";
+      position: absolute;
+      left: 34px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--ink);
+    }
+
+    .manual-page:before {
+      top: 34%;
+    }
+
+    .manual-page:after {
+      bottom: 24%;
+    }
+
+    .manual-head {
+      display: grid;
+      grid-template-columns: 0.8fr 1fr auto;
+      gap: 20px;
+      border-top: 2px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+      padding: 8px 0 7px;
+      margin-bottom: 34px;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .manual-layout {
+      display: grid;
+      grid-template-columns: 275px 1fr;
+      gap: 52px;
+    }
+
+    .manual-copy {
+      display: grid;
+      align-content: start;
+      gap: 22px;
+    }
+
+    .manual-copy p {
+      max-width: 260px;
+      color: var(--soft-ink);
+      font-size: 14px;
+      line-height: 1.32;
+      font-weight: 650;
+    }
+
+    .source-strip {
+      border-top: 2px solid var(--ink);
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      gap: 7px;
+      padding: 9px 0 10px;
+      max-width: 260px;
+    }
+
+    .source-strip div {
+      display: grid;
+      grid-template-columns: 84px 1fr;
+      gap: 14px;
+      color: var(--soft-ink);
+      font-size: 12px;
+      line-height: 1.2;
+      font-weight: 750;
+    }
+
+    .source-strip b {
+      color: var(--ink);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .program-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(120px, 1fr));
+      gap: 16px;
+      align-items: end;
+    }
+
+    .program {
+      appearance: none;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      color: inherit;
+      cursor: pointer;
+      font: inherit;
+      min-height: 410px;
+      background: var(--white);
+      display: grid;
+      grid-template-rows: auto 1fr 118px;
+      padding: 0;
+      text-align: left;
+      overflow: hidden;
+      transition: transform 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
+    }
+
+    .program:hover,
+    .program:focus-visible,
+    .program[aria-expanded="true"] {
+      border-color: var(--ink);
+      box-shadow: 0 14px 34px rgba(21, 21, 18, 0.14);
+      outline: none;
+      transform: translateY(-4px);
+    }
+
+    .program[aria-expanded="true"] {
+      box-shadow: inset 0 0 0 4px rgba(255, 254, 250, 0.28), 0 16px 38px rgba(21, 21, 18, 0.18);
+    }
+
+    .program header {
+      padding: 11px 10px;
+      min-height: 104px;
+    }
+
+    .program header h2 {
+      font-size: 20px;
+      line-height: 0.96;
+    }
+
+    .program .center {
+      display: grid;
+      align-content: end;
+      padding: 10px;
+      gap: 8px;
+      color: var(--soft-ink);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .program .signal {
+      border-top: 1px solid rgba(0,0,0,0.2);
+    }
+
+    .program.full {
+      color: #fff;
+    }
+
+    .program.full header,
+    .program.full .center {
+      color: #fff;
+    }
+
+    .program.full .signal {
+      background-color: rgba(255,255,255,0.92);
+      filter: none;
+    }
+
+    .program.blue { background: var(--blue); }
+    .program.orange { background: var(--orange); color: #161000; }
+    .program.green { background: var(--green); color: #091c08; }
+    .program.violet { background: var(--violet); }
+
+    .pamphlet {
+      border-top: 2px solid var(--ink);
+      margin-top: 28px;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transform: translateY(-8px);
+      transition: max-height 520ms cubic-bezier(.2,.8,.2,1), opacity 260ms ease, transform 320ms ease;
+    }
+
+    .pamphlet.is-open {
+      max-height: 1100px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .pamphlet-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: start;
+      padding: 16px 0 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .pamphlet-title {
+      display: grid;
+      gap: 2px;
+    }
+
+    .pamphlet-title strong {
+      font-size: clamp(26px, 3.6vw, 52px);
+      line-height: 0.92;
+      font-weight: 950;
+    }
+
+    .pamphlet-title span {
+      color: var(--soft-ink);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .pamphlet-close {
+      appearance: none;
+      border: 1px solid var(--ink);
+      border-radius: 6px;
+      background: var(--field);
+      color: var(--ink);
+      cursor: pointer;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 900;
+      min-height: 32px;
+      padding: 6px 10px;
+    }
+
+    .pamphlet-panels {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      background:
+        linear-gradient(90deg, transparent 0 calc(33.333% - 1px), var(--line) calc(33.333% - 1px) 33.333%, transparent 33.333% calc(66.666% - 1px), var(--line) calc(66.666% - 1px) 66.666%, transparent 66.666%),
+        var(--field);
+    }
+
+    .pamphlet-panel {
+      min-height: 360px;
+      padding: 18px 16px 20px;
+      position: relative;
+    }
+
+    .pamphlet-panel:before {
+      content: attr(data-count);
+      position: absolute;
+      right: 12px;
+      top: 8px;
+      color: rgba(21,21,18,0.08);
+      font-size: 76px;
+      line-height: 1;
+      font-weight: 950;
+      pointer-events: none;
+    }
+
+    .pamphlet-panel h3 {
+      border-bottom: 1px solid var(--ink);
+      color: var(--red);
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      padding-bottom: 7px;
+      text-transform: uppercase;
+    }
+
+    .pamphlet-list {
+      display: grid;
+      gap: 9px;
+      max-height: 300px;
+      overflow: auto;
+      padding-right: 6px;
+    }
+
+    .pamphlet-item {
+      border-bottom: 1px solid rgba(21,21,18,0.13);
+      display: grid;
+      gap: 4px;
+      padding-bottom: 8px;
+    }
+
+    .pamphlet-item strong {
+      font-size: 12px;
+      line-height: 1.12;
+      font-weight: 900;
+    }
+
+    .pamphlet-item span {
+      color: var(--soft-ink);
+      font-size: 11px;
+      line-height: 1.25;
+      font-weight: 700;
+    }
+
+    .register {
+      display: grid;
+      grid-template-columns: 1fr 92px 84px 80px;
+      margin-top: 18px;
+      border-top: 2px solid var(--ink);
+    }
+
+    .register div {
+      border-bottom: 1px solid var(--line);
+      padding: 8px 7px;
+      min-height: 34px;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .register .head {
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 1150px) {
+      .manual-page {
+        padding-left: 28px;
+      }
+
+      .manual-page:before,
+      .manual-page:after {
+        display: none;
+      }
+
+      .manual-layout,
+      .manual-head,
+      .program-grid,
+      .register,
+      .pamphlet-panels {
+        grid-template-columns: 1fr;
+      }
+
+      .pamphlet-panels {
+        background: var(--field);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="manual-page">
+      <div class="manual-head">
+        <span>Claudia Academic Operations</span>
+        <span>EPA Graphic Standards inspired sheet</span>
+        <nav class="nav">
+          <a href="index.html">Index</a>
+          <a href="concept_1_priority_console.html">Priority</a>
+          <a href="concept_3_program_board.html">Program Board</a>
+        </nav>
+      </div>
+
+      <div class="manual-layout">
+        <aside class="manual-copy">
+          <div>
+            <div class="label">Due today</div>
+            <h1>0</h1>
+            <p>No hard deadline on Tuesday, May 5. The empty state remains large so Edgar knows the day is study-focused.</p>
+          </div>
+
+          <div>
+            <div class="label">Next action</div>
+            <p><span class="course-tag c403">GPCO 403</span></p>
+            <p><strong>Midterm Exam</strong><br>May 6 at 14:00<br>30 percent of grade</p>
+          </div>
+
+          <div>
+            <div class="label">Source record</div>
+            <div class="source-strip">
+              <div><b>DB</b><span>claudia.db</span></div>
+              <div><b>Week</b><span>6 of 11</span></div>
+              <div><b>Mode</b><span>study operations</span></div>
+            </div>
+          </div>
+        </aside>
+
+        <section>
+          <div class="program-grid">
+            <button class="program blue full" type="button" data-course="GPCO 403" aria-expanded="false" aria-controls="course-pamphlet">
+              <header>
+                <div class="label" style="color:#fff">GPCO 403</div>
+                <h2>International Econ</h2>
+              </header>
+              <div class="center">Primary study block<br>Midterm tomorrow</div>
+              <div class="signal signal-lines"></div>
+            </button>
+
+            <button class="program orange full" type="button" data-course="GPCO 410" aria-expanded="false" aria-controls="course-pamphlet">
+              <header>
+                <div class="label" style="color:#fff">GPCO 410</div>
+                <h2>International Security</h2>
+              </header>
+              <div class="center" style="color:#1a1300">Three May 15 data memos<br>10 percent each</div>
+              <div class="signal signal-wave"></div>
+            </button>
+
+            <button class="program violet full" type="button" data-course="GPEC 446" aria-expanded="false" aria-controls="course-pamphlet">
+              <header>
+                <div class="label" style="color:#fff">GPEC 446</div>
+                <h2>QM3</h2>
+              </header>
+              <div class="center">Midterm complete<br>HW II May 23</div>
+              <div class="signal signal-lines"></div>
+            </button>
+
+            <button class="program" type="button" data-course="GPPS 444" aria-expanded="false" aria-controls="course-pamphlet">
+              <header>
+                <div class="label">GPPS 444</div>
+                <h2>History of Warfare</h2>
+              </header>
+              <div class="center">Recurring quiz<br>No final exam</div>
+              <div class="signal signal-stripe"></div>
+            </button>
+
+            <button class="program green full" type="button" data-course="GPPS 463" aria-expanded="false" aria-controls="course-pamphlet">
+              <header>
+                <div class="label" style="color:#fff">GPPS 463</div>
+                <h2>Southeast Asia</h2>
+              </header>
+              <div class="center" style="color:#0a1c08">Midterm Exam 2<br>May 11 at 08:00</div>
+              <div class="signal signal-water"></div>
+            </button>
+          </div>
+
+          <section class="pamphlet" id="course-pamphlet" aria-live="polite">
+            <div class="pamphlet-head">
+              <div class="pamphlet-title">
+                <span id="pamphlet-code">Select a course</span>
+                <strong id="pamphlet-name">Course record</strong>
+              </div>
+              <button class="pamphlet-close" type="button">Close</button>
+            </div>
+            <div class="pamphlet-panels">
+              <section class="pamphlet-panel" id="pamphlet-readings" data-count="0">
+                <h3>Readings</h3>
+                <div class="pamphlet-list"></div>
+              </section>
+              <section class="pamphlet-panel" id="pamphlet-assignments" data-count="0">
+                <h3>Assignments</h3>
+                <div class="pamphlet-list"></div>
+              </section>
+              <section class="pamphlet-panel" id="pamphlet-exams" data-count="0">
+                <h3>Exams</h3>
+                <div class="pamphlet-list"></div>
+              </section>
+            </div>
+          </section>
+
+          <div class="register">
+            <div class="head">Record</div><div class="head">Count</div><div class="head">Status</div><div class="head">Source</div>
+            <div>Assignments</div><div>34</div><div>20 up</div><div>DB</div>
+            <div>Completed assignments</div><div>14</div><div>verified</div><div>DB</div>
+            <div>Readings</div><div>77</div><div>50 pending</div><div>DB</div>
+            <div>Pages</div><div>1531</div><div>all courses</div><div>DB</div>
+          </div>
+        </section>
+      </div>
+
+      <footer class="screen-note">
+        Reference mapping: closest to the EPA manual screenshots with binder holes, sparse metadata, top rules, program-color covers, black identifiers, and geometric cover marks.<br>
+        Generated for: Edgar Agunias<br>
+        Date: 2026-05-05<br>
+        Model: GPT-5<br>
+        Sources: Attached dashboard screenshot, attached EPA Graphic Standards reference screenshots, live Claudia dashboard API payload<br>
+        Agent: Hephaestus
+      </footer>
+    </section>
+  </main>
+  <script>
+    const COURSE_RECORDS = {
+      "GPCO 403": {
+        name: "International Economics",
+        readings: [
+          ["W1", "International Economics Ch 1 (Introduction)", "Feenstra and Taylor"],
+          ["W1", "International Economics Ch 16.1-16.2 (GDP and National Income)", "Feenstra and Taylor"],
+          ["W2", "International Economics Ch 12.2, 16.3-16.5 (Balance of Payments)", "Feenstra and Taylor"],
+          ["W3", "International Economics Ch 12.1, 13.1-13.4, 14.1 (Exchange Rates and PPP)", "Feenstra and Taylor"],
+          ["W3", "The Economist: Big Mac Index", "The Economist"],
+          ["W4", "International Economics Ch 12.3, 15.5, 19.1-19.4 (External Wealth and Crises)", "Feenstra and Taylor"],
+          ["W6", "International Economics Ch 2 (Ricardian Trade)", "Feenstra and Taylor"],
+          ["W6", "The Economist: The miracle of trade (1996)", "The Economist"],
+          ["W7", "International Economics Ch 4, 17.1 (Heckscher-Ohlin)", "Feenstra and Taylor"],
+          ["W8", "International Economics Ch 6 (Firms, Increasing Returns, Trade)", "Feenstra and Taylor"],
+          ["W9", "International Economics Ch 8, 11.1-2 (Trade and Commercial Policy)", "Feenstra and Taylor"],
+          ["W9", "The Impact of the 2018 Tariffs on Prices and Welfare", "Amiti, Redding, Weinstein"]
+        ],
+        assignments: [
+          ["Apr 6 23:59", "Concept Check 1", "completed, 4%"],
+          ["Apr 17 23:59", "Data Brief 1", "completed, 5%"],
+          ["Apr 20 23:59", "Concept Check 2", "completed, 4%"],
+          ["Apr 28 23:59", "Concept Check 3", "completed, 4%"],
+          ["May 6 14:00", "Midterm Exam", "pending, 30%"],
+          ["May 18 23:59", "Concept Check 4", "pending, 4%"],
+          ["Jun 2 23:59", "Concept Check 5", "pending, 4%"],
+          ["Jun 3 23:59", "Data Brief 2", "pending, 5%"],
+          ["Jun 8 08:00", "Final Exam", "pending, 40%"]
+        ],
+        exams: [
+          ["May 6 14:00", "Midterm Exam", "pending, 30%"],
+          ["Jun 8 08:00", "Final Exam", "pending, 40%"]
+        ]
+      },
+      "GPCO 410": {
+        name: "International Politics and Security",
+        readings: [
+          ["W1", "A Non-Technical Introduction to Bargaining Theory", "Muthoo"],
+          ["W1", "Games, Strategies, and Managers pp.1-41", "McMillan"],
+          ["W1", "International Relations: A Strategic-Choice Approach", "Lake and Powell"],
+          ["W1", "Thinking Strategically pp.31-50 (optional)", "Dixit and Nalebuff"],
+          ["W2", "Actors and Preferences in International Relations", "Frieden"],
+          ["W2", "Gorillas Do Not Bluff When They Beat Their Chests", "Wright et al."],
+          ["W2", "Interests, Institutions and Information pp.9-23, 33-46, 60-65", "Milner"],
+          ["W2", "Notes on Signaling Theory", "MIT notes"],
+          ["W2", "The 1996 Taiwan Strait Crisis", "Russell"],
+          ["W2", "The Cuban Missile Crisis", "Lebow"],
+          ["W2", "The Diplomacy of Violence", "Schelling"],
+          ["W2", "Using Information Strategically pp.59-75", "McMillan"],
+          ["W3", "Rationalist Explanations for War", "Fearon"],
+          ["W3", "Saddam's Delusions: The View From the Inside", "Foreign Affairs"],
+          ["W3", "The Persian Gulf Crisis Ch.1-4", "Yetiv"],
+          ["W3", "The Strategic Setting of Choices", "Morrow"],
+          ["W3", "War as a Commitment Problem", "Powell"],
+          ["W4", "An Institutional Explanation of the Democratic Peace", "Bueno de Mesquita et al."],
+          ["W4", "Bargaining Failures and Civil War", "Walter"],
+          ["W4", "Civil War", "Blattman and Miguel"],
+          ["W5", "Committing to Peace Ch.2", "Walter"],
+          ["W5", "Democratization and Civil War: Empirical Evidence", "Cederman, Hug, Krebs"],
+          ["W6", "Winning with the Bomb", "Beardsley and Asal"],
+          ["W7", "Design, Inference, and the Strategic Logic of Suicide Terrorism", "Ashworth et al."],
+          ["W7", "The Korean Conundrum Ch.2-3", "Carpenter and Bandow"],
+          ["W7", "The Strategic Logic of Suicide Terrorism", "Pape"],
+          ["W8", "Coordination and Collaboration: Regimes in an Anarchic World", "Stein"],
+          ["W8", "The Governance Problem in International Relations", "Gourevitch"],
+          ["W8", "The Strategies of Terrorism", "Kydd and Walter"],
+          ["W9", "Building Legitimate States Ch.1", "Lake"],
+          ["W10", "Domestic Political Audiences and the Escalation of International Disputes", "Fearon"],
+          ["W10", "Institutions as Constraints on Strategic Choice", "Rogowski"],
+          ["W10", "Mass Public Decisions on Go to War", "Herrmann, Tetlock, Visser"]
+        ],
+        assignments: [
+          ["Apr 8 11:00", "Analytic Memo BLUE", "completed, 10%"],
+          ["Apr 29 11:00", "Analytic Memo ORANGE", "submitted, 10%"],
+          ["May 4 11:00", "Midterm Exam", "completed, 30%"],
+          ["May 15 17:00", "Data Memo: Civil War (PRIO)", "pending, 10%"],
+          ["May 15 17:00", "Data Memo: Interstate Conflict (COW)", "pending, 10%"],
+          ["May 15 17:00", "Data Memo: Regime Type (Polity IV)", "pending, 10%"],
+          ["May 20 11:00", "Analytic Memo PURPLE", "pending, 10%"],
+          ["Jun 3 11:00", "Final Exam", "pending, 30%"]
+        ],
+        exams: [
+          ["May 4 11:00", "Midterm Exam", "completed, 30%"],
+          ["Jun 3 11:00", "Final Exam", "pending, 30%"]
+        ]
+      },
+      "GPEC 446": {
+        name: "Quantitative Methods 3",
+        readings: [
+          ["W1", "Mastering Metrics Ch 1 (Causality and Quantitative Analysis)", "Angrist and Pischke"],
+          ["W2", "Mastering Metrics Ch 2 (Regression for Causal Inference)", "Angrist and Pischke"],
+          ["W3", "Mastering Metrics Ch 3 (Instrumental Variables)", "Angrist and Pischke"],
+          ["W4", "Mastering Metrics Ch 4 plus Wooldridge Ch 13 (Panel Data and DiD)", "Angrist, Pischke, Wooldridge"],
+          ["W5", "Mastering Metrics Ch 4 plus Wooldridge Ch 14 (DiD II)", "Angrist, Pischke, Wooldridge"],
+          ["W6", "Mastering Metrics Ch 2 review plus Matching and Synthetic Control", "Angrist and Pischke"],
+          ["W7", "Mastering Metrics Ch 5 (Regression Discontinuity Design)", "Angrist and Pischke"],
+          ["W8", "Field Experiments Ch 3 (Experimental Design)", "Gerber and Green"],
+          ["W9", "Field Experiments Ch 4 (Non-compliance and Factorial Designs)", "Gerber and Green"],
+          ["W10", "Wooldridge Ch 10-11 (Time Series)", "Wooldridge"]
+        ],
+        assignments: [
+          ["Apr 26 23:59", "Homework I", "completed, 25%"],
+          ["May 5 09:30", "Midterm Exam", "completed, 25%"],
+          ["May 23 23:59", "Homework II", "pending, 25%"],
+          ["Jun 7 23:59", "Data Project", "pending, 25%"]
+        ],
+        exams: [
+          ["May 5 09:30", "Midterm Exam", "completed, 25%"]
+        ]
+      },
+      "GPPS 444": {
+        name: "History of Warfare",
+        readings: [
+          ["W1", "The Cambridge History of Warfare: Introduction plus Part One Ch.1", "Parker"],
+          ["W2", "TCHW Part One Ch.2: Roman Warfare I", "Parker"],
+          ["W2", "TCHW Part One Ch.3: Roman Warfare II", "Parker"],
+          ["W3", "Intro to Irregular Warfare", "Course file"],
+          ["W3", "TCHW Part Two Ch.4: Medieval Warfare I", "Parker"],
+          ["W3", "TCHW Part Two Ch.5: Medieval Warfare II", "Parker"],
+          ["W4", "TCHW Part Three Ch.7: Ottoman Expansion", "Parker"],
+          ["W4", "TCHW Part Two Ch.6: Gunpowder Revolution", "Parker"],
+          ["W5", "TCHW Part Three Ch.11: Napoleonic Wars I", "Parker"],
+          ["W6", "TCHW Part Four Ch.12: Crimean/Civil War", "Parker"],
+          ["W6", "TCHW Part Four Ch.13: WWI Mechanized I", "Parker"],
+          ["W7", "TCHW Part Four Ch.14: WWI Air Power", "Parker"],
+          ["W7", "TCHW Part Four Ch.15: WWII Air-Land Battle", "Parker"],
+          ["W8", "TCHW Part Four Ch.16: WWII Air-Sea Battle", "Parker"],
+          ["W9", "TCHW Epilogue: Nuclear Weapons and Future Warfare", "Parker"],
+          ["Other", "A History of Warfare", "Keegan"]
+        ],
+        assignments: [
+          ["Recurring", "Weekly In-Class Quizzes", "recurring"],
+          ["Apr 20 12:30", "Oral Presentation", "completed"]
+        ],
+        exams: [
+          ["Recurring", "Weekly In-Class Quizzes", "recurring, primary evaluation"]
+        ]
+      },
+      "GPPS 463": {
+        name: "Politics of Southeast Asia",
+        readings: [
+          ["W1", "Dai Viet: Ancient Vietnamese Kingdom", "Course file"],
+          ["W1", "The South China Sea Ch.1", "Hayton"],
+          ["W2", "Guns, Germs, and Steel: relevant chapters", "Diamond"],
+          ["W3", "Development Effects of the Extractive Colonial Economy", "Dell and Olken"],
+          ["W3", "Colonial Institutions in Southeast Asia", "Stubbs"],
+          ["W3", "The Dutch in Indonesia", "Acemoglu"]
+        ],
+        assignments: [
+          ["Recurring", "In-Class Attendance Quizzes", "recurring, 12.5%"],
+          ["Recurring", "Discussion Posts", "recurring, 12.5%"],
+          ["Apr 1 00:01", "Discussion Post for Lecture Day 2", "completed"],
+          ["Apr 13 17:00", "Discussion Post for Lecture Day 5", "completed"],
+          ["Apr 14 17:00", "Discussion Post for Lecture Day 6", "completed"],
+          ["Apr 20 08:00", "Midterm Exam 1", "completed, 25%"],
+          ["Apr 21 17:00", "Discussion Post for Lecture Day 8", "completed"],
+          ["Apr 27 00:01", "Discussion Post for Lecture Day 9", "submitted"],
+          ["Apr 28 17:00", "Discussion Post for Lecture Day 10", "submitted"],
+          ["May 11 08:00", "Midterm Exam 2", "pending, 25%"],
+          ["Jun 10 08:00", "Final Exam", "pending, 25%"]
+        ],
+        exams: [
+          ["Recurring", "In-Class Attendance Quizzes", "recurring, 12.5%"],
+          ["Apr 20 08:00", "Midterm Exam 1", "completed, 25%"],
+          ["May 11 08:00", "Midterm Exam 2", "pending, 25%"],
+          ["Jun 10 08:00", "Final Exam", "pending, 25%"]
+        ]
+      }
+    };
+
+    const cards = [...document.querySelectorAll(".program[data-course]")];
+    const pamphlet = document.querySelector("#course-pamphlet");
+    const closeButton = document.querySelector(".pamphlet-close");
+    const codeEl = document.querySelector("#pamphlet-code");
+    const nameEl = document.querySelector("#pamphlet-name");
+
+    function itemMarkup(item) {
+      return `<div class="pamphlet-item"><strong>${item[1]}</strong><span>${item[0]} - ${item[2] || ""}</span></div>`;
+    }
+
+    function renderPanel(id, rows) {
+      const panel = document.querySelector(id);
+      panel.dataset.count = rows.length;
+      panel.querySelector(".pamphlet-list").innerHTML = rows.length
+        ? rows.map(itemMarkup).join("")
+        : '<div class="pamphlet-item"><strong>No records</strong><span>DB shows no rows for this section.</span></div>';
+    }
+
+    function openPamphlet(code) {
+      const record = COURSE_RECORDS[code];
+      if (!record) return;
+
+      cards.forEach(card => {
+        const expanded = card.dataset.course === code;
+        card.setAttribute("aria-expanded", String(expanded));
+      });
+
+      codeEl.textContent = code;
+      nameEl.textContent = record.name;
+      renderPanel("#pamphlet-readings", record.readings);
+      renderPanel("#pamphlet-assignments", record.assignments);
+      renderPanel("#pamphlet-exams", record.exams);
+      pamphlet.classList.add("is-open");
+      window.requestAnimationFrame(() => pamphlet.scrollIntoView({ behavior: "smooth", block: "nearest" }));
+    }
+
+    function closePamphlet() {
+      pamphlet.classList.remove("is-open");
+      cards.forEach(card => card.setAttribute("aria-expanded", "false"));
+    }
+
+    cards.forEach(card => {
+      card.addEventListener("click", () => openPamphlet(card.dataset.course));
+    });
+
+    closeButton.addEventListener("click", closePamphlet);
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && pamphlet.classList.contains("is-open")) closePamphlet();
+    });
+
+    const hashCourse = decodeURIComponent(location.hash.slice(1).replace(/-/g, " "));
+    if (COURSE_RECORDS[hashCourse]) openPamphlet(hashCourse);
+  </script>
+</body>
+</html>

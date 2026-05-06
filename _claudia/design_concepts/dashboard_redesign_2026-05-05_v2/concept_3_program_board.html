@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concept 3 - Program Board</title>
+  <link rel="stylesheet" href="dashboard_concepts_v2.css">
+  <style>
+    body {
+      background:
+        linear-gradient(90deg, rgba(21,21,18,0.07) 1px, transparent 1px),
+        var(--field);
+      background-size: 40px 40px;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: 280px 1fr 330px;
+      gap: 14px;
+      min-height: calc(100vh - 112px);
+    }
+
+    .rail,
+    .main,
+    .side {
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      background: var(--white);
+      overflow: hidden;
+    }
+
+    .rail {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .rail-head {
+      padding: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.25);
+    }
+
+    .rail h1 {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-size: clamp(70px, 11vw, 136px);
+      margin: 16px auto;
+    }
+
+    .rail-foot {
+      min-height: 132px;
+      background:
+        repeating-linear-gradient(0deg, var(--orange) 0 8px, transparent 8px 14px),
+        var(--field);
+    }
+
+    .main {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+    }
+
+    .alert-row {
+      display: grid;
+      grid-template-columns: 0.65fr 1.35fr;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .alert {
+      min-height: 210px;
+      padding: 14px;
+      display: grid;
+      align-content: space-between;
+      border-right: 2px solid var(--ink);
+    }
+
+    .alert.clear {
+      background: var(--field);
+    }
+
+    .alert.next {
+      background: var(--blue);
+      color: #fff;
+      border-right: 0;
+    }
+
+    .alert strong {
+      font-size: clamp(62px, 11vw, 130px);
+      line-height: 0.75;
+      font-weight: 950;
+    }
+
+    .alert.next strong {
+      font-size: clamp(36px, 5vw, 72px);
+      line-height: 0.9;
+    }
+
+    .ticker {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .ticker div {
+      min-height: 72px;
+      padding: 10px;
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .ticker div:last-child {
+      border-right: 0;
+    }
+
+    .worktable {
+      display: grid;
+      grid-template-columns: 1fr 120px 110px 110px;
+      align-content: start;
+    }
+
+    .worktable div {
+      min-height: 48px;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 720;
+    }
+
+    .worktable .head {
+      min-height: 38px;
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 920;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .side {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .side header {
+      padding: 12px;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .signal-stack {
+      display: grid;
+      grid-template-rows: repeat(5, 1fr);
+      min-height: 420px;
+    }
+
+    .signal-stack div {
+      border-bottom: 1px solid var(--field);
+    }
+
+    .side-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      border-top: 2px solid var(--ink);
+    }
+
+    .side-stats div {
+      min-height: 94px;
+      padding: 10px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .side-stats strong {
+      display: block;
+      font-size: 34px;
+      line-height: 0.9;
+      font-weight: 930;
+    }
+
+    @media (max-width: 1160px) {
+      .board,
+      .alert-row,
+      .ticker,
+      .worktable {
+        grid-template-columns: 1fr;
+      }
+
+      .rail h1 {
+        writing-mode: horizontal-tb;
+        transform: none;
+      }
+
+      .alert {
+        border-right: 0;
+        border-bottom: 2px solid var(--ink);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="top-rule">
+      <div class="label">Program Board - live academic status</div>
+      <div class="meta-line">Tuesday May 5 - Week 6 - due today first</div>
+      <nav class="nav">
+        <a href="index.html">Index</a>
+        <a href="concept_1_priority_console.html">Priority</a>
+        <a href="concept_2_standards_sheet.html">Standards</a>
+      </nav>
+    </div>
+
+    <section class="board">
+      <aside class="rail">
+        <div class="rail-head">
+          <div class="label" style="color:#f4f1e7">Claudia</div>
+          <p class="meta-line" style="color:#d8d4c9">Academic command system</p>
+        </div>
+        <h1>EPA</h1>
+        <div class="rail-foot" aria-hidden="true"></div>
+      </aside>
+
+      <section class="main">
+        <div class="alert-row">
+          <article class="alert clear">
+            <div class="label">Due today</div>
+            <strong>0</strong>
+            <p class="meta-line">Clear. This stays visible because a clear day is actionable.</p>
+          </article>
+          <article class="alert next">
+            <div class="label" style="color:#fff">Next 48 hours</div>
+            <strong>GPCO 403<br>Midterm Exam</strong>
+            <p>May 6 at 14:00 - 30 percent - study first</p>
+          </article>
+        </div>
+
+        <div class="ticker">
+          <div><span class="course-tag c403">GPCO 403</span><span>exam tomorrow</span></div>
+          <div><span class="course-tag c410">GPCO 410</span><span>May 15 memos</span></div>
+          <div><span class="course-tag c446">GPEC 446</span><span>HW II queued</span></div>
+          <div><span class="course-tag c444">GPPS 444</span><span>quiz recurring</span></div>
+          <div><span class="course-tag c463">GPPS 463</span><span>exam May 11</span></div>
+        </div>
+
+        <div class="worktable">
+          <div class="head">Item</div><div class="head">Course</div><div class="head">Due</div><div class="head">Weight</div>
+          <div>Midterm Exam</div><div><span class="course-tag c403">GPCO 403</span></div><div>May 6 14:00</div><div>30%</div>
+          <div>Midterm Exam 2</div><div><span class="course-tag c463">GPPS 463</span></div><div>May 11 08:00</div><div>25%</div>
+          <div>Data Memo - Interstate Conflict</div><div><span class="course-tag c410">GPCO 410</span></div><div>May 15 17:00</div><div>10%</div>
+          <div>Data Memo - Civil War</div><div><span class="course-tag c410">GPCO 410</span></div><div>May 15 17:00</div><div>10%</div>
+          <div>Data Memo - Regime Type</div><div><span class="course-tag c410">GPCO 410</span></div><div>May 15 17:00</div><div>10%</div>
+        </div>
+      </section>
+
+      <aside class="side">
+        <header>
+          <div class="label">Signals and totals</div>
+          <p class="meta-line">Geometric marks reference EPA program identifiers and cover patterns.</p>
+        </header>
+        <div class="signal-stack" aria-hidden="true">
+          <div class="signal-lines"></div>
+          <div class="signal-wave"></div>
+          <div class="signal-stripe"></div>
+          <div class="signal-water"></div>
+          <div style="background:var(--rust)"></div>
+        </div>
+        <div class="side-stats">
+          <div><strong>34</strong><span class="meta-line">assignments</span></div>
+          <div><strong>20</strong><span class="meta-line">upcoming</span></div>
+          <div><strong>14</strong><span class="meta-line">done</span></div>
+          <div><strong>77</strong><span class="meta-line">readings</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="screen-note">
+      Reference mapping: combines the current dashboard's dense academic workload with the EPA color-strip page, high-contrast brochure covers, and repeated identifier sheets.<br>
+      Generated for: Edgar Agunias<br>
+      Date: 2026-05-05<br>
+      Model: GPT-5<br>
+      Sources: Attached dashboard screenshot, attached EPA Graphic Standards reference screenshots, live Claudia dashboard API payload<br>
+      Agent: Hephaestus
+    </footer>
+  </main>
+</body>
+</html>

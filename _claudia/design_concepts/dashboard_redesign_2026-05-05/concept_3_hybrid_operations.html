@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concept 3 - Hybrid Operations</title>
+  <link rel="stylesheet" href="dashboard_concepts.css">
+  <style>
+    body {
+      background: #f4f5f2;
+    }
+
+    .ops-frame {
+      display: grid;
+      gap: 12px;
+    }
+
+    .command-strip {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    .command {
+      min-height: 158px;
+      padding: 16px;
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid var(--hairline);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .command.today {
+      background: #10261d;
+      color: #fff;
+      border-color: #10261d;
+    }
+
+    .command.today .meta,
+    .command.today .eyebrow {
+      color: rgba(255,255,255,0.7);
+    }
+
+    .matrix {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 12px;
+    }
+
+    .timeline,
+    .course-matrix {
+      padding: 16px;
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid var(--hairline);
+    }
+
+    .timeline-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 116px 1fr 116px;
+      gap: 14px;
+      align-items: center;
+      padding: 11px 0;
+      border-top: 1px solid var(--hairline);
+    }
+
+    .timeline-item:first-child {
+      border-top: 0;
+    }
+
+    .date-chip {
+      border-radius: 8px;
+      padding: 9px;
+      background: #f0f2f4;
+      font-size: 12px;
+      font-weight: 850;
+      text-align: center;
+    }
+
+    .priority {
+      justify-self: end;
+      border-radius: 8px;
+      min-width: 92px;
+      padding: 9px;
+      text-align: center;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .priority.high { background: #c13c31; }
+    .priority.med { background: #d17600; }
+    .priority.low { background: #4f6872; }
+
+    .matrix-table {
+      display: grid;
+      gap: 0;
+      margin-top: 14px;
+      border: 1px solid var(--hairline);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .matrix-row {
+      display: grid;
+      grid-template-columns: 92px 1fr 66px;
+      align-items: center;
+      gap: 10px;
+      min-height: 58px;
+      padding: 10px;
+      border-top: 1px solid var(--hairline);
+    }
+
+    .matrix-row:first-child {
+      border-top: 0;
+    }
+
+    .thin-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .thin-metric {
+      padding: 13px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid var(--hairline);
+    }
+
+    @media (max-width: 1080px) {
+      .command-strip, .matrix, .thin-metrics { grid-template-columns: 1fr; }
+      .timeline-item { grid-template-columns: 1fr; }
+      .priority { justify-self: start; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <div class="kicker">Concept 3</div>
+        <h1>Hybrid Operations</h1>
+        <p class="meta">A compact command surface for repeated scans: today, next 48 hours, course load, and database status in one pass.</p>
+      </div>
+      <nav class="concept-nav">
+        <a href="index.html">Index</a>
+        <a href="concept_1_apple_command_center.html">Apple</a>
+        <a href="concept_2_epa_field_binder.html">EPA Binder</a>
+      </nav>
+    </header>
+
+    <section class="ops-frame">
+      <div class="command-strip">
+        <article class="command today">
+          <div>
+            <div class="eyebrow">Due Today</div>
+            <span class="big-number">0</span>
+          </div>
+          <p class="meta">No May 5 deadline. Surface is clear, but tomorrow is not.</p>
+        </article>
+        <article class="command">
+          <div class="eyebrow">Next 48 Hours</div>
+          <div>
+            <h2>GPCO 403 Midterm Exam</h2>
+            <p class="meta">May 6 | 2:00 PM | priority study block</p>
+          </div>
+          <span class="button">Make this the primary action</span>
+        </article>
+        <article class="command">
+          <div class="eyebrow">Upcoming</div>
+          <span class="big-number">20</span>
+          <p class="meta">pending or recurring assignments in database</p>
+        </article>
+        <article class="command">
+          <div class="eyebrow">Course Load</div>
+          <span class="big-number">5</span>
+          <p class="meta">active Spring 2026 courses | Week 6 of 11</p>
+        </article>
+      </div>
+
+      <div class="matrix">
+        <article class="timeline">
+          <div class="topbar" style="margin-bottom: 0;">
+            <div>
+              <div class="eyebrow">Action Timeline</div>
+              <h2>What deserves attention next</h2>
+            </div>
+            <span class="pill">Refreshed 14:23</span>
+          </div>
+          <div class="timeline-list">
+            <div class="timeline-item">
+              <div class="date-chip">May 06<br>2:00 PM</div>
+              <div>
+                <span class="course-code"><span class="course-dot c-403"></span>GPCO 403</span>
+                <h3>Midterm Exam</h3>
+                <p class="metric">This should be the dashboard's next-action anchor when due-today is empty.</p>
+              </div>
+              <div class="priority high">High</div>
+            </div>
+            <div class="timeline-item">
+              <div class="date-chip">May 11<br>8:00 AM</div>
+              <div>
+                <span class="course-code"><span class="course-dot c-463"></span>GPPS 463</span>
+                <h3>Midterm Exam 2</h3>
+                <p class="metric">Second major exam checkpoint after GPCO 403.</p>
+              </div>
+              <div class="priority high">High</div>
+            </div>
+            <div class="timeline-item">
+              <div class="date-chip">May 15<br>5:00 PM</div>
+              <div>
+                <span class="course-code"><span class="course-dot c-410"></span>GPCO 410</span>
+                <h3>Data Memo Options</h3>
+                <p class="metric">Interstate Conflict, Civil War, or Regime Type. Needs choice visibility.</p>
+              </div>
+              <div class="priority med">Medium</div>
+            </div>
+            <div class="timeline-item">
+              <div class="date-chip">May 18<br>11:59 PM</div>
+              <div>
+                <span class="course-code"><span class="course-dot c-403"></span>GPCO 403</span>
+                <h3>Concept Check 4</h3>
+                <p class="metric">Visible but not allowed to compete with the midterm today.</p>
+              </div>
+              <div class="priority low">Later</div>
+            </div>
+          </div>
+        </article>
+
+        <aside class="course-matrix">
+          <div class="eyebrow">Course Workload Status</div>
+          <h2>Scan Matrix</h2>
+          <div class="matrix-table">
+            <div class="matrix-row">
+              <span class="course-code"><span class="course-dot c-403"></span>403</span>
+              <div class="bar"><span class="c-403" style="width: 86%"></span></div>
+              <strong>Exam</strong>
+            </div>
+            <div class="matrix-row">
+              <span class="course-code"><span class="course-dot c-410"></span>410</span>
+              <div class="bar"><span class="c-410" style="width: 62%"></span></div>
+              <strong>Memo</strong>
+            </div>
+            <div class="matrix-row">
+              <span class="course-code"><span class="course-dot c-446"></span>446</span>
+              <div class="bar"><span class="c-446" style="width: 48%"></span></div>
+              <strong>Watch</strong>
+            </div>
+            <div class="matrix-row">
+              <span class="course-code"><span class="course-dot c-444"></span>444</span>
+              <div class="bar"><span class="c-444" style="width: 54%"></span></div>
+              <strong>Quiz</strong>
+            </div>
+            <div class="matrix-row">
+              <span class="course-code"><span class="course-dot c-463"></span>463</span>
+              <div class="bar"><span class="c-463" style="width: 72%"></span></div>
+              <strong>Exam</strong>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <section class="thin-metrics">
+        <div class="thin-metric"><div class="eyebrow">Readings</div><h2>77 total</h2><p class="metric">50 pending summaries</p></div>
+        <div class="thin-metric"><div class="eyebrow">Pages</div><h2>1,531 assigned</h2><p class="metric">reading load context</p></div>
+        <div class="thin-metric"><div class="eyebrow">Files</div><h2>952 tracked</h2><p class="metric">workspace coverage</p></div>
+        <div class="thin-metric"><div class="eyebrow">Embeddings</div><h2>8,662 chunks</h2><p class="metric">160 indexed files</p></div>
+      </section>
+    </section>
+
+    <footer class="disclosure">
+---
+Generated for: Edgar Agunias<br>
+Date: 2026-05-05<br>
+Model: GPT-5 Codex<br>
+Sources: Claudia dashboard live /api/dashboard payload and local dashboard files<br>
+Agent: Hephaestus<br>
+---
+    </footer>
+  </main>
+</body>
+</html>

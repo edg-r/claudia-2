@@ -1,828 +1,757 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Claudia Dashboard</title>
-<style>
-:root {
-    --bg: #0f0f0f;
-    --surface: #1a1a1a;
-    --border: #2a2a2a;
-    --text: #e0e0e0;
-    --text-muted: #888;
-    --text-dim: #666;
-    --accent: #7cb3ff;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    padding: 0.75rem 1.25rem;
-    line-height: 1.4;
-}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claudia Dashboard</title>
+  <style>
+    :root {
+      --ink: #151512;
+      --soft-ink: #484842;
+      --muted: #77766d;
+      --line: #d5d1c6;
+      --field: #fbfaf4;
+      --paper: #f4f1e7;
+      --white: #fffefa;
+      --blue: #006fba;
+      --orange: #f2a000;
+      --red: #ef3e33;
+      --violet: #6b45a4;
+      --green: #4b9f38;
+    }
 
-/* Header */
-.header {
-    display: flex; align-items: baseline; gap: 1rem;
-    margin-bottom: 0.5rem;
-}
-h1 { font-size: 1.1rem; font-weight: 700; color: #fff; }
-.subtitle { color: var(--text-dim); font-size: 0.75rem; }
-h2 {
-    font-size: 1rem; color: #ccc; margin-bottom: 0.75rem;
-    padding-bottom: 0.4rem; border-bottom: 1px solid var(--border);
-}
+    * { box-sizing: border-box; }
+    html { background: var(--field); }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Avenir Next", "Helvetica Neue", Helvetica, system-ui, sans-serif;
+      letter-spacing: 0;
+      background: #e9e8df;
+    }
+    button { font: inherit; }
+    h1, h2, h3, p { margin: 0; }
+    h1 {
+      font-size: clamp(48px, 8vw, 116px);
+      line-height: 0.86;
+      font-weight: 950;
+      letter-spacing: 0;
+    }
+    h2 { font-size: 20px; line-height: 1.04; font-weight: 900; }
 
-/* Stat cards row */
-.cards {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 0.5rem; margin-bottom: 0.6rem;
-}
-@media (max-width: 1100px) {
-    .cards { grid-template-columns: repeat(4, 1fr); }
-}
-.card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 6px; padding: 0.5rem 0.6rem;
-}
-.card-value { font-size: 1.3rem; font-weight: 700; color: #fff; line-height: 1.1; }
-.card-label { font-size: 0.7rem; color: #999; margin-top: 0.1rem; }
-.card-sub { font-size: 0.65rem; color: var(--text-dim); margin-top: 0.1rem; }
+    .page {
+      width: min(1480px, calc(100vw - 40px));
+      margin: 0 auto;
+      padding: 24px 0 44px;
+    }
+    .manual-page {
+      min-height: calc(100vh - 48px);
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      background:
+        linear-gradient(90deg, transparent 0 84px, rgba(21,21,18,0.08) 84px 85px, transparent 85px),
+        var(--field);
+      padding: 14px 18px 18px 108px;
+      position: relative;
+      overflow: hidden;
+    }
+    .manual-page:before,
+    .manual-page:after {
+      content: "";
+      position: absolute;
+      left: 34px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--ink);
+    }
+    .manual-page:before { top: 34%; }
+    .manual-page:after { bottom: 24%; }
+    .manual-head {
+      display: grid;
+      grid-template-columns: 0.8fr 1fr auto;
+      gap: 20px;
+      border-top: 2px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+      padding: 8px 0 7px;
+      margin-bottom: 34px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .live-status {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: rgba(255, 254, 250, 0.75);
+      min-height: 27px;
+      padding: 4px 8px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .live-status.connected { color: var(--green); }
+    .live-status.refreshing { color: var(--orange); }
 
-/* Legend */
-.legend {
-    display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.6rem; align-items: center;
-}
-.legend-item {
-    display: flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; color: var(--text-muted);
-}
-.legend-dot {
-    width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0;
-}
+    .manual-layout {
+      display: grid;
+      grid-template-columns: 275px 1fr;
+      gap: 52px;
+    }
+    .manual-copy {
+      display: grid;
+      align-content: start;
+      gap: 22px;
+    }
+    .manual-copy p {
+      max-width: 260px;
+      color: var(--soft-ink);
+      font-size: 14px;
+      line-height: 1.32;
+      font-weight: 650;
+    }
+    .label {
+      color: var(--soft-ink);
+      font-size: 12px;
+      line-height: 1.4;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .source-strip {
+      border-top: 2px solid var(--ink);
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      gap: 7px;
+      padding: 9px 0 10px;
+      max-width: 260px;
+    }
+    .source-strip div {
+      display: grid;
+      grid-template-columns: 84px 1fr;
+      gap: 14px;
+      color: var(--soft-ink);
+      font-size: 12px;
+      line-height: 1.2;
+      font-weight: 750;
+    }
+    .source-strip b {
+      color: var(--ink);
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .course-tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 23px;
+      padding: 3px 7px;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: 0.02em;
+    }
 
-/* Tabs */
-.tab-bar {
-    display: flex; gap: 0; margin-bottom: 0;
-    border-bottom: 2px solid var(--border);
-}
-.tab-btn {
-    padding: 0.45rem 1.1rem; cursor: pointer;
-    background: none; border: none; color: var(--text-muted);
-    font-size: 0.85rem; font-weight: 500;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -2px; transition: all 0.15s;
-}
-.tab-btn:hover { color: #fff; }
-.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
-.tab-panel { display: none; padding-top: 1rem; }
-.tab-panel.active { display: block; }
+    .program-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(120px, 1fr));
+      gap: 16px;
+      align-items: end;
+    }
+    .program {
+      appearance: none;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      color: inherit;
+      cursor: pointer;
+      min-height: 410px;
+      background: var(--white);
+      display: grid;
+      grid-template-rows: auto 1fr 118px;
+      padding: 0;
+      text-align: left;
+      overflow: hidden;
+      transition: transform 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
+    }
+    .program:hover,
+    .program:focus-visible,
+    .program[aria-expanded="true"] {
+      border-color: var(--ink);
+      box-shadow: 0 14px 34px rgba(21, 21, 18, 0.14);
+      outline: none;
+      transform: translateY(-4px);
+    }
+    .program[aria-expanded="true"] {
+      box-shadow: inset 0 0 0 4px rgba(255, 254, 250, 0.28), 0 16px 38px rgba(21, 21, 18, 0.18);
+    }
+    .program header {
+      padding: 11px 10px;
+      min-height: 104px;
+    }
+    .program header h2 {
+      font-size: 19px;
+      line-height: 0.98;
+      overflow-wrap: anywhere;
+    }
+    .program .center {
+      display: grid;
+      align-content: end;
+      padding: 10px;
+      gap: 8px;
+      color: var(--soft-ink);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .program .signal {
+      border-top: 1px solid rgba(0,0,0,0.2);
+      background-color: rgba(255,255,255,0.92);
+    }
+    .program.full, .program.full header, .program.full .center { color: #fff; }
+    .program.c403 { background: var(--blue); }
+    .program.c410 { background: var(--orange); color: #161000; }
+    .program.c446 { background: var(--violet); }
+    .program.c444 { background: var(--red); }
+    .program.c463 { background: var(--green); color: #091c08; }
+    .program.c410.full, .program.c463.full { color: #161000; }
+    .signal-water {
+      background:
+        repeating-radial-gradient(ellipse at 50% 50%, transparent 0 10px, var(--ink) 11px 14px, transparent 15px 22px);
+    }
+    .signal-lines {
+      background:
+        repeating-linear-gradient(90deg, var(--ink) 0 6px, transparent 6px 13px);
+    }
+    .signal-stripe {
+      background:
+        repeating-linear-gradient(135deg, var(--ink) 0 10px, transparent 10px 16px, var(--ink) 16px 19px, transparent 19px 26px);
+    }
+    .signal-wave {
+      background:
+        radial-gradient(ellipse at 12px 11px, transparent 0 8px, var(--ink) 8px 10px, transparent 10px 17px) 0 0 / 34px 19px repeat-x,
+        linear-gradient(var(--ink), var(--ink));
+    }
 
-/* Sub-tabs (inside Timeline) */
-.subtab-bar {
-    display: flex; gap: 0; margin-bottom: 1rem;
-    border-bottom: 1px solid var(--border);
-}
-.subtab-btn {
-    padding: 0.3rem 0.9rem; cursor: pointer;
-    background: none; border: none; color: var(--text-muted);
-    font-size: 0.8rem; font-weight: 500;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px; transition: all 0.15s;
-}
-.subtab-btn:hover { color: #fff; }
-.subtab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
-.subtab-panel { display: none; }
-.subtab-panel.active { display: block; }
+    .pamphlet {
+      border-top: 2px solid var(--ink);
+      margin-top: 28px;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transform: translateY(-8px);
+      transition: max-height 520ms cubic-bezier(.2,.8,.2,1), opacity 260ms ease, transform 320ms ease;
+    }
+    .pamphlet.is-open {
+      max-height: 1200px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .pamphlet-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: start;
+      padding: 16px 0 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    .pamphlet-title { display: grid; gap: 2px; }
+    .pamphlet-title strong {
+      font-size: clamp(26px, 3.6vw, 52px);
+      line-height: 0.92;
+      font-weight: 950;
+    }
+    .pamphlet-title span {
+      color: var(--soft-ink);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .pamphlet-close {
+      appearance: none;
+      border: 1px solid var(--ink);
+      border-radius: 6px;
+      background: var(--field);
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 900;
+      min-height: 32px;
+      padding: 6px 10px;
+    }
+    .pamphlet-panels {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      background:
+        linear-gradient(90deg, transparent 0 calc(33.333% - 1px), var(--line) calc(33.333% - 1px) 33.333%, transparent 33.333% calc(66.666% - 1px), var(--line) calc(66.666% - 1px) 66.666%, transparent 66.666%),
+        var(--field);
+    }
+    .pamphlet-panel {
+      min-height: 360px;
+      padding: 18px 16px 20px;
+      position: relative;
+    }
+    .pamphlet-panel:before {
+      content: attr(data-count);
+      position: absolute;
+      right: 12px;
+      top: 8px;
+      color: rgba(21,21,18,0.08);
+      font-size: 76px;
+      line-height: 1;
+      font-weight: 950;
+      pointer-events: none;
+    }
+    .pamphlet-panel h3 {
+      border-bottom: 1px solid var(--ink);
+      color: var(--red);
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      margin: 0 0 12px;
+      padding-bottom: 7px;
+      text-transform: uppercase;
+    }
+    .pamphlet-list {
+      display: grid;
+      gap: 9px;
+      max-height: 310px;
+      overflow: auto;
+      padding-right: 6px;
+    }
+    .pamphlet-item {
+      border-bottom: 1px solid rgba(21,21,18,0.13);
+      display: grid;
+      gap: 4px;
+      padding-bottom: 8px;
+    }
+    .pamphlet-item.is-complete {
+      opacity: 0.52;
+    }
+    .pamphlet-item.is-complete strong,
+    .pamphlet-item.is-complete span {
+      color: var(--muted);
+      text-decoration: line-through;
+      text-decoration-thickness: 1px;
+    }
+    .pamphlet-item strong {
+      font-size: 12px;
+      line-height: 1.12;
+      font-weight: 900;
+    }
+    .pamphlet-item span {
+      color: var(--soft-ink);
+      font-size: 11px;
+      line-height: 1.25;
+      font-weight: 700;
+    }
 
-/* Section */
-.section {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 8px; padding: 1.25rem; margin-bottom: 1.25rem;
-}
+    .register {
+      display: grid;
+      grid-template-columns: 1fr 92px 84px 80px;
+      margin-top: 18px;
+      border-top: 2px solid var(--ink);
+    }
+    .register div {
+      border-bottom: 1px solid var(--line);
+      padding: 8px 7px;
+      min-height: 34px;
+      font-size: 12px;
+      font-weight: 750;
+    }
+    .register .head {
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
 
-/* Tables */
-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
-th {
-    text-align: left; padding: 0.4rem 0.65rem;
-    border-bottom: 1px solid #333; color: #999;
-    font-weight: 600; font-size: 0.75rem;
-    text-transform: uppercase; letter-spacing: 0.04em;
-}
-td { padding: 0.4rem 0.65rem; border-bottom: 1px solid #1f1f1f; }
-tr:hover { background: #222; }
-tr.overdue td { color: #ff6b6b; }
-tr.soon td { color: #ffa94d; }
-tr.completed td { color: #69db7c; text-decoration: line-through; opacity: 0.7; }
-tr.course-header td {
-    font-weight: 700; color: var(--accent);
-    padding-top: 0.75rem; border-bottom: 1px solid #333; font-size: 0.85rem;
-}
-tr.exam-row td { font-weight: 600; }
-tr.pending-reading td { color: var(--text); }
-tr.summarized td { color: #69db7c; }
-.bar-bg { background: var(--border); border-radius: 4px; height: 6px; width: 100%; overflow: hidden; }
-.bar-fill { background: var(--accent); height: 100%; border-radius: 4px; }
-p { margin-bottom: 0.75rem; color: #999; font-size: 0.82rem; }
-
-/* ===== WEEK VIEW ===== */
-.week-group { margin-bottom: 0.75rem; }
-.week-header {
-    display: flex; align-items: center; gap: 0.6rem;
-    padding: 0.45rem 0; cursor: pointer; user-select: none;
-}
-.week-header h3 { font-size: 0.88rem; color: #ccc; font-weight: 600; }
-.week-header .week-dates { font-size: 0.72rem; color: var(--text-dim); }
-.week-header .badge {
-    font-size: 0.65rem; padding: 0.1rem 0.4rem;
-    border-radius: 10px; font-weight: 600;
-}
-.badge-current { background: var(--accent); color: #000; }
-.badge-completed { background: #2d4a2d; color: #69db7c; }
-.week-items {
-    padding-left: 0.75rem; border-left: 2px solid var(--border);
-    margin-left: 0.4rem;
-}
-.week-group.current .week-items { border-left-color: var(--accent); }
-.week-group.past .week-header h3 { color: var(--text-dim); }
-.week-group.past .week-items { opacity: 0.5; }
-.week-item {
-    display: flex; align-items: center; gap: 0.5rem;
-    padding: 0.3rem 0.6rem; font-size: 0.82rem;
-    border-radius: 4px; margin-bottom: 1px;
-}
-.week-item:hover { background: #222; }
-.week-item .course-tag {
-    font-size: 0.65rem; font-weight: 700;
-    padding: 0.1rem 0.35rem; border-radius: 3px;
-    white-space: nowrap; flex-shrink: 0;
-}
-.week-item .due { color: var(--text-dim); font-size: 0.72rem; margin-left: auto; white-space: nowrap; }
-.week-item.completed-item { text-decoration: line-through; color: var(--text-dim); }
-.week-no-items { padding: 0.3rem 0.6rem; font-size: 0.75rem; color: var(--text-dim); font-style: italic; }
-
-/* ===== CALENDAR VIEW ===== */
-.cal-controls {
-    display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;
-}
-.cal-controls button {
-    background: var(--surface); border: 1px solid var(--border);
-    color: var(--text); padding: 0.3rem 0.7rem; border-radius: 6px;
-    cursor: pointer; font-size: 0.82rem;
-}
-.cal-controls button:hover { border-color: var(--accent); }
-.cal-controls .cal-month-label { font-size: 1rem; font-weight: 600; color: #fff; min-width: 140px; text-align: center; }
-.cal-grid {
-    display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px;
-    background: var(--border); border-radius: 8px; overflow: hidden;
-}
-.cal-day-header {
-    background: #222; padding: 0.35rem; text-align: center;
-    font-size: 0.7rem; color: var(--text-muted); font-weight: 600;
-    text-transform: uppercase;
-}
-.cal-day {
-    background: var(--surface); min-height: 70px; padding: 0.3rem;
-    position: relative;
-}
-.cal-day.empty { background: #141414; }
-.cal-day.today { outline: 2px solid var(--accent); outline-offset: -2px; z-index: 1; }
-.cal-day .day-num { font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.15rem; }
-.cal-day.today .day-num { color: var(--accent); font-weight: 700; }
-.cal-event {
-    font-size: 0.6rem; padding: 0.1rem 0.25rem;
-    border-radius: 3px; margin-bottom: 2px;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    cursor: default; color: #000; font-weight: 600;
-}
-.cal-event:hover { filter: brightness(1.15); }
-
-/* ===== EISENHOWER MATRIX ===== */
-.matrix-col-label {
-    text-align: center; font-size: 0.75rem; font-weight: 700;
-    color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;
-    padding-bottom: 0.2rem;
-}
-.quadrant {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 8px; padding: 0.85rem; min-height: 200px;
-    transition: border-color 0.15s;
-}
-.quadrant.drag-over { border-color: var(--accent); background: #1e2a1e; }
-.quadrant-header {
-    display: flex; align-items: center; gap: 0.4rem;
-    margin-bottom: 0.6rem; padding-bottom: 0.4rem;
-    border-bottom: 1px solid var(--border);
-}
-.quadrant-header .q-icon { font-size: 0.9rem; }
-.quadrant-header .q-title { font-size: 0.82rem; font-weight: 700; }
-.quadrant-header .q-subtitle { font-size: 0.66rem; color: var(--text-dim); }
-.q1 .quadrant-header { color: #ff6b6b; }
-.q2 .quadrant-header { color: #ffa94d; }
-.q3 .quadrant-header { color: var(--accent); }
-.q4 .quadrant-header { color: var(--text-dim); }
-.matrix-row-label {
-    writing-mode: vertical-lr; transform: rotate(180deg);
-    font-size: 0.75rem; font-weight: 700; color: var(--text-muted);
-    text-transform: uppercase; letter-spacing: 0.08em;
-    display: flex; align-items: center; justify-content: center;
-    padding: 0 0.2rem;
-}
-.matrix-card {
-    display: flex; align-items: center; gap: 0.4rem;
-    padding: 0.35rem 0.5rem; margin-bottom: 0.3rem;
-    background: #222; border: 1px solid #333; border-radius: 5px;
-    font-size: 0.78rem; cursor: grab;
-    transition: transform 0.1s, box-shadow 0.1s;
-}
-.matrix-card:active { cursor: grabbing; }
-.matrix-card.dragging { opacity: 0.4; }
-.matrix-card .course-tag {
-    font-size: 0.62rem; font-weight: 700;
-    padding: 0.08rem 0.3rem; border-radius: 3px;
-    white-space: nowrap; flex-shrink: 0;
-}
-.matrix-card .card-title { flex: 1; }
-.matrix-card .card-due { font-size: 0.66rem; color: var(--text-dim); white-space: nowrap; }
-.matrix-empty { font-size: 0.75rem; color: var(--text-dim); font-style: italic; padding: 0.4rem; }
-
-/* Course tag colors */
-.tag-GPCO403 { background: #7cb3ff; color: #000; } .tag-GPCO410 { background: #ffa94d; color: #000; } .tag-GPEC446 { background: #b197fc; color: #000; } .tag-GPPS444 { background: #ff6b6b; color: #000; } .tag-GPPS463 { background: #69db7c; color: #000; }
-
-/* Collapsible */
-.collapsible { margin-bottom: 1rem; }
-.collapsible-header {
-    display: flex; align-items: center; gap: 0.5rem;
-    cursor: pointer; user-select: none; padding: 0.6rem 0.85rem;
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 8px; margin-bottom: 0;
-}
-.collapsible-header h2 { margin: 0; padding: 0; border: none; font-size: 0.9rem; }
-.collapsible-header .chevron {
-    color: var(--text-dim); transition: transform 0.2s; font-size: 0.75rem;
-}
-.collapsible-header.open .chevron { transform: rotate(90deg); }
-.collapsible-header.open { border-radius: 8px 8px 0 0; }
-.collapsible-body {
-    display: none; background: var(--surface);
-    border: 1px solid var(--border); border-top: none;
-    border-radius: 0 0 8px 8px; padding: 0.85rem 1.1rem;
-}
-.collapsible-body.open { display: block; }
-
-/* Nested week collapsibles inside Readings Status */
-.week-collapsible { margin-bottom: 0.5rem; }
-.week-collapsible .collapsible-header { background: #222; border-color: #333; }
-.week-collapsible .collapsible-body { background: #1e1e1e; border-color: #333; padding: 0.5rem 0.75rem; }
-
-/* Section heading inside tabs */
-.section-heading {
-    font-size: 0.8rem; font-weight: 700; color: #aaa;
-    text-transform: uppercase; letter-spacing: 0.05em;
-    margin-bottom: 0.6rem; padding-bottom: 0.35rem;
-    border-bottom: 1px solid var(--border);
-}
-</style>
+    @media (max-width: 1150px) {
+      .manual-page { padding-left: 28px; }
+      .manual-page:before, .manual-page:after { display: none; }
+      .manual-layout,
+      .manual-head,
+      .program-grid,
+      .register,
+      .pamphlet-panels {
+        grid-template-columns: 1fr;
+      }
+      .pamphlet-panels { background: var(--field); }
+      .program { min-height: 260px; }
+    }
+    @media (max-width: 720px) {
+      .page { width: min(100vw - 24px, 720px); padding-top: 14px; }
+      .manual-page { padding: 12px; }
+    }
+  </style>
 </head>
 <body>
+  <main class="page">
+    <section class="manual-page">
+      <div class="manual-head">
+        <span>Claudia Academic Operations</span>
+        <span id="generated-line">Generated from claudia.db</span>
+        <span id="live-status" class="live-status">static</span>
+      </div>
 
-<!-- Header -->
-<div class="header">
-    <h1>Claudia</h1>
-    <div class="subtitle">Generated 2026-04-29 08:01 &middot; Spring 2026 &middot; GPS &middot; Week 5 of 11</div>
-</div>
+      <div class="manual-layout">
+        <aside class="manual-copy">
+          <div>
+            <div class="label">Due today</div>
+            <h1 id="due-count">0</h1>
+            <p id="due-summary"></p>
+          </div>
 
-<!-- Summary Cards -->
-<div class="cards">
-    <div class="card"><div class="card-value">5</div><div class="card-label">Courses</div></div>
-    <div class="card"><div class="card-value">952</div><div class="card-label">Files</div></div>
-    <div class="card"><div class="card-value">77</div><div class="card-label">Readings</div><div class="card-sub">50 pending &middot; 27 done</div></div>
-    <div class="card"><div class="card-value">34</div><div class="card-label">Assignments</div><div class="card-sub">24 up &middot; 10 done</div></div>
-    <div class="card"><div class="card-value">8662</div><div class="card-label">Chunks</div><div class="card-sub">160 files indexed</div></div>
-    <div class="card"><div class="card-value">1531</div><div class="card-label">Pages</div><div class="card-sub">all courses</div></div>
-    <div class="card"><div class="card-value" style="font-size:0.95rem;line-height:1.3">86 pages / ~7.5 hrs</div><div class="card-label">Wk 5 Load</div></div>
-</div>
+          <div>
+            <div class="label">Next action</div>
+            <p id="next-course"></p>
+            <p id="next-action"></p>
+          </div>
 
-<!-- Legend -->
-<div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:#7cb3ff"></div>GPCO 403</div><div class="legend-item"><div class="legend-dot" style="background:#ffa94d"></div>GPCO 410</div><div class="legend-item"><div class="legend-dot" style="background:#b197fc"></div>GPEC 446</div><div class="legend-item"><div class="legend-dot" style="background:#ff6b6b"></div>GPPS 444</div><div class="legend-item"><div class="legend-dot" style="background:#69db7c"></div>GPPS 463</div>
-</div>
-
-<!-- Main Tabs -->
-<div class="tab-bar">
-    <button class="tab-btn active" data-tab="timeline">Timeline</button>
-    <button class="tab-btn" data-tab="readings">Readings</button>
-    <button class="tab-btn" data-tab="overview">Overview</button>
-</div>
-
-<!-- ===== TAB: TIMELINE ===== -->
-<div class="tab-panel active" id="tab-timeline">
-    <div class="subtab-bar">
-        <button class="subtab-btn active" data-subtab="week">Week View</button>
-        <button class="subtab-btn" data-subtab="calendar">Calendar</button>
-        <button class="subtab-btn" data-subtab="matrix">Eisenhower Matrix</button>
-    </div>
-
-    <div class="subtab-panel active" id="subtab-week">
-        <div id="week-view"></div>
-    </div>
-
-    <div class="subtab-panel" id="subtab-calendar">
-        <div class="cal-controls">
-            <button id="cal-prev">&larr;</button>
-            <div class="cal-month-label" id="cal-month-label"></div>
-            <button id="cal-next">&rarr;</button>
-        </div>
-        <div id="cal-grid-container"></div>
-    </div>
-
-    <div class="subtab-panel" id="subtab-matrix">
-        <p style="margin-bottom:0.75rem">Drag assignments between quadrants. Arrangement is saved locally.</p>
-        <div style="display:grid; grid-template-columns: auto 1fr 1fr; grid-template-rows: auto auto auto; gap: 0.75rem 0.5rem;">
-            <div></div>
-            <div class="matrix-col-label">Urgent</div>
-            <div class="matrix-col-label">Not Urgent</div>
-
-            <div class="matrix-row-label">Important</div>
-            <div class="quadrant q1" data-quadrant="q1" id="q1">
-                <div class="quadrant-header"><span class="q-icon">&#9888;</span><div><div class="q-title">Do First</div><div class="q-subtitle">Urgent + Important</div></div></div>
-                <div class="q-items"></div>
+          <div>
+            <div class="label">Source record</div>
+            <div class="source-strip">
+              <div><b>DB</b><span>claudia.db</span></div>
+              <div><b>Week</b><span id="week-line"></span></div>
+              <div><b>Mode</b><span>study operations</span></div>
             </div>
-            <div class="quadrant q2" data-quadrant="q2" id="q2">
-                <div class="quadrant-header"><span class="q-icon">&#9733;</span><div><div class="q-title">Schedule</div><div class="q-subtitle">Not Urgent + Important</div></div></div>
-                <div class="q-items"></div>
+          </div>
+        </aside>
+
+        <section>
+          <div class="program-grid" id="program-grid"></div>
+
+          <section class="pamphlet" id="course-pamphlet" aria-live="polite">
+            <div class="pamphlet-head">
+              <div class="pamphlet-title">
+                <span id="pamphlet-code">Select a course</span>
+                <strong id="pamphlet-name">Course record</strong>
+              </div>
+              <button class="pamphlet-close" type="button" id="pamphlet-close">Close</button>
             </div>
-
-            <div class="matrix-row-label">Not Important</div>
-            <div class="quadrant q3" data-quadrant="q3" id="q3">
-                <div class="quadrant-header"><span class="q-icon">&#8644;</span><div><div class="q-title">Delegate</div><div class="q-subtitle">Urgent + Not Important</div></div></div>
-                <div class="q-items"></div>
+            <div class="pamphlet-panels">
+              <section class="pamphlet-panel" id="pamphlet-readings" data-count="0">
+                <h3>Readings</h3>
+                <div class="pamphlet-list"></div>
+              </section>
+              <section class="pamphlet-panel" id="pamphlet-assignments" data-count="0">
+                <h3>Assignments</h3>
+                <div class="pamphlet-list"></div>
+              </section>
+              <section class="pamphlet-panel" id="pamphlet-exams" data-count="0">
+                <h3>Exams</h3>
+                <div class="pamphlet-list"></div>
+              </section>
             </div>
-            <div class="quadrant q4" data-quadrant="q4" id="q4">
-                <div class="quadrant-header"><span class="q-icon">&#128465;</span><div><div class="q-title">Eliminate</div><div class="q-subtitle">Not Urgent + Not Important</div></div></div>
-                <div class="q-items"></div>
-            </div>
-        </div>
-    </div>
-</div>
+          </section>
 
-<!-- ===== TAB: READINGS ===== -->
-<div class="tab-panel" id="tab-readings">
+          <div class="register" id="register"></div>
+        </section>
+      </div>
+    </section>
+  </main>
 
-    <div class="collapsible">
-        <div class="collapsible-header open" onclick="toggleCollapse(this)">
-            <span class="chevron" style="transform:rotate(90deg)">&#9654;</span><h2>Readings Status</h2>
-        </div>
-        <div class="collapsible-body open">
-            
-        <div class="collapsible week-collapsible">
-            <div class="collapsible-header" onclick="toggleCollapse(this)">
-                <span class="chevron">&#9654;</span>
-                <h2 style="font-size:0.85rem">Week 1 <span style="font-size:0.75rem;font-weight:400;color:#aaa;margin-left:0.5rem">261 pp</span></h2>
-            </div>
-            <div class="collapsible-body">
-                <table><thead><tr><th>Course</th><th>Title</th><th>Authors</th><th>Pages</th><th>Est. Time</th><th>Status</th></tr></thead>
-                <tbody><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#7cb3ff;color:#000">GPCO 403</span></td><td>International Economics Ch 1 (Introduction)</td><td>Feenstra, Robert; Taylor, Alan</td><td></td><td>--</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#7cb3ff;color:#000">GPCO 403</span></td><td>International Economics Ch 16.1-16.2 (GDP & National Income)</td><td>Feenstra, Robert; Taylor, Alan</td><td></td><td>--</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>A Non-Technical Introduction to Bargaining Theory</td><td>Muthoo, Abhinay</td><td>22</td><td>3h 32m</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Games, Strategies, and Managers pp.1-41</td><td>McMillan, John</td><td>41</td><td>6h 35m</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>International Relations: A Strategic-Choice Approach</td><td>Lake, David A.; Powell, Robert</td><td>36</td><td>5h 47m</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Thinking Strategically pp.31-50 (optional)</td><td>Dixit, Avinash K.; Nalebuff, Barry J.</td><td>20</td><td>3h 13m</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#b197fc;color:#000">GPEC 446</span></td><td>Mastering Metrics Ch 1 (Causality & Quantitative Analysis)</td><td>Angrist, Joshua D.; Pischke, Jorn-Steffen</td><td>46</td><td>3h 4m</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ff6b6b;color:#000">GPPS 444</span></td><td>The Cambridge History of Warfare — Introduction + Part One Ch.1</td><td>Parker, Geoffrey (ed.)</td><td>29</td><td>1h 24m</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#69db7c;color:#000">GPPS 463</span></td><td>Dai Viet — Ancient Vietnamese Kingdom</td><td></td><td>39</td><td>1h 24m</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#69db7c;color:#000">GPPS 463</span></td><td>The South China Sea Ch.1 (Hayton)</td><td>Heyton, Bill</td><td>28</td><td>1h</td><td>completed</td></tr></tbody></table>
-            </div>
-        </div>
-        <div class="collapsible week-collapsible">
-            <div class="collapsible-header" onclick="toggleCollapse(this)">
-                <span class="chevron">&#9654;</span>
-                <h2 style="font-size:0.85rem">Week 2 <span style="font-size:0.75rem;font-weight:400;color:#aaa;margin-left:0.5rem">227 pp</span></h2>
-            </div>
-            <div class="collapsible-body">
-                <table><thead><tr><th>Course</th><th>Title</th><th>Authors</th><th>Pages</th><th>Est. Time</th><th>Status</th></tr></thead>
-                <tbody><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#7cb3ff;color:#000">GPCO 403</span></td><td>International Economics Ch 12.2, 16.3-16.5 (Balance of Payments)</td><td>Feenstra, Robert; Taylor, Alan</td><td></td><td>--</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Actors and Preferences in International Relations</td><td>Frieden, Jeffry A.</td><td>38</td><td>6h 6m</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Gorillas Do Not Bluff When They Beat Their Chests: Honest Signaling Indicates Body Size</td><td>Wright, E. et al.</td><td></td><td>--</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Interests, Institutions and Information pp.9-23, 33-46, 60-65</td><td>Milner, Helen</td><td>35</td><td>5h 37m</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Notes on Signaling Theory</td><td>Anonymous (MIT)</td><td></td><td>--</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>The 1996 Taiwan Strait Crisis</td><td>Russell, Richard L.</td><td></td><td>--</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>The Cuban Missile Crisis (CIAO Case Study)</td><td>Lebow, Ned</td><td></td><td>--</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>The Diplomacy of Violence (Arms and Influence pp.1-34)</td><td>Schelling, Thomas</td><td>34</td><td>5h 28m</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Using Information Strategically (pp.59-75)</td><td>McMillan, John</td><td>17</td><td>2h 44m</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#b197fc;color:#000">GPEC 446</span></td><td>Mastering Metrics Ch 2 (Regression for Causal Inference)</td><td>Angrist, Joshua D.; Pischke, Jorn-Steffen</td><td>51</td><td>3h 24m</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ff6b6b;color:#000">GPPS 444</span></td><td>TCHW Part One Ch.2 — Roman Warfare I</td><td>Parker, Geoffrey (ed.)</td><td>16</td><td>46m</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ff6b6b;color:#000">GPPS 444</span></td><td>TCHW Part One Ch.3 — Roman Warfare II</td><td>Parker, Geoffrey (ed.)</td><td>15</td><td>44m</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#69db7c;color:#000">GPPS 463</span></td><td>Guns, Germs, and Steel (Diamond) — relevant chapters</td><td>Diamond, Jared</td><td>21</td><td>45m</td><td>completed</td></tr></tbody></table>
-            </div>
-        </div>
-        <div class="collapsible week-collapsible">
-            <div class="collapsible-header" onclick="toggleCollapse(this)">
-                <span class="chevron">&#9654;</span>
-                <h2 style="font-size:0.85rem">Week 3 <span style="font-size:0.75rem;font-weight:400;color:#aaa;margin-left:0.5rem">265 pp</span></h2>
-            </div>
-            <div class="collapsible-body">
-                <table><thead><tr><th>Course</th><th>Title</th><th>Authors</th><th>Pages</th><th>Est. Time</th><th>Status</th></tr></thead>
-                <tbody><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#7cb3ff;color:#000">GPCO 403</span></td><td>International Economics Ch 12.1, 13.1-13.4, 14.1 (Exchange Rates/PPP)</td><td>Feenstra, Robert; Taylor, Alan</td><td></td><td>--</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#7cb3ff;color:#000">GPCO 403</span></td><td>The Economist: Big Mac Index</td><td>The Economist</td><td></td><td>--</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Rationalist Explanations for War</td><td>Fearon, James D.</td><td>36</td><td>5h 47m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Saddam's Delusions: The View From the Inside</td><td>Foreign Affairs</td><td></td><td>--</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>The Persian Gulf Crisis Ch.1-4</td><td>Yetiv, Steven</td><td></td><td>--</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>The Strategic Setting of Choices</td><td>Morrow, James D.</td><td>38</td><td>6h 6m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>War as a Commitment Problem</td><td>Powell, Robert</td><td>36</td><td>5h 47m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#b197fc;color:#000">GPEC 446</span></td><td>Mastering Metrics Ch 3 (Instrumental Variables)</td><td>Angrist, Joshua D.; Pischke, Jorn-Steffen</td><td>49</td><td>3h 16m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ff6b6b;color:#000">GPPS 444</span></td><td>Intro to Irregular Warfare</td><td></td><td>1</td><td>3m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ff6b6b;color:#000">GPPS 444</span></td><td>TCHW Part Two Ch.4 — Medieval Warfare I (Castles/Sieges)</td><td>Parker, Geoffrey (ed.)</td><td>23</td><td>1h 7m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ff6b6b;color:#000">GPPS 444</span></td><td>TCHW Part Two Ch.5 — Medieval Warfare II (Agincourt)</td><td>Parker, Geoffrey (ed.)</td><td>17</td><td>49m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#69db7c;color:#000">GPPS 463</span></td><td>Development Effects of the Extractive Colonial Economy</td><td>Dell, Melissa; Olken, Benjamin</td><td>40</td><td>1h 26m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#69db7c;color:#000">GPPS 463</span></td><td>Stubbs 1999 — Colonial Institutions SEA</td><td>Stubbs, Richard</td><td>20</td><td>43m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#69db7c;color:#000">GPPS 463</span></td><td>The Dutch in Indonesia (Acemoglu 2012)</td><td>Acemoglu, Daron</td><td>5</td><td>11m</td><td>pending</td></tr></tbody></table>
-            </div>
-        </div>
-        <div class="collapsible week-collapsible">
-            <div class="collapsible-header" onclick="toggleCollapse(this)">
-                <span class="chevron">&#9654;</span>
-                <h2 style="font-size:0.85rem">Week 4 <span style="font-size:0.75rem;font-weight:400;color:#aaa;margin-left:0.5rem">135 pp</span></h2>
-            </div>
-            <div class="collapsible-body">
-                <table><thead><tr><th>Course</th><th>Title</th><th>Authors</th><th>Pages</th><th>Est. Time</th><th>Status</th></tr></thead>
-                <tbody><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#7cb3ff;color:#000">GPCO 403</span></td><td>International Economics Ch 12.3, 15.5, 19.1-19.4 (External Wealth/Crises)</td><td>Feenstra, Robert; Taylor, Alan</td><td></td><td>--</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>An Institutional Explanation of the Democratic Peace</td><td>Bueno de Mesquita, Bruce et al.</td><td></td><td>--</td><td>pending</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Bargaining Failures and Civil War</td><td>Walter, Barbara F.</td><td>19</td><td>3h 3m</td><td>completed</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Civil War</td><td>Blattman, Christopher; Miguel, Edward</td><td>55</td><td>8h 50m</td><td>completed</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#b197fc;color:#000">GPEC 446</span></td><td>Mastering Metrics Ch 4 + Wooldridge Ch 13 (Panel Data/DiD)</td><td>Angrist, Joshua D.; Pischke, Jorn-Steffen</td><td>31</td><td>2h 4m</td><td>pending</td></tr><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ff6b6b;color:#000">GPPS 444</span></td><td>TCHW Part Three Ch.7 — Ottoman Expansion</td><td>Parker, Geoffrey (ed.)</td><td>14</td><td>41m</td><td>done</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ff6b6b;color:#000">GPPS 444</span></td><td>TCHW Part Two Ch.6 — Gunpowder Revolution</td><td>Parker, Geoffrey (ed.)</td><td>16</td><td>46m</td><td>pending</td></tr></tbody></table>
-            </div>
-        </div>
-        <div class="collapsible week-collapsible">
-            <div class="collapsible-header open" onclick="toggleCollapse(this)">
-                <span class="chevron">&#9654;</span>
-                <h2 style="font-size:0.85rem">Week 5 <span style="font-size:0.75rem;font-weight:400;color:#aaa;margin-left:0.5rem">86 pp</span></h2>
-            </div>
-            <div class="collapsible-body open">
-                <table><thead><tr><th>Course</th><th>Title</th><th>Authors</th><th>Pages</th><th>Est. Time</th><th>Status</th></tr></thead>
-                <tbody><tr class="summarized"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Committing to Peace Ch.2</td><td>Walter, Barbara F.</td><td>25</td><td>4h 1m</td><td>completed</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Democratization and Civil War: Empirical Evidence</td><td>Cederman, Lars-Erik; Hug, Simon; Krebs, Lutz</td><td></td><td>--</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#b197fc;color:#000">GPEC 446</span></td><td>Mastering Metrics Ch 4 + Wooldridge Ch 14 (DiD II / Staggered)</td><td>Angrist, Joshua D.; Pischke, Jorn-Steffen</td><td>31</td><td>2h 4m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ff6b6b;color:#000">GPPS 444</span></td><td>TCHW Part Three Ch.11 — Napoleonic Wars I</td><td>Parker, Geoffrey (ed.)</td><td>30</td><td>1h 27m</td><td>pending</td></tr></tbody></table>
-            </div>
-        </div>
-        <div class="collapsible week-collapsible">
-            <div class="collapsible-header open" onclick="toggleCollapse(this)">
-                <span class="chevron">&#9654;</span>
-                <h2 style="font-size:0.85rem">Week 6 <span style="font-size:0.75rem;font-weight:400;color:#aaa;margin-left:0.5rem">134 pp</span></h2>
-            </div>
-            <div class="collapsible-body open">
-                <table><thead><tr><th>Course</th><th>Title</th><th>Authors</th><th>Pages</th><th>Est. Time</th><th>Status</th></tr></thead>
-                <tbody><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#7cb3ff;color:#000">GPCO 403</span></td><td>International Economics Ch 2 (Ricardian Trade)</td><td>Feenstra, Robert; Taylor, Alan</td><td></td><td>--</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#7cb3ff;color:#000">GPCO 403</span></td><td>The Economist: The miracle of trade (1996)</td><td>The Economist</td><td></td><td>--</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Winning with the Bomb</td><td>Beardsley, Kyle; Asal, Victor</td><td>24</td><td>3h 51m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#b197fc;color:#000">GPEC 446</span></td><td>Mastering Metrics Ch 2 review + Matching/Synthetic Control</td><td>Angrist, Joshua D.; Pischke, Jorn-Steffen</td><td>51</td><td>3h 24m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ff6b6b;color:#000">GPPS 444</span></td><td>TCHW Part Four Ch.12 — Crimean/Civil War</td><td>Parker, Geoffrey (ed.)</td><td>30</td><td>1h 27m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ff6b6b;color:#000">GPPS 444</span></td><td>TCHW Part Four Ch.13 — WWI Mechanized I (Somme)</td><td>Parker, Geoffrey (ed.)</td><td>29</td><td>1h 24m</td><td>pending</td></tr></tbody></table>
-            </div>
-        </div>
-        <div class="collapsible week-collapsible">
-            <div class="collapsible-header open" onclick="toggleCollapse(this)">
-                <span class="chevron">&#9654;</span>
-                <h2 style="font-size:0.85rem">Week 7 <span style="font-size:0.75rem;font-weight:400;color:#aaa;margin-left:0.5rem">177 pp</span></h2>
-            </div>
-            <div class="collapsible-body open">
-                <table><thead><tr><th>Course</th><th>Title</th><th>Authors</th><th>Pages</th><th>Est. Time</th><th>Status</th></tr></thead>
-                <tbody><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#7cb3ff;color:#000">GPCO 403</span></td><td>International Economics Ch 4, 17.1 (Heckscher-Ohlin)</td><td>Feenstra, Robert; Taylor, Alan</td><td></td><td>--</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Design, Inference, and the Strategic Logic of Suicide Terrorism</td><td>Ashworth, Scott; Clinton, Joshua D.; Meirowitz, Adam; Ramsay, Kristopher W.</td><td>5</td><td>48m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>The Korean Conundrum Ch.2-3</td><td>Carpenter, Ted Galen; Bandow, Doug</td><td>62</td><td>9h 58m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>The Strategic Logic of Suicide Terrorism</td><td>Pape, Robert A.</td><td>19</td><td>3h 3m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#b197fc;color:#000">GPEC 446</span></td><td>Mastering Metrics Ch 5 (Regression Discontinuity Design)</td><td>Angrist, Joshua D.; Pischke, Jorn-Steffen</td><td>31</td><td>2h 4m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ff6b6b;color:#000">GPPS 444</span></td><td>TCHW Part Four Ch.14 — WWI Air Power</td><td>Parker, Geoffrey (ed.)</td><td>36</td><td>1h 44m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ff6b6b;color:#000">GPPS 444</span></td><td>TCHW Part Four Ch.15 — WWII Air-Land Battle (Blitzkrieg)</td><td>Parker, Geoffrey (ed.)</td><td>24</td><td>1h 10m</td><td>pending</td></tr></tbody></table>
-            </div>
-        </div>
-        <div class="collapsible week-collapsible">
-            <div class="collapsible-header open" onclick="toggleCollapse(this)">
-                <span class="chevron">&#9654;</span>
-                <h2 style="font-size:0.85rem">Week 8 <span style="font-size:0.75rem;font-weight:400;color:#aaa;margin-left:0.5rem">110 pp</span></h2>
-            </div>
-            <div class="collapsible-body open">
-                <table><thead><tr><th>Course</th><th>Title</th><th>Authors</th><th>Pages</th><th>Est. Time</th><th>Status</th></tr></thead>
-                <tbody><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#7cb3ff;color:#000">GPCO 403</span></td><td>International Economics Ch 6 (Firms, Increasing Returns, Trade)</td><td>Feenstra, Robert; Taylor, Alan</td><td></td><td>--</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Coordination and Collaboration: Regimes in an Anarchic World</td><td>Stein, Arthur A.</td><td>26</td><td>4h 11m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>The Governance Problem in International Relations</td><td>Gourevitch, Peter Alexis</td><td>28</td><td>4h 30m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>The Strategies of Terrorism</td><td>Kydd, Andrew; Walter, Barbara</td><td>32</td><td>5h 8m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#b197fc;color:#000">GPEC 446</span></td><td>Field Experiments Ch 3 (Experimental Design)</td><td>Gerber, Alan; Green, Donald</td><td></td><td>--</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ff6b6b;color:#000">GPPS 444</span></td><td>TCHW Part Four Ch.16 — WWII Air-Sea Battle (Midway)</td><td>Parker, Geoffrey (ed.)</td><td>24</td><td>1h 10m</td><td>pending</td></tr></tbody></table>
-            </div>
-        </div>
-        <div class="collapsible week-collapsible">
-            <div class="collapsible-header open" onclick="toggleCollapse(this)">
-                <span class="chevron">&#9654;</span>
-                <h2 style="font-size:0.85rem">Week 9 <span style="font-size:0.75rem;font-weight:400;color:#aaa;margin-left:0.5rem">44 pp</span></h2>
-            </div>
-            <div class="collapsible-body open">
-                <table><thead><tr><th>Course</th><th>Title</th><th>Authors</th><th>Pages</th><th>Est. Time</th><th>Status</th></tr></thead>
-                <tbody><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#7cb3ff;color:#000">GPCO 403</span></td><td>International Economics Ch 8, 11.1-2 (Trade & Commercial Policy)</td><td>Feenstra, Robert; Taylor, Alan</td><td></td><td>--</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#7cb3ff;color:#000">GPCO 403</span></td><td>The Impact of the 2018 Tariffs on Prices and Welfare</td><td>Amiti, Mary; Redding, Stephen J.; Weinstein, David E.</td><td>24</td><td>1h 36m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Building Legitimate States (Ch.1)</td><td>Lake, David</td><td></td><td>--</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#b197fc;color:#000">GPEC 446</span></td><td>Field Experiments Ch 4 (Non-compliance / Factorial Designs)</td><td>Gerber, Alan; Green, Donald</td><td></td><td>--</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ff6b6b;color:#000">GPPS 444</span></td><td>TCHW Epilogue — Nuclear Weapons & Future Warfare</td><td>Parker, Geoffrey (ed.)</td><td>20</td><td>58m</td><td>pending</td></tr></tbody></table>
-            </div>
-        </div>
-        <div class="collapsible week-collapsible">
-            <div class="collapsible-header open" onclick="toggleCollapse(this)">
-                <span class="chevron">&#9654;</span>
-                <h2 style="font-size:0.85rem">Week 10 <span style="font-size:0.75rem;font-weight:400;color:#aaa;margin-left:0.5rem">59 pp</span></h2>
-            </div>
-            <div class="collapsible-body open">
-                <table><thead><tr><th>Course</th><th>Title</th><th>Authors</th><th>Pages</th><th>Est. Time</th><th>Status</th></tr></thead>
-                <tbody><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Domestic Political Audiences and the Escalation of International Disputes</td><td>Fearon, James D.</td><td>16</td><td>2h 34m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Institutions as Constraints on Strategic Choice</td><td>Rogowski, Ronald</td><td>22</td><td>3h 32m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Mass Public Decisions on Go to War</td><td>Herrmann, Richard K.; Tetlock, Philip E.; Visser, Penny S.</td><td>21</td><td>3h 22m</td><td>pending</td></tr><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#b197fc;color:#000">GPEC 446</span></td><td>Wooldridge Ch 10-11 (Time Series)</td><td>Wooldridge, Jeffrey M.</td><td></td><td>--</td><td>pending</td></tr></tbody></table>
-            </div>
-        </div>
-        <div class="collapsible week-collapsible">
-            <div class="collapsible-header open" onclick="toggleCollapse(this)">
-                <span class="chevron">&#9654;</span>
-                <h2 style="font-size:0.85rem">No Week Assigned <span style="font-size:0.75rem;font-weight:400;color:#aaa;margin-left:0.5rem">33 pp</span></h2>
-            </div>
-            <div class="collapsible-body open">
-                <table><thead><tr><th>Course</th><th>Title</th><th>Authors</th><th>Pages</th><th>Est. Time</th><th>Status</th></tr></thead>
-                <tbody><tr class="pending-reading"><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ff6b6b;color:#000">GPPS 444</span></td><td>A History of Warfare</td><td>Keegan, John</td><td>33</td><td>1h 36m</td><td>pending</td></tr></tbody></table>
-            </div>
-        </div>
-        </div>
-    </div>
+  <script>
+    const DASHBOARD_PAYLOAD = {"generated_at": "2026-05-06T09:08:24", "generated_label": "2026-05-06 09:08", "today": "2026-05-06", "term": "Spring 2026", "program": "GPS", "current_week": 6, "total_weeks": 11, "cards": {"courses": 5, "files": 952, "readings": 77, "pending_readings": 50, "summarized_readings": 27, "assignments": 34, "upcoming_assignments": 17, "completed_assignments": 17, "chunks": 8662, "indexed_files": 160, "pages": 1531}, "course_colors": {"GPCO 403": "#006fba", "GPCO 410": "#f2a000", "GPEC 446": "#6b45a4", "GPPS 444": "#ef3e33", "GPPS 463": "#4b9f38"}, "courses": [{"id": 1, "code": "GPCO 403", "name": "International Economics", "professor": "Handley", "term": "Spring 2026", "agent_name": "Plutus", "folder_path": "GPCO 403 - Intl Econ - Handley"}, {"id": 2, "code": "GPCO 410", "name": "International Politics & Security", "professor": "Praether", "term": "Spring 2026", "agent_name": "Athena", "folder_path": "GPCO 410 - Intl Pol:Sec - Praether"}, {"id": 3, "code": "GPEC 446", "name": "Quantitative Methods 3", "professor": "Valasquez", "term": "Spring 2026", "agent_name": "Tyche", "folder_path": "GPEC 446 - QM3 - Valasquez"}, {"id": 4, "code": "GPPS 444", "name": "History of Warfare", "professor": "Thomas", "term": "Spring 2026", "agent_name": "Ares", "folder_path": "GPPS 444 - History of Warfare - Thomas"}, {"id": 5, "code": "GPPS 463", "name": "Politics of Southeast Asia", "professor": "Ravanilla", "term": "Spring 2026", "agent_name": "Poseidon", "folder_path": "GPPS 463 - Pol SEA - Ravanilla"}], "readings": [{"id": 76, "title": "A History of Warfare", "authors": "Keegan, John", "week": null, "summary_status": "pending", "pages": 33, "file_path": "GPPS 444 - History of Warfare - Thomas/Keegan History_of_Warfare_Flesh.pdf", "summary_path": null, "code": "GPPS 444", "course_name": "History of Warfare"}, {"id": 1, "title": "International Economics Ch 1 (Introduction)", "authors": "Feenstra, Robert; Taylor, Alan", "week": 1, "summary_status": "completed", "pages": null, "file_path": null, "summary_path": null, "code": "GPCO 403", "course_name": "International Economics"}, {"id": 2, "title": "International Economics Ch 16.1-16.2 (GDP & National Income)", "authors": "Feenstra, Robert; Taylor, Alan", "week": 1, "summary_status": "completed", "pages": null, "file_path": null, "summary_path": null, "code": "GPCO 403", "course_name": "International Economics"}, {"id": 25, "title": "A Non-Technical Introduction to Bargaining Theory", "authors": "Muthoo, Abhinay", "week": 1, "summary_status": "completed", "pages": 22, "file_path": "GPCO 410 - Intl Pol:Sec - Praether/W1 - Game Theory/Week 1_Muthoo.pdf", "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 24, "title": "Games, Strategies, and Managers pp.1-41", "authors": "McMillan, John", "week": 1, "summary_status": "completed", "pages": 41, "file_path": "GPCO 410 - Intl Pol:Sec - Praether/W1 - Game Theory/Week 1_McMillan.pdf", "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 23, "title": "International Relations: A Strategic-Choice Approach", "authors": "Lake, David A.; Powell, Robert", "week": 1, "summary_status": "completed", "pages": 36, "file_path": "GPCO 410 - Intl Pol:Sec - Praether/W1 - Game Theory/LAKE-InternationalRelations-1999.pdf", "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 26, "title": "Thinking Strategically pp.31-50 (optional)", "authors": "Dixit, Avinash K.; Nalebuff, Barry J.", "week": 1, "summary_status": "completed", "pages": 20, "file_path": "GPCO 410 - Intl Pol:Sec - Praether/W1 - Game Theory/Week 1_Dixit Nalebuff.pdf", "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 13, "title": "Mastering Metrics Ch 1 (Causality & Quantitative Analysis)", "authors": "Angrist, Joshua D.; Pischke, Jorn-Steffen", "week": 1, "summary_status": "completed", "pages": 46, "file_path": "GPEC 446 - QM3 - Valasquez/Joshua D. Angrist, Jörn-Steffen Pischke - Mastering 'Metrics_ The Path from Cause to Effect (2014, Princeton University Press).pdf", "summary_path": null, "code": "GPEC 446", "course_name": "Quantitative Methods 3"}, {"id": 55, "title": "The Cambridge History of Warfare — Introduction + Part One Ch.1", "authors": "Parker, Geoffrey (ed.)", "week": 1, "summary_status": "completed", "pages": 29, "file_path": "GPPS 444 - History of Warfare - Thomas/The Cambridge History of Warfare -- Geoffrey Parker -- 2020 -- Cambridge University Press.pdf", "summary_path": null, "code": "GPPS 444", "course_name": "History of Warfare"}, {"id": 71, "title": "Dai Viet — Ancient Vietnamese Kingdom", "authors": null, "week": 1, "summary_status": "completed", "pages": 39, "file_path": "GPPS 463 - Pol SEA - Ravanilla/W2 - Sinivs Indi, Guns Germs & Steel/dai viet.pdf", "summary_path": null, "code": "GPPS 463", "course_name": "Politics of Southeast Asia"}, {"id": 70, "title": "The South China Sea Ch.1 (Hayton)", "authors": "Heyton, Bill", "week": 1, "summary_status": "completed", "pages": 28, "file_path": "GPPS 463 - Pol SEA - Ravanilla/W1 - Ancient Kingdoms/hayton2014_chap1.pdf", "summary_path": null, "code": "GPPS 463", "course_name": "Politics of Southeast Asia"}, {"id": 3, "title": "International Economics Ch 12.2, 16.3-16.5 (Balance of Payments)", "authors": "Feenstra, Robert; Taylor, Alan", "week": 2, "summary_status": "completed", "pages": null, "file_path": null, "summary_path": null, "code": "GPCO 403", "course_name": "International Economics"}, {"id": 27, "title": "Actors and Preferences in International Relations", "authors": "Frieden, Jeffry A.", "week": 2, "summary_status": "completed", "pages": 38, "file_path": "GPCO 410 - Intl Pol:Sec - Praether/W2 - Preferance Theory/FRIEDEN-ActorsPreferencesInternational-1999.pdf", "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 77, "title": "Gorillas Do Not Bluff When They Beat Their Chests: Honest Signaling Indicates Body Size", "authors": "Wright, E. et al.", "week": 2, "summary_status": "completed", "pages": null, "file_path": "GPCO 410 - Intl Pol:Sec - Praether/W2 - Preferance Theory/Gorillas do not bluff when they beat their chests_ Honest signaling indicates body size.pdf", "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 29, "title": "Interests, Institutions and Information pp.9-23, 33-46, 60-65", "authors": "Milner, Helen", "week": 2, "summary_status": "completed", "pages": 35, "file_path": "GPCO 410 - Intl Pol:Sec - Praether/W2 - Preferance Theory/Week 2_Milner.pdf", "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 31, "title": "Notes on Signaling Theory", "authors": "Anonymous (MIT)", "week": 2, "summary_status": "completed", "pages": null, "file_path": "GPCO 410 - Intl Pol:Sec - Praether/W2 - Preferance Theory/Week 2-NotesOnSignaling.pdf", "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 33, "title": "The 1996 Taiwan Strait Crisis", "authors": "Russell, Richard L.", "week": 2, "summary_status": "completed", "pages": null, "file_path": "GPCO 410 - Intl Pol:Sec - Praether/W2 - Preferance Theory/Week 2-r_russell.pdf", "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 30, "title": "The Cuban Missile Crisis (CIAO Case Study)", "authors": "Lebow, Ned", "week": 2, "summary_status": "completed", "pages": null, "file_path": "GPCO 410 - Intl Pol:Sec - Praether/W2 - Preferance Theory/Week 2-Lebow.pdf", "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 28, "title": "The Diplomacy of Violence (Arms and Influence pp.1-34)", "authors": "Schelling, Thomas", "week": 2, "summary_status": "completed", "pages": 34, "file_path": "GPCO 410 - Intl Pol:Sec - Praether/W2 - Preferance Theory/Week 2-Schelling.pdf", "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 32, "title": "Using Information Strategically (pp.59-75)", "authors": "McMillan, John", "week": 2, "summary_status": "completed", "pages": 17, "file_path": "GPCO 410 - Intl Pol:Sec - Praether/W2 - Preferance Theory/Week 2-McMillan.pdf", "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 14, "title": "Mastering Metrics Ch 2 (Regression for Causal Inference)", "authors": "Angrist, Joshua D.; Pischke, Jorn-Steffen", "week": 2, "summary_status": "completed", "pages": 51, "file_path": "GPEC 446 - QM3 - Valasquez/Joshua D. Angrist, Jörn-Steffen Pischke - Mastering 'Metrics_ The Path from Cause to Effect (2014, Princeton University Press).pdf", "summary_path": null, "code": "GPEC 446", "course_name": "Quantitative Methods 3"}, {"id": 56, "title": "TCHW Part One Ch.2 — Roman Warfare I", "authors": "Parker, Geoffrey (ed.)", "week": 2, "summary_status": "completed", "pages": 16, "file_path": "GPPS 444 - History of Warfare - Thomas/The Cambridge History of Warfare -- Geoffrey Parker -- 2020 -- Cambridge University Press.pdf", "summary_path": null, "code": "GPPS 444", "course_name": "History of Warfare"}, {"id": 57, "title": "TCHW Part One Ch.3 — Roman Warfare II", "authors": "Parker, Geoffrey (ed.)", "week": 2, "summary_status": "completed", "pages": 15, "file_path": "GPPS 444 - History of Warfare - Thomas/The Cambridge History of Warfare -- Geoffrey Parker -- 2020 -- Cambridge University Press.pdf", "summary_path": null, "code": "GPPS 444", "course_name": "History of Warfare"}, {"id": 72, "title": "Guns, Germs, and Steel (Diamond) — relevant chapters", "authors": "Diamond, Jared", "week": 2, "summary_status": "completed", "pages": 21, "file_path": "GPPS 463 - Pol SEA - Ravanilla/W2 - Sinivs Indi, Guns Germs & Steel/diamond_yalis.pdf", "summary_path": null, "code": "GPPS 463", "course_name": "Politics of Southeast Asia"}, {"id": 4, "title": "International Economics Ch 12.1, 13.1-13.4, 14.1 (Exchange Rates/PPP)", "authors": "Feenstra, Robert; Taylor, Alan", "week": 3, "summary_status": "pending", "pages": null, "file_path": null, "summary_path": null, "code": "GPCO 403", "course_name": "International Economics"}, {"id": 6, "title": "The Economist: Big Mac Index", "authors": "The Economist", "week": 3, "summary_status": "pending", "pages": null, "file_path": null, "summary_path": null, "code": "GPCO 403", "course_name": "International Economics"}, {"id": 34, "title": "Rationalist Explanations for War", "authors": "Fearon, James D.", "week": 3, "summary_status": "pending", "pages": 36, "file_path": "GPCO 410 - Intl Pol:Sec - Praether/W3 - Info & Commitment Problems/Week 3-Fearon.pdf", "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 38, "title": "Saddam's Delusions: The View From the Inside", "authors": "Foreign Affairs", "week": 3, "summary_status": "pending", "pages": null, "file_path": "GPCO 410 - Intl Pol:Sec - Praether/W3 - Info & Commitment Problems/Week 3-Saddam's delusions.pdf", "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 36, "title": "The Persian Gulf Crisis Ch.1-4", "authors": "Yetiv, Steven", "week": 3, "summary_status": "pending", "pages": null, "file_path": "GPCO 410 - Intl Pol:Sec - Praether/W3 - Info & Commitment Problems/Week 3_Yetiv.pdf", "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 35, "title": "The Strategic Setting of Choices", "authors": "Morrow, James D.", "week": 3, "summary_status": "pending", "pages": 38, "file_path": "GPCO 410 - Intl Pol:Sec - Praether/W3 - Info & Commitment Problems/MORROW-StrategicSettingChoices-1999.pdf", "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 37, "title": "War as a Commitment Problem", "authors": "Powell, Robert", "week": 3, "summary_status": "pending", "pages": 36, "file_path": "GPCO 410 - Intl Pol:Sec - Praether/W3 - Info & Commitment Problems/Week 3-war-as-a-commitment-problem.pdf", "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 15, "title": "Mastering Metrics Ch 3 (Instrumental Variables)", "authors": "Angrist, Joshua D.; Pischke, Jorn-Steffen", "week": 3, "summary_status": "pending", "pages": 49, "file_path": "GPEC 446 - QM3 - Valasquez/Joshua D. Angrist, Jörn-Steffen Pischke - Mastering 'Metrics_ The Path from Cause to Effect (2014, Princeton University Press).pdf", "summary_path": null, "code": "GPEC 446", "course_name": "Quantitative Methods 3"}, {"id": 69, "title": "Intro to Irregular Warfare", "authors": null, "week": 3, "summary_status": "pending", "pages": 1, "file_path": "GPPS 444 - History of Warfare - Thomas/Intro to Irregular Warfare.pdf", "summary_path": null, "code": "GPPS 444", "course_name": "History of Warfare"}, {"id": 58, "title": "TCHW Part Two Ch.4 — Medieval Warfare I (Castles/Sieges)", "authors": "Parker, Geoffrey (ed.)", "week": 3, "summary_status": "pending", "pages": 23, "file_path": "GPPS 444 - History of Warfare - Thomas/The Cambridge History of Warfare -- Geoffrey Parker -- 2020 -- Cambridge University Press.pdf", "summary_path": null, "code": "GPPS 444", "course_name": "History of Warfare"}, {"id": 59, "title": "TCHW Part Two Ch.5 — Medieval Warfare II (Agincourt)", "authors": "Parker, Geoffrey (ed.)", "week": 3, "summary_status": "pending", "pages": 17, "file_path": "GPPS 444 - History of Warfare - Thomas/The Cambridge History of Warfare -- Geoffrey Parker -- 2020 -- Cambridge University Press.pdf", "summary_path": null, "code": "GPPS 444", "course_name": "History of Warfare"}, {"id": 73, "title": "Development Effects of the Extractive Colonial Economy", "authors": "Dell, Melissa; Olken, Benjamin", "week": 3, "summary_status": "pending", "pages": 40, "file_path": "GPPS 463 - Pol SEA - Ravanilla/W3 - Colonial Institutions and Development/Dell-Olken - Development Effects of the Extractive Colonial Economy.pdf", "summary_path": null, "code": "GPPS 463", "course_name": "Politics of Southeast Asia"}, {"id": 74, "title": "Stubbs 1999 — Colonial Institutions SEA", "authors": "Stubbs, Richard", "week": 3, "summary_status": "pending", "pages": 20, "file_path": "GPPS 463 - Pol SEA - Ravanilla/W3 - Colonial Institutions and Development/stubbs1999.pdf", "summary_path": null, "code": "GPPS 463", "course_name": "Politics of Southeast Asia"}, {"id": 75, "title": "The Dutch in Indonesia (Acemoglu 2012)", "authors": "Acemoglu, Daron", "week": 3, "summary_status": "pending", "pages": 5, "file_path": "GPPS 463 - Pol SEA - Ravanilla/W3 - Colonial Institutions and Development/The Dutch in Indonesia_Acemoglu2012.pdf", "summary_path": null, "code": "GPPS 463", "course_name": "Politics of Southeast Asia"}, {"id": 5, "title": "International Economics Ch 12.3, 15.5, 19.1-19.4 (External Wealth/Crises)", "authors": "Feenstra, Robert; Taylor, Alan", "week": 4, "summary_status": "pending", "pages": null, "file_path": null, "summary_path": null, "code": "GPCO 403", "course_name": "International Economics"}, {"id": 39, "title": "An Institutional Explanation of the Democratic Peace", "authors": "Bueno de Mesquita, Bruce et al.", "week": 4, "summary_status": "pending", "pages": null, "file_path": null, "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 40, "title": "Bargaining Failures and Civil War", "authors": "Walter, Barbara F.", "week": 4, "summary_status": "completed", "pages": 19, "file_path": null, "summary_path": "GPCO 410 - Intl Pol:Sec - Praether/Study Guides/walter_2009_bargaining_failures_civil_war_summary.md", "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 41, "title": "Civil War", "authors": "Blattman, Christopher; Miguel, Edward", "week": 4, "summary_status": "completed", "pages": 55, "file_path": null, "summary_path": "GPCO 410 - Intl Pol:Sec - Praether/Study Guides/blattman_miguel_2010_civil_war_summary.md", "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 16, "title": "Mastering Metrics Ch 4 + Wooldridge Ch 13 (Panel Data/DiD)", "authors": "Angrist, Joshua D.; Pischke, Jorn-Steffen", "week": 4, "summary_status": "pending", "pages": 31, "file_path": null, "summary_path": null, "code": "GPEC 446", "course_name": "Quantitative Methods 3"}, {"id": 61, "title": "TCHW Part Three Ch.7 — Ottoman Expansion", "authors": "Parker, Geoffrey (ed.)", "week": 4, "summary_status": "done", "pages": 14, "file_path": "GPPS 444 - History of Warfare - Thomas/The Cambridge History of Warfare -- Geoffrey Parker -- 2020 -- Cambridge University Press.pdf", "summary_path": "GPPS 444 - History of Warfare - Thomas/Study Guides/session8_ottoman_expansion_dynastic_war_1pager.md", "code": "GPPS 444", "course_name": "History of Warfare"}, {"id": 60, "title": "TCHW Part Two Ch.6 — Gunpowder Revolution", "authors": "Parker, Geoffrey (ed.)", "week": 4, "summary_status": "pending", "pages": 16, "file_path": "GPPS 444 - History of Warfare - Thomas/The Cambridge History of Warfare -- Geoffrey Parker -- 2020 -- Cambridge University Press.pdf", "summary_path": null, "code": "GPPS 444", "course_name": "History of Warfare"}, {"id": 42, "title": "Committing to Peace Ch.2", "authors": "Walter, Barbara F.", "week": 5, "summary_status": "completed", "pages": 25, "file_path": "GPCO 410 - Intl Pol:Sec - Praether/W5 - Negotiated Settlements & Democratization/Week 5_Walter-Committing to Peace.pdf", "summary_path": "GPCO 410 - Intl Pol:Sec - Praether/Study Guides/class9_walter_committing_to_peace_ch2_1page_summary.md", "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 43, "title": "Democratization and Civil War: Empirical Evidence", "authors": "Cederman, Lars-Erik; Hug, Simon; Krebs, Lutz", "week": 5, "summary_status": "pending", "pages": null, "file_path": null, "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 17, "title": "Mastering Metrics Ch 4 + Wooldridge Ch 14 (DiD II / Staggered)", "authors": "Angrist, Joshua D.; Pischke, Jorn-Steffen", "week": 5, "summary_status": "pending", "pages": 31, "file_path": null, "summary_path": null, "code": "GPEC 446", "course_name": "Quantitative Methods 3"}, {"id": 62, "title": "TCHW Part Three Ch.11 — Napoleonic Wars I", "authors": "Parker, Geoffrey (ed.)", "week": 5, "summary_status": "pending", "pages": 30, "file_path": "GPPS 444 - History of Warfare - Thomas/The Cambridge History of Warfare -- Geoffrey Parker -- 2020 -- Cambridge University Press.pdf", "summary_path": null, "code": "GPPS 444", "course_name": "History of Warfare"}, {"id": 7, "title": "International Economics Ch 2 (Ricardian Trade)", "authors": "Feenstra, Robert; Taylor, Alan", "week": 6, "summary_status": "pending", "pages": null, "file_path": null, "summary_path": null, "code": "GPCO 403", "course_name": "International Economics"}, {"id": 8, "title": "The Economist: The miracle of trade (1996)", "authors": "The Economist", "week": 6, "summary_status": "pending", "pages": null, "file_path": null, "summary_path": null, "code": "GPCO 403", "course_name": "International Economics"}, {"id": 44, "title": "Winning with the Bomb", "authors": "Beardsley, Kyle; Asal, Victor", "week": 6, "summary_status": "pending", "pages": 24, "file_path": null, "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 18, "title": "Mastering Metrics Ch 2 review + Matching/Synthetic Control", "authors": "Angrist, Joshua D.; Pischke, Jorn-Steffen", "week": 6, "summary_status": "pending", "pages": 51, "file_path": null, "summary_path": null, "code": "GPEC 446", "course_name": "Quantitative Methods 3"}, {"id": 63, "title": "TCHW Part Four Ch.12 — Crimean/Civil War", "authors": "Parker, Geoffrey (ed.)", "week": 6, "summary_status": "pending", "pages": 30, "file_path": "GPPS 444 - History of Warfare - Thomas/The Cambridge History of Warfare -- Geoffrey Parker -- 2020 -- Cambridge University Press.pdf", "summary_path": null, "code": "GPPS 444", "course_name": "History of Warfare"}, {"id": 64, "title": "TCHW Part Four Ch.13 — WWI Mechanized I (Somme)", "authors": "Parker, Geoffrey (ed.)", "week": 6, "summary_status": "pending", "pages": 29, "file_path": "GPPS 444 - History of Warfare - Thomas/The Cambridge History of Warfare -- Geoffrey Parker -- 2020 -- Cambridge University Press.pdf", "summary_path": null, "code": "GPPS 444", "course_name": "History of Warfare"}, {"id": 9, "title": "International Economics Ch 4, 17.1 (Heckscher-Ohlin)", "authors": "Feenstra, Robert; Taylor, Alan", "week": 7, "summary_status": "pending", "pages": null, "file_path": null, "summary_path": null, "code": "GPCO 403", "course_name": "International Economics"}, {"id": 47, "title": "Design, Inference, and the Strategic Logic of Suicide Terrorism", "authors": "Ashworth, Scott; Clinton, Joshua D.; Meirowitz, Adam; Ramsay, Kristopher W.", "week": 7, "summary_status": "pending", "pages": 5, "file_path": null, "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 45, "title": "The Korean Conundrum Ch.2-3", "authors": "Carpenter, Ted Galen; Bandow, Doug", "week": 7, "summary_status": "pending", "pages": 62, "file_path": null, "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 46, "title": "The Strategic Logic of Suicide Terrorism", "authors": "Pape, Robert A.", "week": 7, "summary_status": "pending", "pages": 19, "file_path": null, "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 19, "title": "Mastering Metrics Ch 5 (Regression Discontinuity Design)", "authors": "Angrist, Joshua D.; Pischke, Jorn-Steffen", "week": 7, "summary_status": "pending", "pages": 31, "file_path": null, "summary_path": null, "code": "GPEC 446", "course_name": "Quantitative Methods 3"}, {"id": 65, "title": "TCHW Part Four Ch.14 — WWI Air Power", "authors": "Parker, Geoffrey (ed.)", "week": 7, "summary_status": "pending", "pages": 36, "file_path": "GPPS 444 - History of Warfare - Thomas/The Cambridge History of Warfare -- Geoffrey Parker -- 2020 -- Cambridge University Press.pdf", "summary_path": null, "code": "GPPS 444", "course_name": "History of Warfare"}, {"id": 66, "title": "TCHW Part Four Ch.15 — WWII Air-Land Battle (Blitzkrieg)", "authors": "Parker, Geoffrey (ed.)", "week": 7, "summary_status": "pending", "pages": 24, "file_path": "GPPS 444 - History of Warfare - Thomas/The Cambridge History of Warfare -- Geoffrey Parker -- 2020 -- Cambridge University Press.pdf", "summary_path": null, "code": "GPPS 444", "course_name": "History of Warfare"}, {"id": 10, "title": "International Economics Ch 6 (Firms, Increasing Returns, Trade)", "authors": "Feenstra, Robert; Taylor, Alan", "week": 8, "summary_status": "pending", "pages": null, "file_path": null, "summary_path": null, "code": "GPCO 403", "course_name": "International Economics"}, {"id": 49, "title": "Coordination and Collaboration: Regimes in an Anarchic World", "authors": "Stein, Arthur A.", "week": 8, "summary_status": "pending", "pages": 26, "file_path": null, "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 50, "title": "The Governance Problem in International Relations", "authors": "Gourevitch, Peter Alexis", "week": 8, "summary_status": "pending", "pages": 28, "file_path": null, "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 48, "title": "The Strategies of Terrorism", "authors": "Kydd, Andrew; Walter, Barbara", "week": 8, "summary_status": "pending", "pages": 32, "file_path": null, "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 20, "title": "Field Experiments Ch 3 (Experimental Design)", "authors": "Gerber, Alan; Green, Donald", "week": 8, "summary_status": "pending", "pages": null, "file_path": null, "summary_path": null, "code": "GPEC 446", "course_name": "Quantitative Methods 3"}, {"id": 67, "title": "TCHW Part Four Ch.16 — WWII Air-Sea Battle (Midway)", "authors": "Parker, Geoffrey (ed.)", "week": 8, "summary_status": "pending", "pages": 24, "file_path": "GPPS 444 - History of Warfare - Thomas/The Cambridge History of Warfare -- Geoffrey Parker -- 2020 -- Cambridge University Press.pdf", "summary_path": null, "code": "GPPS 444", "course_name": "History of Warfare"}, {"id": 11, "title": "International Economics Ch 8, 11.1-2 (Trade & Commercial Policy)", "authors": "Feenstra, Robert; Taylor, Alan", "week": 9, "summary_status": "pending", "pages": null, "file_path": null, "summary_path": null, "code": "GPCO 403", "course_name": "International Economics"}, {"id": 12, "title": "The Impact of the 2018 Tariffs on Prices and Welfare", "authors": "Amiti, Mary; Redding, Stephen J.; Weinstein, David E.", "week": 9, "summary_status": "pending", "pages": 24, "file_path": null, "summary_path": null, "code": "GPCO 403", "course_name": "International Economics"}, {"id": 51, "title": "Building Legitimate States (Ch.1)", "authors": "Lake, David", "week": 9, "summary_status": "pending", "pages": null, "file_path": null, "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 21, "title": "Field Experiments Ch 4 (Non-compliance / Factorial Designs)", "authors": "Gerber, Alan; Green, Donald", "week": 9, "summary_status": "pending", "pages": null, "file_path": null, "summary_path": null, "code": "GPEC 446", "course_name": "Quantitative Methods 3"}, {"id": 68, "title": "TCHW Epilogue — Nuclear Weapons & Future Warfare", "authors": "Parker, Geoffrey (ed.)", "week": 9, "summary_status": "pending", "pages": 20, "file_path": "GPPS 444 - History of Warfare - Thomas/The Cambridge History of Warfare -- Geoffrey Parker -- 2020 -- Cambridge University Press.pdf", "summary_path": null, "code": "GPPS 444", "course_name": "History of Warfare"}, {"id": 53, "title": "Domestic Political Audiences and the Escalation of International Disputes", "authors": "Fearon, James D.", "week": 10, "summary_status": "pending", "pages": 16, "file_path": null, "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 52, "title": "Institutions as Constraints on Strategic Choice", "authors": "Rogowski, Ronald", "week": 10, "summary_status": "pending", "pages": 22, "file_path": null, "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 54, "title": "Mass Public Decisions on Go to War", "authors": "Herrmann, Richard K.; Tetlock, Philip E.; Visser, Penny S.", "week": 10, "summary_status": "pending", "pages": 21, "file_path": null, "summary_path": null, "code": "GPCO 410", "course_name": "International Politics & Security"}, {"id": 22, "title": "Wooldridge Ch 10-11 (Time Series)", "authors": "Wooldridge, Jeffrey M.", "week": 10, "summary_status": "pending", "pages": null, "file_path": null, "summary_path": null, "code": "GPEC 446", "course_name": "Quantitative Methods 3"}], "assignments": [{"id": 20, "title": "Weekly In-Class Quizzes", "due_date": "", "status": "recurring", "grade": "", "weight": "", "notes": "Minimum 1 quiz per week, every week. Based on readings and class discussion. PRIMARY evaluation method. NO final exam. No single due date — recurring.", "course": "GPPS 444", "course_name": "History of Warfare", "week": null, "due_time": "", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPPS 444 - History of Warfare - Thomas/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "recurring", "is_recurring": true, "recurrence_rule": "Minimum one in-class quiz per week, based on readings and class discussion.", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 26, "title": "In-Class Attendance Quizzes (weekly)", "due_date": "", "status": "recurring", "grade": "", "weight": "12.5%", "notes": "Short Canvas quizzes each class. Perfect = 1pt, any mistake = 0.75pt. Based on readings and concepts. No single due date — recurring.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": null, "due_time": "", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "recurring", "is_recurring": true, "recurrence_rule": "Short in-class Canvas quizzes during lecture; perfect score earns 1 point, mistakes still earn 0.75.", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 25, "title": "Discussion Posts (weekly)", "due_date": "", "status": "recurring", "grade": "", "weight": "12.5%", "notes": "Due day before each lecture by 5:00pm. One question + 3-sentence explanation. Begins Tue Mar 31. Tracked via individual discussion post assignment rows. No single due date — recurring.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": null, "due_time": "17:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "recurring", "is_recurring": true, "recurrence_rule": "Submit one question about assigned readings the day before each lecture before 17:00, unless Canvas overrides.", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 32, "title": "Discussion Post for Lecture Day 2: What explains the rise & fall of the ancient kingdoms of SE Asia?", "due_date": "2026-04-01", "status": "completed", "grade": "", "weight": "", "notes": "Due Apr 1 (day of lecture, 2pts on Canvas). First individual discussion post of the quarter.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 1, "due_time": "00:01", "timezone": "America/Los_Angeles", "deadline_source": "canvas schedule", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 1, "title": "Concept Check 1", "due_date": "2026-04-06", "status": "completed", "grade": "14.1/17", "weight": "4%", "notes": "Canvas quiz, opened Apr 1", "course": "GPCO 403", "course_name": "International Economics", "week": 2, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 403 - Intl Econ - Handley/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 14, "title": "Analytic Memo — BLUE (choose 1)", "due_date": "2026-04-08", "status": "completed", "grade": "", "weight": "10%", "notes": "Choose ONE from W2: (1) US response to Ukraine invasion — bipartisan analysis, due Apr 6 11am; (2) Trump-Taiwan call signaling analysis, due Apr 8 11am. Max 3pp, DS, 12pt, 1-inch margins. Citations in FOOTNOTES. No AI text. | Latest deadline in window: Apr 8 at 11am.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": 2, "due_time": "11:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 410 - Intl Pol:Sec - Praether/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "window_end", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 27, "title": "Discussion Post for Lecture Day 5: Are colonial institutions bad for long-run development?", "due_date": "2026-04-13", "status": "completed", "grade": "", "weight": "", "notes": "Created Apr 8. Due day before Lecture Day 6 (Apr 14), i.e. Apr 13 at 5pm per course pattern.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 3, "due_time": "17:00", "timezone": "America/Los_Angeles", "deadline_source": "course memory", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 28, "title": "Discussion Post for Lecture Day 6: How did World War II impact Southeast Asia?", "due_date": "2026-04-14", "status": "completed", "grade": "", "weight": "", "notes": "Created Apr 13. Due date changed to Apr 14 at 5pm per Canvas email (19d86cb4a16562fc).", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 3, "due_time": "17:00", "timezone": "America/Los_Angeles", "deadline_source": "canvas/email update", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 2, "title": "Data Brief 1", "due_date": "2026-04-17", "status": "completed", "grade": "", "weight": "5%", "notes": "Compare assigned country to US using macro indicators. Draft already exists in Data Brief 1 folder.", "course": "GPCO 403", "course_name": "International Economics", "week": 3, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 403 - Intl Econ - Handley/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 22, "title": "Midterm Exam 1", "due_date": "2026-04-20", "status": "completed", "grade": "", "weight": "25%", "notes": "In-class Mon Apr 20. Multiple choice + short essays. LockDown Browser. Covers first portion. One 3x5 index card cheat sheet allowed.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 4, "due_time": "08:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "in_class", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 21, "title": "Oral Presentation", "due_date": "2026-04-20", "status": "completed", "grade": "", "weight": "", "notes": "Possible oral presentations depending on class size — end of Week 2 (Apr 15). TBC.", "course": "GPPS 444", "course_name": "History of Warfare", "week": 4, "due_time": "12:30", "timezone": "America/Los_Angeles", "deadline_source": "syllabus/presentation file", "source_path": "GPPS 444 - History of Warfare - Thomas/Course Admin/syllabus_extracted.md", "source_confidence": "inferred", "date_kind": "in_class", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 3, "title": "Concept Check 2", "due_date": "2026-04-20", "status": "completed", "grade": "", "weight": "4%", "notes": "Canvas quiz, opens Apr 15", "course": "GPCO 403", "course_name": "International Economics", "week": 4, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 403 - Intl Econ - Handley/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "2026-04-29 14:30:10 PDT", "last_verified_at": "2026-04-29 14:30:10 PDT", "external_id": ""}, {"id": 33, "title": "Discussion Post for Lecture Day 8: Why did only some countries experience the Asian Miracle?", "due_date": "2026-04-21", "status": "completed", "grade": "", "weight": "", "notes": "Required reading: Jansen (2001). Completed per Poseidon memory; file exists in W4 - Asian Miracle.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 4, "due_time": "17:00", "timezone": "America/Los_Angeles", "deadline_source": "course memory", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 10, "title": "Homework I", "due_date": "2026-04-26", "status": "completed", "grade": "", "weight": "25%", "notes": "Data analysis problem set. Due end of Week 4. Submit via TurnItIn. Written explanations must be your own — AI for code only.", "course": "GPEC 446", "course_name": "Quantitative Methods 3", "week": 4, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "canvas/assignment memory", "source_path": "GPEC 446 - QM3 - Valasquez/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 34, "title": "Discussion Post for Lecture Day 9: How did Singapore do it?", "due_date": "2026-04-27", "status": "submitted", "grade": "", "weight": "", "notes": "Canvas notification surfaced by Eos: due Mon Apr 27 00:01. Required reading: Huff (1995).", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 5, "due_time": "00:01", "timezone": "America/Los_Angeles", "deadline_source": "canvas/email", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "2026-04-29 14:30:10 PDT", "last_verified_at": "2026-04-29 14:30:10 PDT", "external_id": ""}, {"id": 35, "title": "Discussion Post for Lecture Day 10: Why was the Asian Financial Crisis unequally felt in the region?", "due_date": "2026-04-28", "status": "submitted", "grade": "", "weight": "", "notes": "Inferred from syllabus discussion-post rule and Apr 29 Lecture Day 10; Edgar confirmed a discussion post was due Apr 28. Required reading: Hicken (2008).", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 5, "due_time": "17:00", "timezone": "America/Los_Angeles", "deadline_source": "canvas/pattern/user confirmation", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "inferred", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "2026-04-29 14:30:10 PDT", "last_verified_at": "2026-04-29 14:30:10 PDT", "external_id": ""}, {"id": 4, "title": "Concept Check 3", "due_date": "2026-04-28", "status": "completed", "grade": "", "weight": "4%", "notes": "Canvas quiz, opens Apr 22", "course": "GPCO 403", "course_name": "International Economics", "week": 5, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 403 - Intl Econ - Handley/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "2026-04-29 14:30:10 PDT", "last_verified_at": "2026-04-29 14:30:10 PDT", "external_id": ""}, {"id": 15, "title": "Analytic Memo — ORANGE (choose 1)", "due_date": "2026-04-29", "status": "submitted", "grade": "", "weight": "10%", "notes": "Choose ONE from W3-W5: Saddam/Kuwait (Apr 13); Bush-Hussein settlement (Apr 15); South America democratic peace (Apr 20); Muslim civil wars (Apr 22); FARC Colombia (Apr 27); Myanmar democratization (Apr 29). Same format rules. | Latest deadline in window: Apr 29.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": 5, "due_time": "11:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 410 - Intl Pol:Sec - Praether/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "window_end", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "2026-04-29 14:30:10 PDT", "last_verified_at": "2026-04-29 14:30:10 PDT", "external_id": ""}, {"id": 18, "title": "Midterm Exam", "due_date": "2026-05-04", "status": "completed", "grade": "", "weight": "30%", "notes": "In-class Mon May 4. Apply course concepts to analyze world events. Curved: median B+. | Status updated 2026-05-04 19:50:54 PDT: Edgar stated the GPCO 410 midterm is done.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": 6, "due_time": "11:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 410 - Intl Pol:Sec - Praether/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "in_class", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "2026-05-04 19:50:54 PDT", "last_verified_at": "2026-05-04 19:50:54 PDT", "external_id": ""}, {"id": 11, "title": "Midterm Exam", "due_date": "2026-05-05", "status": "completed", "grade": "", "weight": "25%", "notes": "In-class Tuesday Week 6 (May 5), 9:30-11am. Conceptual understanding focus.", "course": "GPEC 446", "course_name": "Quantitative Methods 3", "week": 6, "due_time": "09:30", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPEC 446 - QM3 - Valasquez/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "in_class", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "2026-05-05", "last_verified_at": "2026-05-05", "external_id": ""}, {"id": 5, "title": "Midterm Exam", "due_date": "2026-05-06", "status": "pending", "grade": "", "weight": "30%", "notes": "Moved by Prof. Handley Canvas announcement email on Apr 3: GPCO 403 midterm is Wednesday May 6. Assumed regular class time 2:00-3:20pm unless a later course update states otherwise. May 4 5-6pm is a review session.", "course": "GPCO 403", "course_name": "International Economics", "week": 6, "due_time": "14:00", "timezone": "America/Los_Angeles", "deadline_source": "Canvas announcement email", "source_path": "UCSD Gmail Canvas notification 2026-04-03: Concept Check 1 Posted and Midterm Date Changed to May 6", "source_confidence": "verified", "date_kind": "in_class", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-05-03", "external_id": ""}, {"id": 23, "title": "Midterm Exam 2", "due_date": "2026-05-11", "status": "pending", "grade": "", "weight": "25%", "notes": "In-class Mon May 11. Multiple choice + short essays. LockDown Browser. Covers second portion. One 3x5 index card allowed.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 7, "due_time": "08:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "in_class", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 30, "title": "Data Memo — Civil War (PRIO)", "due_date": "2026-05-15", "status": "pending", "grade": "", "weight": "10%", "notes": "Deconstruct a PRIO dataset coding decision. Max 3pp, DS, 12pt, 1-inch margins. Due May 15 at 5pm per Canvas email (Prather date change). Choose ONE of three data memos.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": 7, "due_time": "17:00", "timezone": "America/Los_Angeles", "deadline_source": "canvas/email update", "source_path": "GPCO 410 - Intl Pol:Sec - Praether/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 29, "title": "Data Memo — Interstate Conflict (COW)", "due_date": "2026-05-15", "status": "pending", "grade": "", "weight": "10%", "notes": "Deconstruct a COW dataset coding decision. Max 3pp, DS, 12pt, 1-inch margins. Due May 15 at 5pm per Canvas email (Prather date change). Choose ONE of three data memos.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": 7, "due_time": "17:00", "timezone": "America/Los_Angeles", "deadline_source": "canvas/email update", "source_path": "GPCO 410 - Intl Pol:Sec - Praether/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 31, "title": "Data Memo — Regime Type (Polity IV)", "due_date": "2026-05-15", "status": "pending", "grade": "", "weight": "10%", "notes": "Deconstruct a Polity IV dataset coding decision. Max 3pp, DS, 12pt, 1-inch margins. Due May 15 at 5pm per Canvas email (Prather date change). Choose ONE of three data memos.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": 7, "due_time": "17:00", "timezone": "America/Los_Angeles", "deadline_source": "canvas/email update", "source_path": "GPCO 410 - Intl Pol:Sec - Praether/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 6, "title": "Concept Check 4", "due_date": "2026-05-18", "status": "pending", "grade": "", "weight": "4%", "notes": "Canvas quiz, opens May 13", "course": "GPCO 403", "course_name": "International Economics", "week": 8, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 403 - Intl Econ - Handley/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 17, "title": "Analytic Memo — PURPLE (choose 1)", "due_date": "2026-05-20", "status": "pending", "grade": "", "weight": "10%", "notes": "Choose ONE from W6-W8: Iran nuclear deal (May 6); Kim Jong-Un/nuclear credibility (May 11); Putin nuclear threats (May 11); Tamil Tigers or Hamas (May 13); Far-right terrorism (May 18); NATO expansion (May 20). | Latest deadline in window: May 20.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": 8, "due_time": "11:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 410 - Intl Pol:Sec - Praether/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "window_end", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 12, "title": "Homework II", "due_date": "2026-05-23", "status": "pending", "grade": "", "weight": "25%", "notes": "Data analysis problem set. Due end of Week 8. Submit via TurnItIn.", "course": "GPEC 446", "course_name": "Quantitative Methods 3", "week": 8, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPEC 446 - QM3 - Valasquez/Course Admin/syllabus_extracted.md", "source_confidence": "inferred", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 8, "title": "Concept Check 5", "due_date": "2026-06-02", "status": "pending", "grade": "", "weight": "4%", "notes": "Canvas quiz, opens May 27. Lowest CC score dropped.", "course": "GPCO 403", "course_name": "International Economics", "week": 10, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 403 - Intl Econ - Handley/Course Admin/syllabus_extracted.md", "source_confidence": "ambiguous", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 19, "title": "Final Exam", "due_date": "2026-06-03", "status": "pending", "grade": "", "weight": "30%", "notes": "In-class Wed Jun 3. Randomly picks ONE of your 3 analytic memos and asks you to expand on the theory and argument. Prepare all three memos thoroughly.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": 10, "due_time": "11:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 410 - Intl Pol:Sec - Praether/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "in_class", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 7, "title": "Data Brief 2", "due_date": "2026-06-03", "status": "pending", "grade": "", "weight": "5%", "notes": "Timed 2-hour Canvas memo. WTO trade profile. Must start by 10pm Jun 3. | Opens 2026-05-20; must begin by 2026-06-03 22:00 for full time.", "course": "GPCO 403", "course_name": "International Economics", "week": 10, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 403 - Intl Econ - Handley/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "2026-05-20", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 13, "title": "Data Project", "due_date": "2026-06-07", "status": "pending", "grade": "", "weight": "25%", "notes": "Independent data analysis applying causal inference methods to real-world policy question. Week 10. Details TBD on Canvas.", "course": "GPEC 446", "course_name": "Quantitative Methods 3", "week": 10, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPEC 446 - QM3 - Valasquez/Course Admin/syllabus_extracted.md", "source_confidence": "inferred", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 9, "title": "Final Exam", "due_date": "2026-06-08", "status": "pending", "grade": "", "weight": "40%", "notes": "Jun 8, 8:00-11:00am. Weighted toward final 5-6 weeks but cumulative.", "course": "GPCO 403", "course_name": "International Economics", "week": 11, "due_time": "08:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 403 - Intl Econ - Handley/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "in_class", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 24, "title": "Final Exam", "due_date": "2026-06-10", "status": "pending", "grade": "", "weight": "25%", "notes": "Wed Jun 10, 8:00-11:00am, RBC 3201. Covers final portion. Can bring all previous index cards.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 11, "due_time": "08:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "in_class", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}], "recent_activity": [{"agent": "Athena", "action": "full_db_integration", "details": "Indexed 30 new course files, 11 Obsidian notes, 1 new reading. Updated 8 existing records to indexed=1. Full file+Obsidian integration for GPCO 410.", "timestamp": "2026-04-13 02:00:53"}, {"agent": "Plutus", "action": "database_integration", "details": "Full file indexing, Obsidian integration, and path corrections for GPCO 403. Added 4 new course files, 28 Obsidian notes, fixed 3 lecture paths.", "timestamp": "2026-04-13 01:58:36"}, {"agent": "Claudia", "action": "syllabus_parse", "details": "GPPS 444 syllabus parsed — 20 sessions, weekly quizzes, NO final exam", "timestamp": "2026-04-13 01:36:23"}, {"agent": "Claudia", "action": "syllabus_parse", "details": "GPPS 463 syllabus parsed — 3 exams + participation, discussion posts recurring", "timestamp": "2026-04-13 01:36:23"}, {"agent": "Claudia", "action": "syllabus_parse", "details": "GPCO 410 syllabus parsed directly — assignments, readings, and files inserted", "timestamp": "2026-04-13 01:30:04"}, {"agent": "Claudia", "action": "syllabus_parse", "details": "GPCO 403 syllabus parsed directly — assignments and readings inserted", "timestamp": "2026-04-13 01:26:43"}, {"agent": "Claudia", "action": "syllabus_parse", "details": "GPEC 446 syllabus parsed directly — assignments and readings inserted", "timestamp": "2026-04-13 01:26:43"}], "db_mtime": 1778015654.229335, "html_mtime": 1778083655.165158};
+    const DONE_STATUSES = new Set(['completed', 'submitted', 'done']);
+    const SIGNALS = {
+      'GPCO 403': 'signal-lines',
+      'GPCO 410': 'signal-wave',
+      'GPEC 446': 'signal-lines',
+      'GPPS 444': 'signal-stripe',
+      'GPPS 463': 'signal-water'
+    };
 
-    <div class="collapsible">
-        <div class="collapsible-header" onclick="toggleCollapse(this)">
-            <span class="chevron">&#9654;</span><h2>Study Time Tracker</h2>
-        </div>
-        <div class="collapsible-body">
-            <div class="section-heading">Per-Course Summary</div>
-            <table style="margin-bottom:1.25rem"><thead><tr><th>Course</th><th>Total Hrs</th><th>Pages Read</th><th>Pages Assigned</th><th>Progress</th><th>Speed</th></tr></thead>
-            <tbody><tr><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#7cb3ff;color:#000">GPCO 403</span></td><td>0.1</td><td>0</td><td>24</td><td><div class="bar-bg"><div class="bar-fill" style="width:0%"></div></div> 0%</td><td>&mdash;</td></tr><tr><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>4.8</td><td>30</td><td>707</td><td><div class="bar-bg"><div class="bar-fill" style="width:4%"></div></div> 4%</td><td>6 pg/hr</td></tr><tr><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ff6b6b;color:#000">GPPS 444</span></td><td>0.6</td><td>12</td><td>357</td><td><div class="bar-bg"><div class="bar-fill" style="width:3%"></div></div> 3%</td><td>21 pg/hr</td></tr><tr><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#69db7c;color:#000">GPPS 463</span></td><td>1.1</td><td>32</td><td>153</td><td><div class="bar-bg"><div class="bar-fill" style="width:21%"></div></div> 21%</td><td>28 pg/hr</td></tr></tbody></table>
-            <div class="section-heading">Session Log</div>
-            <table><thead><tr><th>Date</th><th>Course</th><th>Task</th><th>Category</th><th>Start</th><th>End</th><th>Duration</th><th>Pages</th></tr></thead>
-            <tbody><tr><td>0206-04-07</td><td><span style="font-size:0.7rem;color:#888">GPSA</span></td><td>Community Awards</td><td>Other</td><td>11:52 AM</td><td>1:20 PM</td><td>1.47h</td><td>16</td></tr><tr><td>0206-04-07</td><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#69db7c;color:#000">GPPS 463</span></td><td>Reading & Community Post</td><td>Required Reading</td><td>1:30 PM</td><td>1:35 PM</td><td>0.08h</td><td>2</td></tr><tr><td>2026-03-31</td><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#69db7c;color:#000">GPPS 463</span></td><td>Hayton Reading</td><td>Required Reading</td><td>2:25 PM</td><td>3:16 PM</td><td>0.85h</td><td>28</td></tr><tr><td>2026-03-31</td><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Summary Reading 4 Texts</td><td>Required Reading</td><td>5:00 PM</td><td>6:30 PM</td><td>1.50h</td><td>5</td></tr><tr><td>2026-04-02</td><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Summary Reading 1 Texts</td><td>Required Reading</td><td>1:25 PM</td><td>2:11 PM</td><td>0.77h</td><td>1</td></tr><tr><td>2026-04-05</td><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Summary Reading 2 Texts</td><td>Required Reading</td><td>7:20 PM</td><td>8:00 PM</td><td>0.67h</td><td>2</td></tr><tr><td>2026-04-07</td><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#7cb3ff;color:#000">GPCO 403</span></td><td>Concept Check</td><td>Assignment</td><td>1:37 PM</td><td>1:44 PM</td><td>0.12h</td><td>&mdash;</td></tr><tr><td>2026-04-07</td><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#69db7c;color:#000">GPPS 463</span></td><td>Reading</td><td>Required Reading</td><td>7:21 PM</td><td>7:34 PM</td><td>0.22h</td><td>2</td></tr><tr><td>2026-04-07</td><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Summary Reading Texts</td><td>Required Reading</td><td>7:34 PM</td><td>8:00 PM</td><td>0.43h</td><td>1</td></tr><tr><td>2026-04-07</td><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ff6b6b;color:#000">GPPS 444</span></td><td>Textbook Reading</td><td>Required Reading</td><td>9:35 PM</td><td>10:10 PM</td><td>0.58h</td><td>12</td></tr><tr><td>2026-04-09</td><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Saddams Delusions: The View from the Inside</td><td>Required Reading</td><td>2:40 PM</td><td>3:25 PM</td><td>0.75h</td><td>11</td></tr><tr><td>2026-04-10</td><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>Saddams Delusions: The View from the Inside</td><td>Required Reading</td><td>12:29 PM</td><td>1:11 PM</td><td>0.70h</td><td>10</td></tr><tr><td>2026-04-10</td><td><span style="font-size:0.7rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;background:#ffa94d;color:#000">GPCO 410</span></td><td>War as a Commitment Problem</td><td>Required Reading</td><td>3:44 PM</td><td></td><td>&mdash;</td><td>&mdash;</td></tr></tbody></table>
-        </div>
-    </div>
-
-</div>
-
-<!-- ===== TAB: OVERVIEW ===== -->
-<div class="tab-panel" id="tab-overview">
-
-    <div class="collapsible">
-        <div class="collapsible-header open" onclick="toggleCollapse(this)">
-            <span class="chevron" style="transform:rotate(90deg)">&#9654;</span><h2>Per-Course Breakdown</h2>
-        </div>
-        <div class="collapsible-body open">
-            <table><thead><tr><th>Course</th><th>Professor</th><th>Files</th><th>Readings</th><th>Assignments</th><th>Embedded</th><th>Pages</th><th>Speed (pg/hr)</th><th>Est. Total</th></tr></thead>
-            <tbody><tr><td><strong>GPCO 403 &mdash; International Economics</strong></td><td>Handley</td><td>64</td><td>12</td><td>9</td><td>27</td><td>24</td><td>~15</td><td>1h 36m</td></tr><tr><td><strong>GPCO 410 &mdash; International Politics & Security</strong></td><td>Praether</td><td>73</td><td>33</td><td>8</td><td>60</td><td>707</td><td>6</td><td>113h 35m</td></tr><tr><td><strong>GPEC 446 &mdash; Quantitative Methods 3</strong></td><td>Valasquez</td><td>45</td><td>10</td><td>4</td><td>23</td><td>290</td><td>~15</td><td>19h 20m</td></tr><tr><td><strong>GPPS 444 &mdash; History of Warfare</strong></td><td>Thomas</td><td>26</td><td>16</td><td>2</td><td>15</td><td>357</td><td>21</td><td>17h 15m</td></tr><tr><td><strong>GPPS 463 &mdash; Politics of Southeast Asia</strong></td><td>Ravanilla</td><td>37</td><td>6</td><td>11</td><td>34</td><td>153</td><td>28</td><td>5h 30m</td></tr></tbody></table>
-        </div>
-    </div>
-
-    <div class="collapsible">
-        <div class="collapsible-header" onclick="toggleCollapse(this)">
-            <span class="chevron">&#9654;</span><h2>Embeddings Coverage</h2>
-        </div>
-        <div class="collapsible-body">
-            <p>Overall: 160 / 952 files indexed (17%)</p>
-            <table><thead><tr><th>Course</th><th>Indexed / Total</th><th>Progress</th><th>%</th></tr></thead>
-            <tbody><tr><td>GPCO 403 &mdash; International Economics</td><td>27 / 64</td><td><div class="bar-bg"><div class="bar-fill" style="width:42.1875%"></div></div></td><td>42%</td></tr><tr><td>GPCO 410 &mdash; International Politics & Security</td><td>60 / 73</td><td><div class="bar-bg"><div class="bar-fill" style="width:82.1917808219178%"></div></div></td><td>82%</td></tr><tr><td>GPEC 446 &mdash; Quantitative Methods 3</td><td>23 / 45</td><td><div class="bar-bg"><div class="bar-fill" style="width:51.11111111111111%"></div></div></td><td>51%</td></tr><tr><td>GPPS 444 &mdash; History of Warfare</td><td>15 / 26</td><td><div class="bar-bg"><div class="bar-fill" style="width:57.692307692307686%"></div></div></td><td>58%</td></tr><tr><td>GPPS 463 &mdash; Politics of Southeast Asia</td><td>34 / 37</td><td><div class="bar-bg"><div class="bar-fill" style="width:91.8918918918919%"></div></div></td><td>92%</td></tr></tbody></table>
-        </div>
-    </div>
-
-    <div class="collapsible">
-        <div class="collapsible-header" onclick="toggleCollapse(this)">
-            <span class="chevron">&#9654;</span><h2>Recent Activity</h2>
-        </div>
-        <div class="collapsible-body">
-            <table><thead><tr><th>Timestamp</th><th>Agent</th><th>Action</th><th>Details</th></tr></thead>
-            <tbody><tr><td>2026-04-13 02:00:53</td><td>Athena</td><td>full_db_integration</td><td>Indexed 30 new course files, 11 Obsidian notes, 1 new reading. Updated 8 existing records to indexed=1. Full file+Obsidi</td></tr><tr><td>2026-04-13 01:58:36</td><td>Plutus</td><td>database_integration</td><td>Full file indexing, Obsidian integration, and path corrections for GPCO 403. Added 4 new course files, 28 Obsidian notes</td></tr><tr><td>2026-04-13 01:36:23</td><td>Claudia</td><td>syllabus_parse</td><td>GPPS 444 syllabus parsed — 20 sessions, weekly quizzes, NO final exam</td></tr><tr><td>2026-04-13 01:36:23</td><td>Claudia</td><td>syllabus_parse</td><td>GPPS 463 syllabus parsed — 3 exams + participation, discussion posts recurring</td></tr><tr><td>2026-04-13 01:30:04</td><td>Claudia</td><td>syllabus_parse</td><td>GPCO 410 syllabus parsed directly — assignments, readings, and files inserted</td></tr><tr><td>2026-04-13 01:26:43</td><td>Claudia</td><td>syllabus_parse</td><td>GPCO 403 syllabus parsed directly — assignments and readings inserted</td></tr><tr><td>2026-04-13 01:26:43</td><td>Claudia</td><td>syllabus_parse</td><td>GPEC 446 syllabus parsed directly — assignments and readings inserted</td></tr></tbody></table>
-        </div>
-    </div>
-
-</div>
-
-<script>
-const ASSIGNMENTS = [{"id": 20, "title": "Weekly In-Class Quizzes", "due_date": "", "status": "recurring", "grade": "", "weight": "", "notes": "Minimum 1 quiz per week, every week. Based on readings and class discussion. PRIMARY evaluation method. NO final exam. No single due date \u2014 recurring.", "course": "GPPS 444", "course_name": "History of Warfare", "week": null, "due_time": "", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPPS 444 - History of Warfare - Thomas/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "recurring", "is_recurring": true, "recurrence_rule": "Minimum one in-class quiz per week, based on readings and class discussion.", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 25, "title": "Discussion Posts (weekly)", "due_date": "", "status": "recurring", "grade": "", "weight": "12.5%", "notes": "Due day before each lecture by 5:00pm. One question + 3-sentence explanation. Begins Tue Mar 31. Tracked via individual discussion post assignment rows. No single due date \u2014 recurring.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": null, "due_time": "17:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "recurring", "is_recurring": true, "recurrence_rule": "Submit one question about assigned readings the day before each lecture before 17:00, unless Canvas overrides.", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 26, "title": "In-Class Attendance Quizzes (weekly)", "due_date": "", "status": "recurring", "grade": "", "weight": "12.5%", "notes": "Short Canvas quizzes each class. Perfect = 1pt, any mistake = 0.75pt. Based on readings and concepts. No single due date \u2014 recurring.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": null, "due_time": "", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "recurring", "is_recurring": true, "recurrence_rule": "Short in-class Canvas quizzes during lecture; perfect score earns 1 point, mistakes still earn 0.75.", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 32, "title": "Discussion Post for Lecture Day 2: What explains the rise & fall of the ancient kingdoms of SE Asia?", "due_date": "2026-04-01", "status": "completed", "grade": "", "weight": "", "notes": "Due Apr 1 (day of lecture, 2pts on Canvas). First individual discussion post of the quarter.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 1, "due_time": "00:01", "timezone": "America/Los_Angeles", "deadline_source": "canvas schedule", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 1, "title": "Concept Check 1", "due_date": "2026-04-06", "status": "completed", "grade": "14.1/17", "weight": "4%", "notes": "Canvas quiz, opened Apr 1", "course": "GPCO 403", "course_name": "International Economics", "week": 2, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 403 - Intl Econ - Handley/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 14, "title": "Analytic Memo \u2014 BLUE (choose 1)", "due_date": "2026-04-08", "status": "completed", "grade": "", "weight": "10%", "notes": "Choose ONE from W2: (1) US response to Ukraine invasion \u2014 bipartisan analysis, due Apr 6 11am; (2) Trump-Taiwan call signaling analysis, due Apr 8 11am. Max 3pp, DS, 12pt, 1-inch margins. Citations in FOOTNOTES. No AI text. | Latest deadline in window: Apr 8 at 11am.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": 2, "due_time": "11:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 410 - Intl Pol:Sec - Praether/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "window_end", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 27, "title": "Discussion Post for Lecture Day 5: Are colonial institutions bad for long-run development?", "due_date": "2026-04-13", "status": "completed", "grade": "", "weight": "", "notes": "Created Apr 8. Due day before Lecture Day 6 (Apr 14), i.e. Apr 13 at 5pm per course pattern.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 3, "due_time": "17:00", "timezone": "America/Los_Angeles", "deadline_source": "course memory", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 28, "title": "Discussion Post for Lecture Day 6: How did World War II impact Southeast Asia?", "due_date": "2026-04-14", "status": "completed", "grade": "", "weight": "", "notes": "Created Apr 13. Due date changed to Apr 14 at 5pm per Canvas email (19d86cb4a16562fc).", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 3, "due_time": "17:00", "timezone": "America/Los_Angeles", "deadline_source": "canvas/email update", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 2, "title": "Data Brief 1", "due_date": "2026-04-17", "status": "completed", "grade": "", "weight": "5%", "notes": "Compare assigned country to US using macro indicators. Draft already exists in Data Brief 1 folder.", "course": "GPCO 403", "course_name": "International Economics", "week": 3, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 403 - Intl Econ - Handley/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 3, "title": "Concept Check 2", "due_date": "2026-04-20", "status": "pending", "grade": "", "weight": "4%", "notes": "Canvas quiz, opens Apr 15", "course": "GPCO 403", "course_name": "International Economics", "week": 4, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 403 - Intl Econ - Handley/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 21, "title": "Oral Presentation", "due_date": "2026-04-20", "status": "completed", "grade": "", "weight": "", "notes": "Possible oral presentations depending on class size \u2014 end of Week 2 (Apr 15). TBC.", "course": "GPPS 444", "course_name": "History of Warfare", "week": 4, "due_time": "12:30", "timezone": "America/Los_Angeles", "deadline_source": "syllabus/presentation file", "source_path": "GPPS 444 - History of Warfare - Thomas/Course Admin/syllabus_extracted.md", "source_confidence": "inferred", "date_kind": "in_class", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 22, "title": "Midterm Exam 1", "due_date": "2026-04-20", "status": "completed", "grade": "", "weight": "25%", "notes": "In-class Mon Apr 20. Multiple choice + short essays. LockDown Browser. Covers first portion. One 3x5 index card cheat sheet allowed.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 4, "due_time": "08:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "in_class", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 33, "title": "Discussion Post for Lecture Day 8: Why did only some countries experience the Asian Miracle?", "due_date": "2026-04-21", "status": "completed", "grade": "", "weight": "", "notes": "Required reading: Jansen (2001). Completed per Poseidon memory; file exists in W4 - Asian Miracle.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 4, "due_time": "17:00", "timezone": "America/Los_Angeles", "deadline_source": "course memory", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 10, "title": "Homework I", "due_date": "2026-04-26", "status": "completed", "grade": "", "weight": "25%", "notes": "Data analysis problem set. Due end of Week 4. Submit via TurnItIn. Written explanations must be your own \u2014 AI for code only.", "course": "GPEC 446", "course_name": "Quantitative Methods 3", "week": 4, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "canvas/assignment memory", "source_path": "GPEC 446 - QM3 - Valasquez/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 34, "title": "Discussion Post for Lecture Day 9: How did Singapore do it?", "due_date": "2026-04-27", "status": "pending", "grade": "", "weight": "", "notes": "Canvas notification surfaced by Eos: due Mon Apr 27 00:01. Required reading: Huff (1995).", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 5, "due_time": "00:01", "timezone": "America/Los_Angeles", "deadline_source": "canvas/email", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 4, "title": "Concept Check 3", "due_date": "2026-04-28", "status": "pending", "grade": "", "weight": "4%", "notes": "Canvas quiz, opens Apr 22", "course": "GPCO 403", "course_name": "International Economics", "week": 5, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 403 - Intl Econ - Handley/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 35, "title": "Discussion Post for Lecture Day 10: Why was the Asian Financial Crisis unequally felt in the region?", "due_date": "2026-04-28", "status": "pending", "grade": "", "weight": "", "notes": "Inferred from syllabus discussion-post rule and Apr 29 Lecture Day 10; Edgar confirmed a discussion post was due Apr 28. Required reading: Hicken (2008).", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 5, "due_time": "17:00", "timezone": "America/Los_Angeles", "deadline_source": "canvas/pattern/user confirmation", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "inferred", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 15, "title": "Analytic Memo \u2014 ORANGE (choose 1)", "due_date": "2026-04-29", "status": "pending", "grade": "", "weight": "10%", "notes": "Choose ONE from W3-W5: Saddam/Kuwait (Apr 13); Bush-Hussein settlement (Apr 15); South America democratic peace (Apr 20); Muslim civil wars (Apr 22); FARC Colombia (Apr 27); Myanmar democratization (Apr 29). Same format rules. | Latest deadline in window: Apr 29.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": 5, "due_time": "11:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 410 - Intl Pol:Sec - Praether/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "window_end", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 5, "title": "Midterm Exam", "due_date": "2026-05-04", "status": "pending", "grade": "", "weight": "30%", "notes": "In-class Mon May 4, 2-3:20pm, covers first 9-10 lectures (weeks 1-5)", "course": "GPCO 403", "course_name": "International Economics", "week": 6, "due_time": "14:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 403 - Intl Econ - Handley/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "in_class", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 18, "title": "Midterm Exam", "due_date": "2026-05-04", "status": "pending", "grade": "", "weight": "30%", "notes": "In-class Mon May 4. Apply course concepts to analyze world events. Curved: median B+.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": 6, "due_time": "11:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 410 - Intl Pol:Sec - Praether/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "in_class", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 11, "title": "Midterm Exam", "due_date": "2026-05-05", "status": "pending", "grade": "", "weight": "25%", "notes": "In-class Tuesday Week 6 (May 5), 9:30-11am. Conceptual understanding focus.", "course": "GPEC 446", "course_name": "Quantitative Methods 3", "week": 6, "due_time": "09:30", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPEC 446 - QM3 - Valasquez/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "in_class", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 23, "title": "Midterm Exam 2", "due_date": "2026-05-11", "status": "pending", "grade": "", "weight": "25%", "notes": "In-class Mon May 11. Multiple choice + short essays. LockDown Browser. Covers second portion. One 3x5 index card allowed.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 7, "due_time": "08:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "in_class", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 29, "title": "Data Memo \u2014 Interstate Conflict (COW)", "due_date": "2026-05-15", "status": "pending", "grade": "", "weight": "10%", "notes": "Deconstruct a COW dataset coding decision. Max 3pp, DS, 12pt, 1-inch margins. Due May 15 at 5pm per Canvas email (Prather date change). Choose ONE of three data memos.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": 7, "due_time": "17:00", "timezone": "America/Los_Angeles", "deadline_source": "canvas/email update", "source_path": "GPCO 410 - Intl Pol:Sec - Praether/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 30, "title": "Data Memo \u2014 Civil War (PRIO)", "due_date": "2026-05-15", "status": "pending", "grade": "", "weight": "10%", "notes": "Deconstruct a PRIO dataset coding decision. Max 3pp, DS, 12pt, 1-inch margins. Due May 15 at 5pm per Canvas email (Prather date change). Choose ONE of three data memos.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": 7, "due_time": "17:00", "timezone": "America/Los_Angeles", "deadline_source": "canvas/email update", "source_path": "GPCO 410 - Intl Pol:Sec - Praether/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 31, "title": "Data Memo \u2014 Regime Type (Polity IV)", "due_date": "2026-05-15", "status": "pending", "grade": "", "weight": "10%", "notes": "Deconstruct a Polity IV dataset coding decision. Max 3pp, DS, 12pt, 1-inch margins. Due May 15 at 5pm per Canvas email (Prather date change). Choose ONE of three data memos.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": 7, "due_time": "17:00", "timezone": "America/Los_Angeles", "deadline_source": "canvas/email update", "source_path": "GPCO 410 - Intl Pol:Sec - Praether/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 6, "title": "Concept Check 4", "due_date": "2026-05-18", "status": "pending", "grade": "", "weight": "4%", "notes": "Canvas quiz, opens May 13", "course": "GPCO 403", "course_name": "International Economics", "week": 8, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 403 - Intl Econ - Handley/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 17, "title": "Analytic Memo \u2014 PURPLE (choose 1)", "due_date": "2026-05-20", "status": "pending", "grade": "", "weight": "10%", "notes": "Choose ONE from W6-W8: Iran nuclear deal (May 6); Kim Jong-Un/nuclear credibility (May 11); Putin nuclear threats (May 11); Tamil Tigers or Hamas (May 13); Far-right terrorism (May 18); NATO expansion (May 20). | Latest deadline in window: May 20.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": 8, "due_time": "11:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 410 - Intl Pol:Sec - Praether/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "window_end", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 12, "title": "Homework II", "due_date": "2026-05-23", "status": "pending", "grade": "", "weight": "25%", "notes": "Data analysis problem set. Due end of Week 8. Submit via TurnItIn.", "course": "GPEC 446", "course_name": "Quantitative Methods 3", "week": 8, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPEC 446 - QM3 - Valasquez/Course Admin/syllabus_extracted.md", "source_confidence": "inferred", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 8, "title": "Concept Check 5", "due_date": "2026-06-02", "status": "pending", "grade": "", "weight": "4%", "notes": "Canvas quiz, opens May 27. Lowest CC score dropped.", "course": "GPCO 403", "course_name": "International Economics", "week": 10, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 403 - Intl Econ - Handley/Course Admin/syllabus_extracted.md", "source_confidence": "ambiguous", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 7, "title": "Data Brief 2", "due_date": "2026-06-03", "status": "pending", "grade": "", "weight": "5%", "notes": "Timed 2-hour Canvas memo. WTO trade profile. Must start by 10pm Jun 3. | Opens 2026-05-20; must begin by 2026-06-03 22:00 for full time.", "course": "GPCO 403", "course_name": "International Economics", "week": 10, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 403 - Intl Econ - Handley/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "2026-05-20", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 19, "title": "Final Exam", "due_date": "2026-06-03", "status": "pending", "grade": "", "weight": "30%", "notes": "In-class Wed Jun 3. Randomly picks ONE of your 3 analytic memos and asks you to expand on the theory and argument. Prepare all three memos thoroughly.", "course": "GPCO 410", "course_name": "International Politics & Security", "week": 10, "due_time": "11:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 410 - Intl Pol:Sec - Praether/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "in_class", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 13, "title": "Data Project", "due_date": "2026-06-07", "status": "pending", "grade": "", "weight": "25%", "notes": "Independent data analysis applying causal inference methods to real-world policy question. Week 10. Details TBD on Canvas.", "course": "GPEC 446", "course_name": "Quantitative Methods 3", "week": 10, "due_time": "23:59", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPEC 446 - QM3 - Valasquez/Course Admin/syllabus_extracted.md", "source_confidence": "inferred", "date_kind": "hard", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 9, "title": "Final Exam", "due_date": "2026-06-08", "status": "pending", "grade": "", "weight": "40%", "notes": "Jun 8, 8:00-11:00am. Weighted toward final 5-6 weeks but cumulative.", "course": "GPCO 403", "course_name": "International Economics", "week": 11, "due_time": "08:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPCO 403 - Intl Econ - Handley/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "in_class", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}, {"id": 24, "title": "Final Exam", "due_date": "2026-06-10", "status": "pending", "grade": "", "weight": "25%", "notes": "Wed Jun 10, 8:00-11:00am, RBC 3201. Covers final portion. Can bring all previous index cards.", "course": "GPPS 463", "course_name": "Politics of Southeast Asia", "week": 11, "due_time": "08:00", "timezone": "America/Los_Angeles", "deadline_source": "syllabus", "source_path": "GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md", "source_confidence": "verified", "date_kind": "in_class", "is_recurring": false, "recurrence_rule": "", "opens_at": "", "submitted_at": "", "last_verified_at": "2026-04-28", "external_id": ""}];
-const QUARTER_START = new Date('2026-03-30');
-const CURRENT_WEEK = 5;
-const COURSE_COLORS = {"GPCO 403": "#7cb3ff", "GPCO 410": "#ffa94d", "GPEC 446": "#b197fc", "GPPS 444": "#ff6b6b", "GPPS 463": "#69db7c"};
-const WEEK_READING_LOADS = {"1": {"pages": 261, "hrs": 26.0}, "2": {"pages": 227, "hrs": 25.6}, "3": {"pages": 265, "hrs": 25.3}, "4": {"pages": 135, "hrs": 15.4}, "5": {"pages": 86, "hrs": 7.5}, "6": {"pages": 134, "hrs": 10.1}, "7": {"pages": 177, "hrs": 18.8}, "8": {"pages": 110, "hrs": 15.0}, "9": {"pages": 44, "hrs": 2.6}, "10": {"pages": 59, "hrs": 9.5}, "11": {"pages": 0, "hrs": 0}};
-
-// --- Main Tabs ---
-document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-    });
-});
-
-// --- Sub-tabs (Timeline) ---
-document.querySelectorAll('.subtab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.subtab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.subtab-panel').forEach(p => p.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('subtab-' + btn.dataset.subtab).classList.add('active');
-    });
-});
-
-// --- Collapsibles ---
-function toggleCollapse(header) {
-    header.classList.toggle('open');
-    header.nextElementSibling.classList.toggle('open');
-}
-
-function courseTag(code) {
-    const cls = 'tag-' + code.replace(/\s/g, '');
-    return `<span class="course-tag ${cls}">${code}</span>`;
-}
-
-function formatDate(d) {
-    if (!d) return '';
-    const dt = new Date(d + 'T00:00:00');
-    return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-}
-
-function localDateString(dt) {
-    const y = dt.getFullYear();
-    const m = String(dt.getMonth() + 1).padStart(2, '0');
-    const d = String(dt.getDate()).padStart(2, '0');
-    return `${y}-${m}-${d}`;
-}
-
-function dueDateTime(a) {
-    if (!a.due_date) return null;
-    const time = a.due_time || '23:59';
-    return new Date(`${a.due_date}T${time}:00`);
-}
-
-function formatDue(a) {
-    if (!a.due_date) return a.is_recurring ? 'Recurring' : '';
-    let label = formatDate(a.due_date);
-    if (a.due_time) label += ` ${a.due_time}`;
-    return label;
-}
-
-// ===== WEEK VIEW =====
-function renderWeekView() {
-    const container = document.getElementById('week-view');
-    let html = '';
-
-    for (let w = 1; w <= 11; w++) {
-        const weekStart = new Date(QUARTER_START);
-        weekStart.setDate(weekStart.getDate() + (w - 1) * 7);
-        const weekEnd = new Date(weekStart);
-        weekEnd.setDate(weekEnd.getDate() + 6);
-
-        const items = ASSIGNMENTS.filter(a => a.week === w);
-        const recurring = ASSIGNMENTS.filter(a => a.week === null && a.status === 'recurring');
-        const isPast = w < CURRENT_WEEK;
-        const isCurrent = w === CURRENT_WEEK;
-
-        const cls = isPast ? 'past' : isCurrent ? 'current' : '';
-        const badge = isCurrent ? '<span class="badge badge-current">Current</span>' :
-                      isPast ? '<span class="badge badge-completed">Completed</span>' : '';
-
-        const dateRange = formatDate(localDateString(weekStart)) + ' - ' + formatDate(localDateString(weekEnd));
-
-        html += `<div class="week-group ${cls}">`;
-        const wkLoad = WEEK_READING_LOADS[w];
-        const wkLoadStr = wkLoad && wkLoad.pages > 0 ? `${wkLoad.pages} pp / ~${wkLoad.hrs}h reading` : '';
-        html += `<div class="week-header" onclick="this.parentElement.querySelector('.week-items').classList.toggle('collapsed')">`;
-        html += `<h3>Week ${w}</h3><span class="week-dates">${dateRange}</span>${badge}`;
-        if (wkLoadStr) html += `<span style="font-size:0.72rem;color:#777;margin-left:auto">${wkLoadStr}</span>`;
-        html += `</div><div class="week-items ${isPast && !isCurrent ? '' : ''}">`;
-
-        if (items.length === 0 && (w >= CURRENT_WEEK || !isPast)) {
-            html += '<div class="week-no-items">No dated assignments</div>';
-        }
-
-        for (const a of items) {
-            const done = a.status === 'completed' ? 'completed-item' : '';
-            html += `<div class="week-item ${done}">`;
-            html += courseTag(a.course);
-            html += `<span>${a.title}</span>`;
-            if (a.weight) html += `<span style="font-size:0.7rem;color:#666">${a.weight}</span>`;
-            html += `<span class="due">${formatDue(a)}</span>`;
-            html += `</div>`;
-        }
-
-        html += '</div></div>';
+    function text(value) {
+      return value === null || value === undefined || value === '' ? '' : String(value);
     }
 
-    // Recurring items at bottom
-    const recurring = ASSIGNMENTS.filter(a => a.week === null);
-    if (recurring.length) {
-        html += '<div class="week-group"><div class="week-header"><h3>Recurring</h3></div><div class="week-items">';
-        for (const a of recurring) {
-            html += `<div class="week-item">${courseTag(a.course)}<span>${a.title}</span>`;
-            if (a.weight) html += `<span style="font-size:0.7rem;color:#666">${a.weight}</span>`;
-            html += '</div>';
-        }
-        html += '</div></div>';
+    function courseClass(code) {
+      return 'c' + code.replace(/\D/g, '').slice(-3);
     }
 
-    container.innerHTML = html;
-}
-renderWeekView();
-
-// ===== CALENDAR VIEW =====
-let calMonth = 3; // April (0-indexed)
-let calYear = 2026;
-
-function renderCalendar() {
-    const label = document.getElementById('cal-month-label');
-    const container = document.getElementById('cal-grid-container');
-    const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-    label.textContent = monthNames[calMonth] + ' ' + calYear;
-
-    const firstDay = new Date(calYear, calMonth, 1).getDay(); // 0=Sun
-    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
-    const todayStr = localDateString(new Date());
-
-    let html = '<div class="cal-grid">';
-    ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
-        html += `<div class="cal-day-header">${d}</div>`;
-    });
-
-    // Empty leading cells
-    for (let i = 0; i < firstDay; i++) {
-        html += '<div class="cal-day empty"></div>';
+    function isDone(item) {
+      return DONE_STATUSES.has(text(item.status).toLowerCase());
     }
 
-    for (let d = 1; d <= daysInMonth; d++) {
-        const dateStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-        const isToday = dateStr === todayStr;
-        const dayAssignments = ASSIGNMENTS.filter(a => a.due_date === dateStr);
-
-        html += `<div class="cal-day ${isToday ? 'today' : ''}">`;
-        html += `<div class="day-num">${d}</div>`;
-        for (const a of dayAssignments) {
-            const bg = COURSE_COLORS[a.course] || '#555';
-            html += `<div class="cal-event" style="background:${bg}" title="${a.course}: ${a.title} ${formatDue(a)}">${a.due_time ? a.due_time + ' ' : ''}${a.title}</div>`;
-        }
-        html += '</div>';
+    function isExam(item) {
+      const title = text(item.title).toLowerCase();
+      return title.includes('exam') || title.includes('midterm') || title.includes('quiz');
     }
 
-    // Trailing empty cells
-    const totalCells = firstDay + daysInMonth;
-    const remaining = (7 - totalCells % 7) % 7;
-    for (let i = 0; i < remaining; i++) {
-        html += '<div class="cal-day empty"></div>';
+    function formatDate(dateString) {
+      if (!dateString) return '';
+      const dt = new Date(dateString + 'T00:00:00');
+      return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     }
 
-    html += '</div>';
-    container.innerHTML = html;
-}
-
-document.getElementById('cal-prev').addEventListener('click', () => {
-    calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; }
-    renderCalendar();
-});
-document.getElementById('cal-next').addEventListener('click', () => {
-    calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; }
-    renderCalendar();
-});
-renderCalendar();
-
-// ===== EISENHOWER MATRIX =====
-const STORAGE_KEY = 'claudia-eisenhower';
-
-function defaultQuadrant(a) {
-    // Auto-assign: upcoming exams/midterms -> q1, near-term homework -> q1,
-    // future important -> q2, recurring -> q3, rest -> q4
-    if (a.status === 'completed') return null; // skip completed
-    const title = a.title.toLowerCase();
-    const isExam = title.includes('exam') || title.includes('midterm');
-    const hasDate = !!a.due_date;
-    const dueDate = hasDate ? dueDateTime(a) : null;
-    const now = new Date();
-    const daysOut = dueDate ? (dueDate - now) / 86400000 : 999;
-
-    if (isExam && daysOut <= 21) return 'q1';
-    if (isExam) return 'q2';
-    if (hasDate && daysOut <= 7) return 'q1';
-    if (hasDate && daysOut <= 21) return 'q2';
-    if (a.status === 'recurring') return 'q3';
-    if (hasDate) return 'q2';
-    return 'q4';
-}
-
-function loadMatrix() {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-        try { return JSON.parse(saved); } catch(e) {}
-    }
-    // Build default mapping: id -> quadrant
-    const mapping = {};
-    ASSIGNMENTS.forEach(a => {
-        const q = defaultQuadrant(a);
-        if (q) mapping[a.id] = q;
-    });
-    return mapping;
-}
-
-function saveMatrix(mapping) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(mapping));
-}
-
-function renderMatrix() {
-    const mapping = loadMatrix();
-    const byQ = { q1: [], q2: [], q3: [], q4: [] };
-
-    // Group assignments by quadrant
-    for (const a of ASSIGNMENTS) {
-        const q = mapping[a.id];
-        if (q && byQ[q]) byQ[q].push(a);
+    function formatDue(item) {
+      if (!item.due_date) return item.is_recurring ? 'Recurring' : '';
+      let label = formatDate(item.due_date);
+      if (item.due_time) label += ' at ' + item.due_time;
+      return label;
     }
 
-    for (const qid of ['q1','q2','q3','q4']) {
-        const container = document.querySelector(`#${qid} .q-items`);
-        if (byQ[qid].length === 0) {
-            container.innerHTML = '<div class="matrix-empty">Drop items here</div>';
-        } else {
-            container.innerHTML = byQ[qid].map(a => `
-                <div class="matrix-card" draggable="true" data-id="${a.id}">
-                    ${courseTag(a.course)}
-                    <span class="card-title">${a.title}</span>
-                    <span class="card-due">${formatDue(a)}</span>
-                </div>
-            `).join('');
-        }
+    function courseTag(code) {
+      const span = document.createElement('span');
+      span.className = 'course-tag ' + courseClass(code);
+      span.textContent = code;
+      span.style.background = DASHBOARD_PAYLOAD.course_colors[code] || '#151512';
+      if (code === 'GPCO 410' || code === 'GPPS 463') span.style.color = '#151512';
+      return span;
     }
 
-    // Drag and drop
-    document.querySelectorAll('.matrix-card').forEach(card => {
-        card.addEventListener('dragstart', e => {
-            e.dataTransfer.setData('text/plain', card.dataset.id);
-            card.classList.add('dragging');
+    function activeAssignments() {
+      return DASHBOARD_PAYLOAD.assignments.filter(item => !isDone(item));
+    }
+
+    function sortedUpcoming() {
+      const today = DASHBOARD_PAYLOAD.today;
+      return activeAssignments()
+        .filter(item => item.due_date && item.due_date >= today)
+        .sort((a, b) => {
+          const ad = (a.due_date || '9999-99-99') + 'T' + (a.due_time || '23:59');
+          const bd = (b.due_date || '9999-99-99') + 'T' + (b.due_time || '23:59');
+          return ad.localeCompare(bd);
         });
-        card.addEventListener('dragend', () => card.classList.remove('dragging'));
-    });
+    }
 
-    document.querySelectorAll('.quadrant').forEach(quad => {
-        quad.addEventListener('dragover', e => {
-            e.preventDefault();
-            quad.classList.add('drag-over');
+    function setProminentStatus() {
+      const dueToday = activeAssignments().filter(item => item.due_date === DASHBOARD_PAYLOAD.today);
+      const dueCount = document.getElementById('due-count');
+      const dueSummary = document.getElementById('due-summary');
+      dueCount.textContent = dueToday.length;
+      if (dueToday.length) {
+        dueSummary.textContent = dueToday.map(item => item.course + ': ' + item.title + (item.due_time ? ' at ' + item.due_time : '')).join(' / ');
+      } else {
+        const day = new Date(DASHBOARD_PAYLOAD.today + 'T00:00:00').toLocaleDateString('en-US', {
+          weekday: 'long',
+          month: 'long',
+          day: 'numeric'
         });
-        quad.addEventListener('dragleave', () => quad.classList.remove('drag-over'));
-        quad.addEventListener('drop', e => {
-            e.preventDefault();
-            quad.classList.remove('drag-over');
-            const id = parseInt(e.dataTransfer.getData('text/plain'));
-            const qid = quad.dataset.quadrant;
-            const mapping = loadMatrix();
-            mapping[id] = qid;
-            saveMatrix(mapping);
-            renderMatrix();
-        });
-    });
-}
-renderMatrix();
-</script>
+        dueSummary.textContent = 'No hard deadline on ' + day + '. The empty state stays large so Edgar knows the day is study-focused.';
+      }
 
+      const next = sortedUpcoming()[0];
+      const nextCourse = document.getElementById('next-course');
+      const nextAction = document.getElementById('next-action');
+      nextCourse.innerHTML = '';
+      if (next) {
+        nextCourse.appendChild(courseTag(next.course));
+        nextAction.innerHTML = '<strong></strong><br><span></span><br><span></span>';
+        nextAction.querySelector('strong').textContent = next.title;
+        nextAction.querySelectorAll('span')[0].textContent = formatDue(next);
+        nextAction.querySelectorAll('span')[1].textContent = next.weight ? next.weight + ' of grade' : text(next.status);
+      } else {
+        nextAction.textContent = 'No upcoming dated action in the live payload.';
+      }
+    }
+
+    function courseItems(code) {
+      const readings = DASHBOARD_PAYLOAD.readings.filter(item => item.code === code);
+      const assignments = DASHBOARD_PAYLOAD.assignments.filter(item => item.course === code);
+      const exams = assignments.filter(isExam);
+      return { readings, assignments, exams };
+    }
+
+    function cardSignal(course, items) {
+      const next = items.assignments.filter(item => !isDone(item) && (item.due_date || item.is_recurring))[0];
+      if (next) return formatDue(next) + '\n' + next.title;
+      const pending = items.readings.filter(item => text(item.summary_status).toLowerCase() === 'pending').length;
+      if (pending) return pending + ' pending readings';
+      return 'Current record complete';
+    }
+
+    function shortName(name) {
+      return text(name)
+        .replace('International Economics', 'Intl Economics')
+        .replace('International Politics & Security', 'Intl Security')
+        .replace('Quantitative Methods 3', 'QM3');
+    }
+
+    function renderPrograms() {
+      const grid = document.getElementById('program-grid');
+      grid.innerHTML = '';
+      DASHBOARD_PAYLOAD.courses.forEach(course => {
+        const items = courseItems(course.code);
+        const button = document.createElement('button');
+        button.className = 'program full ' + courseClass(course.code);
+        button.type = 'button';
+        button.dataset.course = course.code;
+        button.setAttribute('aria-expanded', 'false');
+        button.setAttribute('aria-controls', 'course-pamphlet');
+
+        const header = document.createElement('header');
+        const label = document.createElement('div');
+        label.className = 'label';
+        label.textContent = course.code;
+        const h2 = document.createElement('h2');
+        h2.textContent = shortName(course.name);
+        header.append(label, h2);
+
+        const center = document.createElement('div');
+        center.className = 'center';
+        center.textContent = cardSignal(course, items);
+
+        const signal = document.createElement('div');
+        signal.className = 'signal ' + (SIGNALS[course.code] || 'signal-lines');
+
+        button.append(header, center, signal);
+        button.addEventListener('click', () => openPamphlet(course.code));
+        grid.appendChild(button);
+      });
+    }
+
+    function createPamphletItem(primary, secondary, tertiary, complete = false) {
+      const item = document.createElement('div');
+      item.className = 'pamphlet-item';
+      if (complete) item.classList.add('is-complete');
+      const strong = document.createElement('strong');
+      strong.textContent = primary;
+      item.appendChild(strong);
+      [secondary, tertiary].filter(Boolean).forEach(value => {
+        const span = document.createElement('span');
+        span.textContent = value;
+        item.appendChild(span);
+      });
+      return item;
+    }
+
+    function renderPanel(panelId, records, builder) {
+      const panel = document.getElementById(panelId);
+      const list = panel.querySelector('.pamphlet-list');
+      const activeRecords = records.filter(record => !record.__complete);
+      const completeRecords = records.filter(record => record.__complete);
+      const orderedRecords = activeRecords.concat(completeRecords);
+      panel.dataset.count = activeRecords.length + '/' + records.length;
+      list.innerHTML = '';
+      if (!orderedRecords.length) {
+        list.appendChild(createPamphletItem('No live records', 'Nothing is currently attached to this class.'));
+        return;
+      }
+      orderedRecords.forEach(record => list.appendChild(builder(record)));
+    }
+
+    function openPamphlet(code) {
+      const course = DASHBOARD_PAYLOAD.courses.find(item => item.code === code);
+      const items = courseItems(code);
+      document.querySelectorAll('.program').forEach(button => {
+        button.setAttribute('aria-expanded', button.dataset.course === code ? 'true' : 'false');
+      });
+      document.getElementById('pamphlet-code').textContent = code;
+      document.getElementById('pamphlet-name').textContent = course ? course.name : 'Course record';
+      const readings = items.readings.map(item => ({
+        ...item,
+        __complete: isDone({ status: text(item.summary_status) || 'pending' })
+      }));
+      const assignments = items.assignments.map(item => ({
+        ...item,
+        __complete: isDone(item)
+      }));
+      const exams = items.exams.map(item => ({
+        ...item,
+        __complete: isDone(item)
+      }));
+      renderPanel('pamphlet-readings', readings, item => {
+        const week = item.week ? 'Week ' + item.week : 'No week';
+        const status = text(item.summary_status) || 'pending';
+        const pages = item.pages ? item.pages + ' pages' : '';
+        return createPamphletItem(
+          item.title,
+          [week, status, pages].filter(Boolean).join(' / '),
+          item.authors,
+          item.__complete
+        );
+      });
+      renderPanel('pamphlet-assignments', assignments, item => {
+        const status = text(item.status) || 'pending';
+        const weight = item.weight ? item.weight : '';
+        return createPamphletItem(
+          item.title,
+          [formatDue(item), status, weight].filter(Boolean).join(' / '),
+          item.notes,
+          item.__complete
+        );
+      });
+      renderPanel('pamphlet-exams', exams, item => {
+        return createPamphletItem(
+          item.title,
+          [formatDue(item), text(item.status), item.weight].filter(Boolean).join(' / '),
+          item.notes,
+          item.__complete
+        );
+      });
+      document.getElementById('course-pamphlet').classList.add('is-open');
+    }
+
+    function closePamphlet() {
+      document.getElementById('course-pamphlet').classList.remove('is-open');
+      document.querySelectorAll('.program').forEach(button => button.setAttribute('aria-expanded', 'false'));
+    }
+
+    function renderRegister() {
+      const cards = DASHBOARD_PAYLOAD.cards;
+      const rows = [
+        ['Record', 'Count', 'Status', 'Source'],
+        ['Assignments', cards.assignments, cards.upcoming_assignments + ' up', 'DB'],
+        ['Completed assignments', cards.completed_assignments, 'verified', 'DB'],
+        ['Readings', cards.readings, cards.pending_readings + ' pending', 'DB'],
+        ['Pages', cards.pages, 'all courses', 'DB'],
+        ['Files indexed', cards.indexed_files, cards.chunks + ' chunks', 'DB']
+      ];
+      const register = document.getElementById('register');
+      register.innerHTML = '';
+      rows.forEach((row, index) => {
+        row.forEach(value => {
+          const div = document.createElement('div');
+          if (index === 0) div.className = 'head';
+          div.textContent = value;
+          register.appendChild(div);
+        });
+      });
+    }
+
+    function setMetadata() {
+      document.getElementById('generated-line').textContent =
+        'Generated ' + DASHBOARD_PAYLOAD.generated_label + ' / ' +
+        DASHBOARD_PAYLOAD.term + ' / ' +
+        DASHBOARD_PAYLOAD.program;
+      document.getElementById('week-line').textContent =
+        DASHBOARD_PAYLOAD.current_week + ' of ' + DASHBOARD_PAYLOAD.total_weeks;
+    }
+
+    function setLiveStatus(label, cls) {
+      const el = document.getElementById('live-status');
+      if (!el) return;
+      el.textContent = label;
+      el.className = 'live-status' + (cls ? ' ' + cls : '');
+    }
+
+    function connectDashboardEvents() {
+      if (!window.EventSource || !/^https?:$/.test(window.location.protocol)) return;
+      const events = new EventSource('/events');
+      events.addEventListener('open', () => setLiveStatus('live', 'connected'));
+      events.addEventListener('dashboard-change', async () => {
+        setLiveStatus('refreshing', 'refreshing');
+        try {
+          await fetch('/api/dashboard', { cache: 'no-store' });
+        } catch (err) {}
+        window.location.reload();
+      });
+      events.addEventListener('dashboard-error', () => setLiveStatus('error', ''));
+      events.addEventListener('error', () => setLiveStatus('checking', ''));
+    }
+
+    setMetadata();
+    setProminentStatus();
+    renderPrograms();
+    renderRegister();
+    document.getElementById('pamphlet-close').addEventListener('click', closePamphlet);
+    const requestedCourse = new URLSearchParams(window.location.search).get('course');
+    if (requestedCourse && DASHBOARD_PAYLOAD.courses.some(course => course.code === requestedCourse)) {
+      openPamphlet(requestedCourse);
+    }
+    connectDashboardEvents();
+  </script>
 </body>
 </html>

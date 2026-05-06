@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concept 1 - Priority Console</title>
+  <link rel="stylesheet" href="dashboard_concepts_v2.css">
+  <style>
+    body {
+      background:
+        linear-gradient(180deg, rgba(0, 111, 186, 0.04), transparent 260px),
+        var(--field);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.88fr) minmax(460px, 1.12fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .identity {
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      background: var(--white);
+      padding: 16px;
+      min-height: 460px;
+      display: grid;
+      align-content: space-between;
+    }
+
+    .epa-lockup {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .mark {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 50%, var(--field) 0 9px, transparent 10px),
+        conic-gradient(from 45deg, var(--ink) 0 25%, transparent 25% 37%, var(--ink) 37% 62%, transparent 62% 75%, var(--ink) 75% 100%);
+    }
+
+    .priority {
+      display: grid;
+      grid-template-columns: 0.78fr 1.22fr;
+      gap: 14px;
+    }
+
+    .today {
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      background: var(--black);
+      color: var(--white);
+      min-height: 460px;
+      padding: 16px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      overflow: hidden;
+    }
+
+    .today .zero {
+      align-self: center;
+      font-size: clamp(110px, 17vw, 220px);
+      line-height: 0.78;
+      font-weight: 950;
+      letter-spacing: 0;
+    }
+
+    .today .signal-wave {
+      height: 54px;
+      filter: invert(1);
+      opacity: 0.95;
+    }
+
+    .next-panel {
+      border: 2px solid var(--blue);
+      border-radius: 8px;
+      background: #fff;
+      min-height: 460px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      overflow: hidden;
+    }
+
+    .next-panel header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 2px solid var(--blue);
+      color: var(--blue);
+    }
+
+    .next-body {
+      padding: 16px;
+      display: grid;
+      align-content: center;
+      gap: 14px;
+    }
+
+    .next-title {
+      font-size: clamp(34px, 5vw, 76px);
+      line-height: 0.93;
+      font-weight: 930;
+      letter-spacing: 0;
+    }
+
+    .next-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .next-meta div {
+      border-top: 2px solid var(--blue);
+      padding-top: 7px;
+      color: var(--blue);
+      font-weight: 850;
+    }
+
+    .blue-band {
+      min-height: 84px;
+      background:
+        repeating-linear-gradient(0deg, #fff 0 5px, transparent 5px 12px),
+        var(--blue);
+    }
+
+    .lower {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 254, 250, 0.9);
+      padding: 14px;
+    }
+
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .course-tile {
+      min-height: 132px;
+      border-radius: 8px;
+      color: #fff;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .course-tile strong {
+      font-size: 22px;
+      line-height: 0.96;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .stat {
+      border-top: 2px solid var(--ink);
+      padding-top: 8px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 31px;
+      line-height: 0.9;
+      font-weight: 920;
+    }
+
+    @media (max-width: 1060px) {
+      .hero,
+      .priority,
+      .lower {
+        grid-template-columns: 1fr;
+      }
+
+      .course-grid,
+      .stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="top-rule">
+      <div class="label">Claudia - Spring 2026 - Week 6 of 11</div>
+      <div class="meta-line">Generated 2026-05-05 14:33 - live DB snapshot</div>
+      <nav class="nav">
+        <a href="index.html">Index</a>
+        <a href="concept_2_standards_sheet.html">Standards</a>
+        <a href="concept_3_program_board.html">Program Board</a>
+      </nav>
+    </div>
+
+    <section class="hero">
+      <aside class="identity">
+        <div>
+          <div class="epa-lockup">
+            <div class="mark" aria-hidden="true"></div>
+            <div>
+              <div class="label">Graduate Policy System</div>
+              <h1>Claudia</h1>
+            </div>
+          </div>
+          <p class="meta-line">Apple-clean command surface with EPA-style program identifiers. The dashboard opens on what Edgar has to do now, not on archive totals.</p>
+        </div>
+        <div>
+          <div class="program-bars" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <p class="screen-note">Reference mapping: uses the EPA color-system page as a course palette strip, the identifier-scale pages for the oversized Claudia mark, and Apple-like spacing for calm priority reading.</p>
+        </div>
+      </aside>
+
+      <div class="priority">
+        <article class="today">
+          <div class="label" style="color:#fbfaf4">Due today</div>
+          <div class="zero">0</div>
+          <div>
+            <h2>No hard deadline today</h2>
+            <p class="meta-line" style="color:#d9d5c8">Tuesday, May 5 is clear. Use the day for International Econ.</p>
+          </div>
+          <div class="signal-wave" aria-hidden="true"></div>
+        </article>
+
+        <article class="next-panel">
+          <header>
+            <span class="label" style="color:inherit">Next 48 hours</span>
+            <span class="chip">Priority 1</span>
+          </header>
+          <div class="next-body">
+            <span class="course-tag c403">GPCO 403</span>
+            <div class="next-title">Midterm Exam</div>
+            <div class="next-meta">
+              <div>May 6<br>Wednesday</div>
+              <div>14:00<br>Local</div>
+              <div>30%<br>Weight</div>
+            </div>
+          </div>
+          <div class="blue-band" aria-hidden="true"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="lower">
+      <article class="panel">
+        <div class="label">Course workload and status</div>
+        <div class="course-grid">
+          <div class="course-tile c403"><span>International Econ</span><strong>Exam<br>tomorrow</strong></div>
+          <div class="course-tile c410"><span>International Security</span><strong>3 data<br>memos</strong></div>
+          <div class="course-tile c446"><span>QM3</span><strong>HW II<br>May 23</strong></div>
+          <div class="course-tile c444"><span>History of Warfare</span><strong>weekly<br>quiz</strong></div>
+          <div class="course-tile c463"><span>Southeast Asia</span><strong>exam<br>May 11</strong></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="label">Repository state</div>
+        <div class="stat-grid">
+          <div class="stat"><strong>20</strong><span class="meta-line">upcoming</span></div>
+          <div class="stat"><strong>14</strong><span class="meta-line">done</span></div>
+          <div class="stat"><strong>77</strong><span class="meta-line">readings</span></div>
+          <div class="stat"><strong>1531</strong><span class="meta-line">pages</span></div>
+        </div>
+      </article>
+    </section>
+
+    <footer class="screen-note">
+      Generated for: Edgar Agunias<br>
+      Date: 2026-05-05<br>
+      Model: GPT-5<br>
+      Sources: Attached dashboard screenshot, attached EPA Graphic Standards reference screenshots, live Claudia dashboard API payload<br>
+      Agent: Hephaestus
+    </footer>
+  </main>
+</body>
+</html>
