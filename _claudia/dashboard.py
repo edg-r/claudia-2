@@ -8,6 +8,7 @@ Usage:
 """
 
 import json
+import re
 import sqlite3
 from datetime import date, datetime
 from pathlib import Path
@@ -15,6 +16,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 DB_PATH = SCRIPT_DIR / "claudia.db"
 OUTPUT_PATH = SCRIPT_DIR / "dashboard.html"
+DISPATCH_DIR = SCRIPT_DIR / "dispatches"
 
 QUARTER_START = date(2026, 3, 30)
 TOTAL_WEEKS = 11
@@ -40,6 +42,14 @@ COURSE_COLORS = {
     "GPPS 444": "#ef3e33",
     "GPPS 463": "#4b9f38",
 }
+
+DISPATCH_PATTERN = re.compile(r"^(\d{4}-\d{2}-\d{2})_daily-briefing\.md$")
+DISPATCH_SIGNAL_SECTIONS = [
+    {"title": "Weather", "starts": ("Weather",)},
+    {"title": "Personal Gmail", "starts": ("Personal Gmail",)},
+    {"title": "UCSD Email", "starts": ("UCSD Email",)},
+    {"title": "Delegation Suggestions", "starts": ("Delegation Suggestions",)},
+]
 
 
 def query_db(conn, sql, params=()):
@@ -75,6 +85,127 @@ def row_value(row, columns, key, default=""):
         return default
     value = row[key]
     return value if value is not None else default
+
+
+def parse_frontmatter_and_body(text):
+    if not text.startswith("---\n"):
+        return {}, text
+    end = text.find("\n---\n", 4)
+    if end == -1:
+        return {}, text
+    meta = {}
+    for line in text[4:end].splitlines():
+        if ":" not in line:
+            continue
+        key, value = line.split(":", 1)
+        meta[key.strip()] = value.strip()
+    return meta, text[end + 5 :]
+
+
+def markdown_heading_title(body):
+    for line in body.splitlines():
+        if line.startswith("## "):
+            return line[3:].strip()
+    return ""
+
+
+def dispatch_signal_sections(body):
+    sections = {}
+    current_title = None
+    current_display_title = None
+    current_lines = []
+
+    def save_current():
+        if current_display_title:
+            cleaned = "\n".join(current_lines).strip()
+            sections[current_display_title] = cleaned
+
+    def display_title_for(heading):
+        normalized = heading.strip().lower()
+        for signal in DISPATCH_SIGNAL_SECTIONS:
+            if any(normalized.startswith(prefix.lower()) for prefix in signal["starts"]):
+                return signal["title"]
+        return None
+
+    for line in body.splitlines():
+        if line.startswith("### "):
+            save_current()
+            current_title = line[4:].strip()
+            current_display_title = display_title_for(current_title)
+            current_lines = []
+        elif line.startswith("## "):
+            save_current()
+            current_title = None
+            current_display_title = None
+            current_lines = []
+        elif current_title is not None:
+            current_lines.append(line)
+    save_current()
+
+    return [
+        {"title": signal["title"], "content": sections.get(signal["title"], "")}
+        for signal in DISPATCH_SIGNAL_SECTIONS
+    ]
+
+
+def latest_daily_dispatch(today_date):
+    if not DISPATCH_DIR.exists():
+        return {
+            "present": False,
+            "status": "missing",
+            "message": "No dispatch directory found.",
+        }
+
+    dispatches = []
+    for path in DISPATCH_DIR.iterdir():
+        match = DISPATCH_PATTERN.match(path.name)
+        if not match:
+            continue
+        try:
+            dispatch_date = datetime.strptime(match.group(1), "%Y-%m-%d").date()
+        except ValueError:
+            continue
+        dispatches.append((dispatch_date, path))
+
+    if not dispatches:
+        return {
+            "present": False,
+            "status": "missing",
+            "message": "No daily briefing dispatch files found.",
+        }
+
+    dispatch_date, path = max(dispatches, key=lambda item: item[0])
+    raw = path.read_text(encoding="utf-8")
+    meta, body = parse_frontmatter_and_body(raw)
+    delta_days = (today_date - dispatch_date).days
+    if delta_days == 0:
+        freshness = "current"
+        label = "today"
+    elif delta_days > 0:
+        freshness = "stale"
+        label = f"{delta_days} day{'s' if delta_days != 1 else ''} old"
+    else:
+        freshness = "future"
+        label = f"{abs(delta_days)} day{'s' if delta_days != -1 else ''} ahead"
+
+    return {
+        "present": True,
+        "status": freshness,
+        "freshness_label": label,
+        "is_today": delta_days == 0,
+        "days_from_today": delta_days,
+        "date": dispatch_date.isoformat(),
+        "path": str(path.relative_to(SCRIPT_DIR.parent)),
+        "filename": path.name,
+        "title": markdown_heading_title(body),
+        "metadata": {
+            "dispatch": meta.get("dispatch", ""),
+            "date": meta.get("date", dispatch_date.isoformat()),
+            "generated": meta.get("generated", ""),
+            "skill": meta.get("skill", ""),
+        },
+        "signals": dispatch_signal_sections(body),
+    }
 
 
 def get_dashboard_payload():
@@ -201,6 +332,7 @@ def get_dashboard_payload():
         "readings": [dict(row) for row in readings],
         "assignments": assignments_json,
         "recent_activity": [dict(row) for row in logs],
+        "dispatch": latest_daily_dispatch(today_date),
         "db_mtime": DB_PATH.stat().st_mtime if DB_PATH.exists() else None,
         "html_mtime": OUTPUT_PATH.stat().st_mtime if OUTPUT_PATH.exists() else None,
     }
@@ -350,6 +482,86 @@ def generate_dashboard():
       font-weight: 950;
       text-transform: uppercase;
       letter-spacing: 0.04em;
+    }}
+    .dispatch-panel {{
+      border-top: 2px solid var(--ink);
+      display: grid;
+      gap: 10px;
+      max-width: 260px;
+      padding-top: 10px;
+    }}
+    .dispatch-meta {{
+      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }}
+    .dispatch-freshness {{
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      color: var(--soft-ink);
+      font-size: 10px;
+      font-weight: 950;
+      letter-spacing: 0.04em;
+      padding: 3px 6px;
+      text-transform: uppercase;
+    }}
+    .dispatch-freshness.current {{
+      border-color: var(--green);
+      color: var(--green);
+    }}
+    .dispatch-freshness.stale,
+    .dispatch-freshness.future {{
+      border-color: var(--red);
+      color: var(--red);
+    }}
+    .dispatch-title {{
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 1.22;
+    }}
+    .dispatch-subtitle {{
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 750;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }}
+    .dispatch-section {{
+      border-top: 1px solid var(--line);
+      display: grid;
+      gap: 5px;
+      padding-top: 8px;
+    }}
+    .dispatch-section h3 {{
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }}
+    .dispatch-section ul {{
+      display: grid;
+      gap: 5px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }}
+    .dispatch-section li {{
+      color: var(--soft-ink);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.25;
+    }}
+    .dispatch-section li:before {{
+      content: "";
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      margin: 0 6px 1px 0;
+      background: var(--ink);
     }}
     .course-tag {{
       display: inline-flex;
@@ -628,6 +840,16 @@ def generate_dashboard():
               <div><b>Mode</b><span>study operations</span></div>
             </div>
           </div>
+
+          <section class="dispatch-panel" id="dispatch-panel">
+            <div class="label">Dispatch signals</div>
+            <div class="dispatch-meta">
+              <span class="dispatch-freshness" id="dispatch-freshness">checking</span>
+              <span class="dispatch-title" id="dispatch-title"></span>
+            </div>
+            <div class="dispatch-subtitle" id="dispatch-subtitle"></div>
+            <div id="dispatch-sections"></div>
+          </section>
         </aside>
 
         <section>
@@ -702,6 +924,23 @@ def generate_dashboard():
       let label = formatDate(item.due_date);
       if (item.due_time) label += ' at ' + item.due_time;
       return label;
+    }}
+
+    function cleanDispatchLine(line) {{
+      return text(line)
+        .replace(/^\\s*[-*]\\s+/, '')
+        .replace(/^\\s*\\d+\\.\\s+/, '')
+        .replace(/\\*\\*/g, '')
+        .replace(/`/g, '')
+        .trim();
+    }}
+
+    function dispatchLines(content) {{
+      return text(content)
+        .split('\\n')
+        .map(cleanDispatchLine)
+        .filter(Boolean)
+        .slice(0, 4);
     }}
 
     function courseTag(code) {{
@@ -923,6 +1162,45 @@ def generate_dashboard():
       }});
     }}
 
+    function renderDispatchPanel() {{
+      const dispatch = DASHBOARD_PAYLOAD.dispatch || {{}};
+      const badge = document.getElementById('dispatch-freshness');
+      const title = document.getElementById('dispatch-title');
+      const subtitle = document.getElementById('dispatch-subtitle');
+      const sections = document.getElementById('dispatch-sections');
+      sections.innerHTML = '';
+      badge.className = 'dispatch-freshness ' + text(dispatch.status);
+
+      if (!dispatch.present) {{
+        badge.textContent = 'missing';
+        title.textContent = 'No briefing found';
+        subtitle.textContent = text(dispatch.message) || 'No dispatch signals are available in the payload.';
+        return;
+      }}
+
+      badge.textContent = dispatch.is_today ? 'today' : text(dispatch.freshness_label);
+      title.textContent = dispatch.date;
+      const generated = dispatch.metadata && dispatch.metadata.generated ? 'Generated ' + dispatch.metadata.generated : 'Generated time unavailable';
+      subtitle.textContent = [dispatch.title || 'Daily briefing', generated].filter(Boolean).join(' / ');
+
+      (dispatch.signals || []).forEach(signal => {{
+        const lines = dispatchLines(signal.content);
+        if (!lines.length) return;
+        const block = document.createElement('section');
+        block.className = 'dispatch-section';
+        const h3 = document.createElement('h3');
+        h3.textContent = signal.title;
+        const ul = document.createElement('ul');
+        lines.forEach(line => {{
+          const li = document.createElement('li');
+          li.textContent = line;
+          ul.appendChild(li);
+        }});
+        block.append(h3, ul);
+        sections.appendChild(block);
+      }});
+    }}
+
     function setMetadata() {{
       document.getElementById('generated-line').textContent =
         'Generated ' + DASHBOARD_PAYLOAD.generated_label + ' / ' +
@@ -956,6 +1234,7 @@ def generate_dashboard():
 
     setMetadata();
     setProminentStatus();
+    renderDispatchPanel();
     renderPrograms();
     renderRegister();
     document.getElementById('pamphlet-close').addEventListener('click', closePamphlet);
