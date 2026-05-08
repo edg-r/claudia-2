@@ -21,7 +21,7 @@ from reportlab.platypus import (
 )
 
 
-VERSION = "v1.4.1"
+VERSION = "v1.4.2"
 OUT = Path(__file__).resolve().parent / f"GPCO 403_Midterm_Theory_Reference_{VERSION}.pdf"
 ASSET_DIR = Path(__file__).resolve().parent / "assets" / "gpco403_midterm_v1.4.0"
 TITLE = "GPCO 403 Midterm Theory Reference"
@@ -890,9 +890,9 @@ def draw_cover(c):
     c.setFont("Helvetica", 12)
     c.drawCentredString(w / 2, h - 0.75 * inch, "International Economics | Prof. Kyle Handley | UCSD GPS | Spring 2026")
     desc = (
-        "Version 1.4.1 preserves the v1.3.0 theory set and 12pt readable landscape layout, keeps "
-        "code-generated economics diagrams and ELI5 conclusions on each theory page, and embeds the four "
-        "finished conceptual PNG assets from assets/gpco403_midterm_v1.4.0 in place of the v1.4.0 imagegen markers."
+        "Version 1.4.2 preserves the v1.4.1 theory text and 12pt readable landscape layout, keeps the main "
+        "theory pages uncluttered, and places each visual on its own enlarged page immediately after the "
+        "corresponding theory page."
     )
     draw_box(c, margin, h - 1.35 * inch, w - 2 * margin, 0.95 * inch, "Use", [desc], fill=LIGHT_GREY)
     c.setFillColor(DARK_NAVY)
@@ -964,7 +964,16 @@ def draw_theory(c, theory, page_num):
     visual_h = 1.24 * inch
     key_h = 1.08 * inch
     exam_h = main_h - visual_h - key_h - 14
-    draw_visual(c, right_x, y2, main_right_w, visual_h, theory)
+    draw_box(
+        c,
+        right_x,
+        y2,
+        main_right_w,
+        visual_h,
+        "VISUAL",
+        [f"Enlarged diagram follows on the next page: {theory['title']}."],
+        fill=LIGHT_GREY,
+    )
     draw_box(c, right_x, y2 - visual_h - 7, main_right_w, key_h, "KEY TERMS", top_concepts(theory, 2), fill=None)
     exam_items = theory.get("exam_applications", [])
     draw_box(c, right_x, y2 - visual_h - key_h - 14, main_right_w, exam_h, "EXAM LOGIC", top_items(exam_items, 2), fill=None)
@@ -974,6 +983,28 @@ def draw_theory(c, theory, page_num):
     draw_box(c, c2, y3, col_w, lower_h, "STRENGTHS", top_items(theory["strengths"], 2), fill=LIGHT_BLUE)
     draw_box(c, c3, y3, col_w, lower_h, "WEAKNESSES", top_items(theory["weaknesses"], 2), fill=WARM_AMBER)
     draw_eli5(c, margin, y3 - lower_h - 6, usable_w, 0.86 * inch, theory["title"])
+    draw_footer(c, page_num)
+    c.showPage()
+
+
+def draw_visual_page(c, theory, page_num):
+    w, h = landscape(letter)
+    margin = 0.35 * inch
+    usable_w = w - 2 * margin
+    anchor = slugify(theory["title"]) + "_visual"
+    c.bookmarkPage(anchor, fit="XYZ", left=0, top=h)
+    c.addOutlineEntry("Visual: " + theory["title"], anchor, level=1)
+    c.setFillColor(DARK_NAVY)
+    c.rect(margin, h - 0.62 * inch, usable_w, 0.44 * inch, fill=1, stroke=0)
+    c.setFillColor(colors.white)
+    c.setFont("Helvetica-Bold", 13)
+    c.drawString(margin + 8, h - 0.36 * inch, f"{theory['session']} | Visual")
+    c.setFont("Helvetica-Oblique", 8.4)
+    c.drawString(margin + 8, h - 0.53 * inch, plain(theory["title"])[:150])
+
+    visual_top = h - 0.82 * inch
+    visual_h = h - 1.28 * inch
+    draw_visual(c, margin, visual_top, usable_w, visual_h, theory)
     draw_footer(c, page_num)
     c.showPage()
 
@@ -1020,9 +1051,13 @@ def build():
     c = canvas.Canvas(str(OUT), pagesize=landscape(letter))
     c.setTitle(TITLE + f" {VERSION}")
     draw_cover(c)
-    for i, theory in enumerate(THEORIES, start=2):
-        draw_theory(c, theory, i)
-    draw_references(c, len(THEORIES) + 2)
+    page_num = 2
+    for theory in THEORIES:
+        draw_theory(c, theory, page_num)
+        page_num += 1
+        draw_visual_page(c, theory, page_num)
+        page_num += 1
+    draw_references(c, page_num)
     c.save()
     if OVERFLOW_LOG:
         for title, count, first_line in OVERFLOW_LOG:

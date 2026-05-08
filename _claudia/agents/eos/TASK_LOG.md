@@ -2,6 +2,21 @@
 
 Record of major completed tasks. Read to avoid duplicate work.
 
+## 2026-05-07 — Daily Briefing Dispatch
+
+**Dispatch**: `_claudia/dispatches/2026-05-07_daily-briefing.md`
+
+**Status**: Completed with live calendar, personal Gmail, local UCSD Gmail OAuth, NWS weather, timelog sync, dashboard regeneration, DB academic-load scan, and prior dispatch/dashboard signal review.
+
+**Summary**: Thursday briefing centers the pivot after the GPCO 403 midterm. Calendar is light, with only GPEC 446 QM3 at 9:30 AM. UCSD Gmail surfaced a GPEC 446 Week 6 break announcement, GPCO 403 Zoom office hours congratulating students on finishing yesterday's midterm, GPCO 410 memo grade/comment releases, Gradescope access for GPCO 403, and optional GPS Careers/21st Century China events. The DB still has the GPCO 403 midterm as pending, so the dispatch flags it as a stale row needing confirmation before cleanup.
+
+**Delegation Suggested**:
+- Poseidon -- GPPS 463 Midterm Exam 2 prep checklist and 3x5 card outline (high)
+- Mnemosyne -- update stale GPCO 403 midterm row after Edgar confirms completion, then verify dashboard (high)
+- Plutus -- shift Econ memory/work queue to post-midterm Concept Check 4 / Ricardian trade (high)
+- Athena -- review posted GPCO 410 memo comments before the May 15 Data Memo choice (high)
+- Tyche -- note QM3 Week 6 lab/recitation break and keep Homework II verification queued (low)
+
 ## 2026-05-06 — Daily Briefing Dispatch
 
 **Dispatch**: `_claudia/dispatches/2026-05-06_daily-briefing.md`
@@ -431,3 +446,15 @@ Record of major completed tasks. Read to avoid duplicate work.
 **Status**: Recorded the new course-local artifact archive convention for superseded iterative files in `_claudia/agents/eos/AGENT_CONTEXT.md`.
 
 **Summary**: Dispatch folders keep current briefs visible. Future superseded generated packets should use the relevant local `.archive/` folder and update that folder `.archive/ARCHIVE_INDEX.md`.
+
+### 2026-05-03 — Daily Briefing Fallback
+**Requested by:** Claudia
+**What was done:** Claudia delegated the Sunday daily dispatch to Eos, but the spawned worker stalled without writing files or returning a handoff. Claudia closed the stale worker and completed a constrained Eos fallback using the daily-briefing skill, time tracker sync, dashboard regeneration, `claudia.db`, GPCO 410 syllabus evidence, and NWS weather page.
+**Output:** `_claudia/dispatches/2026-05-03_daily-briefing.md`
+**Notes:** Google Calendar and Gmail were not live-verified in the fallback. The dispatch explicitly preserves the academic-load layer and confirms GPCO 410 Midterm Exam as the next dated pending item: 2026-05-04 11:00, verified from syllabus.
+
+### 2026-05-05 — Personal Gmail Past-Week Triage
+**Requested by:** Edgar
+**What was done:** Triaged `edgar.agunias@gmail.com` for the last seven days, prioritizing INBOX. Reviewed 16 non-trash/non-spam recent messages, confirmed INBOX contained only one Amazon Music promo, and moved three obvious promotional messages to Trash: Amazon Music welcome promo and two Capital One marketing offers. Also scanned `eagunias@ucsd.edu` via the read-only terminal OAuth path: 31 INBOX messages from the last seven days, no mutations possible from that path.
+**Output:** Personal Gmail mutations completed via connector; UCSD Gmail cleanup candidates returned to Claudia; no dispatch file created.
+**Notes:** Personal Gmail kept security, legal/immigration, receipts, financial confirmations, and personal family/refund-related messages. Important kept items include OpenAI macOS app security update before May 8, Alejo Law immigration-documents follow-up requiring G-28 signature/review and income clarification, Dad's Apple refund request, Apple $22.99 receipt, and Capital One/Zelle/payment confirmations. Personal INBOX verified empty after cleanup. UCSD important items include May rent reminder/unpaid balance, Gradescope GPEC446 add, GPCO 403 extra office hours, Handshake/Kodely follow-up, GPSA meeting/presentation replies, Canvas grade/office-hour notifications, and TSS portal-change notice.

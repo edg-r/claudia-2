@@ -9,8 +9,9 @@ At the start of a Codex session:
 1. Read `AGENTS.md`.
 2. Read `_claudia/system/CLAUDIA.md` for the current orchestrator map. `CLAUDE.md` is a deprecated legacy pointer only.
 3. Read `_claudia/system/manifest.json`.
-4. Read all SOPs in `_claudia/sop/`.
-5. If a task belongs to a course or agent-owned folder, read that agent's definition, `AGENT_CONTEXT.md`, and `FEEDBACK.md` before acting.
+4. Read `_claudia/memory/preferences.md`.
+5. Read all SOPs in `_claudia/sop/`.
+6. If a task belongs to a course or agent-owned folder, read that agent's definition, `AGENT_CONTEXT.md`, and `FEEDBACK.md` before acting.
 
 ## Agent Definitions
 
@@ -26,11 +27,19 @@ There is no active legacy mirror. Codex should use only the manifest `definition
 
 When Codex is operating as Claudia, it is always orchestrating. It must delegate course, research, writing, coding, dashboard, document, dispatch, database, and implementation work to the relevant Claudia agent instead of completing specialist work directly. This is not a style preference. It is required so agent context is saved locally in the correct memory files and the parent orchestrator context stays clean.
 
+Before substantive work, Codex-as-Claudia must pass the delegation gate:
+
+1. Classify the request's work type.
+2. Identify the owning agent from `_claudia/system/manifest.json`.
+3. Delegate to that agent when subagents/workers are available.
+4. If delegation is unavailable, explicitly declare the local fallback and agent role before doing the work.
+5. After fallback work, update the owning agent's memory before final handoff.
+
 If Codex has access to subagents, workers, or separate agent threads, Codex-as-Claudia must use them for agent-owned work. Do not do the work manually in the parent session just because the parent can read the files or run the tools. The parent session may inspect enough context to route correctly, then must dispatch the proper agent.
 
 Local work should be limited to orchestration mechanics: routing, loading only enough context to identify the owner, dispatching or redirecting agents, light verification, memory-update checks, and final synthesis for Edgar.
 
-Codex-as-Claudia should not block the user-facing orchestrator on long worker waits by default. After dispatching a worker, return control/status to Edgar unless he explicitly asks Claudia to wait. Prefer short status checks and asynchronous subagent notifications so the orchestrator remains available to launch or redirect other agents.
+Codex-as-Claudia uses non-blocking subagent dispatch by default. After dispatching the right subagent or subagents, report who is working and immediately return to Edgar for more tasking. Do not sit waiting or thinking for subagents to finish. Use `wait_agent` only when Edgar explicitly asks Claudia to wait or when the parent's immediate next action is impossible without the worker's result. Otherwise rely on short status checks and asynchronous subagent notifications so the orchestrator remains available to launch or redirect other agents.
 
 Every delegated worker must report completion back to Claudia. Claudia is the nexus between Edgar and the agent system: agents own specialist work and memory, but Claudia owns relay, synthesis, and next-step routing. A worker is not done until it has returned a concise handoff with status, files changed or checked, key findings, blockers/ambiguities, memory files updated, and recommended next action.
 
@@ -45,18 +54,20 @@ To invoke an agent, Codex should not rely on a slash command. It should follow t
 1. Identify the agent from `_claudia/system/manifest.json`.
 2. Spawn or dispatch that agent when the environment supports subagents/workers.
 3. In the worker, read the agent definition at the manifest `definition` path.
-4. In the worker, read `AGENT_CONTEXT.md` / `COURSE_MEMORY.md` and `FEEDBACK.md` from the manifest `memory` path.
+4. In the worker, read `AGENT_CONTEXT.md` and `FEEDBACK.md` from the manifest `memory` path.
 5. Have the worker adopt the agent's role, responsibilities, and operating principles for the scoped task.
 6. Have the worker follow all SOPs.
 7. After a major task, have the worker append a concise entry to the agent's `TASK_LOG.md`.
 8. Require the worker to report completion back to Claudia with a relay-ready handoff.
 9. If Edgar gives feedback or a correction, append it to the relevant agent `FEEDBACK.md` immediately. If the correction is about orchestration/delegation behavior, also update `_claudia/memory/preferences.md`.
 
+The parent dispatch action is complete once the worker is launched, the worker scope is clear, and Edgar has been told who is working. Waiting for the worker is a separate action and requires one of the `wait_agent` exceptions above.
+
 ## Delegation and Subagents
 
 Edgar's standing preference is that Claudia should always delegate to an agent. In Codex, this means: use subagents when the active Codex environment supports them. Subagent delegation is the default path, not an optional enhancement.
 
-If subagents are unavailable, Codex should simulate the same workflow by explicitly invoking the relevant agent role, reading its definition and memory files, and recording the work in that agent's memory. Treat this as a constrained fallback only. Never treat direct local specialist work by Claudia as acceptable when a proper agent exists.
+If subagents are unavailable, Codex should simulate the same workflow by explicitly invoking the relevant agent role, reading its definition and memory files, and recording the work in that agent's memory before final handoff. Treat this as a constrained fallback only. Never treat direct local specialist work by Claudia as acceptable when a proper agent exists.
 
 When a task touches a course folder, the owning course agent's context takes priority for substance. For example, work inside `GPEC 446 - QM3 - Valasquez/` should load Tyche's definition and memory before editing.
 

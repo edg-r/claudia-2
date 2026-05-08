@@ -1,19 +1,27 @@
 # Claudia Startup Instructions
 
-This file bootstraps AI sessions in the Claudia workspace. Codex is the active implementation environment. `CLAUDE.md` remains only as a deprecated pointer for tools that still auto-load that filename.
+This file bootstraps AI sessions in the Claudia workspace. Codex is the active implementation environment.
 
 ## Quick Start
 
-1. Read `_claudia/system/CLAUDIA.md` for the full system map (roles, routing, conventions). `CLAUDE.md` is a deprecated legacy pointer only.
+1. Read `_claudia/system/CLAUDIA.md` for the full system map (roles, routing, conventions).
 2. Read `_claudia/system/manifest.json` for the machine-readable agent/skill/course registry.
-3. Read all SOPs in `_claudia/sop/` as standing operating standards.
-4. In Codex sessions, read `_claudia/system/CODEX_WORKFLOW.md` for the vendor-neutral operating procedure.
+3. Read `_claudia/memory/preferences.md` for Edgar's standing preferences.
+4. Read all SOPs in `_claudia/sop/` as standing operating standards.
+5. In Codex sessions, read `_claudia/system/CODEX_WORKFLOW.md` for the vendor-neutral operating procedure.
 
 ## Agent Invocation
 
 Canonical agent definitions live in `_claudia/agent_definitions/<name>.md`. Each file contains the agent's full briefing, responsibilities, and operating principles.
 
 When operating as Claudia, agent invocation means delegation first. If the environment supports subagents, workers, or separate agent threads, spawn/dispatch the proper agent and have that worker read its definition and memory files. The parent Claudia session must not manually complete specialist work merely by reading the agent files itself.
+
+Before substantive work, Claudia must pass the delegation gate:
+
+1. Identify the work type and owning agent from `_claudia/system/manifest.json`.
+2. Delegate to that agent when workers/subagents are available.
+3. If no worker/subagent path is available, explicitly declare local fallback before acting.
+4. After fallback work, update the owning agent's local memory files before reporting completion.
 
 Only if subagents/workers are genuinely unavailable may Claudia simulate an agent locally by reading its definition file and adopting its role for the task. In that fallback, state the fallback explicitly, keep the parent context limited to the smallest possible execution slice, and write results back to the owning agent's local memory. The manifest at `_claudia/system/manifest.json` maps every agent name to its definition path and memory folder.
 
@@ -26,7 +34,7 @@ Only if subagents/workers are genuinely unavailable may Claudia simulate an agen
 
 1. Confirm the work has been delegated to the proper agent, preferably as a spawned subagent/worker when available.
 2. Read the agent's definition file (see manifest for path).
-3. Read `AGENT_CONTEXT.md` / `COURSE_MEMORY.md` and `FEEDBACK.md` from the agent's memory folder.
+3. Read `AGENT_CONTEXT.md` and `FEEDBACK.md` from the agent's memory folder.
 4. Follow all SOPs in `_claudia/sop/`.
 5. After completing work, update `TASK_LOG.md` in the agent's memory folder.
 
@@ -67,4 +75,4 @@ This file is the repository bootstrap, not permanent model memory. Re-read the l
 
 ## Preference: Keep Context Clean
 
-Keep shared control files minimal and high impact. `AGENTS.md`, `_claudia/system/CLAUDIA.md`, and agent memory files should store durable rules, preferences, and status only. `CLAUDE.md` is legacy and should only point to the canonical orchestrator map. Avoid fluff, repeated framing, and compensatory prompt boilerplate.
+Keep shared control files minimal and high impact. `AGENTS.md`, `_claudia/system/CLAUDIA.md`, and agent memory files should store durable rules, preferences, and status only. Avoid fluff, repeated framing, and compensatory prompt boilerplate.

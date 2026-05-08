@@ -4,6 +4,12 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 <!-- No entries yet. Append new tasks below this line. -->
 
+### 2026-05-05 — QM3 midterm completion logged
+**Requested by:** Edgar
+**What was done:** Inspected `_claudia/claudia.db` for GPEC 446/QM3 midterm assignments and found one clear row, assignments id 11 (`Midterm Exam`). Marked it completed with `submitted_at` and `last_verified_at` set to 2026-05-05, preserving syllabus provenance/confidence fields.
+**Output:** `_claudia/claudia.db`; `GPEC 446 - QM3 - Valasquez/_agent/ASSIGNMENTS.md`
+**Notes:** Edgar reported the QM3 midterm finished on 2026-05-05 America/Los_Angeles. No unrelated assignment rows were changed.
+
 ### 2026-04-30 — QM3 inbox DiD/FE/FD source inspection and rescue note
 **Requested by:** Claudia
 **What was done:** Inspected the three local QM3 inbox PDFs from `inbox/QM3/` with `pdfinfo` and `pdftotext`. Confirmed that `Week 6 Exercises DiD FE FD.pdf` and `Interpreting all β's in DiD.pdf` supply the missing classroom panel-data material on two-by-two DiD, coefficient interpretation, first differences, and fixed effects; `week3_IV_exercise_v2.pdf` is IV review rather than DiD. Created a concise Markdown rescue note isolating the DiD/FE/FD formulas, interpretations, assumptions, and sorting recommendations.

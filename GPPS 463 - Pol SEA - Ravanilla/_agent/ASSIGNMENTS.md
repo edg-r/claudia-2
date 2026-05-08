@@ -6,6 +6,7 @@
 - LD8: Drafted (Asian Miracle / Jansen 2001) -- due Apr 21 by 5:00 PM -- file: W4 - Asian Miracle/Discussion Post LD8 - Asian Miracle.md
 - LD9: Reading summary prepared (Singapore / Huff 1995) -- due Apr 27 at 12:01 AM per Canvas/email -- file: Study Guides/huff1995_singapore_model_summary.md -- submission status unknown
 - LD10: Drafted (Asian Financial Crisis / Hicken 2008) -- due Apr 28 by 5:00 PM -- file: W5 - Singapore & Asian Financial Crisis/Discussion Post LD10 - Asian Financial Crisis.md
+- LD11: Drafted (Vietnam Under Communism / Malesky, Abrami & Zheng 2011) -- due May 4 by 5:00 PM -- file: W6 - Vietnam Under Communism/Discussion Post LD11 - Vietnam Under Communism.md
 
 ## Papers
 (To be populated from syllabus)

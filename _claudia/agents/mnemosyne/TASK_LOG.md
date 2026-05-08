@@ -110,3 +110,9 @@ Ran two cross-course queries. First: full open-assignments rundown across GPCO 4
 **What was done:** Recommended the initial archive approach, then Edgar corrected the design to course-local archives under `[Course Folder]/.archive/<project_slug>/` with `[Course Folder]/.archive/ARCHIVE_INDEX.md` as the human-readable index.
 **Output:** Returned to Claudia; protocol recorded in `_claudia/agents/mnemosyne/AGENT_CONTEXT.md`
 **Notes:** Mnemosyne owns archive discovery conventions and should search the owning course archive index before broad file scans.
+
+### 2026-05-04 - GPCO 410 Midterm Status Update
+**Requested by:** Claudia
+**What was done:** Updated assignment id=18 (`GPCO 410` Midterm Exam) in `_claudia/claudia.db` from `pending` to `completed` after Edgar stated the midterm is done. Stamped `submitted_at` and `last_verified_at` as `2026-05-04 19:50:54 PDT` and appended provenance to the row notes.
+**Output:** `_claudia/claudia.db`
+**Notes:** Verified only the GPCO 410 midterm row changed; Final Exam and other GPCO 410 assignments remain untouched.

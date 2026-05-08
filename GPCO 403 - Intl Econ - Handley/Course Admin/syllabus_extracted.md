@@ -29,7 +29,7 @@
 | Data Brief 1 | 2026-04-17 | 23:59 | America/Los_Angeles | 5% | Canvas | syllabus pp. 3, 5; DB id 2 | verified | Opens 2026-04-08. Compare assigned country to U.S. macro indicators. Current DB status: completed. |
 | Concept Check 2 | 2026-04-20 | 23:59 | America/Los_Angeles | 4% | Canvas quiz | syllabus pp. 3, 5; DB id 3 | verified | Opens 2026-04-15. Current DB status: pending, but due date has passed as of 2026-04-28; verify completion status. |
 | Concept Check 3 | 2026-04-28 | 23:59 | America/Los_Angeles | 4% | Canvas quiz | syllabus pp. 3, 5; DB id 4 | verified | Opens 2026-04-22. Due today on extraction date, 2026-04-28. |
-| Midterm Exam | 2026-05-04 | 14:00 | America/Los_Angeles | 30% | In class | syllabus pp. 4, 5; DB id 5 | verified | 2:00-3:20 PM; covers first 9-10 lectures, approximately first 5 weeks. |
+| Midterm Exam | 2026-05-06 | 14:00 | America/Los_Angeles | 30% | In class | Canvas announcement email 2026-04-03; DB id 5 | verified | Prof. Handley announced the midterm moved to Wednesday, May 6. Assumed regular class time 2:00-3:20 PM unless a later course update states otherwise. May 4 5-6 PM is a review session. |
 | Concept Check 4 | 2026-05-18 | 23:59 | America/Los_Angeles | 4% | Canvas quiz | syllabus pp. 3, 5; DB id 6 | verified | Opens 2026-05-13. |
 | Concept Check 5 | 2026-06-02 | 23:59 | America/Los_Angeles | 4% | Canvas quiz | syllabus pp. 3, 6; DB id 8 | ambiguous | Syllabus narrative says due Monday 2026-06-01; course grid says due Tuesday 2026-06-02. Existing DB uses 2026-06-02. Verify against Canvas. |
 | Data Brief 2 | 2026-06-03 | 23:59 | America/Los_Angeles | 5% | Timed Canvas memo | syllabus pp. 3-4, 5-6; DB id 7 | verified | Opens 2026-05-20. Two-hour WTO trade-profile memo. Must begin no later than 2026-06-03 22:00 to receive full time. |
@@ -47,7 +47,7 @@
 
 | Title | Date | Time | Location | Weight | Source | Notes |
 |---|---|---:|---|---:|---|---|
-| Midterm Exam | 2026-05-04 | 14:00-15:20 | Robinson Auditorium | 30% | syllabus pp. 4, 5; DB id 5 | In class; short answer and multiple choice; first 9-10 lectures / roughly weeks 1-5. |
+| Midterm Exam | 2026-05-06 | 14:00-15:20 | Robinson Auditorium | 30% | Canvas announcement email 2026-04-03; DB id 5 | In class; short answer and multiple choice; first 9-10 lectures / roughly weeks 1-5. Prof. Handley moved the exam from Monday May 4 to Wednesday May 6. |
 | Final Exam | 2026-06-08 | 08:00-11:00 | Not specified in syllabus | 40% | syllabus p. 4; DB id 9 | Short answer and multiple choice; cumulative, weighted toward final 5-6 weeks. |
 
 ## Readings By Week
@@ -59,7 +59,7 @@
 | 3 | Apr 13 / Apr 15 | Feenstra and Taylor Ch. 12.1, 13.1-13.4, 14.1; The Economist Big Mac Index | textbook / Canvas; DB readings id 4, 6 |  | Yes | Exchange rates, law of one price, PPP, Big Mac application. DB status: pending. |
 | 4 | Apr 20 / Apr 22 | Feenstra and Taylor Ch. 12.3, 15.5, 19.1-19.4 | textbook; DB reading id 5 |  | Yes | External wealth, valuation effects, consumption smoothing, crises. DB status: pending. |
 | 5 | Apr 27 / Apr 29 | No new reading separately listed in reading section |  |  |  | Course grid: PPP/LOOP/Big Mac application, midterm roadmap, optional recorded evening review after class-week. Week labeling may differ from current Canvas folders. |
-| 6 | May 4 / May 6 | Feenstra and Taylor Ch. 2; The Economist, "The miracle of trade" | textbook / Canvas; DB readings id 7, 8 |  | Yes | Midterm Monday; start trade and Ricardian model Wednesday. DB status: pending. |
+| 6 | May 4 / May 6 | Feenstra and Taylor Ch. 2; The Economist, "The miracle of trade" | textbook / Canvas; DB readings id 7, 8 |  | Yes | Midterm moved to Wednesday May 6 by Canvas announcement email; May 4 5-6 PM is the review session. Trade/Ricardian model sequencing may shift around the moved exam. DB status: pending. |
 | 7 | May 11 / May 13 | Feenstra and Taylor Ch. 4 and 17.1 if time permits | textbook; DB reading id 9 |  | Yes | Heckscher-Ohlin and factor endowments. DB status: pending. |
 | 8 | May 18 / May 20 | Feenstra and Taylor Ch. 6 | textbook; DB reading id 10 |  | Yes | Firms, increasing returns, and trade. DB status: pending. |
 | 9 | May 25 / May 27 | Feenstra and Taylor Ch. 8, 11.1-11.2; Amiti, Redding, and Weinstein (2019) | textbook / Canvas; DB readings id 11, 12 | 24 for Amiti et al. row | Yes | Trade and commercial policy. Monday 2026-05-25 is Memorial Day, no class. DB status: pending. |

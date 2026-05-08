@@ -110,3 +110,87 @@
 **What was done:** Implemented the course-local archive convention for obvious superseded version families across course folders; added archive SOP and index; updated agent contexts with the new protocol.
 **Output:** [Course Folder]/.archive/, `_claudia/sop/artifact-archive.md`, `_claudia/sop/iterative-file-naming.md`, agent `AGENT_CONTEXT.md` files
 **Notes:** Keep current candidates visible, move superseded generated iterations to `[Course Folder]/.archive/<project_slug>/`, and update `[Course Folder]/.archive/ARCHIVE_INDEX.md`.
+
+### 2026-05-03 - GPCO 403 midterm reference enlarged-visual build
+**Requested by:** Claudia / Edgar
+**What was done:** Updated the GPCO 403 ReportLab builder from v1.4.1 to v1.4.2 so the small main-page visual slot becomes a pointer and each theory page is followed by an enlarged visual page. Ran syntax, build, PDF metadata, outline/text, image-object, and rendered-page checks.
+**Output:** `GPCO 403 - Intl Econ - Handley/Study Guides/build_midterm_theory_reference.py`; `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.4.2.pdf`; `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.4.2_notes.md`.
+**Notes:** Removed incidental `Study Guides/__pycache__/` after `py_compile`; no staging or commit performed.
+
+### 2026-05-03 - GPCO 410 Midterm Flashcard HTML
+**Requested by:** Claudia / Edgar
+**What was done:** Created a standalone direct-open HTML/CSS/JS flashcard drill tool for the 11 GPCO 410 midterm theory entries. Fronts show theory title plus smaller italic author/source line; backs give 2-3 sentence exam-useful essences.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/gpco410_midterm_flashcards.html`
+**Notes:** Verified the file exists and contains 11 title, author, and essence records, plus keyboard controls and internal output disclosure.
+
+### 2026-05-04 - Graduate Student Lounge GPSA PPTX
+**Requested by:** Claudia
+**What was done:** Created a 10-slide GPSA briefing deck for the Graduate Student Lounge using the standard PowerPoint template, the committee meeting notes, and two selected lounge photos.
+**Output:** `inbox/GLO/Graduate_Student_Lounge_GPSA_v1.0.0_working.pptx`
+**Notes:** Verified with MarkItDown extraction, placeholder/legacy-text scan, PowerPoint PDF render/contact-sheet visual check, final Quick Look thumbnail, and pptx geometry checks. The second PowerPoint export pass hung after a minor slide 9 geometry trim and was stopped; final text/geometry checks passed afterward.
+
+### 2026-05-04 - Dashboard Refresh
+**Requested by:** Claudia
+**What was done:** Regenerated `_claudia/dashboard.html` from the current `_claudia/claudia.db` using the existing dashboard generator.
+**Output:** `_claudia/dashboard.html`
+**Notes:** Verified local date banner, Week 6 state, headline cards, and assignment/readings/file/embedding counts against direct SQLite queries.
+
+### 2026-05-04 - Dashboard Refresh After GPCO 410 Midterm Completion
+**Requested by:** Claudia
+**What was done:** Regenerated `_claudia/dashboard.html` from the current `_claudia/claudia.db` after Mnemosyne marked the GPCO 410 midterm completed.
+**Output:** `_claudia/dashboard.html`
+**Notes:** Verified the embedded assignment JSON now has GPCO 410 Midterm Exam id 18 as `completed` with submitted timestamp `2026-05-04 19:50:54 PDT`; headline assignment card now reads 34 total, 21 up, 13 done.
+
+### 2026-05-05 - Delegation and Orchestrator Hardening
+**Requested by:** Claudia / Edgar
+**What was done:** Tightened Claudia startup and delegation rules, added the delegation gate SOP, registered it in the SOP index and manifest, required startup reads of `_claudia/memory/preferences.md`, and added a compact manifest routing surface.
+**Output:** `AGENTS.md`, `_claudia/system/CLAUDIA.md`, `_claudia/system/CODEX_WORKFLOW.md`, `_claudia/system/manifest.json`, `_claudia/sop/README.md`, `_claudia/sop/delegation.md`
+**Notes:** Local fallback now must be explicitly declared before work and logged to the owning agent's memory before final handoff.
+
+### 2026-05-05 - Live Dashboard Server
+**Requested by:** Claudia / Edgar
+**What was done:** Added a local live dashboard server with `/api/dashboard`, `/api/health`, and `/events` SSE endpoints; kept static dashboard generation intact; added optional filesystem notification for `_claudia/claudia.db` plus WAL/SHM sidecars with a slow fallback check; added browser-side SSE refresh and a dark/aged-paper theme toggle.
+**Output:** `_claudia/dashboard.py`; `_claudia/dashboard_server.py`; `_claudia/dashboard.html`
+**Notes:** Verified with Python compile, static generation, curl health/API/HTML checks, and an SSE filesystem-change smoke test from `http://127.0.0.1:8765`.
+
+### 2026-05-05 - Dashboard Redesign Concept Mockups
+**Requested by:** Edgar
+**What was done:** Created three static review mockups for the Claudia dashboard redesign without replacing the current dashboard. Concepts emphasize due-today, next 48 hours, and course workload/status with Apple-like, EPA field binder, and hybrid operational directions.
+**Output:** `_claudia/design_concepts/dashboard_redesign_2026-05-05/`
+**Notes:** Used live `/api/dashboard` data where available. Current dashboard generator/server files were not edited.
+
+### 2026-05-05 - Dashboard Redesign Concept Mockups v2 With Screenshot References
+**Requested by:** Claudia / Edgar
+**What was done:** Reran the Claudia dashboard redesign concepts using the attached dashboard and EPA Graphic Standards screenshots as visual references. Created three revised static HTML concepts plus rendered screenshots, emphasizing due-today, next 48 hours, course workload/status, EPA-style program colors, geometric signal patterns, sparse metadata, and strong black typography.
+**Output:** `_claudia/design_concepts/dashboard_redesign_2026-05-05_v2/`
+**Notes:** Did not replace the live dashboard. Used live `/api/dashboard` data for counts and next-deadline anchors. Verified rendered screenshots with Chrome headless.
+
+### 2026-05-05 - Standards Sheet Concept Annotation Pass
+**Requested by:** Edgar
+**What was done:** Updated v2 dashboard concept 2 from browser annotations: removed the repeated vertical Claudia identifier clutter, replaced EPA-style program labels with course codes, and made course cards open an animated three-panel course pamphlet for readings, assignments, and exams.
+**Output:** `_claudia/design_concepts/dashboard_redesign_2026-05-05_v2/concept_2_standards_sheet.html`; refreshed screenshots in `_claudia/design_concepts/dashboard_redesign_2026-05-05_v2/screenshots/`
+**Notes:** Did not replace the live dashboard. Verified HTML parsing, label cleanup, accessibility hooks, and Chrome headless renders for the closed sheet and open GPCO 403 pamphlet.
+
+### 2026-05-05 - Live Dashboard Standards Sheet Implementation
+**Requested by:** Claudia / Edgar
+**What was done:** Replaced the generated/live dashboard surface with the concept 2 standards-sheet design while preserving DB-backed generation, `/api/dashboard`, `/api/health`, and `/events` SSE refresh. Course cards now open a three-panel pamphlet from live payload data; completed/submitted/done records are muted, struck through, and sorted below active records.
+**Output:** `_claudia/dashboard.py`; `_claudia/dashboard.html`; `_claudia/dashboard_server.py`; `_claudia/dashboard_screenshots/live_dashboard_standards_sheet_2026-05-05.png`; `_claudia/dashboard_screenshots/live_dashboard_gpco410_pamphlet_2026-05-05.png`
+**Notes:** Verified Python compile, static generation, health/API/HTML/SSE curl checks, and Chrome headless screenshots. GPCO 410 payload shows Blue Memo completed and Orange Memo submitted; active memo/exam records render above completed records in the pamphlet.
+
+### 2026-05-06 - Dashboard Daily Dispatch Integration
+**Requested by:** Edgar
+**What was done:** Added daily briefing discovery/parsing to `_claudia/dashboard.py`, then narrowed the dashboard surface to a compact Dispatch Signals panel so it supplements the dashboard instead of duplicating action items. The panel now extracts Weather, Personal Gmail, UCSD Email, and Delegation Suggestions.
+**Output:** `_claudia/dashboard.py`; `_claudia/dashboard.html`
+**Notes:** Ran `python3 _claudia/dashboard.py`; payload verification shows `today=2026-05-06`, latest dispatch `2026-05-06`, freshness `current` / `today`, and all four signal sections present.
+
+### 2026-05-07 - Dashboard Refresh and Local Launch
+**Requested by:** Edgar
+**What was done:** Regenerated `_claudia/dashboard.html` from `_claudia/claudia.db` with the established dashboard generator and launched the local live dashboard server.
+**Output:** `_claudia/dashboard.html`; local server at `http://127.0.0.1:8765`
+**Notes:** Verified `/api/health`, `/api/dashboard`, and `/dashboard.html` with curl. Payload reports `today=2026-05-07`, Week 6, 34 assignments, 17 upcoming, 17 completed. Latest dispatch is `2026-05-07` and marked current/today.
+
+### 2026-05-07 - Non-Blocking Subagent Dispatch Rule
+**Requested by:** Edgar
+**What was done:** Added Edgar's non-blocking dispatch rule to Claudia's durable preferences, Codex workflow, and delegation SOP. The rule makes dispatch-and-return the default and restricts `wait_agent` to explicit wait requests or hard parent-action dependencies.
+**Output:** `_claudia/memory/preferences.md`; `_claudia/system/CODEX_WORKFLOW.md`; `_claudia/sop/delegation.md`
+**Notes:** Keep Claudia available after launching workers; relay subagent handoffs as notifications arrive.

@@ -39,3 +39,15 @@ Durable findings: (1) the named-author forkable-infrastructure pattern is now th
 **What was done:** Recorded the new course-local artifact archive convention for superseded iterative files.
 **Output:** `_claudia/agents/atlas/AGENT_CONTEXT.md`
 **Notes:** Check `[Course Folder]/.archive/ARCHIVE_INDEX.md` before assuming older drafts or generated references are unavailable.
+
+### 2026-05-07 — EmzingoU/NexGen Peru company breakdown
+**Requested by:** Edgar
+**What was done:** Researched EmzingoU using current public sources plus known GPS Careers email facts from Apr 24, Apr 30, and May 7, 2026. Produced a concise company/program breakdown for the Peru NexGen internship opportunity, including strengths, risks, and application questions.
+**Output:** Returned to Claudia/Edgar in chat.
+**Notes:** 12twenty posting remains behind login/Cloudflare, so exact placement terms, pay, dates, role descriptions, and funding mechanics require GPS Careers/12twenty verification.
+
+### 2026-05-07 — EmzingoU/NexGen Peru independent verifier scan
+**Requested by:** Edgar
+**What was done:** As Atlas / EmzingoU Researcher B, independently checked current public sources for EmzingoU / Emzingo Group, the NexGen Leadership Program in Peru/Lima, GPS Careers relevance, public corroboration, risks, and application implications.
+**Output:** Returned concise verifier handoff in chat.
+**Notes:** Public sources corroborate company existence, B Corp certification, Peru operating geography, graduate-student social-impact consulting positioning, and some third-party university/employer-platform references. The exact GPS Careers / 12twenty posting remains inaccessible without login and needs peer verification against the private posting.

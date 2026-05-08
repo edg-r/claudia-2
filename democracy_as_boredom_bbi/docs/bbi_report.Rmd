@@ -1,0 +1,126 @@
+---
+title: "Democracy as Boredom: Measuring Institutional Constraint in Presidential Speech"
+author: "Edgar Agunias"
+date: "2026-04-29"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(readr)
+library(stringr)
+scored <- read_csv("../data_clean/presidential_speeches_bbi_scored.csv", show_col_types = FALSE)
+summary_stats <- read_csv("../outputs/tables/summary_statistics.csv", show_col_types = FALSE)
+```
+
+# Research Question
+
+Can presidential speeches be scored for bureaucratic boredom as a proxy for the rhetorical presence of institutional constraint?
+
+# Theory
+
+Democracy does not only structure who gets power. It structures how power must justify itself. Institutional constraint should leave a linguistic trace. A constrained executive must speak through institutions, procedures, agencies, budgets, legal authority, and implementation. A less constrained or more personalistic executive has stronger incentives to speak through destiny, unity, crisis, enemies, betrayal, and direct identification with the people. The Bureaucratic Boredom Index is designed to capture this rhetorical difference.
+
+# Literature Review
+
+The rhetorical presidency literature shows that U.S. presidential speech can be treated as a long-run measurable corpus. Lim (2002) uses computer-assisted content analysis to identify long-term changes in presidential rhetoric, while Savoy (2017) applies stylometric tools to presidential style across two centuries.
+
+The populist discourse literature shows that attributes of political speech can be measured at the speech level rather than assigned permanently to leaders. Bonikowski and Gidron (2016) measure populist style in U.S. campaign rhetoric, and Bonikowski et al. (2022) extend speech-based measurement of populism, nationalism, and authoritarianism.
+
+Work on authoritarian, illiberal, and personalist rhetoric shows that leader speech may track weakening executive constraints. Brunkert and von Soest (2023) connect personalist legitimation with later deterioration in executive constraints. Mochtak (2025) develops a large-language-model approach to detecting authoritarian discourse in political speeches.
+
+Text-as-data scholarship provides the methodological caution: automated text analysis scales interpretation but requires validation and close reading (Grimmer & Stewart, 2013). The UN General Debate corpus demonstrates how political speeches can be used as comparative data (Baturo et al., 2017), and V-Dem provides candidate external measures for later cross-national validation.
+
+# Data
+
+The pilot corpus uses American Presidency Project category pages for inaugural addresses and annual messages/State of the Union documents. The scored dataset contains `r nrow(scored)` speeches from `r min(scored$year, na.rm = TRUE)` to `r max(scored$year, na.rm = TRUE)`.
+
+The enriched metadata include presidential party, divided or unified government, major-war period, recession month indicator, and current-dollar GDP where available. Party is drawn from Britannica's presidents table; Congress control is drawn from the Wikipedia party-divisions table; recession and GDP are drawn from FRED.
+
+```{r}
+summary_stats |> kable()
+```
+
+# Dictionary Construction
+
+The BBI uses two transparent dictionaries. The procedural constraint dictionary includes terms related to law, courts, Congress, statutes, committees, hearings, budgets, appropriations, oversight, agencies, implementation, regulation, reports, programs, administration, consultation, and federalism. The charismatic sovereignty dictionary includes terms related to destiny, rebirth, greatness, betrayal, enemies, sacrifice, glory, humiliation, corruption, crisis, threats, restoration, national will, and people-as-one rhetoric.
+
+# Scoring
+
+The main score is:
+
+```text
+BBI_z = z(procedural terms per 1,000 words) - z(charismatic terms per 1,000 words)
+```
+
+The score measures the rhetorical presence of institutional, procedural, and administrative constraint in presidential speech. It does not prove democracy by itself.
+
+# Figures
+
+```{r, out.width="100%"}
+knitr::include_graphics("../outputs/figures/01_bbi_over_time.png")
+```
+
+```{r, out.width="100%"}
+knitr::include_graphics("../outputs/figures/02_average_bbi_by_president.png")
+```
+
+```{r, out.width="100%"}
+knitr::include_graphics("../outputs/figures/09_procedural_vs_charismatic.png")
+```
+
+# Preliminary Models
+
+The preliminary models estimate BBI as a function of year and speech type, BBI as a function of president and speech type, BBI as a function of divided government, major-war period, recession, and speech type, and procedural and charismatic language as separate dependent variables. GDP is exported for later use but omitted from the first model table because coverage begins in 1947.
+
+```{r, results="asis"}
+htmltools::includeHTML("../outputs/tables/preliminary_models.html")
+```
+
+# Interpretation
+
+This pilot should be read as a proof of concept. If BBI rises over time, that may be consistent with the administrative state hypothesis: modern presidents speak more often through programs, departments, budgets, rules, and implementation. If crisis speeches score lower, that may be consistent with the crisis rhetoric hypothesis. These are descriptive patterns, not causal estimates.
+
+# Limitations
+
+Low BBI does not mean authoritarianism. It may indicate stronger use of charismatic, personalistic, or crisis-centered rhetoric. High BBI does not mean democracy. It may indicate bureaucratic or administrative language. The U.S.-only design cannot validate the index against cross-national regime variation.
+
+# Next Steps
+
+The next stage should audit the enriched metadata, hand-code validation samples, revise the dictionary based on observed false positives and false negatives, and then apply the index to cross-national executive speeches validated against V-Dem measures.
+
+# References
+
+American Presidency Project. (n.d.). *Welcome to the American Presidency Project*. University of California, Santa Barbara. https://www.presidency.ucsb.edu/
+
+Baturo, A., Dasandi, N., & Mikhaylov, S. (2017). Understanding state preferences with text as data: Introducing the UN General Debate corpus. *Research & Politics, 4*(2), 1-9. https://doi.org/10.1177/2053168017712821
+
+Bonikowski, B., & Gidron, N. (2016). The populist style in American politics: Presidential campaign rhetoric, 1952-1996. *Social Forces, 94*(4), 1593-1621. https://doi.org/10.1093/sf/sov120
+
+Bonikowski, B., Luo, Y., & Stuhler, O. (2022). Politics as usual? Measuring populism, nationalism, and authoritarianism in U.S. presidential campaigns, 1952-2020 with neural language models. *Sociological Methods & Research, 51*(4). https://doi.org/10.1177/00491241221122317
+
+Brunkert, L., & von Soest, C. (2023). Praising the leader: Personalist legitimation strategies and the deterioration of executive constraints. *Democratization, 30*(3), 419-439. https://doi.org/10.1080/13510347.2022.2150760
+
+Grimmer, J., & Stewart, B. M. (2013). Text as data: The promise and pitfalls of automatic content analysis methods for political texts. *Political Analysis, 21*(3), 267-297. https://doi.org/10.1093/pan/mps028
+
+Lim, E. T. (2002). Five trends in presidential rhetoric: An analysis of rhetoric from George Washington to Bill Clinton. *Presidential Studies Quarterly, 32*(2), 328-348. https://doi.org/10.1111/j.0360-4918.2002.00223.x
+
+Mochtak, M. (2025). Chasing the authoritarian spectre: Detecting authoritarian discourse with large language models. *European Journal of Political Research*. https://doi.org/10.1111/1475-6765.12740
+
+Savoy, J. (2017). Analysis of the style and the rhetoric of the American presidents over two centuries. *Glottometrics, 38*, 55-76.
+
+Varieties of Democracy Institute. (2026). *The V-Dem dataset, version 16*. University of Gothenburg. https://www.v-dem.net/data/the-v-dem-dataset/
+
+---
+Generated for: Edgar Agunias
+Date: 2026-04-29
+Model: GPT-5 Codex
+Sources: American Presidency Project corpus collected by project scripts; Britannica presidents table; Wikipedia party divisions of United States Congresses; FRED GDP and USREC; generated BBI figures and tables; literature listed in references
+Agent: Hephaestus
+---

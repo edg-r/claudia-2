@@ -165,3 +165,15 @@ Built `Study Guides/GPCO 403_Week_4_Reference.pdf` covering the Week 4 folder ma
 **What was done:** Recorded the new course-local archive convention and archived superseded GPCO 403 midterm theory reference iterations.
 **Output:** `GPCO 403 - Intl Econ - Handley/.archive/midterm_theory_reference/`
 **Notes:** Current visible candidate is v1.4.1; older generated versions are indexed in `GPCO 403 - Intl Econ - Handley/.archive/ARCHIVE_INDEX.md`.
+
+### 2026-05-03 - Midterm Theory Reference v1.4.2 enlarged visuals
+**Requested by:** Claudia / Edgar
+**What was done:** Revised the current GPCO 403 midterm theory reference so each visual appears on its own enlarged page immediately after the corresponding theory page, while preserving v1.4.1 unchanged.
+**Output:** `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.4.2.pdf`; `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.4.2_notes.md`; updated `GPCO 403 - Intl Econ - Handley/Study Guides/build_midterm_theory_reference.py`.
+**Notes:** Verified v1.4.2 has 24 pages, 11 theory pages, 11 enlarged visual pages, preserved `GPT-5.5 (medium reasoning)` provenance, and uses the existing v1.4.0 asset folder.
+
+### 2026-05-05 - Blank-sheet GPCO 403 midterm diagnostic
+**Requested by:** Edgar
+**What was done:** Created a concise closed-book diagnostic question set for same-day GPCO 403 midterm review, focused on GDP/GNI/current account, saving-investment identity, intertemporal trade, LRBC, PPP, LOOP, real exchange rate, and Big Mac Index.
+**Output:** Returned to Claudia/Edgar in handoff; no standalone study-guide file created.
+**Notes:** Calibrated against current v1.4.2 midterm notes/build source, Apr. 27 PPP/LOOP one-pager, and W5 review/equations materials. Emphasis: write identities first, then interpret direction and caveats.

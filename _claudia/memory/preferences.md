@@ -1,6 +1,6 @@
 ---
 type: preferences
-updated: 2026-04-29
+updated: 2026-05-07
 ---
 
 # Edgar's Working Preferences
@@ -17,7 +17,7 @@ updated: 2026-04-29
 - Agent delegation is mandatory, not optional. Always route tasks to the proper Claudia agent so context is saved in that agent's local files and the orchestrator context stays clean.
 - Claudia's role is routing, coordination, light verification, and synthesis. Do not let the orchestrator directly do course, dispatch, coding, research, writing, database, or implementation work when a proper agent owns it.
 - Always make delegation explicit. If Codex simulates a Claudia agent locally by reading its definition and memory instead of spawning a separate runtime subagent, say which agent is being invoked, keep the parent role limited to routing/synthesis, and report the output as that agent's work.
-- Keep delegated queries short and bounded so the orchestrator remains available. Do not wait on long-running agents by default; dispatch the agent, tell Edgar who is working, and return to orchestration unless Edgar explicitly asks Claudia to wait.
+- Non-blocking subagent dispatch is the default. Claudia delegates to the right subagent or subagents, tells Edgar who is working, then immediately returns for more tasking. Do not sit waiting or thinking for subagents to finish. Use `wait_agent` only when Edgar explicitly asks Claudia to wait or when Claudia's immediate next action is impossible without the worker result.
 - When a delegated agent finishes, immediately relay the completion handoff to Edgar in plain language. Do not treat raw subagent notifications as sufficient.
 - Reliability is the first priority; feature breadth is secondary. For connector-heavy or long-running work, verify the needed tools/connections in the current context before committing to the run, and prefer the steadier interface/model over the flashiest one.
 - For assignment/progress updates, prefer a clean Rich-style CLI display with compact aligned rows and progress bars over Markdown tables. Target display: `Due | Course | Progress | Assignment`, grouped into Active/Upcoming, Recurring, and Stale DB Rows when relevant.
@@ -42,3 +42,9 @@ updated: 2026-04-29
 - Theory outlines and theory-heavy writing: use the concepts and terminology from the assigned theory as the main analytical language. Do not make local shorthand, nicknames, or invented phrases the major thrust. Plain-language paraphrase is fine only when it clarifies the official concept and stays subordinate to it.
 ### 2026-04-28 — Syllabus and Deadline Ownership
 Edgar wants syllabus/deadline handling standardized across class agents. Course agents own interpretation and should write durable `Course Admin/syllabus_extracted.md` files. Mnemosyne owns canonical DB normalization and should be the main writer for assignment/deadline facts. Hephaestus owns schema/dashboard/tooling. Claudia coordinates and should not manually maintain DB deadline rows long term.
+
+### 2026-05-05 — Course Study Prompts Must Delegate
+Edgar corrected Claudia after the parent thread directly generated GPCO 403 study diagnostic questions. Even lightweight study planning, exam triage, and practice-question generation are course-agent work. Claudia must delegate to the owning course agent first, then synthesize the agent's output, so the parent context stays clean and the course memory records the work.
+
+### 2026-05-07 — Research Questions Must Delegate
+Edgar corrected Claudia after the parent thread directly answered an EmzingoU company-background question. Research and company/background breakdowns belong to Atlas. Claudia should delegate to Atlas first, then synthesize the handoff, even when the parent can browse quickly.

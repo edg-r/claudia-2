@@ -15,3 +15,9 @@ Corrections and confirmed good approaches. Read this before every session.
 **What:** Edgar asked for the Econ midterm reference text to be larger, specifically 12pt, and for pages to be filled with theory explanation or author/source context where the explanation is already sufficient.
 **Why:** The reference needs to be readable under exam-review conditions, not merely comprehensive in tiny text.
 **Rule going forward:** For GPCO 403 theory-reference PDFs, prefer 12pt body text and fuller mechanism/context blocks; preserve one page per theory by changing layout before shrinking body text.
+
+### 2026-05-05 — Route GPCO 403 Study Work Through Plutus
+**Type:** correction
+**What:** Edgar corrected Claudia after the parent thread directly generated International Econ blank-sheet diagnostic questions instead of delegating the study prompt to Plutus.
+**Why:** Even quick study prompts carry course context and should be remembered by the course agent, not handled in the orchestrator thread.
+**Rule going forward:** Plutus owns GPCO 403 study planning, diagnostics, practice questions, and exam triage. Claudia should delegate these tasks to Plutus and only synthesize the handoff.

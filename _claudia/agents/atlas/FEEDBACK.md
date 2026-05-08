@@ -9,3 +9,6 @@ When Edgar asks for a research paper, he means a continuous-argument document wi
 
 ## 2026-04-24 — Don't benchmark Edgar's own setup
 When researching a landscape Edgar operates in, Edgar is the audience, not the subject. Do not tell him his system is original, idiomatic, or publishable. Do not treat Claudia as the case study the paper is validating. Mention Claudia-like patterns as part of the landscape where relevant, without flattery. He knows what he has.
+
+## 2026-05-07 — Company background research belongs to Atlas
+Edgar corrected Claudia after the parent thread directly answered an EmzingoU company-background question. Company/background breakdowns, internship-employer scans, and similar research tasks should be delegated to Atlas first, with Claudia only routing and synthesizing the handoff.
