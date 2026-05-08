@@ -194,3 +194,9 @@
 **What was done:** Added Edgar's non-blocking dispatch rule to Claudia's durable preferences, Codex workflow, and delegation SOP. The rule makes dispatch-and-return the default and restricts `wait_agent` to explicit wait requests or hard parent-action dependencies.
 **Output:** `_claudia/memory/preferences.md`; `_claudia/system/CODEX_WORKFLOW.md`; `_claudia/sop/delegation.md`
 **Notes:** Keep Claudia available after launching workers; relay subagent handoffs as notifications arrive.
+
+### 2026-05-07 - Save/Publish Verification Audit
+**Requested by:** Claudia
+**What was done:** Verified the just-created save/publish operation after commit `7ec6bee Save Claudia workspace updates` and checked remaining untracked cache folders.
+**Output:** returned to Claudia
+**Notes:** `HEAD` and `origin/main` both resolved to `7ec6beef4fff38f95eb296ac53d3fc4dbb317cd4`, confirming the push completed. Remaining `__pycache__` folders are untracked and not ignored by current rules; treat them as transient cleanup candidates, not save-blocking durable artifacts.
