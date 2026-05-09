@@ -200,3 +200,9 @@
 **What was done:** Verified the just-created save/publish operation after commit `7ec6bee Save Claudia workspace updates` and checked remaining untracked cache folders.
 **Output:** returned to Claudia
 **Notes:** `HEAD` and `origin/main` both resolved to `7ec6beef4fff38f95eb296ac53d3fc4dbb317cd4`, confirming the push completed. Remaining `__pycache__` folders are untracked and not ignored by current rules; treat them as transient cleanup candidates, not save-blocking durable artifacts.
+
+### 2026-05-09 - Diplogame How-to-Play Markdown Scaffold
+**Requested by:** Claudia
+**What was done:** Created an initial operational Markdown guide for the Diplogame Iran-style game pack, covering player quick-start, objectives, roles, turn flow, action/message mechanics, negotiation, scoring, Control setup, adjudication, injects, escalation, endgame, and checklists. No PDF was generated.
+**Output:** `/Users/edgar/Documents/01 Projects/Diplogame/iran-style-game-pack/how-to-play.md`
+**Notes:** Based on the existing Diplogame root README, pack README, player handbook, facilitator guide, setup checklist, public briefing, control references, forms, variant pack notes, web README, and ops README. Left unrelated Diplogame `.DS_Store` dirty work untouched.
