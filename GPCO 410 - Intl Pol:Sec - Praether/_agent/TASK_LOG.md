@@ -270,6 +270,12 @@ Record of major completed tasks. Read to avoid duplicate work.
 **Output:** `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/Orange_Memo_Myanmar_v4.0.0_working_full.md`; `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/Orange_Memo_Myanmar_v4.0.0_submission.md`; `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/Orange_Memo_Myanmar_v4.0.0_submission.docx`
 **Notes:** Final body word count is 763. No images were embedded in the source outline, so no image appendix was added; rendered QA pages are in `Assignments/Orange Memo - Myanmar/render_v4.0.0/`.
 
+### 2026-05-11 — Regime Type Data Memo status correction
+**Requested by:** Edgar
+**What was done:** Verified that the GPCO 410 Regime Type / Polity IV data memo already has a working outline and completed Polity5 Myanmar data pull. Updated the course assignment tracker and coordinated the DB status correction from pending to outlined.
+**Output:** `Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md`; `Assignments/Data Memo - Regime Type/myanmar_polity5_2000_2018.csv`; `GPCO 410 - Intl Pol:Sec - Praether/_agent/ASSIGNMENTS.md`
+**Notes:** COW and PRIO data memo options remain pending. Only the Regime Type / Polity IV option should show progress because it has the existing outline/data work.
+
 ### 2026-04-29 — ORANGE Myanmar final-draft preference capture
 **Requested by:** Edgar
 **What was done:** Compared Edgar's final hand-written/submission draft (`Myanmar Orange Memo Agunias.pdf` / `Orange Memo v5.docx`) against the Athena/Claudia draft trajectory (`v3.1.0`, `v4.0.0`, `v4.1.0`) at a high level, focusing on reusable stylistic and structural differences rather than proofread corrections.

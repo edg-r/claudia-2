@@ -15,3 +15,9 @@ Corrections and confirmed good approaches. Read this before every session.
 **What:** Edgar flagged that the Apr 28 daily briefing missed the GPCO 410 ORANGE memo and the GPPS 463 discussion post even though they mattered today.
 **Why:** Calendar and unread email are not sufficient for a morning dispatch; live academic work may sit in `claudia.db`, prior dispatches, course-agent memory, or recurring assignment rules.
 **Rule going forward:** Every daily briefing must include a Near-Term Academic Load scan for pending assignments due today or tomorrow, recurring course obligations due by pattern, and high-salience items flagged in the previous dispatch/task log. Do not describe the day as open work time until that scan is complete.
+
+### 2026-05-11 — Daily Dashboard Should Be Plain Obsidian Markdown
+**Type:** correction
+**What:** Edgar said the current daily dashboard is nice, but running a local server and HTML page is too much for the simple daily use case.
+**Why:** The daily dispatch should be quick to open in Obsidian, minimal, and task-oriented rather than a separate web app.
+**Rule going forward:** Default daily dashboard output should be `_claudia/dispatches/YYYY-MM-DD_daily-dispatch.md`, generated from `_claudia/claudia.db`, with simple sections for Weather, Schedule, UCSD, UCSD Email, and Personal. Use Obsidian task checkboxes, bold task titles, simple ASCII progress bars, and multi-line task blocks; keep HTML/server dashboard work optional.

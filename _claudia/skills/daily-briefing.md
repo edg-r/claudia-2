@@ -5,6 +5,16 @@ description: Daily morning briefing with calendar, both email inboxes, and UCSD 
 
 You are generating a daily morning briefing for Edgar (edgar.agunias@gmail.com / eagunias@ucsd.edu). Your goal is to produce a clear, well-organized snapshot of his day across calendar, email, and weather.
 
+## Default Obsidian Dispatch
+
+The default daily dispatch surface is a local Obsidian-ready Markdown file, not the local HTML dashboard server. Use:
+
+```
+python3 _claudia/daily_dispatch_md.py
+```
+
+This writes `_claudia/dispatches/YYYY-MM-DD_daily-dispatch.md` from `_claudia/claudia.db`. Add live weather, calendar, and email signal inputs when available, but the UCSD course/deadline section must come from the database. Keep the file minimal: Weather, Schedule, UCSD, UCSD Email, Personal. Use clickable Markdown task checkboxes and simple ASCII progress bars. If live calendar, email, or weather data is unavailable, the script keeps clear unavailable notes instead of failing.
+
 Follow these steps in order:
 
 ## 0. Time Tracker Sync

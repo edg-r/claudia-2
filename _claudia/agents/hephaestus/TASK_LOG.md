@@ -206,3 +206,9 @@
 **What was done:** Created an initial operational Markdown guide for the Diplogame Iran-style game pack, covering player quick-start, objectives, roles, turn flow, action/message mechanics, negotiation, scoring, Control setup, adjudication, injects, escalation, endgame, and checklists. No PDF was generated.
 **Output:** `/Users/edgar/Documents/01 Projects/Diplogame/iran-style-game-pack/how-to-play.md`
 **Notes:** Based on the existing Diplogame root README, pack README, player handbook, facilitator guide, setup checklist, public briefing, control references, forms, variant pack notes, web README, and ops README. Left unrelated Diplogame `.DS_Store` dirty work untouched.
+
+### 2026-05-11 - Obsidian daily dispatch generator
+**Requested by:** Claudia / Edgar
+**What was done:** Added a plain Markdown daily-dispatch generator so Eos can produce an Obsidian-ready daily view from `_claudia/claudia.db` without running the local HTML dashboard server. The generator groups each course into due today, rest of week, and peek next week, using Obsidian task checkboxes, bold task titles, emoji markers, multi-line task blocks, and ASCII progress bars.
+**Output:** `_claudia/daily_dispatch_md.py`; `_claudia/dispatches/2026-05-10_daily-dispatch.md`; `_claudia/dispatches/2026-05-11_daily-dispatch.md`; `_claudia/skills/daily-briefing.md`
+**Notes:** Verified with `python3 -m py_compile _claudia/daily_dispatch_md.py` and generated May 10 and May 11 dispatch files. Calendar, weather, and email sections accept optional JSON/text inputs and degrade to clear unavailable notes when live signals are not supplied.

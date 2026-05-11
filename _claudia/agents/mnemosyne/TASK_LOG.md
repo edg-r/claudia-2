@@ -116,3 +116,9 @@ Ran two cross-course queries. First: full open-assignments rundown across GPCO 4
 **What was done:** Updated assignment id=18 (`GPCO 410` Midterm Exam) in `_claudia/claudia.db` from `pending` to `completed` after Edgar stated the midterm is done. Stamped `submitted_at` and `last_verified_at` as `2026-05-04 19:50:54 PDT` and appended provenance to the row notes.
 **Output:** `_claudia/claudia.db`
 **Notes:** Verified only the GPCO 410 midterm row changed; Final Exam and other GPCO 410 assignments remain untouched.
+
+### 2026-05-11 - GPCO 410 Regime Type data memo DB status correction
+**Requested by:** Claudia / Edgar
+**What was done:** Verified that `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Data Memo - Regime Type/` contains a working outline and completed Polity5 Myanmar data pull. Updated `_claudia/claudia.db` assignment id 31 from `pending` to `outlined`, recorded the outline/data-pull note, set `last_verified_at` to `2026-05-11`, and inserted file-index rows for the outline and Myanmar CSV if absent.
+**Output:** `_claudia/claudia.db`; `_claudia/dispatches/2026-05-11_daily-dispatch.md`; Obsidian copy at `000 ARCHIVES/Daily/2026-05-11_daily-dispatch.md`
+**Notes:** Assignment ids 29 COW and 30 PRIO remain pending because the found artifacts belong to the Regime Type / Polity IV option only.
