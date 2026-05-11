@@ -139,3 +139,63 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Recorded the new course-local archive convention and archived superseded GPPS 463 midterm theory reference iterations.
 **Output:** `GPPS 463 - Pol SEA - Ravanilla/.archive/midterm_theory_reference/`
 **Notes:** Current visible candidate is v1.3.1; older generated versions are indexed in `GPPS 463 - Pol SEA - Ravanilla/.archive/ARCHIVE_INDEX.md`.
+
+### 2026-05-09 -- Midterm 2 Source Inventory v1.0.0
+**Requested by:** Claudia (delegated Poseidon worker for GPPS 463 Midterm 2 prep)
+**What was done:** Extracted text from all ten PDFs in `inbox/midterm2/` and built a source inventory plus reading-to-lecture map for LD8-LD11.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/GPPS_463_Midterm_2_Source_Inventory_v1.0.0.md`
+**Notes:** This is only the inventory/map artifact, not the final theory reference or lecture summary. All PDFs extracted successfully with `pdftotext`; no OCR blocker encountered.
+
+### 2026-05-09 -- Midterm 2 Lecture-by-Lecture Summary v1.0.0
+**Requested by:** Claudia (delegated Poseidon worker for GPPS 463 Midterm 2 prep)
+**What was done:** Created a lecture-by-lecture Midterm 2 study summary for LD8-LD11, integrating clearly aligned readings from `inbox/midterm2/` while preserving lecture-by-lecture structure.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/GPPS_463_Midterm_2_Lecture_by_Lecture_Summary_v1.0.0.md`
+**Notes:** Used Jason's source inventory as a source map cross-check, but kept the write scope to the requested summary artifact plus this task-log entry. Did not create a theory reference or source inventory.
+
+### 2026-05-09 -- Midterm 2 Theory Reference Notes v1.0.0
+**Requested by:** Claudia (delegated Poseidon worker for GPPS 463 Midterm 2 prep)
+**What was done:** Drafted the Midterm 2 theory-reference notes file with one page-equivalent section per major framework/reading from LD8-LD11, emphasizing Krugman, Hicken 2006/2008, MacIntyre, Wade, Malesky/Abrami/Zheng, and the lecture framing for Thailand, Singapore, AFC recovery, and Vietnam-vs.-China inequality.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/GPPS_463_Midterm_2_Theory_Reference_v1.0.0_notes.md`
+**Notes:** Used the completed source inventory as a source map only and kept scope to the requested notes artifact. No lecture-by-lecture summary or separate source inventory was created by this worker.
+
+### 2026-05-09 -- Midterm 2 Theory Reference Notes Source-Scope Correction
+**Requested by:** Claudia verification correction for Poseidon.
+**What was done:** Revised the Midterm 2 theory-reference notes so Thailand and Singapore frameworks are sourced to Lecture Day 8 and Lecture Day 9 slides rather than older GPPS 463 reading summaries. Removed Huff (1995) and Jansen (2001) from source labels, synthesis wording, references, and disclosure because those readings are not explicitly cited in the Lecture Day PDFs.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/GPPS_463_Midterm_2_Theory_Reference_v1.0.0_notes.md`
+**Notes:** Final source scope is the `inbox/midterm2/` PDFs only: Lecture Day 8-11 plus Krugman, Hicken 2006/2008, MacIntyre, Wade, and Malesky/Abrami/Zheng.
+
+### 2026-05-09 -- Midterm 2 Theory Reference PDF v1.0.0 Build
+**Requested by:** Claudia (delegated Poseidon-owned, Hephaestus-style PDF build)
+**What was done:** Converted the corrected Midterm 2 theory-reference notes into a polished PDF with cover/TOC, sidebar bookmarks, readable body text, section headers, page numbers, references, and output disclosure preserved at the end. Added a small ReportLab builder that reads the notes file directly as the content source.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/GPPS_463_Midterm_2_Theory_Reference_v1.0.0.pdf`; builder at `GPPS 463 - Pol SEA - Ravanilla/Study Guides/build_midterm_2_theory_reference.py`
+**Notes:** Verification passed: PDF exists, is 59,535 bytes, has 25 pages and 13 outline entries, and extracted text contains the title, references, `Hicken, A. (2008)`, and `Generated for: Edgar Agunias`. Source scope remains the existing notes file and its `inbox/midterm2/` disclosure.
+
+### 2026-05-09 -- Discussion Post LD14 (Duterte Drug War / Ravanilla et al. 2022)
+**Requested by:** Claudia (delegated Poseidon worker for the next GPPS 463 discussion post)
+**What was done:** Drafted the Lecture Day 14 Canvas discussion question for "How was Duterte able to implement the brutal drug war in the Philippines?", due by syllabus pattern on 2026-05-12 at 5:00 PM before the Wed May 13 lecture. Grounded the post in readable extracted text from Ravanilla, Sexton, and Haim (2022) and included the compact grader AI disclosure required by Claudia SOP.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/W7 - Duterte Drug War/Discussion Post LD14 - Duterte Drug War.md`
+**Notes:** Key angle is accountability through local implementation incentives: outsider mayors used aggressive drug-war enforcement to signal loyalty and build a reelection path, with outsider-led municipalities showing 40% more antidrug incidents and a 60% higher chance of police killing a drug suspect.
+
+### 2026-05-09 -- Midterm 2 NotebookLM Podcast Prompt v1.0.0
+**Requested by:** Claudia (delegated Poseidon worker for GPPS 463 Midterm 2 prep)
+**What was done:** Created a directly pasteable Google NotebookLM audio-overview prompt for a two-host Midterm 2 theory/framework study podcast, grounded in the current Midterm 2 theory reference notes, lecture summary, and source inventory.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/GPPS463_Midterm2_NotebookLM_Podcast_Prompt_v1.0.0.md`
+**Notes:** Prompt enumerates the Midterm 2 frameworks in source-spine order and instructs NotebookLM to use only uploaded notebook sources, skip unsupported theories, preserve source terminology, distinguish direct claims from synthesis, and compare frameworks across growth, IPE, institutions, crisis/recovery, and contemporary political economy.
+
+### 2026-05-09 -- Midterm 2 Theory Image Generation Plan
+**Requested by:** Claudia after Edgar clarified that the Midterm 2 theory reference needs generated images for each theory/framework.
+**What was done:** Extended the NotebookLM prompt deliverable with an `Image Generation Plan` section containing one ready-to-use scientific-educational image prompt per Midterm 2 framework, with stable recommended filenames and constraints against abstract arrows, vague metaphor diagrams, decorative gradients/orbs, and text-heavy layouts.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/GPPS463_Midterm2_NotebookLM_Podcast_Prompt_v1.0.0.md`
+**Notes:** Actual raster assets were not generated in this worker pass; Claudia should run imagegen from the parent session or a dedicated image worker and save outputs under `GPPS 463 - Pol SEA - Ravanilla/Study Guides/assets/midterm2_theory_images/`.
+
+### 2026-05-10 -- Midterm 2 Theory Image Plan v1.0.0
+**Requested by:** Claudia (delegated Poseidon worker for GPPS 463 Midterm 2 prep)
+**What was done:** Created a production-ready image plan for all 10 Midterm 2 theory/framework entries, with source basis, filename slugs, explanatory goals, concrete Southeast Asia case scenes, minimal label sets, and ready-to-run built-in imagegen prompts. Visual direction explicitly avoids abstract large-arrow diagrams and text-heavy infographics.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/GPPS463_Midterm2_Theory_Image_Plan_v1.0.0.md`
+**Notes:** Actual images were not generated in this delegated worker pass; Claudia should run the prompts from the parent with the built-in `image_gen` tool and save selected outputs under `Study Guides/assets/midterm2_theory_images/`.
+
+### 2026-05-10 -- Midterm 2 Theory Image Prototype Pause
+**Requested by:** Claudia after Edgar paused the full image-plan/batch-generation path.
+**What was done:** Selected Hicken 2008's Thailand-Philippines crisis-severity/reform-momentum framework as the single visual prototype, generated one draft asset non-destructively, and marked the full image plan as paused pending Edgar critique.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/assets/midterm2_theory_images/prototype/hicken2008_crisis_reform_momentum_prototype_draft.png`
+**Notes:** Draft asset structure is useful but likely too text-dense; use the revised tighter prompt in the handoff for the next prototype run before generating any remaining theory images.

@@ -13,6 +13,8 @@ The goal is a document a student can use during an open-book exam or as final-ex
 
 Always use this skill alongside the `pdf` skill for ReportLab mechanics (fonts, table construction, page footers, hyperlinking). This skill governs *what to build and in what structure*; the pdf skill governs *low-level ReportLab how-to*.
 
+Theory/reference documents built with this skill must also follow `_claudia/sop/theory-image-generation.md`. Every reading, theory, or framework needs one explanatory image asset plus a short caption or footnote explaining the visual mapping.
+
 ---
 
 ## Step 0 — Content Inventory Before Writing Anything
@@ -53,6 +55,8 @@ Every reference manual produced with this skill follows this structure:
 2. Theory pages (one page per theory, in syllabus order)
    Each theory page has this identical structure:
    - Colored header bar with class number, theory name, author/reading
+   - EXPLANATORY IMAGE - one image asset that teaches the mechanism, embedded on the page or placed on an immediately paired visual page
+   - IMAGE FOOTNOTE - short mapping of visual elements to mechanism, key assumption, and strength/limit cue
    - SITUATION — one sentence, a real-world anchor the theory explains
    - CORE INTUITION — what the theory fundamentally argues, plain language
    - KEY CONCEPTS, KEYWORDS & TERMINOLOGY — the vocabulary to deploy on an exam
@@ -60,13 +64,13 @@ Every reference manual produced with this skill follows this structure:
    - STRENGTHS / WEAKNESSES — two-column layout, where theory excels vs. breaks down
 ```
 
-**No other sections are added unless the user requests them.** The skill is deliberately minimal: one page per theory, identical structure, no diagrams (user adds manually), no appendices unless asked.
+**No other sections are added unless the user requests them.** The skill is deliberately minimal: one theory unit per theory, identical structure, required explanatory image, no appendices unless asked.
 
 ---
 
 ## The Theory Page Template
 
-Every theory page MUST contain all six components. Here is the specification for each:
+Every theory page or theory unit MUST contain all eight components. Here is the specification for each:
 
 ### 1. Header Bar
 A full-width colored bar containing:
@@ -75,7 +79,33 @@ A full-width colored bar containing:
 - Color coding: use one color for standard theories, a different color for priority/post-midterm theories
 - If priority theories are marked, include a visual tag like `[POST-MIDTERM]` or `[PRIORITY]`
 
-### 2. SITUATION (one sentence)
+### 2. EXPLANATORY IMAGE
+One explanatory image asset per reading, theory, or framework. This is required, not optional.
+
+Requirements:
+- Follow `_claudia/sop/theory-image-generation.md`
+- Use the approved MacIntyre prototype style as the default: clean textbook explainer, compact graph or institutional diagram, concrete political-economy vignettes, minimal labels
+- Keep in-image text low density, normally 0-4 short labels
+- Store generated assets under the document's workspace asset folder, usually `[Course Folder]/Study Guides/assets/<project_slug>/`
+- Reference the workspace asset path from the build script
+- If a new visual family is being established, generate one prototype first and wait for Edgar critique before batch generation
+
+Layout:
+- Prefer embedding the image on the theory page when it remains readable and does not force text below professional size
+- If the theory content plus image cannot fit cleanly on one page, place the image on an immediately following paired visual page and keep the caption/footnote with it
+- The image should teach the theory's mechanism or comparison, not merely decorate the page
+
+### 3. IMAGE FOOTNOTE (short caption)
+Under each image, add a compact footnote or caption explaining the mapping between visual elements and the theory.
+
+Required content:
+- **Mechanism:** what causal process the visual depicts
+- **Key assumption:** what has to be true for the mechanism to work
+- **Strength/limit cue:** where the theory is useful or where it breaks down
+
+Keep this to 1-3 concise sentences.
+
+### 4. SITUATION (one sentence)
 A concrete, real-world case that the theory explains intuitively. This is NOT a definition of the theory — it is a *hook* that shows the theory in action.
 
 **Good**: "This theory explains why NATO members free-ride on U.S. defense spending: the benefits of alliance security are non-excludable, so smaller members have weak incentives to contribute."
@@ -87,7 +117,7 @@ The situation should:
 - Make the causal mechanism visible in one sentence
 - Be memorable enough to anchor recall during an exam
 
-### 3. CORE INTUITION (one paragraph)
+### 5. CORE INTUITION (one paragraph)
 What the theory is fundamentally arguing, in plain language. No jargon without immediate definition. Write for a smart person who has been away from the material for two weeks.
 
 Requirements:
@@ -96,7 +126,7 @@ Requirements:
 - If the theory has a key insight that distinguishes it from similar theories, state it explicitly
 - Bold key terms on first use
 
-### 4. KEY CONCEPTS, KEYWORDS & TERMINOLOGY (bulleted list)
+### 6. KEY CONCEPTS, KEYWORDS & TERMINOLOGY (bulleted list)
 The vocabulary the author uses — these are the terms the student needs to deploy in an exam essay. Each entry:
 - **Bold term** — plain-English definition, 1-2 sentences
 - Include parenthetical examples where helpful
@@ -104,12 +134,12 @@ The vocabulary the author uses — these are the terms the student needs to depl
 
 Typical count: 5-8 terms per theory. Priority theories may have more.
 
-### 5. ASSUMPTIONS (bulleted list)
+### 7. ASSUMPTIONS (bulleted list)
 What must be true for the theory to hold. These are the conditions under which the theory's predictions follow. Stating assumptions precisely is critical because exam questions often test "where does the theory break down?" — and breakdowns usually trace to violated assumptions.
 
 Typical count: 3-5 assumptions per theory.
 
-### 6. STRENGTHS & WEAKNESSES (two-column layout)
+### 8. STRENGTHS & WEAKNESSES (two-column layout)
 Side-by-side, each as bulleted items:
 - **Strengths**: What the theory explains well. Where it has been empirically validated. What real-world phenomena it predicts that rival theories cannot.
 - **Weaknesses**: Where the theory struggles or breaks down. What it ignores or assumes away. What empirical anomalies challenge it.
@@ -217,26 +247,36 @@ Follow these steps in order. Do not skip ahead.
 [ ] 2. Identify the syllabus ordering of theories
 [ ] 3. Identify any priority weighting (pre/post-midterm, user-specified emphasis)
 [ ] 4. If an exam is provided, analyze it for depth/framing calibration
-[ ] 5. For each theory, draft all 6 components:
+[ ] 5. For each theory, draft all 8 components:
+        - Explanatory image concept and workspace asset path
+        - Image footnote/caption mapping visual elements to mechanism, key assumption, and strength/limit cue
         - Situation (one sentence, real-world anchor)
         - Core intuition (one paragraph, plain language)
         - Key concepts (bulleted, bold term + definition)
         - Assumptions (bulleted)
         - Strengths (bulleted)
         - Weaknesses (bulleted)
-[ ] 6. Build the Python/ReportLab script with:
+[ ] 6. Generate image assets:
+        - Use the built-in image generation path by default
+        - Prototype one image first for Edgar critique when establishing a new image family/style
+        - Copy project-bound generated images into the workspace asset folder
+        - Keep labels low density, normally 0-4 short labels
+[ ] 7. Build the Python/ReportLab script with:
         - Data structures for all theories (list of dicts)
         - Cover page with description, hyperlinked TOC, attribution footnote
-        - Theory page builder function using the 6-component template
+        - Theory page builder function using the 8-component template
+        - Image loading, sizing, and caption/footnote placement for every theory
         - BookmarkAnchor flowables for navigation
         - Page footer function via onFirstPage/onLaterPages
-[ ] 7. Generate PDF and verify:
+[ ] 8. Generate PDF and verify:
         - Every TOC link jumps to the correct theory page
         - PDF sidebar bookmarks are present and complete
         - Cover page fits on one page (description + TOC + attribution)
+        - Every reading/theory/framework has one explanatory image
+        - Every image has a short mapping footnote/caption
         - No text overflow, no blank pages, no mid-concept splits
-        - Page count = 1 cover + N theory pages
-[ ] 8. Copy to /mnt/user-data/outputs/ and present to user
+        - Page count = 1 cover + N theory units, allowing immediate paired visual pages when needed for readability
+[ ] 9. Copy to /mnt/user-data/outputs/ and present to user
 ```
 
 ---
@@ -260,7 +300,9 @@ These are add-ons. The core theory pages are always the foundation and should be
 | TOC overflows to page 2 | Too much spacing in TOC entries | Reduce font to 9pt, spaceBefore/After to 1pt, leading to 12pt |
 | Hyperlinks don't work | Missing `BookmarkAnchor` or mismatched anchor names | Ensure every `<a href="#name">` has a corresponding `BookmarkAnchor(name)` |
 | No sidebar bookmarks | Forgot `addOutlineEntry` | Include `title` parameter in `BookmarkAnchor` |
-| Theory page overflows to 2 pages | Too many concepts or long descriptions | Reduce to 6-7 concepts; trim body text to 8-8.5pt; use compact `body_small` style |
+| Theory page overflows to 2 pages | Too many concepts, long descriptions, or image too large | Reduce to 6-7 concepts; trim body text to 8-8.5pt; use compact `body_small` style; if readability still suffers, move the image to an immediately paired visual page |
+| Image is decorative rather than explanatory | Prompt asks for mood, metaphor, or generic scene | Rewrite around mechanism, concrete case, institutional actors, and 0-4 short labels; follow `_claudia/sop/theory-image-generation.md` |
+| Generated image lives only in transient output path | Image copied from tool output but not saved into course assets | Copy project-bound images into `[Course Folder]/Study Guides/assets/<project_slug>/` and update the build script path |
 | Strengths/weaknesses columns misaligned | Unequal row counts | Pad shorter list with empty `Paragraph("")` entries |
 | Attribution on separate page | Placed after `PageBreak()` | Place before the `PageBreak()` that ends the TOC page |
 | Text overflow in table cells | Raw strings instead of `Paragraph()` | Always use `Paragraph()` objects in table cells |
@@ -271,11 +313,13 @@ These are add-ons. The core theory pages are always the foundation and should be
 
 A theory reference PDF produced with this skill passes these checks:
 
-- **Consistent structure** — every theory page has all 6 components in the same order
+- **Consistent structure** - every theory page or theory unit has all 8 components in the same order
+- **Explanatory images included** - every reading/theory/framework has one academic, non-decorative image asset
+- **Image mapping explained** - every image has a short footnote/caption connecting the visual to the mechanism, key assumption, and strength or limit
 - **Real-world anchored** — every situation is a specific, memorable case, not an abstract definition
 - **Exam-deployable vocabulary** — key concepts use the exact terms from the readings
 - **Navigable** — every TOC entry is a clickable hyperlink; PDF sidebar bookmarks are complete
-- **One page per theory** — strict layout discipline; no theory spans two pages
+- **One theory unit per theory** - strict layout discipline; text stays compact, with a paired visual page only when needed for image readability
 - **Single cover page** — description, TOC, and attribution all fit on page 1
 - **No orphaned content** — no blank pages, no content after the last theory page (unless user requested)
 - **Priority respected** — if the user specified priority theories, those receive visibly deeper treatment

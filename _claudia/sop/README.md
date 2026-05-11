@@ -16,3 +16,4 @@ This folder contains procedures and standards that **all agents** in the Claudia
 - [apa7-citations.md](apa7-citations.md) — All outputs referencing academic sources must include APA 7th edition formatted references
 - [iterative-file-naming.md](iterative-file-naming.md) — Versioned naming convention for drafts and other iterated files
 - [artifact-archive.md](artifact-archive.md) — Course-local archive protocol for superseded iterative artifacts
+- [theory-image-generation.md](theory-image-generation.md) - Explanatory image standard for theory/reference documents

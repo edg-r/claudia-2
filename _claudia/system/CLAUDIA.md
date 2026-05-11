@@ -133,6 +133,7 @@ SOPs live in `_claudia/sop/`. These are universal standards that **all agents** 
 - `ai-disclosure.md` - Edgar-to-grader disclosure appended to any graded submission where a Claudia agent produced, edited, or materially assisted the work (template at `_claudia/sop/ai-disclosure-template.md`)
 - `iterative-file-naming.md` - Versioned naming convention for drafts and other iterated files; prefer software-style versions over state-only suffixes
 - `artifact-archive.md` - Course-local archive protocol for superseded iterative artifacts
+- `theory-image-generation.md` - Explanatory image standard for theory/reference documents
 
 ## New Agent Pipeline
 

@@ -117,6 +117,12 @@ Ran two cross-course queries. First: full open-assignments rundown across GPCO 4
 **Output:** `_claudia/claudia.db`
 **Notes:** Verified only the GPCO 410 midterm row changed; Final Exam and other GPCO 410 assignments remain untouched.
 
+### 2026-05-09 - Local Inbox Cleanup
+**Requested by:** Claudia / Edgar
+**What was done:** Sorted clear local `inbox/` materials into course, admin, and project folders after reading Claudia bootstrap files, Mnemosyne context, SOPs, preferences, filenames, and representative document metadata/text. Left active GPPS 463 `inbox/midterm2/` in place for Poseidon workers, preserved the Rockbox project bundle in place, and wrote an ambiguity report for unsafe items.
+**Output:** `_claudia/agents/mnemosyne/inbox_cleanup_ambiguity_report_2026-05-09.md`; `_claudia/claudia.db`; moved files under GPEC 446, GPCO 403, GPCO 410, `admin/`, and `democracy_as_boredom_bbi/`.
+**Notes:** Inserted 36 moved-file records into the `files` table and one Mnemosyne `agent_logs` row. Exact GPCO 403 duplicate copies were moved to the course-local archive instead of overwriting visible originals.
+
 ### 2026-05-11 - GPCO 410 Regime Type data memo DB status correction
 **Requested by:** Claudia / Edgar
 **What was done:** Verified that `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Data Memo - Regime Type/` contains a working outline and completed Polity5 Myanmar data pull. Updated `_claudia/claudia.db` assignment id 31 from `pending` to `outlined`, recorded the outline/data-pull note, set `last_verified_at` to `2026-05-11`, and inserted file-index rows for the outline and Myanmar CSV if absent.

@@ -207,6 +207,18 @@
 **Output:** `/Users/edgar/Documents/01 Projects/Diplogame/iran-style-game-pack/how-to-play.md`
 **Notes:** Based on the existing Diplogame root README, pack README, player handbook, facilitator guide, setup checklist, public briefing, control references, forms, variant pack notes, web README, and ops README. Left unrelated Diplogame `.DS_Store` dirty work untouched.
 
+### 2026-05-10 - Theory image generation SOP and skill update
+**Requested by:** Claudia (for Edgar)
+**What was done:** Added the approved MacIntyre prototype visual standard as a durable SOP and updated the theory-reference-pdf workflow so every reading/theory/framework requires one explanatory image plus a short mechanism/assumption/strength-limit caption.
+**Output:** `_claudia/sop/theory-image-generation.md`; `_claudia/skills/theory-reference-pdf.md`; SOP registrations in `_claudia/sop/README.md`, `_claudia/system/CLAUDIA.md`, and `_claudia/system/manifest.json`
+**Notes:** Project-bound generated images must be copied into course Study Guides asset folders. New image families should prototype one image for Edgar critique before batch generation.
+
+### 2026-05-10 - GPPS 463 Midterm 2 theory reference visual-page build
+**Requested by:** Claudia
+**What was done:** Updated the GPPS 463 Midterm 2 ReportLab builder to insert one paired explanatory visual page after each numbered theory/framework section, using the matching workspace PNG and a concise mechanism, key-assumption, and strength/limit caption. Regenerated the PDF and verified page count, outlines, TOC annotations, embedded image XObjects, and caption text extraction.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/build_midterm_2_theory_reference.py`; `GPPS 463 - Pol SEA - Ravanilla/Study Guides/GPPS_463_Midterm_2_Theory_Reference_v1.0.0.pdf`
+**Notes:** PDF increased from 25 to 35 pages, with 10 visual-page bookmarks and 10 embedded image XObjects. Existing image assets were referenced in place and not overwritten.
+
 ### 2026-05-11 - Obsidian daily dispatch generator
 **Requested by:** Claudia / Edgar
 **What was done:** Added a plain Markdown daily-dispatch generator so Eos can produce an Obsidian-ready daily view from `_claudia/claudia.db` without running the local HTML dashboard server. The generator groups each course into due today, rest of week, and peek next week, using Obsidian task checkboxes, bold task titles, emoji markers, multi-line task blocks, and ASCII progress bars.
