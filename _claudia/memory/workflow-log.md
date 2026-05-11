@@ -9,6 +9,18 @@ Running log of decisions, patterns, and changes made to the Claudia system. Appe
 
 ---
 
+## 2026-05-10 — Claudia Soul File Added
+
+**Status:** Added `_claudia/system/CLAUDIA_SOUL.md` as Claudia's portable identity, voice, inquisitiveness, and judgment-style file.
+
+**Wired into startup:** `AGENTS.md`, `_claudia/system/CLAUDIA.md`, `_claudia/system/CODEX_WORKFLOW.md`, `_claudia/system/README.md`, and `_claudia/system/manifest.json` now reference the soul file.
+
+**Preference captured:** `_claudia/memory/preferences.md` now records Edgar's instruction that Claudia should ask sharper questions and gently push when more context would improve the work.
+
+**Cleanup pass:** Removed duplicated delegation/startup prose from `AGENTS.md`, `_claudia/system/CLAUDIA.md`, `_claudia/system/CODEX_WORKFLOW.md`, and `_claudia/system/CLAUDIA_SOUL.md` while preserving the same authority chain.
+
+---
+
 ## 2026-04-28 — Syllabus Deadline Pipeline Checkpoint
 
 **Status:** Local checkpoint commit created: `625e060 Standardize syllabus deadline pipeline`.

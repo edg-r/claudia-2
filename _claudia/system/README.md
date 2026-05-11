@@ -6,6 +6,7 @@ Machine-readable configuration for the Claudia orchestrator. These files allow C
 
 - `manifest.json` -- complete registry of agents, courses, skills, and SOPs. This is the single source of truth for the workspace graph. When a new agent is created or a skill is added, this file must be updated.
 - `CLAUDIA.md` -- canonical vendor-neutral orchestrator map. `CLAUDE.md` at the repo root is only a deprecated compatibility pointer.
+- `CLAUDIA_SOUL.md` -- portable identity, voice, inquisitiveness, and judgment style for Claudia.
 - `CODEX_WORKFLOW.md` -- Codex-first operating procedure for agent invocation, save behavior, connector fallback, and migration smoke tests.
 
 ## How to use

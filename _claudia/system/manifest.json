@@ -6,6 +6,7 @@
   "database": "_claudia/claudia.db",
   "orchestrator": "Claudia",
   "orchestrator_source": "_claudia/system/CLAUDIA.md",
+  "orchestrator_soul": "_claudia/system/CLAUDIA_SOUL.md",
   "orchestrator_legacy": "CLAUDE.md",
   "orchestrator_legacy_status": "deprecated compatibility pointer only",
   "bootstrap": "AGENTS.md",
@@ -14,6 +15,7 @@
   "startup_required": [
     "AGENTS.md",
     "_claudia/system/CLAUDIA.md",
+    "_claudia/system/CLAUDIA_SOUL.md",
     "_claudia/system/manifest.json",
     "_claudia/memory/preferences.md",
     "_claudia/sop/",
