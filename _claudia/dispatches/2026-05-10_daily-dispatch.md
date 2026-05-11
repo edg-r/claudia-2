@@ -28,13 +28,13 @@ Weather unavailable. Eos should add the live La Jolla summary before final morni
   Status: pending
   Pages: 24 pp
 🔭 Peek next week
-- [ ] 📝 2026-05-15 17:00 - **Data Memo - Civil War (PRIO)**
+- [ ] 📝 2026-05-15 17:00 - **Data Memo - Civil War (PRIO)** - (10% of grade)
   Progress: [----------]   0% - pending
   Description: Deconstruct a PRIO dataset coding decision. Max 3pp, DS, 12pt, 1-inch margins. Due May 15 at 5pm per Canvas email (Prather date change)....
-- [ ] 📝 2026-05-15 17:00 - **Data Memo - Interstate Conflict (COW)**
+- [ ] 📝 2026-05-15 17:00 - **Data Memo - Interstate Conflict (COW)** - (10% of grade)
   Progress: [----------]   0% - pending
   Description: Deconstruct a COW dataset coding decision. Max 3pp, DS, 12pt, 1-inch margins. Due May 15 at 5pm per Canvas email (Prather date change). C...
-- [ ] 📝 2026-05-15 17:00 - **Data Memo - Regime Type (Polity IV)**
+- [ ] 📝 2026-05-15 17:00 - **Data Memo - Regime Type (Polity IV)** - (10% of grade)
   Progress: [##--------]  25% - outlined
   Description: Polity IV / Regime Type option has Athena outline and data pull. Working outline: GPCO 410 - Intl Pol:Sec - Praether/Assignments/Data Mem...
 - [ ] 📖 Reading: **The Korean Conundrum Ch.2-3**
@@ -83,7 +83,7 @@ Weather unavailable. Eos should add the live La Jolla summary before final morni
 📅 Rest of week
 - ✅ None
 🔭 Peek next week
-- [ ] 📝 2026-05-11 08:00 - **Midterm Exam 2**
+- [ ] 📝 2026-05-11 08:00 - **Midterm Exam 2** - (25% of grade)
   Progress: [----------]   0% - pending
   Description: In-class Mon May 11. Multiple choice + short essays. LockDown Browser. Covers second portion. One 3x5 index card allowed.
 

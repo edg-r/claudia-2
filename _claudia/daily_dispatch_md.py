@@ -172,10 +172,12 @@ def task_line(item):
     due = item.get("due_time") or "all day"
     label = item["title"]
     title = bold(clean_inline(label))
+    weight = clean_inline(item.get("weight"))
+    weight_text = f" - ({weight} of grade)" if weight else ""
     status = clean_inline(item.get("status") or "pending")
     notes = truncate(clean_inline(item.get("notes")))
     lines = [
-        f"- [ ] 📝 {due_date} {due} - {title}",
+        f"- [ ] 📝 {due_date} {due} - {title}{weight_text}",
         f"  Progress: {progress_bar(percent)} - {status}",
     ]
     if notes:
