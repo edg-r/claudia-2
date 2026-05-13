@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="230" viewBox="0 0 1100 230" role="img" aria-labelledby="title desc">
+  <title id="title">Polity democracy-autocracy range from -10 to +10</title>
+  <desc id="desc">Color scale showing Polity scores from full autocracy at -10 through transition/anocracy at 0 to full democracy at +10.</desc>
+  <rect width="1100" height="230" fill="#ffffff"/>
+  <text x="550" y="34" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#1f2937">Polity Regime Score Range</text>
+  <text x="550" y="60" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#4b5563">-10 full autocracy to +10 full democracy</text>
+  <defs>
+    <linearGradient id="polityGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7f1d1d"/>
+      <stop offset="25%" stop-color="#dc2626"/>
+      <stop offset="50%" stop-color="#facc15"/>
+      <stop offset="75%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#14532d"/>
+    </linearGradient>
+  </defs>
+  <rect x="80" y="92" width="940" height="42" rx="6" fill="url(#polityGradient)" stroke="#111827" stroke-width="1"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#111827">
+    <line x1="80" y1="134" x2="80" y2="150" stroke="#111827" stroke-width="2"/>
+    <line x1="315" y1="134" x2="315" y2="150" stroke="#111827" stroke-width="2"/>
+    <line x1="550" y1="134" x2="550" y2="150" stroke="#111827" stroke-width="2"/>
+    <line x1="785" y1="134" x2="785" y2="150" stroke="#111827" stroke-width="2"/>
+    <line x1="1020" y1="134" x2="1020" y2="150" stroke="#111827" stroke-width="2"/>
+    <text x="80" y="174" text-anchor="middle" font-size="18" font-weight="700">-10</text>
+    <text x="315" y="174" text-anchor="middle" font-size="18" font-weight="700">-5</text>
+    <text x="550" y="174" text-anchor="middle" font-size="18" font-weight="700">0</text>
+    <text x="785" y="174" text-anchor="middle" font-size="18" font-weight="700">+5</text>
+    <text x="1020" y="174" text-anchor="middle" font-size="18" font-weight="700">+10</text>
+    <text x="80" y="198" text-anchor="middle" font-size="14">Full autocracy</text>
+    <text x="550" y="198" text-anchor="middle" font-size="14">Anocracy / mixed authority</text>
+    <text x="1020" y="198" text-anchor="middle" font-size="14">Full democracy</text>
+  </g>
+</svg>

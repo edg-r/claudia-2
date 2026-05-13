@@ -276,6 +276,48 @@ Record of major completed tasks. Read to avoid duplicate work.
 **Output:** `Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md`; `Assignments/Data Memo - Regime Type/myanmar_polity5_2000_2018.csv`; `GPCO 410 - Intl Pol:Sec - Praether/_agent/ASSIGNMENTS.md`
 **Notes:** COW and PRIO data memo options remain pending. Only the Regime Type / Polity IV option should show progress because it has the existing outline/data work.
 
+### 2026-05-12 — Regime Type Data Memo operationalization refactor
+**Requested by:** Edgar
+**What was done:** Checked the Canvas assignment/rubric PDF and refactored the Polity IV / Regime Type data memo outline so the memo foregrounds operationalization, original coding rationale, critique/support, alternative coding, and implications for IR security studies rather than reading primarily as a Myanmar regime-history narrative.
+**Output:** `Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md`
+**Notes:** Canvas rubric weights description, analysis, and critique of the observation's coding at 65/100 points. Next step is to pull exact Polity codebook page citations for `POLITY`, `POLITY2`, `XCONST`, `PARCOMP`, and `-88`, then draft a tight 3-page footnote-only memo.
+
+### 2026-05-12 — Regime Type Data Memo timeframe and military-veto refinement
+**Requested by:** Edgar
+**What was done:** Updated the data memo outline to frame the historical arc as Myanmar's 2011-2021 partial transition while keeping the observed Polity data window at 2011-2018 because Polity5 v2018 stops in 2018. Clarified that the 2021 coup should be used as an out-of-sample stress test, not as a Polity-coded value, and sharpened the coding critique around military reserved seats, security ministries, and constitutional veto power.
+**Output:** `Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md`
+**Notes:** Important nuance: Polity partly captures reserved legislative seats in executive-recruitment logic and imperfect competition in `parcomp = 4`, but it lacks a standalone civilian-control or military-guardianship variable. This is the strongest critique to carry into the draft.
+
+### 2026-05-12 — Regime Type Data Memo CSP update check and -88 note
+**Requested by:** Edgar
+**What was done:** Checked CSP's public PolityProject page for a post-2018 Polity update and added a note to the outline that the public Polity5 release still covers 1800-2018 while an improved version is in development. Added a special outline note explaining Myanmar's 2015 `polity = -88` transition code and how `polity2 = 2` is an interpolation rather than a substantive regime score.
+**Output:** `Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md`
+**Notes:** Draft should say the 2021 coup is historically central but not observed in the current public Polity5 time series. For post-2018 measurement, use a comparator only if Edgar asks for one; otherwise keep the critique focused on Polity's 2011-2018 coding and the out-of-sample coup as validation of the military-veto concern.
+
+### 2026-05-12 — Regime Type Data Memo draft tables
+**Requested by:** Edgar
+**What was done:** Added two draft-ready Markdown tables to the Polity IV / Regime Type outline: an operationalization map for `polity`, `polity2`, `xconst`, `parcomp`, and a proposed civilian-control flag; and a Myanmar coding summary for 2011-2014, 2015, 2016-2018, and the 2021 coup as an out-of-sample stress test.
+**Output:** `Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md`
+**Notes:** The tables should replace most figure work unless Edgar wants a line chart. The table framing keeps the memo close to the rubric's coding-description and critique categories.
+
+### 2026-05-13 — Regime Type Data Memo 800-word outline and scale visual
+**Requested by:** Edgar
+**What was done:** Compressed the Polity IV / Regime Type outline into a four-section 800-word target structure: Introduction, Context, Operationalization, and Conclusion. Added an APA source list covering the Polity codebook/data page, Myanmar 2008 Constitution, International Crisis Group coup brief, Meng & Little, and Cederman et al. Added a color-scale SVG visual for the `-10` to `+10` Polity democracy range.
+**Output:** `Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md`; `Assignments/Data Memo - Regime Type/assets/polity_range_scale.svg`
+**Notes:** Current outline is 924 words including APA references and disclosure. The body is within the 800-word target if references/disclosure are excluded; next drafting pass should keep prose compact and footnote-only.
+
+### 2026-05-13 — Regime Type Data Memo section reorder
+**Requested by:** Edgar
+**What was done:** Reordered the compressed outline so Polity's operationalization comes before the Myanmar application. Current structure is Introduction, Operationalization, Myanmar Application, and Conclusion/Critique.
+**Output:** `Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md`
+**Notes:** This order lets the reader learn the measurement rules before seeing how Myanmar exposes the coding gap.
+
+### 2026-05-13 — Regime Type Data Memo XCONST/PARCOMP clarification
+**Requested by:** Edgar
+**What was done:** Deepened the outline's operationalization section to define reproducibility as codebook-guided coder classification rather than mechanical veto-player counting. Added the ranges and coding logic for `xconst` (1-7 executive constraints) and `parcomp` (0-5 competitiveness of participation), including the key point that `xconst` can treat military constraints on the civilian executive as institutional accountability.
+**Output:** `Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md`
+**Notes:** This added precision pushes the outline over 800 words including references; the final prose draft should condense the explanation but keep the conceptual distinction.
+
 ### 2026-04-29 — ORANGE Myanmar final-draft preference capture
 **Requested by:** Edgar
 **What was done:** Compared Edgar's final hand-written/submission draft (`Myanmar Orange Memo Agunias.pdf` / `Orange Memo v5.docx`) against the Athena/Claudia draft trajectory (`v3.1.0`, `v4.0.0`, `v4.1.0`) at a high level, focusing on reusable stylistic and structural differences rather than proofread corrections.
