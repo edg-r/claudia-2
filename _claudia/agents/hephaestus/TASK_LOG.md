@@ -224,3 +224,39 @@
 **What was done:** Added a plain Markdown daily-dispatch generator so Eos can produce an Obsidian-ready daily view from `_claudia/claudia.db` without running the local HTML dashboard server. The generator groups each course into due today, rest of week, and peek next week, using Obsidian task checkboxes, bold task titles, emoji markers, multi-line task blocks, and ASCII progress bars.
 **Output:** `_claudia/daily_dispatch_md.py`; `_claudia/dispatches/2026-05-10_daily-dispatch.md`; `_claudia/dispatches/2026-05-11_daily-dispatch.md`; `_claudia/skills/daily-briefing.md`
 **Notes:** Verified with `python3 -m py_compile _claudia/daily_dispatch_md.py` and generated May 10 and May 11 dispatch files. Calendar, weather, and email sections accept optional JSON/text inputs and degrade to clear unavailable notes when live signals are not supplied.
+
+### 2026-05-12 - Markdown dispatch email diagnostics
+**Requested by:** Claudia / Edgar
+**What was done:** Added `_claudia/gmail_dispatch_json.py` and `--auto-email` support in `_claudia/daily_dispatch_md.py` so the Obsidian dispatch can collect local UCSD Gmail items or surface the exact credential failure. Fixed the helper environment handling so `gcloud` remains on PATH while using the separate `CLOUDSDK_CONFIG`.
+**Output:** `_claudia/gmail_dispatch_json.py`; `_claudia/daily_dispatch_md.py`; `_claudia/dispatches/2026-05-12_daily-dispatch.md`
+**Notes:** Verification showed the UCSD Gmail token is expired/revoked (`invalid_grant`) and needs browser re-auth. Personal Gmail remains Codex connector-only; the connector is live, and current personal INBOX count is zero even though unread All Mail has recent Capital One messages.
+
+### 2026-05-14 - UCSD Gmail Re-auth Diagnostic Command Fix
+**Requested by:** Claudia / Edgar
+**What was done:** Confirmed the UCSD Gmail dispatch failure is a revoked/expired local gcloud ADC refresh token, then patched the Gmail dispatch helper so recovery diagnostics include the saved OAuth client file and the required `cloud-platform` plus `gmail.readonly` scopes.
+**Output:** `_claudia/gmail_dispatch_json.py`
+**Notes:** `python3 -m py_compile _claudia/gmail_dispatch_json.py _claudia/daily_dispatch_md.py` passed. The corrected browser OAuth flow opened successfully, but the token is not refreshed until Edgar completes the Google consent page.
+
+### 2026-05-14 - Actual Finance SQLite cleanup
+**Requested by:** Edgar
+**What was done:** Backed up `2026-05-14-My Finances/db.sqlite`, added granular Actual Budget category groups/categories, recategorized obvious payee spending, converted exact matched internal money movement into native transfer pairs, and tombstoned duplicate imported transfer artifacts where an equivalent native transfer already existed.
+**Output:** `2026-05-14-My Finances/db.sqlite`; backup at `2026-05-14-My Finances/backups/db.sqlite.before-finance-cleanup-20260514-233531.sqlite`
+**Notes:** SQLite integrity check passes. Uncategorized non-transfer rows dropped from 139 to 1, linked transfer rows increased from 16 to 74, and transfer-link verification reports zero broken pairs. One old $25 Quicksilver Secured `Capital One Credit Card` credit was left uncategorized because it lacked a confident matching outflow.
+
+### 2026-05-15 - Finance HTML Dashboard and SimpleFIN Sync Scaffold
+**Requested by:** Edgar
+**What was done:** Built a local Python-served finance dashboard around `My-Finances-cleaned-actual-export-v3/db.sqlite`, including summary cards, account balances, monthly cash flow, top spending, budget watch, recent transactions, and a server-side SimpleFIN sync endpoint. Kept SimpleFIN credentials out of browser code by reading `.env.local` on the server.
+**Output:** `My-Finances-cleaned-actual-export-v3/server.py`; `simplefin_sync.py`; `dashboard.html`; `static/dashboard.css`; `static/dashboard.js`; `.env.example`; `.gitignore`; `README.md`
+**Notes:** Verified `python3 -m py_compile server.py simplefin_sync.py`, `GET /api/summary`, static asset serving, and `HEAD /`. The dashboard runs at `http://127.0.0.1:8787`; sync makes a timestamped SQLite backup before writing.
+
+### 2026-05-15 - Finance Macro Group Dashboard and Deterministic Transfer Rules
+**Requested by:** Edgar
+**What was done:** Reworked the dashboard to show macro spending groups first, then drill into subcategories and transactions. Added deterministic transfer-rule logic and wired sync to run those rules after importing so paired transfers are linked without AI judgment.
+**Output:** `My-Finances-cleaned-actual-export-v3/server.py`; `finance_rules.py`; `simplefin_sync.py`; `dashboard.html`; `static/dashboard.js`; `static/dashboard.css`
+**Notes:** Verified May 2026 macro group total equals monthly non-transfer outflow (`$1,992.17`) and current-month uncategorized transaction count is zero after labeling linked transfers as `Transfer`. SimpleFIN sync still fails because the provided setup token returns `HTTP 403 Forbidden`.
+
+### 2026-05-15 - Finance Dashboard Interaction Polish
+**Requested by:** Edgar
+**What was done:** Added Percent Mode for hiding raw dollar figures, account click-through into full account transaction ledgers, Budget Watch rows that match dashboard macro groups, expandable budget subcategories, and budget usage shown as percent plus spent/budget fraction. Clarified SimpleFIN app-token handling so one-time app tokens are claimed server-side and replaced with a reusable access URL when the claim succeeds.
+**Output:** `My-Finances-cleaned-actual-export-v3/server.py`; `simplefin_sync.py`; `README.md`; `static/dashboard.js`; `static/dashboard.css`
+**Notes:** Manual SimpleFIN debugging showed the app token was valid and the SimpleFIN app entry became Active, but the manual claim consumed the one-time token before the reusable access URL was saved to `.env.local`. A fresh app token is needed for the patched claim-and-save path.

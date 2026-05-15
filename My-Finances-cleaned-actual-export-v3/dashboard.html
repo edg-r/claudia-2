@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Finances</title>
+  <link rel="stylesheet" href="/static/dashboard.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Actual Budget SQLite / SimpleFIN</p>
+        <h1>My Finances</h1>
+      </div>
+      <div class="actions">
+        <button id="privacyToggle" type="button" aria-pressed="false" title="Hide raw dollar amounts and show percentages instead">Percent Mode</button>
+        <button id="refresh" type="button" title="Refresh dashboard data from the local SQLite DB">Refresh</button>
+        <button id="sync" type="button" title="Fetch new SimpleFIN transactions into db.sqlite">Sync SimpleFIN</button>
+      </div>
+    </header>
+
+    <section class="status-strip">
+      <div>
+        <span>Month view</span>
+        <select id="monthSelect" aria-label="Month view"></select>
+      </div>
+      <div>
+        <span>Month spending</span>
+        <strong id="monthOutflow">$0.00</strong>
+      </div>
+      <div>
+        <span>Month net</span>
+        <strong id="monthNet">$0.00</strong>
+      </div>
+      <div class="setup-note">
+        <span>Status</span>
+        <strong id="syncStatus">Ready</strong>
+      </div>
+    </section>
+
+    <section class="month-board">
+      <article class="panel category-focus">
+        <div class="panel-head">
+          <h2>Monthly Spending</h2>
+          <span id="categoryMonth">current month</span>
+        </div>
+        <div class="pie-stage">
+          <svg id="categoryPie" class="category-pie" viewBox="0 0 220 220" role="img" aria-label="Monthly spending by category"></svg>
+          <div id="pieTooltip" class="pie-tooltip" hidden></div>
+          <div class="pie-center">
+            <span>Total spent</span>
+            <strong id="pieTotal">$0.00</strong>
+            <small id="pieSelection">Click a slice</small>
+          </div>
+        </div>
+        <div class="category-toolbar">
+          <button class="chip active" id="allCategories" type="button">All</button>
+          <button class="chip" id="uncategorizedOnly" type="button">Uncategorized</button>
+        </div>
+        <div id="categories" class="category-grid"></div>
+      </article>
+
+      <article class="panel transaction-focus">
+        <div class="panel-head">
+          <h2 id="transactionTitle">Transactions</h2>
+          <span id="transactionCount">0 rows</span>
+        </div>
+        <div class="table-wrap tall">
+          <table>
+            <thead>
+              <tr>
+                <th class="date-col">Date</th>
+                <th class="payee-col">Payee</th>
+                <th class="category-col">Category</th>
+                <th class="account-col">Account</th>
+                <th class="num">Amount</th>
+              </tr>
+            </thead>
+            <tbody id="transactions"></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section class="hero-grid secondary">
+      <article class="metric net">
+        <span>Net Worth</span>
+        <strong id="netWorth">$0.00</strong>
+        <small>Cash minus current credit balances</small>
+      </article>
+      <article class="metric">
+        <span>Cash</span>
+        <strong id="cashBalance">$0.00</strong>
+        <small>Positive account balances</small>
+      </article>
+      <article class="metric warning">
+        <span>Credit Balance</span>
+        <strong id="debtBalance">$0.00</strong>
+        <small>Negative account balances</small>
+      </article>
+      <article class="metric">
+        <span>Month Inflow</span>
+        <strong id="monthInflow">$0.00</strong>
+        <small>Income and positive transfers this month</small>
+      </article>
+    </section>
+
+    <section class="layout">
+      <article class="panel chart-panel">
+        <div class="panel-head">
+          <h2>Monthly Cash Flow</h2>
+          <span>last 8 months</span>
+        </div>
+        <div id="cashChart" class="cash-chart"></div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <h2>Accounts</h2>
+          <span>SimpleFIN-backed</span>
+        </div>
+        <div id="accounts" class="account-list"></div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <h2>Group Rollup</h2>
+          <span>selected month</span>
+        </div>
+        <div id="groups" class="bar-list"></div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <h2>Budget Watch</h2>
+          <span>budget vs spent</span>
+        </div>
+        <div id="budgets" class="bar-list compact"></div>
+      </article>
+    </section>
+
+  </main>
+  <script src="/static/dashboard.js"></script>
+</body>
+</html>

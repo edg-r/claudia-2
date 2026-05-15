@@ -128,3 +128,27 @@ Ran two cross-course queries. First: full open-assignments rundown across GPCO 4
 **What was done:** Verified that `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Data Memo - Regime Type/` contains a working outline and completed Polity5 Myanmar data pull. Updated `_claudia/claudia.db` assignment id 31 from `pending` to `outlined`, recorded the outline/data-pull note, set `last_verified_at` to `2026-05-11`, and inserted file-index rows for the outline and Myanmar CSV if absent.
 **Output:** `_claudia/claudia.db`; `_claudia/dispatches/2026-05-11_daily-dispatch.md`; Obsidian copy at `000 ARCHIVES/Daily/2026-05-11_daily-dispatch.md`
 **Notes:** Assignment ids 29 COW and 30 PRIO remain pending because the found artifacts belong to the Regime Type / Polity IV option only.
+
+### 2026-05-11 - GPPS 463 Midterm Exam 2 completion correction
+**Requested by:** Edgar
+**What was done:** Updated `_claudia/claudia.db` assignment id 23 (`GPPS 463` Midterm Exam 2) from `pending` to `completed` based on Edgar's correction that the exam was completed today. Stamped `submitted_at` and `last_verified_at` as `2026-05-11 09:54:44 PDT` and appended concise provenance to the row notes.
+**Output:** `_claudia/claudia.db`
+**Notes:** Current-day scan after correction shows the only dated 2026-05-11 GPPS 463 row is now completed; syllabus extraction marks LD13 as an exam/no-reading/no-discussion-post day.
+
+### 2026-05-14 - Academic Admin Sweep
+**Requested by:** Claudia / Edgar
+**What was done:** Inspected the SQLite schema and queried active assignments/readings/grades for stale or near-term rows as of 2026-05-14. No DB rows were changed because no past-due pending assignment rows had clear durable evidence for closure.
+**Output:** Returned to Claudia; no DB changes.
+**Notes:** Near-term obligations remain GPCO 410 data memo options due 2026-05-15 17:00, GPCO 403 Concept Check 4 due 2026-05-18 23:59, GPCO 410 Analytic Memo PURPLE due 2026-05-20 11:00, and GPEC 446 Homework II due 2026-05-23 23:59. Close the unused GPCO 410 data memo options only after Edgar submits or clearly chooses the Regime Type option.
+
+### 2026-05-14 - Data Memo DB Status Cleanup Fallback
+**Requested by:** Claudia / Edgar
+**What was done:** After the delegated Mnemosyne worker timed out, Claudia invoked Mnemosyne locally as an explicit fallback and updated `_claudia/claudia.db`: assignment ids 29 and 30 were changed from `pending` to `alternate_option`, and assignment id 31 was changed from `outlined` to `drafting` based on the active `Blue Memo v1.docx` in the Regime Type assignment folder.
+**Output:** `_claudia/claudia.db`
+**Notes:** No row was marked submitted or completed. Regime Type remains the live GPCO 410 data memo due 2026-05-15 17:00; COW and PRIO are inactive alternatives because the prompt requires choosing one data memo.
+
+### 2026-05-15 - Actual Finance Dashboard Schema Inspection
+**Requested by:** Claudia / Edgar
+**What was done:** Inspected `My-Finances-cleaned-actual-export-v3/db.sqlite` read-only for the dashboard build. Identified the Actual Budget-style schema, row counts, account balance fields, transaction date and amount formats, reliable category join path, budget tables, and SimpleFIN sync-related fields.
+**Output:** Returned schema notes to Claudia; no DB changes.
+**Notes:** `transactions.date` uses integer `YYYYMMDD`; amounts are cents; direct joins from `transactions.category` to `categories.id` are more reliable for this cleaned DB than `v_transactions` category mapping. The live transaction range is 2025-09-18 through 2026-05-14.
