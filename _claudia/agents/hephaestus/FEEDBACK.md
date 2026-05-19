@@ -10,3 +10,9 @@ The "no emdashes" style rule extends to calendar event summaries. Google Calenda
 
 ## 2026-04-23 — Verify tool context before committing to an MCP-dependent plan
 Per-run tool availability for this agent varies. Google Calendar MCP tools were present in one run and absent in the next within the same session. Before promising a plan that depends on a specific MCP (Calendar, Gmail, Drive), confirm the relevant tools are loaded in the current context. If missing, either load via ToolSearch or hand the step back to Claudia rather than silently failing.
+
+## 2026-05-19 — GPSA budget flow is a positive example
+**Type:** confirmation
+**What:** Edgar confirmed `edgar/gpsa_budget_flow.html` as a positive example for future budget-flow visualizations.
+**Why:** The artifact captures the desired interaction and polish: pastel Sankey flow, smooth no-snap year-over-year animation, upstream highlighting, ordered line items, and scrollable reallocation cards.
+**Rule going forward:** For budget workbook visualization requests, use `_claudia/skills/budget-flow-visualization.md` and treat `edgar/gpsa_budget_flow.html` as the reference benchmark unless Edgar asks for a different direction.

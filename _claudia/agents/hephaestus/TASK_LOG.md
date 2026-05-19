@@ -266,3 +266,15 @@
 **What was done:** Added Percent Mode for hiding raw dollar figures, account click-through into full account transaction ledgers, Budget Watch rows that match dashboard macro groups, expandable budget subcategories, and budget usage shown as percent plus spent/budget fraction. Clarified SimpleFIN app-token handling so one-time app tokens are claimed server-side and replaced with a reusable access URL when the claim succeeds.
 **Output:** `My-Finances-cleaned-actual-export-v3/server.py`; `simplefin_sync.py`; `README.md`; `static/dashboard.js`; `static/dashboard.css`
 **Notes:** Manual SimpleFIN debugging showed the app token was valid and the SimpleFIN app entry became Active, but the manual claim consumed the one-time token before the reusable access URL was saved to `.env.local`. A fresh app token is needed for the patched claim-and-save path.
+
+### 2026-05-19 - GPSA Budget Flow HTML
+**Requested by:** Claudia / Edgar
+**What was done:** Built a standalone interactive HTML budget-flow visualization from `inbox/GPSA 2026_2027_Draft.xlsx`, comparing 2025-2026 budget lines to the 2026-2027 proposed budget with Sankey-style flows, filters, year toggles, and a reallocation ledger.
+**Output:** `edgar/gpsa_budget_flow.html`
+**Notes:** Source workbook's proposed-budget summary legend contains broken `#REF!` formulas, so the artifact uses concrete line-item rows and cached totals from the workbook.
+
+### 2026-05-19 - Budget Flow Visualization Skill
+**Requested by:** Edgar
+**What was done:** Captured the GPSA budget-flow design and implementation lessons as a reusable Claudia workspace skill, including workbook extraction, Sankey interactions, smooth compare animation, stable no-snap layout, upstream focus tracing, reallocation cards, and verification rules.
+**Output:** `_claudia/skills/budget-flow-visualization.md`; `_claudia/system/manifest.json`
+**Notes:** Use this skill for future budget-workbook requests that ask to visualize reallocations, follow the money, animate year-over-year changes, or create Monarch-style flow charts.

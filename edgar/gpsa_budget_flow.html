@@ -1,0 +1,1151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GPSA Budget Flow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,650;9..144,760&family=Nunito+Sans:wght@400;650;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+  <style>
+    :root {
+      --ink: #24313f;
+      --muted: #6d7784;
+      --paper: #fffaf4;
+      --panel: rgba(255, 255, 255, .72);
+      --line: rgba(77, 89, 105, .16);
+      --blue: #9bd9e7;
+      --mint: #bfe8d6;
+      --peach: #ffd3bf;
+      --rose: #ffc2d6;
+      --lilac: #d7c8ff;
+      --lemon: #fbe69b;
+      --coral: #ff987c;
+      --green: #72c9a2;
+      --shadow: 0 24px 80px rgba(70, 84, 102, .18);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 7% 11%, rgba(155, 217, 231, .55), transparent 30%),
+        radial-gradient(circle at 78% 10%, rgba(255, 194, 214, .48), transparent 32%),
+        linear-gradient(135deg, #fffaf4 0%, #f4fbf7 44%, #fff5ee 100%);
+      overflow-x: hidden;
+    }
+
+    .shell {
+      width: min(1480px, calc(100vw - 36px));
+      margin: 0 auto;
+      padding: 28px 0 42px;
+    }
+
+    header {
+      display: block;
+      padding: 16px 4px 24px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Fraunces", Georgia, serif;
+      font-size: clamp(2.5rem, 6vw, 6.8rem);
+      line-height: .86;
+      letter-spacing: 0;
+      max-width: 1220px;
+    }
+
+    .kicker {
+      margin: 0 0 12px;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: #73808e;
+    }
+
+    .subhead {
+      max-width: 980px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 1.04rem;
+      line-height: 1.55;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .segmented,
+    .chipbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    button {
+      border: 1px solid rgba(62, 77, 93, .14);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .72);
+      color: #465363;
+      font: inherit;
+      font-weight: 800;
+      padding: 10px 14px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(71, 86, 103, .08);
+      transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+    }
+
+    button:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(71, 86, 103, .12); }
+    button.active { background: #24313f; color: white; }
+    #compareBtn { min-width: 132px; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .viz-card,
+    .side-card,
+    .table-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .viz-card {
+      min-height: 720px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .viz-top {
+      position: absolute;
+      top: 18px;
+      left: 22px;
+      right: 22px;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      pointer-events: none;
+    }
+
+    .stat-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      min-width: 138px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .76);
+      border: 1px solid rgba(62, 77, 93, .11);
+    }
+
+    .stat span {
+      display: block;
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: #7b8694;
+      font-weight: 800;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 3px;
+      font-size: 1.18rem;
+    }
+
+    svg { display: block; width: 100%; min-height: 720px; }
+
+    .node rect {
+      rx: 5px;
+      stroke: rgba(36, 49, 63, .18);
+      stroke-width: 1px;
+      cursor: pointer;
+    }
+
+    .node text {
+      font-size: 13px;
+      font-weight: 800;
+      fill: var(--ink);
+      paint-order: stroke;
+      stroke: rgba(255,255,255,.88);
+      stroke-width: 3px;
+      stroke-linejoin: round;
+      pointer-events: none;
+    }
+
+    .link {
+      fill: none;
+      stroke-opacity: .52;
+      mix-blend-mode: multiply;
+      transition: stroke-opacity .18s ease, filter .18s ease;
+      cursor: pointer;
+    }
+
+    .link:hover { stroke-opacity: .9; }
+    .link.focused {
+      stroke-opacity: .96;
+      filter: drop-shadow(0 4px 7px rgba(36, 49, 63, .2));
+    }
+    .link.dimmed {
+      stroke-opacity: .16;
+    }
+    .node.dimmed { opacity: .34; }
+    .node.focused rect {
+      stroke-width: 2px;
+      stroke: rgba(36, 49, 63, .55);
+    }
+
+    .side-card {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-height: 0;
+    }
+
+    .side-card h2,
+    .table-card h2 {
+      margin: 0;
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 1.55rem;
+      letter-spacing: 0;
+    }
+
+    .delta-list {
+      display: grid;
+      gap: 10px;
+      flex: 1;
+      min-height: 0;
+      overflow-y: scroll;
+      padding-right: 8px;
+      overscroll-behavior: contain;
+      scrollbar-gutter: stable;
+      scrollbar-color: rgba(36,49,63,.28) rgba(36,49,63,.06);
+      scrollbar-width: thin;
+    }
+
+    .delta-list::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .delta-list::-webkit-scrollbar-track {
+      background: rgba(36,49,63,.06);
+      border-radius: 999px;
+    }
+
+    .delta-list::-webkit-scrollbar-thumb {
+      background: rgba(36,49,63,.24);
+      border-radius: 999px;
+    }
+
+    .delta {
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(62,77,93,.12);
+      background: rgba(255,255,255,.64);
+    }
+
+    .delta .top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-weight: 800;
+    }
+
+    .delta small {
+      display: block;
+      margin-top: 5px;
+      color: #7b8694;
+      line-height: 1.35;
+    }
+
+    .bar {
+      height: 8px;
+      margin-top: 9px;
+      border-radius: 999px;
+      background: rgba(36,49,63,.08);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar i {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      height: 100%;
+      width: var(--w);
+      transform: translateX(var(--x));
+      background: var(--c);
+      border-radius: inherit;
+    }
+
+    .bar::after {
+      content: "";
+      position: absolute;
+      top: 1px;
+      bottom: 1px;
+      left: 50%;
+      width: 1px;
+      background: rgba(36,49,63,.18);
+    }
+
+    .table-card {
+      margin-top: 18px;
+      padding: 18px;
+    }
+
+    .money-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: .94rem;
+    }
+
+    .money-table th {
+      text-align: left;
+      color: #7b8694;
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .money-table td {
+      padding: 10px 8px;
+      border-bottom: 1px solid rgba(77,89,105,.09);
+      vertical-align: top;
+    }
+
+    .money-table td.num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      font-weight: 800;
+    }
+
+    .gain { color: #268766; }
+    .loss { color: #d15b55; }
+    .compare-strip {
+      display: none;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .compare-row {
+      display: grid;
+      grid-template-columns: 88px minmax(74px, 1fr);
+      gap: 6px 10px;
+      align-items: center;
+      font-size: .9rem;
+      min-width: 0;
+      padding: 2px 0;
+    }
+    .compare-row strong {
+      grid-column: 1 / -1;
+      min-width: 0;
+      overflow-wrap: normal;
+      line-height: 1.22;
+    }
+    .compare-track {
+      height: 10px;
+      width: 88px;
+      border-radius: 999px;
+      background: rgba(36,49,63,.08);
+      position: relative;
+      overflow: hidden;
+      min-width: 0;
+    }
+    .compare-track i {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: var(--w);
+      transform: translateX(var(--x));
+      border-radius: inherit;
+      background: var(--c);
+    }
+    .compare-row .delta-amount {
+      text-align: right;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+      font-weight: 800;
+    }
+    .item-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+      flex-wrap: wrap;
+    }
+    .new-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(114, 201, 162, .16);
+      color: #268766;
+      font-size: .68rem;
+      line-height: 1;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      white-space: nowrap;
+    }
+    .new-badge::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #39bd84;
+      box-shadow: 0 0 0 0 rgba(57, 189, 132, .42);
+      animation: pulse-dot 1.2s ease-out infinite;
+    }
+    @keyframes pulse-dot {
+      0% { box-shadow: 0 0 0 0 rgba(57, 189, 132, .42); }
+      70% { box-shadow: 0 0 0 8px rgba(57, 189, 132, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(57, 189, 132, 0); }
+    }
+    .note {
+      margin-top: 14px;
+      color: #7b8694;
+      font-size: .86rem;
+      line-height: 1.45;
+    }
+
+    .tooltip {
+      position: fixed;
+      z-index: 10;
+      max-width: 320px;
+      padding: 12px 13px;
+      border-radius: 8px;
+      background: rgba(36, 49, 63, .94);
+      color: white;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate(-50%, calc(-100% - 12px));
+      box-shadow: 0 18px 46px rgba(36,49,63,.32);
+      font-size: .9rem;
+      line-height: 1.35;
+    }
+
+    .tooltip b { display: block; margin-bottom: 4px; }
+
+    @media (max-width: 1050px) {
+      .layout,
+      .controls { grid-template-columns: 1fr; }
+      .viz-card { min-height: 640px; }
+      svg { height: 640px; }
+      .viz-top { position: static; padding: 16px 16px 0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <p class="kicker">GPSA MONEY MAP - Created by Represenative Edgar Agunias 5/18/2026</p>
+      <h1>Follow the budget as it moves.</h1>
+      <p class="subhead">A pastel, Monarch-inspired flow view of GPSA spending from the 2025-2026 budget to the 2026-2027 proposed budget. Use the controls to switch years, compare reallocations, and inspect where each category sends money.</p>
+    </header>
+
+    <section class="controls" aria-label="Budget controls">
+      <div class="chipbar" id="filterButtons"></div>
+      <div class="segmented">
+        <button data-year="2025" class="active">2025-2026</button>
+        <button data-year="2026">2026-2027</button>
+      </div>
+      <div class="segmented">
+        <button data-depth="groups" class="active">Groups</button>
+        <button data-depth="items">Line items</button>
+      </div>
+      <div class="segmented">
+        <button id="compareBtn">Animate change</button>
+      </div>
+    </section>
+
+    <section class="layout">
+      <div class="viz-card">
+        <div class="viz-top">
+          <div class="stat-row">
+            <div class="stat"><span>Revenue</span><strong id="revenueStat"></strong></div>
+            <div class="stat"><span>Expenses</span><strong id="expenseStat"></strong></div>
+            <div class="stat"><span>Gap</span><strong id="gapStat"></strong></div>
+          </div>
+        </div>
+        <svg id="chart" role="img" aria-label="GPSA budget flow chart"></svg>
+      </div>
+      <aside class="side-card">
+        <h2>Reallocation Signals</h2>
+        <div class="delta-list" id="deltaList"></div>
+      </aside>
+    </section>
+
+    <section class="table-card">
+      <h2>Year-over-year ledger</h2>
+      <table class="money-table">
+        <thead>
+          <tr>
+            <th>Line item</th>
+            <th>Group</th>
+            <th>2025-2026</th>
+            <th>2026-2027</th>
+            <th>Change</th>
+          </tr>
+        </thead>
+        <tbody id="ledgerBody"></tbody>
+      </table>
+      <p class="note">The workbook's 2026-2027 proposed summary legend contains broken #REF! formulas, so this view uses concrete line-item rows plus cached totals from the workbook. Minor spelling issues are preserved from the source where they affect matching.</p>
+    </section>
+  </main>
+  <div class="tooltip" id="tooltip"></div>
+
+  <script>
+    const budget = {
+      "2025": {
+        label: "2025-2026 Budget",
+        revenue: 601464,
+        expenses: 757291,
+        gap: -155827,
+        categories: [
+          ["Allocations", "Executive Events and Operations", 105500],
+          ["Allocations", "Funds for Exec Collaborations", 22000],
+          ["Allocations", "Food", 7700],
+          ["Allocations", "Miscellaneous", 148900],
+          ["Allocations", "Training", 1000],
+          ["Allocations", "Travel", 23000],
+          ["Allocations", "Discretionary Funds", 1850],
+          ["Allocations", "Appropriations", 116500],
+          ["Administration", "Administrative Supplies and Expenses", 12000],
+          ["Compensation", "Elected Officer Compensation", 52200],
+          ["Compensation", "Appointed Officer Compensation", 65400],
+          ["Compensation", "GPSA Advisor", 114501],
+          ["Miscellaneous", "Graduate Student Financial Aid / Mandatory Expense", 77227]
+        ],
+        items: [
+          ["Allocations", "Executive Events and Operations", "Interdisciplinary Research Awards Ceremony", 5000],
+          ["Allocations", "Executive Events and Operations", "Chancellor Dissertation Medal Lunch", 2500],
+          ["Allocations", "Executive Events and Operations", "Academic and Mentorship Event", 4000],
+          ["Allocations", "Executive Events and Operations", "Quarterly Career night", 10500],
+          ["Allocations", "Executive Events and Operations", "Community Awards Events", 10000],
+          ["Allocations", "Executive Events and Operations", "EDI Symposium", 2000],
+          ["Allocations", "Executive Events and Operations", "Orientation & Diversity Orientation", 9000],
+          ["Allocations", "Executive Events and Operations", "Town Hall/Guest Town Hall (External)", 1500],
+          ["Allocations", "Executive Events and Operations", "Family Friendly Quarterly Block party fund - HDH", 9000],
+          ["Allocations", "Executive Events and Operations", "Summer Social Events", 2000],
+          ["Allocations", "Executive Events and Operations", "Quarterly Social Events", 50000],
+          ["Allocations", "Funds for Exec Collaborations", "Sustainability Fund", 1500],
+          ["Allocations", "Funds for Exec Collaborations", "Diversity Event Fund", 7000],
+          ["Allocations", "Funds for Exec Collaborations", "Outreach Coordinator Fund", 3000],
+          ["Allocations", "Funds for Exec Collaborations", "Diversity Collaboration Fund", 5500],
+          ["Allocations", "Funds for Exec Collaborations", "Cultural Coordinator Fund", 5000],
+          ["Allocations", "Food", "Graduate Coodinators Luncheon", 700],
+          ["Allocations", "Food", "Council Dinners", 5000],
+          ["Allocations", "Food", "Executive Dinners", 2000],
+          ["Allocations", "Miscellaneous", "New Initatives Fund", 25000],
+          ["Allocations", "Miscellaneous", "Long Term Basic Need Grant", 2400],
+          ["Allocations", "Miscellaneous", "Cap & Gown Rental Program", 2500],
+          ["Allocations", "Miscellaneous", "ADA Shuttle End of Year Program", 1000],
+          ["Allocations", "Miscellaneous", "Childcare Support Program", 3000],
+          ["Allocations", "Miscellaneous", "Food Security", 95000],
+          ["Allocations", "Miscellaneous", "Summer Rec Program", 20000],
+          ["Allocations", "Training", "Representative Training", 1000],
+          ["Allocations", "Travel", "Executive Training", 3000],
+          ["Allocations", "Travel", "Executive and External Travel", 20000],
+          ["Allocations", "Appropriations", "Early Request Fund", 4500],
+          ["Allocations", "Appropriations", "Funding Requests", 30000],
+          ["Allocations", "Appropriations", "Lounge Improvements Request Fund", 2000],
+          ["Allocations", "Appropriations", "Travel Grant Program", 80000],
+          ["Administration", "Administrative Supplies and Expenses", "Office Supplies & Expenses", 5000],
+          ["Administration", "Administrative Supplies and Expenses", "Graduate Student Lounge", 4500],
+          ["Administration", "Administrative Supplies and Expenses", "Branding Fund", 2500],
+          ["Compensation", "Elected Officer Compensation", "President", 8240],
+          ["Compensation", "Elected Officer Compensation", "VP Academic", 7210],
+          ["Compensation", "Elected Officer Compensation", "VP Campus", 7210],
+          ["Compensation", "Elected Officer Compensation", "VP Equity, Diversity, and Inclusion", 7210],
+          ["Compensation", "Elected Officer Compensation", "VP External", 7210],
+          ["Compensation", "Elected Officer Compensation", "VP Finance", 7210],
+          ["Compensation", "Elected Officer Compensation", "VP Social Affairs", 7210],
+          ["Compensation", "Elected Officer Compensation", "General Liability Program", 700],
+          ["Compensation", "Appointed Officer Compensation", "Chief of Staff", 4000],
+          ["Compensation", "Appointed Officer Compensation", "Parlimentarian", 3000],
+          ["Compensation", "Appointed Officer Compensation", "(Webmaster) Director of Engagement", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Social Media Manager", 2500],
+          ["Compensation", "Appointed Officer Compensation", "Professional Development Coordinator", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Academic and Professional Development Committee Chair", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Mentorship Coordinator", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Health and Well-Being Liason", 2500],
+          ["Compensation", "Appointed Officer Compensation", "GFHAC Co-Chair", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Sustainability Committee (CAP) Chair", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Community Outreach Coordinator", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Diversity Advisory Committee Chair", 3000],
+          ["Compensation", "Appointed Officer Compensation", "Basic Needs Chair", 3000],
+          ["Compensation", "Appointed Officer Compensation", "Basic Needs rep", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Legislative Liason National", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Legislative Liason State", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Legislative Liason Local", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Civic Engagement Liason", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Finance Chair", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Travel Grant Coordinator", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Assistant Vice President of Campus", 3500],
+          ["Compensation", "Appointed Officer Compensation", "Assistant Vice President of Social", 3500],
+          ["Compensation", "Appointed Officer Compensation", "Cultural Event Coordinator", 3000],
+          ["Compensation", "Appointed Officer Compensation", "Social Event Coordinator 1", 3000],
+          ["Compensation", "Appointed Officer Compensation", "Social Event Coordinator 2", 3000],
+          ["Compensation", "Appointed Officer Compensation", "Social Event Coordinator 3", 3000],
+          ["Compensation", "Appointed Officer Compensation", "General Liability Program", 400],
+          ["Compensation", "GPSA Advisor", "GPSA Advisor Salary & Professional Development", 114501],
+          ["Miscellaneous", "Miscellaneous", "Mandatory Reserves", 9513],
+          ["Miscellaneous", "Graduate Student Financial Aid / Mandatory Expense", "Return to Aid", 77227]
+        ]
+      },
+      "2026": {
+        label: "2026-2027 Proposed Budget",
+        revenue: 654213,
+        expenses: 856252,
+        gap: -202039,
+        categories: [
+          ["Allocations", "Executive Events and Operations", 94000],
+          ["Allocations", "Funds for Exec Collaborations", 15000],
+          ["Allocations", "Food", 8500],
+          ["Allocations", "Miscellaneous", 117500],
+          ["Allocations", "Travel", 27500],
+          ["Allocations", "Appropriations", 114000],
+          ["Administration", "Administrative Supplies and Expenses", 9000],
+          ["Compensation", "Elected Officer Compensation", 52200],
+          ["Compensation", "Appointed Officer Compensation", 68900],
+          ["Compensation", "GPSA Advisor", 229002],
+          ["Miscellaneous", "Graduate Student Financial Aid / Mandatory Expense", 111137]
+        ],
+        items: [
+          ["Allocations", "Executive Events and Operations", "Interdisciplinary Research Awards Ceremony", 7500],
+          ["Allocations", "Executive Events and Operations", "Academic and Mentorship Event", 4000],
+          ["Allocations", "Executive Events and Operations", "Quarterly Career night", 10500],
+          ["Allocations", "Executive Events and Operations", "Community Awards Events", 15000],
+          ["Allocations", "Executive Events and Operations", "Summer Social Events", 2000],
+          ["Allocations", "Executive Events and Operations", "Quarterly Social Events", 55000],
+          ["Allocations", "Funds for Exec Collaborations", "Campus Outreach Fund", 5000],
+          ["Allocations", "Funds for Exec Collaborations", "Diversity Outreach Fund", 10000],
+          ["Allocations", "Food", "Council Dinners", 6000],
+          ["Allocations", "Food", "Executive Dinners", 2500],
+          ["Allocations", "Miscellaneous", "New Initatives Fund", 20000],
+          ["Allocations", "Miscellaneous", "Cap & Gown Rental Program", 2500],
+          ["Allocations", "Miscellaneous", "Food Security", 95000],
+          ["Allocations", "Miscellaneous", "Summer Rec Program", 0],
+          ["Allocations", "Travel", "Executive and Rep Training", 3500],
+          ["Allocations", "Travel", "Executive and External Travel", 24000],
+          ["Allocations", "Appropriations", "Early Request Fund", 2500],
+          ["Allocations", "Appropriations", "Funding Requests", 30000],
+          ["Allocations", "Appropriations", "Lounge Improvements Request Fund", 1500],
+          ["Allocations", "Appropriations", "Travel Grant Program", 80000],
+          ["Administration", "Administrative Supplies and Expenses", "Office Supplies & Expenses", 7000],
+          ["Administration", "Administrative Supplies and Expenses", "Graduate Student Lounge", 2000],
+          ["Compensation", "Elected Officer Compensation", "President", 8240],
+          ["Compensation", "Elected Officer Compensation", "VP Academic", 7210],
+          ["Compensation", "Elected Officer Compensation", "VP Campus", 7210],
+          ["Compensation", "Elected Officer Compensation", "VP Equity, Diversity, and Inclusion", 7210],
+          ["Compensation", "Elected Officer Compensation", "VP External", 7210],
+          ["Compensation", "Elected Officer Compensation", "VP Finance", 7210],
+          ["Compensation", "Elected Officer Compensation", "VP Social Affairs", 7210],
+          ["Compensation", "Elected Officer Compensation", "General Liability Program", 700],
+          ["Compensation", "Appointed Officer Compensation", "Chief of Staff", 4500],
+          ["Compensation", "Appointed Officer Compensation", "Parlimentarian", 3000],
+          ["Compensation", "Appointed Officer Compensation", "(Webmaster) Director of Engagement", 2500],
+          ["Compensation", "Appointed Officer Compensation", "Social Media Manager", 2500],
+          ["Compensation", "Appointed Officer Compensation", "Professional Development Coordinator", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Academic and Professional Development Committee Chair", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Mentorship Coordinator", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Health and Well-Being Liason", 2500],
+          ["Compensation", "Appointed Officer Compensation", "GFHAC Co-Chair", 3000],
+          ["Compensation", "Appointed Officer Compensation", "Sustainability Committee (CAP) Chair", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Community Outreach Coordinator", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Diversity Advisory Committee Chair", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Basic Needs Chair", 3000],
+          ["Compensation", "Appointed Officer Compensation", "Basic Needs rep", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Legislative Liason National", 2500],
+          ["Compensation", "Appointed Officer Compensation", "Legislative Liason State", 2500],
+          ["Compensation", "Appointed Officer Compensation", "Legislative Liason Local", 2500],
+          ["Compensation", "Appointed Officer Compensation", "Civic Engagement Liason", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Finance Chair", 2000],
+          ["Compensation", "Appointed Officer Compensation", "Travel Grant Coordinator", 3000],
+          ["Compensation", "Appointed Officer Compensation", "Assistant Vice President of Campus", 3500],
+          ["Compensation", "Appointed Officer Compensation", "Assistant Vice President of Social", 3500],
+          ["Compensation", "Appointed Officer Compensation", "Cultural Event Coordinator", 3000],
+          ["Compensation", "Appointed Officer Compensation", "Social Event Coordinator 1", 3000],
+          ["Compensation", "Appointed Officer Compensation", "Social Event Coordinator 2", 3000],
+          ["Compensation", "Appointed Officer Compensation", "Social Event Coordinator 3", 3000],
+          ["Compensation", "Appointed Officer Compensation", "General Liability Program", 400],
+          ["Compensation", "GPSA Advisor", "GPSA Advisor Salary & Professional Development", 114501],
+          ["Compensation", "GPSA Advisor", "GPSA Program Assisant", 114501],
+          ["Miscellaneous", "Miscellaneous", "Mandatory Reserves", 9513],
+          ["Miscellaneous", "Graduate Student Financial Aid / Mandatory Expense", "Return to Aid", 78426],
+          ["Miscellaneous", "Graduate Student Financial Aid / Mandatory Expense", "Divsional Business Office Support", 32711]
+        ]
+      }
+    };
+
+    const palette = {
+      "Revenue": "#9bd9e7",
+      "Allocations": "#bfe8d6",
+      "Administration": "#fbe69b",
+      "Compensation": "#d7c8ff",
+      "Miscellaneous": "#ffc2d6",
+      "Executive Events and Operations": "#99d7ec",
+      "Funds for Exec Collaborations": "#b6e6c8",
+      "Food": "#ffd3bf",
+      "Travel": "#ffb482",
+      "Appropriations": "#a9d6ff",
+      "GPSA Advisor": "#cdbdff",
+      "Graduate Student Financial Aid / Mandatory Expense": "#ffabc8"
+    };
+
+    const sections = ["All", "Allocations", "Administration", "Compensation", "Miscellaneous"];
+    let state = { year: "2025", depth: "groups", section: "All", compare: false, mix: 0 };
+    const fmt = d3.format("$,.0f");
+    const pct = d3.format("+.1%");
+    const chart = d3.select("#chart");
+    const tooltip = d3.select("#tooltip");
+    const share = value => d3.format(".1%")(value / budget[state.year].expenses);
+    const compareGhostValue = 1;
+    let focusedStream = null;
+    let focusedLinkIds = new Set();
+    let focusedNodeNames = new Set();
+    let compareAnimation = null;
+
+    function cleanKey(name) {
+      return name
+        .replace(/\[Pilot\]/gi, "")
+        .replace(/Pilot/gi, "")
+        .replace(/Gradaute/g, "Graduate")
+        .replace(/Divsional/g, "Divisional")
+        .replace(/Assisant/g, "Assistant")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function makeButtons() {
+      d3.select("#filterButtons").selectAll("button")
+        .data(sections)
+        .join("button")
+        .attr("class", d => d === state.section ? "active" : null)
+        .text(d => d)
+        .on("click", (_, d) => {
+          state.section = d;
+          resetFocusState();
+          makeButtons();
+          render();
+        });
+
+      d3.selectAll("[data-year]").on("click", function() {
+        state.year = this.dataset.year;
+        state.compare = false;
+        state.mix = 0;
+        resetFocusState();
+        d3.select("#compareBtn").classed("active", false).text("Animate change");
+        d3.selectAll("[data-year]").classed("active", false);
+        d3.select(this).classed("active", true);
+        render();
+      });
+
+      d3.selectAll("[data-depth]").on("click", function() {
+        state.depth = this.dataset.depth;
+        state.compare = false;
+        state.mix = 0;
+        resetFocusState();
+        d3.select("#compareBtn").classed("active", false).text("Animate change");
+        d3.selectAll("[data-depth]").classed("active", false);
+        d3.select(this).classed("active", true);
+        render();
+      });
+
+      d3.select("#compareBtn").on("click", animateCompare);
+    }
+
+    function sourceRows(year) {
+      const rows = state.depth === "items" ? budget[year].items : budget[year].categories.map(d => [d[0], d[1], d[1], d[2]]);
+      return state.section === "All" ? rows : rows.filter(d => d[0] === state.section);
+    }
+
+    function mixedRows() {
+      return compareUnionRows().map(d => {
+        const current = d.oldValue + ((d.newValue - d.oldValue) * state.mix);
+        return [d.section, d.group, d.item, Math.max(compareGhostValue, current)];
+      });
+    }
+
+    function compareUnionRows() {
+      const oldRows = sourceRows("2025");
+      const newRows = sourceRows("2026");
+      const oldMap = new Map(oldRows.map(d => [`${cleanKey(d[0])}|${cleanKey(d[1])}|${cleanKey(d[2])}`, d]));
+      const newMap = new Map(newRows.map(d => [`${cleanKey(d[0])}|${cleanKey(d[1])}|${cleanKey(d[2])}`, d]));
+      const keys = new Set([...oldMap.keys(), ...newMap.keys()]);
+      return Array.from(keys, key => {
+        const oldRow = oldMap.get(key);
+        const newRow = newMap.get(key);
+        const row = newRow || oldRow;
+        const oldValue = oldRow ? oldRow[3] : 0;
+        const newValue = newRow ? newRow[3] : 0;
+        return { key, section: row[0], group: row[1], item: row[2], oldValue, newValue };
+      }).filter(d => d.oldValue || d.newValue);
+    }
+
+    function compareRowCount() {
+      return compareUnionRows().length;
+    }
+
+    function compareRankMap() {
+      const rows = compareUnionRows();
+      const rank = new Map([["GPSA Revenue", 0]]);
+      let i = 1;
+      d3.rollups(rows, v => d3.sum(v, d => d.newValue), d => d.section)
+        .sort((a, b) => d3.descending(a[1], b[1]) || d3.ascending(a[0], b[0]))
+        .forEach(([section]) => {
+        if (!rank.has(section)) rank.set(section, i++);
+      });
+      d3.rollups(rows, v => d3.sum(v, d => d.newValue), d => {
+        return d.group === d.section ? `${d.group} (group)` : d.group;
+      })
+        .sort((a, b) => d3.descending(a[1], b[1]) || d3.ascending(a[0], b[0]))
+        .forEach(([groupNode]) => {
+          if (!rank.has(groupNode)) rank.set(groupNode, i++);
+        });
+      if (state.depth === "items") {
+        d3.rollups(rows, v => d3.sum(v, d => d.newValue), d => d.item)
+          .sort((a, b) => d3.descending(a[1], b[1]) || d3.ascending(a[0], b[0]))
+          .forEach(([item]) => {
+            if (!rank.has(item)) rank.set(item, i++);
+          });
+      }
+      return rank;
+    }
+
+    function buildSankeyData(year) {
+      const rows = state.compare ? mixedRows() : sourceRows(year).filter(d => d[3] > 0);
+      const nodes = new Map();
+      const links = [];
+      const nodeName = (name, layer) => layer && nodes.has(name) ? `${name} (${layer})` : name;
+      const addNode = name => {
+        if (!nodes.has(name)) nodes.set(name, { name });
+        return nodes.get(name);
+      };
+      addNode("GPSA Revenue");
+      const sectionTotals = d3.rollups(rows, v => d3.sum(v, d => d[3]), d => d[0]);
+      sectionTotals.forEach(([section, value]) => {
+        addNode(section);
+        links.push({ source: "GPSA Revenue", target: section, value, color: palette[section] || palette.Revenue });
+      });
+      if (state.depth === "items") {
+        const groupTotals = d3.rollups(rows, v => d3.sum(v, d => d[3]), d => d[0], d => d[1]);
+        groupTotals.forEach(([section, groups]) => groups.forEach(([group, value]) => {
+          const groupNode = group === section ? nodeName(group, "group") : group;
+          addNode(groupNode);
+          links.push({ source: section, target: groupNode, value, color: palette[group] || palette[section] });
+        }));
+        rows.forEach(([section, group, item, value]) => {
+          const groupNode = group === section ? nodeName(group, "group") : group;
+          addNode(item);
+          links.push({ source: groupNode, target: item, value, color: palette[group] || palette[section] });
+        });
+      } else {
+        rows.forEach(([section, group, item, value]) => {
+          addNode(group);
+          links.push({ source: section, target: group, value, color: palette[group] || palette[section] });
+        });
+      }
+      const nodeList = Array.from(nodes.values());
+      const index = new Map(nodeList.map((d, i) => [d.name, i]));
+      return {
+        nodes: nodeList,
+        links: links.map(d => ({ ...d, source: index.get(d.source), target: index.get(d.target) }))
+      };
+    }
+
+    function render() {
+      const data = state.compare ? {
+        revenue: budget["2025"].revenue + ((budget["2026"].revenue - budget["2025"].revenue) * state.mix),
+        expenses: budget["2025"].expenses + ((budget["2026"].expenses - budget["2025"].expenses) * state.mix),
+        gap: budget["2025"].gap + ((budget["2026"].gap - budget["2025"].gap) * state.mix)
+      } : budget[state.year];
+      d3.select("#revenueStat").text(fmt(data.revenue));
+      d3.select("#expenseStat").text(fmt(data.expenses));
+      d3.select("#gapStat").text(fmt(data.gap)).attr("class", data.gap < 0 ? "loss" : "gain");
+      renderDeltas();
+      renderLedger();
+      renderChart();
+    }
+
+    function renderChart() {
+      const svg = chart;
+      const box = svg.node().getBoundingClientRect();
+      const width = Math.max(760, box.width);
+      const baseRows = state.compare ? compareRowCount() : sourceRows(state.year).filter(d => d[3] > 0).length;
+      const height = state.depth === "items" ? Math.max(820, baseRows * 18 + 180) : 720;
+      svg.selectAll("*").remove();
+      svg.attr("viewBox", [0, 0, width, height]).style("height", `${height}px`);
+      d3.select(".viz-card").style("min-height", `${height}px`);
+      d3.select(".side-card").style("height", `${height}px`);
+      svg.on("click", () => {
+        clearFocus();
+      });
+
+      const rank = state.compare || state.depth === "items" ? compareRankMap() : null;
+      const sankey = d3.sankey()
+        .nodeId((d, i) => i)
+        .nodeWidth(22)
+        .nodePadding(state.depth === "items" ? 10 : 22)
+        .extent([[42, 104], [width - 42, height - 42]])
+        .nodeSort(rank ? ((a, b) => (rank.get(a.name) ?? 9999) - (rank.get(b.name) ?? 9999)) : ((a, b) => d3.descending(a.value, b.value)));
+
+      const graph = sankey(buildSankeyData(state.year));
+      const defs = svg.append("defs");
+      graph.links.forEach((link, i) => {
+        const grad = defs.append("linearGradient")
+          .attr("id", `grad-${i}`)
+          .attr("gradientUnits", "userSpaceOnUse")
+          .attr("x1", link.source.x1)
+          .attr("x2", link.target.x0);
+        grad.append("stop").attr("offset", "0%").attr("stop-color", link.color);
+        grad.append("stop").attr("offset", "100%").attr("stop-color", d3.color(link.color).brighter(.5));
+      });
+
+      svg.append("g")
+        .selectAll("path")
+        .data(graph.links)
+        .join("path")
+        .attr("class", "link")
+        .attr("data-stream", d => streamId(d))
+        .attr("d", d3.sankeyLinkHorizontal())
+        .attr("stroke", (_, i) => `url(#grad-${i})`)
+        .attr("stroke-width", d => Math.max(1, d.width))
+        .on("mousemove", (event, d) => showTip(event, `${d.source.name} to ${d.target.name}`, `${fmt(d.value)} · ${share(d.value)} of total funding`))
+        .on("mouseleave", hideTip)
+        .on("click", (event, d) => {
+          event.stopPropagation();
+          focusUpstreamFromLink(d);
+        });
+
+      const node = svg.append("g")
+        .selectAll("g")
+        .data(graph.nodes)
+        .join("g")
+        .attr("class", "node")
+        .on("mousemove", (event, d) => showTip(event, d.name, `${fmt(d.value)} · ${share(d.value)} of total funding`))
+        .on("mouseleave", hideTip)
+        .on("click", (event, d) => {
+          event.stopPropagation();
+          focusUpstreamFromNode(d);
+        });
+
+      node.append("rect")
+        .attr("x", d => d.x0)
+        .attr("y", d => d.y0)
+        .attr("height", d => Math.max(2, d.y1 - d.y0))
+        .attr("width", d => d.x1 - d.x0)
+        .attr("fill", d => palette[d.name] || "#ffcabd");
+
+      node.append("text")
+        .attr("x", d => d.x0 < width / 2 ? d.x1 + 9 : d.x0 - 9)
+        .attr("y", d => (d.y1 + d.y0) / 2)
+        .attr("dy", "0.35em")
+        .attr("text-anchor", d => d.x0 < width / 2 ? "start" : "end")
+        .attr("display", d => (state.compare && d.value < 2400) || (state.depth === "items" && d.depth > 1 && d.value < 2400) ? "none" : null)
+        .text(d => d.name.length > 34 ? `${d.name.slice(0, 31)}...` : d.name);
+
+      applyFocus();
+    }
+
+    function streamId(d) {
+      const source = typeof d.source === "object" ? d.source.name : d.source;
+      const target = typeof d.target === "object" ? d.target.name : d.target;
+      return `${source}=>${target}`;
+    }
+
+    function applyFocus() {
+      d3.selectAll(".link")
+        .classed("focused", d => focusedLinkIds.has(streamId(d)))
+        .classed("dimmed", d => focusedStream && !focusedLinkIds.has(streamId(d)))
+        .attr("stroke-width", d => Math.max(1, d.width) + (focusedLinkIds.has(streamId(d)) ? 3 : 0));
+
+      d3.selectAll(".node")
+        .classed("focused", d => focusedNodeNames.has(d.name))
+        .classed("dimmed", d => focusedStream && !focusedNodeNames.has(d.name));
+    }
+
+    function clearFocus() {
+      resetFocusState();
+      applyFocus();
+    }
+
+    function resetFocusState() {
+      focusedStream = null;
+      focusedLinkIds = new Set();
+      focusedNodeNames = new Set();
+    }
+
+    function focusUpstreamFromLink(link) {
+      const key = `link:${streamId(link)}`;
+      if (focusedStream === key) {
+        clearFocus();
+        return;
+      }
+      focusedStream = key;
+      focusedLinkIds = new Set();
+      focusedNodeNames = new Set();
+      collectUpstream(link.target);
+      applyFocus();
+    }
+
+    function focusUpstreamFromNode(node) {
+      const key = `node:${node.name}`;
+      if (focusedStream === key) {
+        clearFocus();
+        return;
+      }
+      focusedStream = key;
+      focusedLinkIds = new Set();
+      focusedNodeNames = new Set();
+      collectUpstream(node);
+      applyFocus();
+    }
+
+    function collectUpstream(node) {
+      focusedNodeNames.add(node.name);
+      (node.targetLinks || []).forEach(link => {
+        focusedLinkIds.add(streamId(link));
+        collectUpstream(link.source);
+      });
+    }
+
+    function showTip(event, title, body) {
+      tooltip.html(`<b>${title}</b>${body}`)
+        .style("left", `${event.clientX}px`)
+        .style("top", `${event.clientY}px`)
+        .style("opacity", 1);
+    }
+
+    function hideTip() {
+      tooltip.style("opacity", 0);
+    }
+
+    function animateCompare() {
+      if (compareAnimation) cancelAnimationFrame(compareAnimation);
+      state.compare = true;
+      state.year = "2026";
+      state.mix = 0;
+      resetFocusState();
+      d3.selectAll("[data-year]").classed("active", false);
+      d3.select("[data-year='2026']").classed("active", true);
+      d3.select("#compareBtn").classed("active", true).text("Animating...");
+      const duration = 2600;
+      const started = performance.now();
+      const tick = now => {
+        const raw = Math.min(1, (now - started) / duration);
+        state.mix = d3.easeCubicInOut(raw);
+        render();
+        if (raw < 1) {
+          compareAnimation = requestAnimationFrame(tick);
+        } else {
+          compareAnimation = null;
+          state.mix = 1;
+          d3.select("#compareBtn").text("Replay change");
+          updateCompareReadouts();
+        }
+      };
+      compareAnimation = requestAnimationFrame(tick);
+    }
+
+    function itemMap(year) {
+      return new Map(budget[year].items.map(d => [`${cleanKey(d[1])} / ${cleanKey(d[2])}`, { section: d[0], group: d[1], item: d[2], amount: d[3] }]));
+    }
+
+    function changes() {
+      const a = itemMap("2025");
+      const b = itemMap("2026");
+      const keys = new Set([...a.keys(), ...b.keys()]);
+      return Array.from(keys, key => {
+        const oldRow = a.get(key);
+        const newRow = b.get(key);
+        const oldValue = oldRow ? oldRow.amount : 0;
+        const newValue = newRow ? newRow.amount : 0;
+        const row = newRow || oldRow;
+        return { key, section: row.section, group: row.group, item: row.item, oldValue, newValue, delta: newValue - oldValue };
+      }).filter(d => d.oldValue || d.newValue).sort((x, y) => Math.abs(y.delta) - Math.abs(x.delta));
+    }
+
+    function renderDeltas() {
+      const visible = changes().filter(d => state.section === "All" || d.section === state.section);
+      const max = d3.max(visible, d => Math.abs(d.delta)) || 1;
+      const scale = d3.scaleSqrt().domain([0, max]).range([0, 50]);
+      d3.select("#deltaList").selectAll(".delta")
+        .data(visible, d => d.key)
+        .join("div")
+        .attr("class", "delta")
+        .html(d => {
+          const currentDelta = state.compare ? d.delta * state.mix : d.delta;
+          const currentValue = state.compare ? d.oldValue + currentDelta : d.newValue;
+          const isNew = d.oldValue === 0 && d.newValue > 0;
+          const width = currentDelta === 0 ? 0 : Math.max(3, scale(Math.abs(currentDelta)));
+          const x = d.delta >= 0 ? "0" : "-100%";
+          return `
+            <div class="top"><span class="item-label"><span>${d.item}</span>${isNew ? '<span class="new-badge">New</span>' : ''}</span><span class="${d.delta >= 0 ? "gain" : "loss"}">${fmt(currentDelta)}</span></div>
+            <small>${d.group}<br>${fmt(d.oldValue)} to ${fmt(currentValue)}</small>
+            <div class="bar"><i style="--w:${width}%;--x:${x};--c:${d.delta >= 0 ? "var(--green)" : "var(--coral)"}"></i></div>
+          `;
+        });
+    }
+
+    function updateCompareReadouts() {
+      const data = {
+        revenue: budget["2025"].revenue + ((budget["2026"].revenue - budget["2025"].revenue) * state.mix),
+        expenses: budget["2025"].expenses + ((budget["2026"].expenses - budget["2025"].expenses) * state.mix),
+        gap: budget["2025"].gap + ((budget["2026"].gap - budget["2025"].gap) * state.mix)
+      };
+      d3.select("#revenueStat").text(fmt(data.revenue));
+      d3.select("#expenseStat").text(fmt(data.expenses));
+      d3.select("#gapStat").text(fmt(data.gap)).attr("class", data.gap < 0 ? "loss" : "gain");
+      renderDeltas();
+    }
+
+    function renderLedger() {
+      const rows = changes().filter(d => state.section === "All" || d.section === state.section).slice(0, 80);
+      d3.select("#ledgerBody").selectAll("tr")
+        .data(rows, d => d.key)
+        .join("tr")
+        .html(d => `
+          <td>${d.item}</td>
+          <td>${d.group}</td>
+          <td class="num">${fmt(d.oldValue)}</td>
+          <td class="num">${fmt(d.newValue)}</td>
+          <td class="num ${d.delta >= 0 ? "gain" : "loss"}">${fmt(d.delta)}</td>
+        `);
+    }
+
+    makeButtons();
+    render();
+    window.addEventListener("resize", () => renderChart());
+  </script>
+</body>
+</html>

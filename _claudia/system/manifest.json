@@ -146,6 +146,7 @@
     {"name": "pdf-to-obsidian", "file": "_claudia/skills/pdf-to-obsidian.md", "description": "Convert PDF to Obsidian-ready Markdown"},
     {"name": "policy-memo", "file": "_claudia/skills/policy-memo.md", "description": "Write policy memos and briefs"},
     {"name": "xlsx", "file": "_claudia/skills/xlsx.md", "description": "Excel/spreadsheet operations"},
+    {"name": "budget-flow-visualization", "file": "_claudia/skills/budget-flow-visualization.md", "description": "Interactive budget flow and year-over-year reallocation visualizations from budget workbooks"},
     {"name": "pptx", "file": "_claudia/skills/pptx.md", "description": "PowerPoint operations"},
     {"name": "docx", "file": "_claudia/skills/docx.md", "description": "Word document operations"},
     {"name": "schedule", "file": "_claudia/skills/schedule.md", "description": "Scheduled task management"},
