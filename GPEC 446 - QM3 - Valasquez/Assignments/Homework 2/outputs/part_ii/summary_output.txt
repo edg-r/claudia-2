@@ -1,0 +1,31 @@
+Homework 2 Part II RDD summary
+Generated: 2026-05-18 18:31:52 PDT 
+
+Dataset dimensions: 2019 rows x 9 columns
+Unique schools: 1002 
+Manual local linear bandwidth: 10 students around cutoff 40 
+Manual results:
+        outcome cutoff bandwidth  estimate std_error      p_value n_left
+1       avgmath     40        10  4.261135  2.570426 9.832313e-02     96
+2       avgverb     40        10  4.319230  2.294697 6.068496e-02     96
+3      classize     40        10 -7.107493  1.445179 1.384699e-06     96
+4 disadvantaged     40        10  4.818804  4.368414 2.707917e-01     96
+  n_right unique_schools_left unique_schools_right
+1     236                  86                  131
+2     236                  86                  131
+3     236                  86                  131
+4     236                  86                  131
+
+rdrobust results:
+  outcome cutoff estimate_conventional se_conventional ci95_low_conventional
+1 avgmath     40              2.938782        3.752691             -4.416358
+2 avgverb     40              3.623401        3.706055             -3.640333
+  ci95_high_conventional bandwidth_left bandwidth_right n_left n_right
+1               10.29392       7.901030        7.901030     70     172
+2               10.88713       8.186282        8.186282     79     198
+
+Interpretation notes:
+- Manual estimates use a local linear specification with different slopes on each side of 40.
+- The disadvantaged covariate is the falsification/smoothness test.
+- Positive outcome coefficient means observations just above 40 score higher than just below 40.
+- For classize, crossing 40 should mechanically lower class size because a second class is opened.

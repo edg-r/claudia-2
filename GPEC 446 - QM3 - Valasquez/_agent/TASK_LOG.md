@@ -4,6 +4,18 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 <!-- No entries yet. Append new tasks below this line. -->
 
+### 2026-05-19 — Homework 2 code thought-process companion
+**Requested by:** Claudia
+**What was done:** Created a Q1-Q9 companion document explaining the goal, strategy, macro-level code flow, rationale, and output interpretation for the Homework 2 panel/TWFE/event-study and RDD analyses. Kept the work to a new explanatory Markdown file and did not edit the analysis scripts or final draft.
+**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/Homework_2_Code_Thought_Process.md`
+**Notes:** Document is designed for office-hours explanation rather than line-by-line code commentary and ends with the required internal Claudia output disclosure.
+
+### 2026-05-19 — Homework 2 integration plan and report skeleton
+**Requested by:** Claudia
+**What was done:** Read Tyche context, feedback, Claudia SOPs, and the Homework 2 assignment PDFs. Created a script-only workflow README and a Q1-Q9 report skeleton for the Panel/TWFE and RDD assignment without solving the analyses or touching Part I/Part II scripts.
+**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/README.md`; `GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/Homework_2_Report_Skeleton.md`
+**Notes:** Assignment requires both `.R` file(s) and a PDF by Sunday, May 24, 2026 at midnight. Skeleton includes placeholders for required tables/figures, interpretation prompts, and an AI disclosure reminder.
+
 ### 2026-05-05 — QM3 midterm completion logged
 **Requested by:** Edgar
 **What was done:** Inspected `_claudia/claudia.db` for GPEC 446/QM3 midterm assignments and found one clear row, assignments id 11 (`Midterm Exam`). Marked it completed with `submitted_at` and `last_verified_at` set to 2026-05-05, preserving syllabus provenance/confidence fields.
@@ -275,3 +287,21 @@ Eight-turn tutoring conversation sharpening Edgar's IV intuition across ITT, LAT
 **What was done:** Recorded the new course-local archive convention and archived superseded QM3 lecture and methods reference iterations.
 **Output:** `GPEC 446 - QM3 - Valasquez/.archive/`
 **Notes:** Current visible candidates are lecture reference v1.5.0 and methods reference v1.2.0; older generated versions are indexed in `GPEC 446 - QM3 - Valasquez/.archive/ARCHIVE_INDEX.md`.
+
+### 2026-05-18 — Homework 2 Part I panel/TWFE first pass
+**Requested by:** Claudia
+**What was done:** Built a reproducible Part I R script for the Africa governance panel, fetched World Bank GDP per capita and population, created country IDs/year dummies, ran pooled OLS, country/year FE, TWFE big-improvement, event-study residual, and population-weighted representative-person versions.
+**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/Homework_2_Part_I_panel.R`; outputs in `GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/outputs/part_i/`; notes in `GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/PART_I_NOTES.md`
+**Notes:** World Bank joins left 21 country-year rows missing, concentrated in Eritrea and Somalia. Part II and combined final report were intentionally left untouched.
+
+### 2026-05-19 — Homework 2 final draft report assembly
+**Requested by:** Claudia, on Edgar's instruction
+**What was done:** Created the combined Homework 2 draft report from the existing skeleton, Part I/Part II notes, generated CSV tables, figures, and assignment PDFs. Preserved the verified Part I and Part II analysis scripts without edits. Numbered Q1-Q9 exactly, embedded/organized all generated tables and figures, added a concise APA reference for Angrist & Lavy (1999), added an external grader-facing AI Use Disclosure for quantitative/code assistance, and left the internal Claudia output disclosure at the end of the Markdown draft only. Added a tiny build script and CSS for PDF generation.
+**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/Homework_2_Agunias_Draft.md`; `Homework_2_Agunias_Draft.html`; `Homework_2_Agunias_Draft.pdf`; `build_homework_2_report.sh`; `report.css`.
+**Notes:** PDF build succeeded via Pandoc-to-HTML plus Chrome headless fallback because direct Pandoc/XeLaTeX was unavailable and WeasyPrint lacked native Pango/GObject libraries. Verification confirmed an 8-page letter PDF with extractable Q1-Q9 text and the external AI disclosure. Remaining caveats are recorded in the draft: Edgar should review the R scripts line by line before submission, the local Angrist & Lavy PDF is scan-only for Q5 source checking, Part I has 21 missing World Bank join rows, and rdrobust confidence intervals include zero.
+
+### 2026-05-19 — Homework 2 general README and code-explanation companion
+**Requested by:** Edgar
+**What was done:** Added Homework 1-style section banners and macro comments to both Homework 2 R scripts, created a Q1-Q9 thought-process companion explaining the logic behind each answer and code block, and rewrote the Homework 2 README into a general folder orientation with submission candidates, rebuild commands, output map, and caveats.
+**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/Homework_2_Part_I_panel.R`; `Homework_2_Part_II_rdd.R`; `Homework_2_Code_Thought_Process.md`; `README.md`.
+**Notes:** Both R scripts were rerun successfully after the comment/section pass. `rdrobust` still reports expected mass-point warnings because `school_enrollment` is integer-valued. `outputs/part_ii/R_libs/` is a local package library and is not a submission artifact.

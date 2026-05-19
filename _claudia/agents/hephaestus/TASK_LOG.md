@@ -117,6 +117,12 @@
 **Output:** `GPCO 403 - Intl Econ - Handley/Study Guides/build_midterm_theory_reference.py`; `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.4.2.pdf`; `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.4.2_notes.md`.
 **Notes:** Removed incidental `Study Guides/__pycache__/` after `py_compile`; no staging or commit performed.
 
+### 2026-05-18 - GPEC 446 Homework 2 Part II RDD implementation
+**Requested by:** Edgar via Claudia/Tyche
+**What was done:** Created a reproducible Part II R script for the Maimonides Rule RDD, inspected `grade5.dta`, generated the enrollment histogram and cutoff plots, estimated manual local-linear discontinuities, installed and ran `rdrobust` in a project-local output library, and ran a disadvantaged-covariate smoothness falsification test.
+**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/Homework_2_Part_II_rdd.R`; `GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/PART_II_NOTES.md`; `GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/outputs/part_ii/`
+**Notes:** Stayed inside the Part II write scope and did not edit Part I or the combined report. `rdrobust` emitted mass-point warnings because `school_enrollment` is integer-valued; this is flagged for Tyche's interpretation.
+
 ### 2026-05-03 - GPCO 410 Midterm Flashcard HTML
 **Requested by:** Claudia / Edgar
 **What was done:** Created a standalone direct-open HTML/CSS/JS flashcard drill tool for the 11 GPCO 410 midterm theory entries. Fronts show theory title plus smaller italic author/source line; backs give 2-3 sentence exam-useful essences.

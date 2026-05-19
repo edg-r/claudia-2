@@ -1,0 +1,10 @@
+"variable","class","label","n_missing","min","max"
+"schlcode","numeric","School id code",0,11005,61365
+"school_enrollment","numeric","Total School Enrollment in 5th Grade",0,5,226
+"grade","numeric","class grade",0,5,5
+"classize","numeric","Class size",0,5,44
+"avgmath","numeric","Average composite math score in the class",0,27.6900005340576,93.9300003051758
+"avgverb","numeric","Average composite verbal score in the class",0,34.7999992370605,93.8600006103516
+"disadvantaged","numeric","Percent of class coming from a disadvantaged background",0,0,76
+"female","numeric","Fraction of class that is female",0,0,1
+"religious","numeric","School is a religious school",0,0,1
