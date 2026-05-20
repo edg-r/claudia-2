@@ -2,6 +2,20 @@
 
 Record of major completed tasks. Read to avoid duplicate work.
 
+### 2026-05-17 — Obsidian Daily Dispatch
+**Requested by:** Edgar
+**What was done:** Generated the Sunday daily dispatch from `_claudia/claudia.db` using `_claudia/daily_dispatch_md.py --date 2026-05-17 --auto-email` with an Eos-supplied La Jolla weather snapshot. Verified the dispatch content, corrected the artifact footer to identify Eos as agent, and copied it to the established Obsidian daily archive path.
+**Output:** `_claudia/dispatches/2026-05-17_daily-dispatch.md`; `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/ObiV3/000 ARCHIVES/Daily/2026-05-17_daily-dispatch.md`
+**Notes:** DB scan shows no assignments due today; near-term items are GPCO 403 Concept Check 4 due 2026-05-18, GPCO 410 PURPLE analytic memo due 2026-05-20, and GPEC 446 Homework II due 2026-05-23. UCSD Gmail auto-email remains blocked by `invalid_grant`; personal Gmail remains connector-only for this script.
+
+## 2026-05-14 — Daily Dispatch Markdown
+
+**Dispatch**: `_claudia/dispatches/2026-05-14_daily-dispatch.md`
+
+**Status**: Completed. Time tracker sync and dashboard regeneration succeeded before dispatch generation. Markdown dispatch was generated with `python3 _claudia/daily_dispatch_md.py --date 2026-05-14 --auto-email`, then verified and lightly corrected so the output is Eos-owned and includes a La Jolla weather snapshot.
+
+**Summary**: Thursday dispatch shows no assignments due today across the DB-backed course scan. Near-term priorities are the GPCO 410 Data Memo options due Friday May 15 at 17:00, including the Regime Type option marked 25% / outlined; GPCO 403 Concept Check 4 due Monday May 18 at 23:59; QM3 Homework II due May 23; and current/next-week readings for GPCO 403, GPCO 410, GPEC 446, and GPPS 444. UCSD Gmail auto-email check is blocked by expired/revoked local OAuth token (`invalid_grant`); personal Gmail remains connector-only for the Markdown script.
+
 ## 2026-05-07 — Daily Briefing Dispatch
 
 **Dispatch**: `_claudia/dispatches/2026-05-07_daily-briefing.md`
@@ -464,3 +478,33 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Recorded the new plain-Markdown daily dashboard preference and coordinated with Hephaestus fallback implementation of `_claudia/daily_dispatch_md.py`.
 **Output:** `_claudia/agents/eos/AGENT_CONTEXT.md`; `_claudia/agents/eos/FEEDBACK.md`; `_claudia/skills/daily-briefing.md`; `_claudia/dispatches/2026-05-10_daily-dispatch.md`; `_claudia/dispatches/2026-05-11_daily-dispatch.md`
 **Notes:** The HTML dashboard/server is no longer the default for simple daily use. Eos should still gather live weather, Google Calendar, and email summaries when available, then feed or paste them into the Markdown dispatch. The DB remains the source for UCSD class obligations.
+
+### 2026-05-12 — Obsidian Daily Dispatch
+**Requested by:** Edgar
+**What was done:** Generated the Tuesday daily dispatch from `_claudia/claudia.db` using `_claudia/daily_dispatch_md.py`, then added a top-priority block to make the GPCO 410 Data Memo — Regime Type (Polity IV) today's main academic work.
+**Output:** `_claudia/dispatches/2026-05-12_daily-dispatch.md`
+**Notes:** Calendar and email summaries were not supplied in this run. The dispatch uses the DB row showing the Regime Type memo as outlined, due 2026-05-15 at 17:00, worth 10% of grade, with existing Athena outline and Polity IV data-pull artifacts.
+
+### 2026-05-12 — Markdown Dispatch Email Access Fix
+**Requested by:** Edgar
+**What was done:** Diagnosed why the simple Markdown dispatch did not fully access email. Confirmed the generator only consumed optional `--email-json`, personal Gmail connector is live but not script-accessible, and the local UCSD Gmail gcloud OAuth token is expired/revoked. Hephaestus added an auto-email helper and regenerated today's dispatch with explicit diagnostics.
+**Output:** `_claudia/gmail_dispatch_json.py`; `_claudia/daily_dispatch_md.py`; `_claudia/dispatches/2026-05-12_daily-dispatch.md`
+**Notes:** UCSD Gmail requires re-auth with `CLOUDSDK_CONFIG="$HOME/.config/claudia/gmail-second/gcloud" gcloud auth application-default login --scopes=https://www.googleapis.com/auth/gmail.readonly`. Personal Gmail connector showed INBOX total 0 and unread messages in All Mail, mostly Capital One updates.
+
+### 2026-05-14 — UCSD Gmail Re-auth Still Requires Browser Consent
+**Requested by:** Claudia / Edgar
+**What was done:** Re-tested the Markdown dispatch email helper after Hephaestus patched the recovery command. The helper now prints the correct command using the saved UCSD OAuth client file and both required scopes.
+**Output:** `_claudia/gmail_dispatch_json.py`
+**Notes:** The UCSD Gmail token still reports `invalid_grant` until Edgar completes the browser consent flow. Personal Gmail remains connector-only for the Markdown script unless supplied via `--email-json`.
+
+### 2026-05-15 — Obsidian Daily Dispatch
+**Requested by:** Edgar
+**What was done:** Claudia delegated the daily dispatch to Eos, but the worker was still mid-run after regenerating the dashboard and had not produced the dispatch file. Claudia completed a constrained Eos fallback with `_claudia/daily_dispatch_md.py --date 2026-05-15` and copied the result to the established Obsidian daily archive.
+**Output:** `_claudia/dispatches/2026-05-15_daily-dispatch.md`; `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/ObiV3/000 ARCHIVES/Daily/2026-05-15_daily-dispatch.md`
+**Notes:** Weather, calendar, and email were not supplied to the generator, so those sections are marked unavailable/no summary. Academic obligations came from `_claudia/claudia.db`; the dispatch surfaces the GPCO 410 data memo options due today at 17:00, with Regime Type marked drafting.
+
+### 2026-05-20 — Obsidian Daily Dispatch
+**Requested by:** Claudia / Edgar
+**What was done:** Generated the Wednesday daily dispatch from `_claudia/claudia.db` with live Google Calendar events, NWS La Jolla / UCSD weather, time tracker sync, dashboard regeneration, and the local UCSD Gmail diagnostic helper.
+**Output:** `_claudia/dispatches/2026-05-20_daily-dispatch.md`
+**Notes:** Main action is GPCO 410 Analytic Memo - PURPLE due today at 11:00, worth 10% of grade. QM3 Homework II remains due 2026-05-23 at 23:59, worth 25%. UCSD Gmail is still blocked by an expired/revoked local gcloud token; personal Gmail remains connector-only for the Markdown generator.

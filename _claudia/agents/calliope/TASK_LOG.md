@@ -15,6 +15,13 @@ Record of completed prose reviews. Keep entries concise but written as prose, no
 
 ---
 
+### 2026-05-12 — EdgarAguniasCV PDF resume critique
+**Requested by:** Claudia
+**Mode:** developmental feedback
+**What was done:** Reviewed `/Users/edgar/Downloads/EdgarAguniasCV.pdf` as a one-page CV/resume artifact using PDF text extraction and visual page inspection. Returned a relay-ready critique focused on first impression, visual hierarchy, wording, content strength, policy/graduate-school audience fit, and top revision priorities.
+**Output:** returned to chat.
+**Notes:** The file was not edited. The highest-leverage fixes are correcting visible typos and capitalization, reframing leadership bullets around outcomes and policy-relevant responsibilities, and tightening the education/coursework section so it does not consume space without adding applicant value.
+
 ### 2026-04-29 - Orange Memo Myanmar v4.1.0 voice rough Markdown pass
 **Requested by:** Edgar
 **Mode:** targeted style pass

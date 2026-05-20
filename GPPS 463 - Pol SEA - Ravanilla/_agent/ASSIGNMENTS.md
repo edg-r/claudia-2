@@ -9,6 +9,11 @@
 - LD11: Drafted (Vietnam Under Communism / Malesky, Abrami & Zheng 2011) -- due May 4 by 5:00 PM -- file: W6 - Vietnam Under Communism/Discussion Post LD11 - Vietnam Under Communism.md
 - LD14: Drafted (Duterte Drug War / Ravanilla, Sexton & Haim 2022) -- due May 12 by 5:00 PM before the Wed May 13 lecture by syllabus pattern -- file: W7 - Duterte Drug War/Discussion Post LD14 - Duterte Drug War.md
 
+## Exams
+- Midterm Exam 1: Completed -- Apr 20, 2026, 8:00-9:20 AM, RBC 3201.
+- Midterm Exam 2: Completed today per Edgar correction -- May 11, 2026, 8:00-9:20 AM, RBC 3201. LD13 is exam-only; no GPPS 463 reading one-pager needed for May 11 unless Canvas later shows a separate non-exam item.
+- Final Exam: Upcoming -- Jun 10, 2026, 8:00-11:00 AM, RBC 3201.
+
 ## Papers
 (To be populated from syllabus)
 

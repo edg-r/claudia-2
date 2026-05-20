@@ -4,6 +4,41 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 <!-- No entries yet. Append new tasks below this line. -->
 
+## 2026-05-20 - Week 8 Wednesday firms and increasing returns class prep
+
+**Requested by:** Edgar
+**What was done:** Produced a concise one-page Markdown class prep guide for Wednesday 2026-05-20, grounded in the extracted syllabus and DB Week 8 reading row for Feenstra & Taylor Ch. 6 on firms, increasing returns, and trade. Checked Plutus definition, memory, SOPs, syllabus extraction, readings/assignments trackers, existing May 18 Week 8 guide, and the course folder for local Ch. 6 or Week 8 lecture files.
+**Output:** `GPCO 403 - Intl Econ - Handley/Study Guides/2026-05-20_firms_increasing_returns_trade_class_prep.md`
+**Notes:** No local Ch. 6 textbook file or Week 8 lecture file was found, so the guide explicitly discloses that limit and uses local syllabus/DB/course-memory grounding plus prior Plutus trade-theory materials.
+
+## 2026-05-17 - Week 8 firms, increasing returns, and trade one-pager
+
+**Requested by:** Edgar
+**What was done:** Verified the Monday 2026-05-18 GPCO 403 class target against the syllabus extraction and `_claudia/claudia.db`: Week 8 is Feenstra & Taylor Ch. 6 on firms, increasing returns, and trade, and Concept Check 4 is due 2026-05-18 at 23:59 Pacific for 4%. Checked the course folder, Week 8 folder, Plutus memory files, and prior Concept Check 4 prep; no local Ch. 6 textbook file or Week 8 lecture file was available.
+**Output:** `GPCO 403 - Intl Econ - Handley/Study Guides/2026-05-18_firms_increasing_returns_trade_1pager.md`
+**Notes:** The one-pager transparently discloses the missing local textbook chapter and uses the syllabus/DB topic, Plutus memory, and prior local trade-model materials. It combines Week 8 class prep with a short same-day Concept Check 4 review bridge.
+
+## 2026-05-14 - Concept Check 4 trade theory prep
+
+**Requested by:** Claudia / Edgar
+**What was done:** Verified GPCO 403 Concept Check 4 in `_claudia/claudia.db` as pending, due 2026-05-18 23:59 Pacific, worth 4%, and opened May 13. Cross-checked the syllabus extraction, Plutus assignment/reading trackers, prior Concept Check 1 answer format, Week 6 Ricardian practice problems, Week 7 Heckscher-Ohlin practice questions, and the existing Week 7 one-pager.
+**Output:** `GPCO 403 - Intl Econ - Handley/Study Guides/2026-05-18_concept_check_4_trade_theory_prep.md`
+**Notes:** Likely coverage is Ricardian comparative advantage plus Heckscher-Ohlin/Stolper-Samuelson. Week 8 firms/increasing returns is lower confidence because the check opens before the May 18 class, but Edgar should scan Canvas instructions before submitting.
+
+## 2026-05-14 - Concept Check 4 Canvas Draft Answers
+
+**Requested by:** Edgar
+**What was done:** Used Atlas/Canvas to inspect the live Concept Check #4 page and fill draft answers for all ten visible questions without clicking Submit.
+**Output:** Draft answers entered in Canvas for Edgar review; no file output.
+**Notes:** Answers entered: Q1 3; Q2 5; Q3 Country A machinery / Country B food; Q4 80; Q5 5; Q6 Country D wine / Country E cheese; Q7 30; Q8 30; Q9 24; Q10 2.00. Edgar should review and submit manually.
+
+## 2026-05-11 - Heckscher-Ohlin factor endowments 1-page guide
+
+**Requested by:** Edgar
+**What was done:** Verified the Monday 2026-05-11 GPCO 403 reading/topic against the syllabus extract, database readings row, and Plutus reading tracker. Created a concise one-page Markdown study guide for Week 7 on Feenstra & Taylor Ch. 4 and Ch. 17.1 if time permits, focused on Heckscher-Ohlin, factor endowments, Stolper-Samuelson, and exam-style moves.
+**Output:** `GPCO 403 - Intl Econ - Handley/Study Guides/2026-05-11_heckscher_ohlin_factor_endowments_1pager.md`
+**Notes:** Local Week 7 material currently includes `W7 - Heckscher-Ohlin Model/Practice_questions_textbook_chap4.pdf`; no full textbook chapter file was found in the course folder. The DB row for Week 7 remains `summary_status=pending`.
+
 ## 2026-04-29 — Midterm theory reference PDF
 
 **Requested by:** Claudia
@@ -177,3 +212,9 @@ Built `Study Guides/GPCO 403_Week_4_Reference.pdf` covering the Week 4 folder ma
 **What was done:** Created a concise closed-book diagnostic question set for same-day GPCO 403 midterm review, focused on GDP/GNI/current account, saving-investment identity, intertemporal trade, LRBC, PPP, LOOP, real exchange rate, and Big Mac Index.
 **Output:** Returned to Claudia/Edgar in handoff; no standalone study-guide file created.
 **Notes:** Calibrated against current v1.4.2 midterm notes/build source, Apr. 27 PPP/LOOP one-pager, and W5 review/equations materials. Emphasis: write identities first, then interpret direction and caveats.
+
+### 2026-05-13 - Midterm grade recorded
+**Requested by:** Edgar
+**What was done:** Confirmed the GPCO 403 International Economics Midterm Exam is worth 30% of the course grade, then recorded Edgar's reported 95% in `_claudia/claudia.db`.
+**Output:** DB assignment id 5 marked completed with grade `95%`; matching `grades` row set to score `95%` and weight `30%`.
+**Notes:** A 95% on a 30%-weight exam contributes 28.5 percentage points toward the final course grade.

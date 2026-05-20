@@ -44,7 +44,7 @@ Codex-as-Claudia uses non-blocking subagent dispatch by default. After dispatchi
 
 ## Delegation and Subagents
 
-Edgar's standing preference is that Claudia should always delegate to an agent. If subagents are unavailable, Codex should explicitly invoke the relevant agent role as a constrained local fallback, read its definition and memory files, and record the work in that agent's memory before final handoff.
+Edgar's standing preference is that Claudia should always delegate to an agent. Silent local fallback is banned. If subagents are unavailable, Codex must explicitly invoke the relevant agent role as a constrained local fallback before doing substantive work, state why delegation is unavailable, read its definition and memory files, and record the work in that agent's memory before final handoff. After-the-fact fallback labeling is not acceptable.
 
 When a task touches a course folder, the owning course agent's context takes priority for substance. For example, work inside `GPEC 446 - QM3 - Valasquez/` should load Tyche's definition and memory before editing.
 

@@ -2,6 +2,72 @@
 
 Record of major completed tasks. Read to avoid duplicate work.
 
+### 2026-05-20 — PURPLE NATO memo full Markdown draft
+**Requested by:** Edgar via Claudia
+**What was done:** Drafted the full PURPLE NATO memo from the existing Purple Memo argument map, Stein PURPLE guide, local Stein/Gourevitch PDFs, syllabus extraction, and the partial Word shell. Kept the memo in Edgar's short Praether style with visible section labels, direct causal prose, Stein as the main theory, Gourevitch as a light caveat, footnote-style citations, no em dashes, and the required Claudia output disclosure.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Purple Memo - NATO/2026-05-20_purple_memo_nato_v1.0.0_working.md`
+**Notes:** Body is under 800 words by the memo-word-count line and mechanical check (685 words including section headings, 0 em/en dashes). The existing `Purple Memo.docx` is only a title-page/section-label shell and was not overwritten.
+
+### 2026-05-20 — Week 8 terrorism and collective security class prep
+**Requested by:** Edgar
+**What was done:** Produced a concise class-prep Markdown guide for Wednesday 2026-05-20 on Week 8 terrorism strategy and collective security. Verified the syllabus and Claudia DB reading rows for Kydd & Walter, Stein, and Gourevitch, checked the local PDFs despite their split W8/W9/W10 file placement, and preserved continuity with the May 18 one-pager while sharpening the class-ready synthesis.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/2026-05-20_gpco410_week8_terrorism_collective_security_class_prep.md`
+**Notes:** Keep the fast diagnostic centered on whose beliefs are being changed: enemy costs for attrition, civilian compliance for intimidation, constituency radicalization for provocation, peace-process trust for spoiling, and factional legitimacy for outbidding. For collective security, distinguish Stein's coordination/collaboration problems from Gourevitch's governance problem.
+
+### 2026-05-19 — PURPLE NATO fuller Markdown outline
+**Requested by:** Edgar
+**What was done:** Created a fuller outline/argument map for the PURPLE NATO memo with an 800-word section budget, thesis, section bullets, citation placeholders, factual cautions, and required Claudia output disclosure. The outline keeps Stein as the primary theory, uses Gourevitch only as a light governance caveat, corrects the accession timeline, identifies Jens Stoltenberg as NATO Secretary General during the period, limits Biden to U.S. support/ratification, and frames Turkey as bargaining inside NATO's consensus regime.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Purple Memo - NATO/Purple_Memo_NATO_v1.0.0_argument_map.md`
+**Notes:** This is not submission prose. Edgar should write the final memo in his own voice, verify final page citations from Stein/Gourevitch, and avoid claiming NATO-wide decision authority for Biden or Mark Rutte involvement during the Finland/Sweden accession period.
+
+### 2026-05-19 — Stein PURPLE NATO memo study guide
+**Requested by:** Edgar via Claudia
+**What was done:** Created a concise BLUF-first Markdown guide for Arthur A. Stein's "Coordination and Collaboration: Regimes in an Anarchic World," focused on the PURPLE NATO expansion memo due 2026-05-20. Used the local Stein PDF, the live syllabus/DB prompt context, and official NATO accession facts to translate Stein's coordination/collaboration distinction into memo moves for NATO expansion and Turkey's initial opposition.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/2026-05-19_stein_coordination_collaboration_purple_nato_guide.md`
+**Notes:** Keep the memo's final prose Edgar-written because the syllabus permits AI for concept help/feedback but not submitted AI-generated text. Best analytical hinge: Turkey's opposition is not anti-regime behavior; it is visible bargaining within a consensus regime.
+
+### 2026-05-19 — PURPLE memo due-date and source orientation
+**Requested by:** Claudia (on Edgar's instruction)
+**What was done:** Checked Athena memory, live Claudia DB assignment/readings rows, syllabus text, Canvas export text, local GPCO 410 files, and official NATO pages to orient Edgar for the PURPLE analytic memo due 2026-05-20 at 11:00. Confirmed no existing local Purple Memo assignment folder or draft was present.
+**Output:** returned to Claudia
+**Notes:** The live due-tomorrow prompt is the NATO expansion option from Class 16 / collective security; useful course readings are Stein on coordination/collaboration regimes and Gourevitch on governance disputes, with Kydd & Walter only relevant if Edgar chooses the earlier far-right terrorism option instead.
+
+### 2026-05-18 — Week 8 terrorism strategies clarification
+**Requested by:** Claudia (on Edgar's instruction)
+**What was done:** Verified Kydd & Walter's five terrorism strategies from the local PDF text and updated the May 18 Week 8 one-pager with a compact exam-ready table distinguishing attrition, intimidation, provocation, spoiling, and outbidding by audience, signal, and strategic logic.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/2026-05-18_gpco410_week8_terrorism_collective_security_1pager.md`
+**Notes:** The key diagnostic is audience and intended belief change: enemy cost tolerance for attrition, civilian compliance for intimidation, state overreaction for provocation, peace-process distrust for spoiling, and factional resolve for outbidding.
+
+### 2026-05-17 — Week 8 terrorism strategy and collective security one-pager
+**Requested by:** Edgar
+**What was done:** Produced a concise Markdown one-pager for the Monday 2026-05-18 class on terrorism strategy and collective security. Verified the Week 8 syllabus target against Claudia DB reading rows and local PDFs; noted that the local files are split across W8/W9/W10 despite the Week 8 syllabus assignment.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/2026-05-18_gpco410_week8_terrorism_collective_security_1pager.md`
+**Notes:** The guide centers Kydd & Walter's five terrorism strategies, Stein's coordination/collaboration distinction, and Gourevitch's governance problem. It includes APA references and the required output-disclosure block.
+
+### 2026-05-17 — Myanmar 2010 Polity country-report one-pager
+**Requested by:** Claudia (on Edgar's instruction)
+**What was done:** Produced a concise Markdown study/assignment guide explaining what the Polity IV 2010 Myanmar report says, how its component codes map onto regime type, and how Edgar should use the report in the Regime Type / Polity IV data memo. Kept the critique aligned with prior Athena memory: Polity records the Tatmadaw's reserved role, but the aggregate score lacks a separate civilian-control-of-coercion component.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/2026-05-17_gpco410_myanmar_polity_report_1pager.md`
+**Notes:** Primary source was `inbox/Myanmar2010.pdf`; Polity5 v2018 users' manual was used only to clarify code meanings. The guide includes APA references and the required output-disclosure block.
+
+### 2026-05-13 — Regime Type Data Memo civilian-control flag
+**Requested by:** Edgar
+**What was done:** Added a sharper measurement caveat to the Polity IV / Regime Type outline: Polity's component coding can recognize executive constraint and military-reserved powers, but the aggregate `POLITY = DEMOC - AUTOC` score has no separate civilian-control-of-coercion component.
+**Output:** `Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md`
+**Notes:** Future prose should avoid saying Polity coders ignored the military. The stronger and fairer critique is that the published component structure can turn unelected military constraint into a high executive-constraint contribution without separately measuring democratic civilian control.
+
+### 2026-05-13 — Regime Type Data Memo Myanmar 2010 country-report bridge
+**Requested by:** Edgar
+**What was done:** Copied Edgar's local inbox copy of the official `Myanmar2010.pdf` Polity IV country report into the Data Memo folder and tied its narrative categories to the outline. Added a compare/contrast explanation showing why Myanmar's score rose after 2010: executive recruitment, participation, and formal constraints changed in Polity-weighted dimensions, while the military's constitutional veto remained a civilian-control problem outside the aggregate score.
+**Output:** `Assignments/Data Memo - Regime Type/Myanmar2010.pdf`; `Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md`
+**Notes:** The 2010 report is useful because it explicitly documents the military's 25% legislative bloc, constitutional veto, security-ministry control, commander-in-chief powers, and emergency authority. Use it to argue that Polity recognized the reserved military role but lacked a separate civilian-control component in `POLITY`.
+
+### 2026-05-11 — Week 7 nuclear credibility and suicide terrorism 1-pager
+**Requested by:** Edgar
+**What was done:** Verified Monday 2026-05-11 against the syllabus extraction and Claudia DB reading rows, checked the relevant local PDFs, and created a concise one-page Markdown study guide for the Week 7 nuclear credibility and terrorism readings. The guide covers Carpenter & Bandow, Pape, Ashworth et al., and Pape's reply, with APA references and the required Claudia output-disclosure block.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/2026-05-11_gpco410_week7_nuclear_terrorism_1pager.md`
+**Notes:** DB rows confirm Week 7 readings for Carpenter & Bandow, Pape, and Ashworth et al.; the Pape reply is present as a local PDF in the terrorism folder even though it was not separately listed in the DB query. The physical files split Week 7/terrorism materials across `W7 - Using the Bomb & Terrorism/` and `W8 - Terrorism & Collective Security/`.
+
 ### 2026-04-30 — Midterm theory reference v1.3.1 embedded-image rebuild
 **Requested by:** Edgar
 **What was done:** Integrated the completed 11 PNG conceptual visuals into the GPCO 410 midterm theory reference, creating v1.3.1 while preserving v1.2.0 and v1.3.0. Rebuilt the PDF from the existing builder, replaced placeholder visual-slot prompt panels with actual embedded images and concise concept captions, and kept the v1.3.0 ELI5 sections.
@@ -318,6 +384,18 @@ Record of major completed tasks. Read to avoid duplicate work.
 **Output:** `Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md`
 **Notes:** This added precision pushes the outline over 800 words including references; the final prose draft should condense the explanation but keep the conceptual distinction.
 
+### 2026-05-13 — Regime Type Data Memo rule-guided judgment and civilian-control flag
+**Requested by:** Edgar
+**What was done:** Checked the Polity5 codebook, Myanmar extract, data memo folder, and Polity Myanmar country report; then updated the active outline to make Polity's rule-guided component coding explicit and flag that aggregate `polity`/`polity2` has no separate civilian-control-of-coercion component.
+**Output:** `Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md`
+**Notes:** Important wording: Polity did record military-reserved powers in country-report material, so the critique should be framed as an aggregation/component-gap problem rather than coder ignorance.
+
+### 2026-05-13 — Regime Type Data Memo Myanmar2010 component comparison
+**Requested by:** Edgar
+**What was done:** Re-read local `Myanmar2010.pdf`, the active outline, and the Myanmar Polity5 extract to tie the 2010 country-report narrative directly to the 2011-2018 component jump. Updated the outline's Myanmar application with the 2011-2014 versus 2016-2018 values for `xrcomp`, `xropen`, `xconst`, `parcomp`, `democ`, `autoc`, and `polity`, and clarified that the 2010 report already documents military constitutional veto/reserved power.
+**Output:** `Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md`
+**Notes:** Use Myanmar2010 as the bridge source: Polity's own narrative shows executive-guided transition, repressed participation, and military veto powers before the later aggregate score rises to `+8`; the critique remains about aggregation and missing civilian-control measurement, not coder ignorance.
+
 ### 2026-04-29 — ORANGE Myanmar final-draft preference capture
 **Requested by:** Edgar
 **What was done:** Compared Edgar's final hand-written/submission draft (`Myanmar Orange Memo Agunias.pdf` / `Orange Memo v5.docx`) against the Athena/Claudia draft trajectory (`v3.1.0`, `v4.0.0`, `v4.1.0`) at a high level, focusing on reusable stylistic and structural differences rather than proofread corrections.
@@ -346,3 +424,27 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Used the midterm theory reference and Herrmann/Tetlock/Visser reading to drill five U.S.-Iran/Israel exam-style prompts covering Fearon, Powell, signaling, audience costs, and cognitive-interactionist public opinion. Also verified the midterm time from the DB and syllabus.
 **Output:** Returned in chat.
 **Notes:** Grading key set at 10 points per answer: 3 theory definition, 4 Iran/U.S./Israel application, 2 strengths/weaknesses, 1 clarity and key terms.
+
+### 2026-05-15 — Regime Type Data Memo First Draft
+**Requested by:** Edgar
+**What was done:** Claudia delegated the draft to Athena, but the worker remained in progress without writing files, so Claudia completed a constrained Athena fallback using the active outline, prompt, Myanmar Polity5 CSV, Polity5 codebook, data-pull status, and local `Myanmar2010.pdf`. Produced a fully written measurement-first Markdown draft under the 950-word grading cutoff.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_v1.0.0_working.md`
+**Notes:** Body word count verified at 947 words before references/disclosures. Draft keeps the key critique precise: Polity records military-reserved powers in component/report material, but the aggregate score lacks a separate civilian-control-of-coercion variable.
+
+### 2026-05-15 — Regime Type Data Memo outline-aligned revision
+**Requested by:** Claudia, relaying Edgar correction
+**What was done:** Revised `Data_Memo_RegimeType_Myanmar_v1.0.0_working.md` directly so the final implications section follows the active outline's conclusion/critique. Preserved the measurement-first sequence and clarified that Polity recorded military-reserved powers, while the aggregate score lacks a separate civilian-control-of-coercion variable.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_v1.0.0_working.md`
+**Notes:** Body word count verified at 949 words before references/disclosures. Final section now emphasizes reproducibility/usefulness, aggregation hiding reserved military domains, high `polity2` overstating consolidation, and the IR security implication that democratization remains reversible when militaries control coercive institutions.
+
+### 2026-05-17 — PURPLE memo option scan
+**Requested by:** Edgar
+**What was done:** Scanned the GPCO 410 syllabus, Canvas-style course export, Claudia DB assignment row, reading rows, local Week 6-8 PDFs, and existing study guides to identify all PURPLE analytic memo options and rank them by viability.
+**Output:** Returned in chat.
+**Notes:** PURPLE is due 2026-05-20 at 11:00 AM, worth 10%, and requires choosing one Week 6-8 option: Iran nuclear deal, North Korea nuclear credibility, Russia/Ukraine nuclear threats, Tamil Tigers, Hamas Oct. 7, far-right extremism, or NATO expansion. Strongest local-material fit is North Korea or Tamil Tigers; easiest last-minute prompt is NATO if Edgar wants the shortest source stack.
+
+### 2026-05-19 — PURPLE NATO memo argument-map handoff
+**Requested by:** Edgar
+**What was done:** Turned Edgar's rough PURPLE NATO memo direction into a memo-safe outline and argument map without drafting submission prose. Grounded the theory in Stein's coordination/collaboration regime framework, used Gourevitch only as a light governance-dispute supplement, and checked core Finland/Sweden/Turkiye/NATO/Rutte timeline facts against local course files plus official/current sources.
+**Output:** Returned in chat.
+**Notes:** Keep Stein primary. Best thesis: Russia's 2022 invasion shifted Finland and Sweden's preference order toward joint NATO decision-making, while Turkiye's objection shows that NATO expansion was bargaining inside a consensus regime rather than automatic solidarity. Avoid claiming NATO fully solved burden-sharing, Russian deterrence, or internal preference conflict.

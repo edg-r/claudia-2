@@ -278,3 +278,9 @@
 **What was done:** Captured the GPSA budget-flow design and implementation lessons as a reusable Claudia workspace skill, including workbook extraction, Sankey interactions, smooth compare animation, stable no-snap layout, upstream focus tracing, reallocation cards, and verification rules.
 **Output:** `_claudia/skills/budget-flow-visualization.md`; `_claudia/system/manifest.json`
 **Notes:** Use this skill for future budget-workbook requests that ask to visualize reallocations, follow the money, animate year-over-year changes, or create Monarch-style flow charts.
+
+### 2026-05-19 - Spring Formal and GO GPS Budget Flow HTML
+**Requested by:** Edgar
+**What was done:** Built two standalone interactive HTML budget-flow visualizations from the Spring Fling/Formal 2026 and GO GPS Finance 2025-26 workbooks, with hard-coded extracted data, scenario toggles, Sankey flows, line-item mode, compare animation, reallocation cards, and source caveats where workbook formulas materially affected interpretation.
+**Output:** `edgar/spring_fling_formal_2026_budget_flow.html`; `edgar/go_gps_finance_2025_26_budget_flow.html`; `_claudia/scripts/build_budget_flow_visualizations.py`
+**Notes:** Verified cached/formula views through dependency-free XLSX XML extraction, JavaScriptCore parse checks, and headless Chrome/Selenium render plus interaction smoke tests. GO GPS source summary formula D19 omits some entered actuals and uses the budgeted Spring Fling cell, so the artifact uses concrete line rows instead.

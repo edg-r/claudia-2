@@ -10,6 +10,9 @@ import argparse
 import json
 import re
 import sqlite3
+import subprocess
+import sys
+import tempfile
 from collections import defaultdict
 from datetime import date, datetime, timedelta
 from pathlib import Path
@@ -39,6 +42,11 @@ def parse_args():
     parser.add_argument("--weather-summary", default="")
     parser.add_argument("--calendar-json", default="")
     parser.add_argument("--email-json", default="")
+    parser.add_argument(
+        "--auto-email",
+        action="store_true",
+        help="Collect local UCSD Gmail diagnostics/items when --email-json is not supplied.",
+    )
     return parser.parse_args()
 
 
@@ -223,6 +231,9 @@ def load_email(email_json):
         "personal": data.get("personal", [])
         if isinstance(data.get("personal", []), list)
         else [],
+        "diagnostics": data.get("diagnostics", [])
+        if isinstance(data.get("diagnostics", []), list)
+        else [],
     }
 
 
@@ -233,6 +244,27 @@ def email_line(item):
     draft_path = rel(item.get("draft_path") or item.get("draft") or "")
     draft = f" - draft: {draft_path}" if draft_path else ""
     return f"- [ ] ✉️ {subject} - {action} - confidence: {confidence}{draft}"
+
+
+def collect_auto_email():
+    helper = SCRIPT_DIR / "gmail_dispatch_json.py"
+    if not helper.exists():
+        return {"ucsd": [], "personal": [], "diagnostics": ["Email helper missing."]}
+    with tempfile.NamedTemporaryFile(suffix=".json", delete=False) as tmp:
+        tmp_path = Path(tmp.name)
+    try:
+        subprocess.run(
+            [sys.executable, str(helper), "--out", str(tmp_path)],
+            check=False,
+            text=True,
+            capture_output=True,
+        )
+        return load_email(str(tmp_path))
+    finally:
+        try:
+            tmp_path.unlink()
+        except FileNotFoundError:
+            pass
 
 
 def course_sort_key(course):
@@ -329,6 +361,11 @@ def build_dispatch(day, weather, schedule, emails, courses, assignments, reading
     else:
         lines.append("- ✉️ No personal email summary supplied.")
 
+    diagnostics = emails.get("diagnostics", [])
+    if diagnostics:
+        lines.extend(["", "## 🛠️ Email Access Diagnostics"])
+        lines.extend(f"- {clean_inline(item)}" for item in diagnostics)
+
     lines.extend(
         [
             "",
@@ -363,7 +400,9 @@ def main():
         day=day,
         weather=args.weather_summary,
         schedule=load_schedule(args.calendar_json),
-        emails=load_email(args.email_json),
+        emails=collect_auto_email()
+        if args.auto_email and not args.email_json
+        else load_email(args.email_json),
         courses=courses,
         assignments=assignments,
         readings=readings,

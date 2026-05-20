@@ -4,6 +4,18 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 <!-- No entries yet. Append new tasks below this line. -->
 
+### 2026-05-20 — Session 16 Sea-Land Battle WWII One-Pager
+**Requested by:** Edgar (via Claudia)
+**What was done:** Verified Wednesday 2026-05-20 as Week 8 Session 16, "Sea-Land Battle (WWII)," from `Course Admin/syllabus_extracted.md`; checked the presentation schedule for Milne Bay, Leros, and Petsamo-Kirkenes Offensive; read local TCHW/Parker PDF passages from Williamson A. Murray's "The World at War, 1941-1945" on Crete, Guadalcanal, Tarawa, island-hopping, Iwo Jima, and Okinawa. Produced a concise Markdown class prep guide focused on amphibious operations, airborne deployment limits, Guadalcanal, Iwo Jima, and Thomas's recurring analytical themes.
+**Output:** `GPPS 444 - History of Warfare - Thomas/Study Guides/2026-05-20_session16_sea_land_battle_wwii_1pager.md`
+**Notes:** Core quiz framing: amphibious and airborne operations are not just mobility; they require sea/air control, logistics, intelligence, rapid reinforcement, and adaptation. Tarawa-to-Kwajalein is the clean adaptation example; Crete is the airborne warning case.
+
+### 2026-05-17 — Session 15 Undersea and Air-Sea Battle WWII One-Pager
+**Requested by:** Edgar (via Claudia)
+**What was done:** Verified Monday 2026-05-18 as Week 8 Session 15, "Undersea and Air-Sea Battle (WWII)," from `Course Admin/syllabus_extracted.md`; checked the presentation list to confirm Taranto, Wake Island, and Second El Alamein are assigned to other students; read the relevant local TCHW PDF chapter text from Murray's "The World at War, 1941-1945." Produced a concise Markdown study guide focused on Battle of the Atlantic, carrier warfare, Midway, submarine commerce warfare, technology/doctrine, and Thomas's recurring analytical themes.
+**Output:** `GPPS 444 - History of Warfare - Thomas/Study Guides/2026-05-18_session15_undersea_air_sea_battle_wwii_1pager.md`
+**Notes:** Core quiz framing: sea control in WWII is a systems problem, not just fleet battle. Distinguish Atlantic sea-line defense and U.S. submarine strangulation of Japan from carrier battle logic at Coral Sea/Midway.
+
 ### 2026-04-30 — Midterm Framework Reference v1.1.0 Visual-Slot Update
 **Requested by:** Edgar
 **What was done:** Created a versioned successor to the existing GPPS 444 midterm framework reference without modifying the original reference. Version 1.1.0 adds imagegen-style conceptual visual slots, compact causal graph statements, planned asset paths/prompts, and short ELI5 conclusions for all 12 major frameworks/topics while preserving the original framework order, source base, PDF bookmarks, and hyperlinked TOC pattern.
@@ -122,3 +134,27 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Recorded the new course-local archive convention and archived superseded History of Warfare midterm framework reference iterations.
 **Output:** `GPPS 444 - History of Warfare - Thomas/.archive/midterm_framework_reference/`
 **Notes:** Current visible candidate is v1.1.1; older generated versions are indexed in `GPPS 444 - History of Warfare - Thomas/.archive/ARCHIVE_INDEX.md`.
+
+### 2026-05-11 — Session 13 Mechanized Warfare II WWI One-Pager
+**Requested by:** Edgar (via Claudia)
+**What was done:** Verified Monday 2026-05-11 as Week 7 Session 13, "Mechanized Warfare II (WWI)," from the syllabus extract and confirmed the presentation schedule lists Riga and Megiddo, not Edgar. Checked the local TCHW PDF table of contents and chapter text, then produced a concise one-page Markdown study guide focused on WWI adaptation, air power roles, and Thomas's framework.
+**Output:** `GPPS 444 - History of Warfare - Thomas/Study Guides/2026-05-11_session13_mechanized_warfare_ii_wwi_1pager.md`
+**Notes:** TCHW Ch. 14 is Williamson A. Murray's "The West at War, 1914-1918" and is broader than aviation alone. The guide treats air power as the syllabus/session emphasis inside the larger WWI mechanized-warfare chapter.
+
+### 2026-05-13 — Murray "The World in Conflict" One-Pager
+**Requested by:** Edgar (via Claudia)
+**What was done:** Verified Wednesday 2026-05-13 as Week 7 Session 14, "Air-Land Battle (WWII)," from `Course Admin/syllabus_extracted.md`; checked the local TCHW PDF table of contents and chapter text to confirm the assigned Murray reading is Ch. 15, "The World in Conflict," not the prior WWI Murray chapter. Produced a concise BLUF-first Markdown study guide tied to Thomas's recurring themes.
+**Output:** `edgar/2026-05-13_murray_world_in_conflict_1pager.md`
+**Notes:** Core framing for class: German early-war success came from doctrine, combined arms, operational initiative, and air-ground cooperation; Barbarossa shows the limits of mobility without logistics, reserves, winter preparation, and coherent strategy.
+
+### 2026-05-13 — Murray Turkish / Ottoman Campaign Addendum
+**Requested by:** Edgar (via Claudia)
+**What was done:** Created a focused Markdown addendum after Edgar asked to "focus on the turkish campaign." Verified the ambiguity against `syllabus_extracted.md`, the May 13 Murray one-pager, the May 11 WWI one-pager, and local TCHW PDF text. Framed Dardanelles/Gallipoli as the most likely Murray "Turkish campaign," distinguished it from Megiddo and earlier Ottoman expansion, and connected the lesson back to Session 14 air-land themes through Crete.
+**Output:** `edgar/2026-05-13_murray_turkish_campaign_focus.md`
+**Notes:** TCHW gives Gallipoli/Dardanelles developed treatment in Murray's WWI chapter, while Megiddo appears in the May 11 presentation schedule but not as a developed local TCHW passage. Best quiz framing: strategic concept was strong, operational/amphibious execution and local initiative failed against Turkish defense.
+
+### 2026-05-13 — Correction: Refocused Turkish / Ottoman Addendum On WWI Reading
+**Requested by:** Edgar (via Claudia)
+**What was done:** Revised the Turkish/Ottoman addendum after Edgar clarified that the focus should be Williamson A. Murray's "The West at War, 1914-1918," not the May 13 WWII chapter. Recentered the output on Dardanelles/Gallipoli and Ottoman-front context, with only a brief WWII note.
+**Output:** `edgar/2026-05-13_murray_turkish_campaign_focus.md`
+**Notes:** Keep Gallipoli/Dardanelles as the first answer for "Turkish campaign" in the Murray WWI reading; treat Megiddo as class-adjacent presentation context unless specifically cued.

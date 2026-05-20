@@ -61,3 +61,8 @@ TA Ali rewards explicit, structured application of the strategic choice framewor
 - Compared with Athena/Claudia v4, Edgar preferred a narrower citation/theory apparatus: one main Cederman footnote and a direct explanation of the article's quantitative finding, including the "transition itself" point and the approximate 2.77x risk figure.
 - Edgar's final structure leaned chronological first, theory second: 2008 managed transition -> 2015 NLD victories -> 2017 Rohingya crisis -> 2021 coup -> post-coup war. Future Athena drafts should leave room for this case narrative before compressing into abstract actor-preference logic.
 - Preserve the core one-theory lesson, but do not over-engineer the final prose. Edgar's final voice is plainer, less polished, and more causal: it centers Min Aung Hlaing's desire to retain power, the military veto, and the failure to control coercion.
+
+## 2026-05-17 — Week 8 class-prep continuity
+- Week 8 May 18/May 20 is terrorism strategy and collective security: Kydd & Walter on terrorism as costly signaling, Stein on coordination/collaboration regimes, and Gourevitch on governance disputes over institutions.
+- Local file placement is messy: Kydd & Walter is physically in `W9 - Statebuilding/`, Stein is in `W10 - Public Opinion & Intl Security/`, and Gourevitch is in `W8 - Terrorism & Collective Security/`, while the syllabus and DB assign all three to Week 8.
+- The bridge to the Myanmar / regime-type memo is institutional strength: formal rules can structure choices while still leaving coercive power weakly constrained. Keep class prep focused on mechanisms, not a full Myanmar application, unless Edgar asks.

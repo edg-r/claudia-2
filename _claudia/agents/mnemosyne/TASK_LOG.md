@@ -152,3 +152,21 @@ Ran two cross-course queries. First: full open-assignments rundown across GPCO 4
 **What was done:** Inspected `My-Finances-cleaned-actual-export-v3/db.sqlite` read-only for the dashboard build. Identified the Actual Budget-style schema, row counts, account balance fields, transaction date and amount formats, reliable category join path, budget tables, and SimpleFIN sync-related fields.
 **Output:** Returned schema notes to Claudia; no DB changes.
 **Notes:** `transactions.date` uses integer `YYYYMMDD`; amounts are cents; direct joins from `transactions.category` to `categories.id` are more reliable for this cleaned DB than `v_transactions` category mapping. The live transaction range is 2025-09-18 through 2026-05-14.
+
+### 2026-05-15 - GPCO 410 Regime Type data memo completion
+**Requested by:** Edgar
+**What was done:** Updated `_claudia/claudia.db` assignment id 31 (`Data Memo — Regime Type (Polity IV)`) from `drafting` to `completed` after Edgar confirmed the data memo is done. Stamped `submitted_at` and `last_verified_at` as `2026-05-15 12:45 PDT` and inserted a matching `agent_logs` row.
+**Output:** `_claudia/claudia.db`; `GPCO 410 - Intl Pol:Sec - Praether/_agent/ASSIGNMENTS.md`
+**Notes:** Assignment ids 29 and 30 remain `alternate_option`; only the selected Regime Type data memo row was closed.
+
+### 2026-05-17 - T-Mobile Inbox Plan Scan
+**Requested by:** Claudia / Edgar
+**What was done:** Searched local `inbox/` for T-Mobile/account/plan documents by filename and content, then extracted account, plan, line, equipment, service, and contact details from the sole matching bill summary PDF.
+**Output:** Returned to Claudia; no files moved or deleted.
+**Notes:** `inbox/May 17, 2026BillSummary.pdf` lists account 963822429 with 10 voice lines and 1 wearable, but does not map phone numbers to member names or include cancellation/transfer policy details. Edgar must verify line ownership and release/remove terms with T-Mobile before acting.
+
+### 2026-05-17 - Harvey Sociology PDF Course Classification
+**Requested by:** Claudia / Edgar
+**What was done:** Classified `inbox/harvey-2023-everyone-thinks-they-re-special-how-schools-teach-children-their-social-station.pdf` against active Claudia courses using PDF metadata/text, manifest course ownership, course agent contexts, SQLite `courses`/`readings`/`files` rows, course-admin syllabus extracts, and the prior inbox ambiguity report.
+**Output:** Returned to Claudia; no files moved and no study guide generated.
+**Notes:** No clear active course owner found. The article is an American Sociological Review piece on school socialization, social station, inequality, and social reproduction; it does not match current Spring 2026 course reading rows or course-admin extracts. Keep in inbox or ask Edgar whether to file under `knowledge/obsidian/`, a research project, or another non-course reference area.

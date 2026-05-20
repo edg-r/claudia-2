@@ -199,3 +199,27 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Selected Hicken 2008's Thailand-Philippines crisis-severity/reform-momentum framework as the single visual prototype, generated one draft asset non-destructively, and marked the full image plan as paused pending Edgar critique.
 **Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/assets/midterm2_theory_images/prototype/hicken2008_crisis_reform_momentum_prototype_draft.png`
 **Notes:** Draft asset structure is useful but likely too text-dense; use the revised tighter prompt in the handoff for the next prototype run before generating any remaining theory images.
+
+### 2026-05-11 -- Midterm 2 Completion and No-One-Pager Check
+**Requested by:** Edgar via Claudia/Poseidon invocation.
+**What was done:** Reflected Edgar's correction that Midterm Exam 2 was completed today, 2026-05-11, and checked whether GPPS 463 had a separate non-exam reading/session one-pager due today. Verified the DB row for Midterm Exam 2 is completed and the course schedule identifies LD13 on May 11 as in-class Midterm Exam 2 only.
+**Output:** Updated `GPPS 463 - Pol SEA - Ravanilla/_agent/ASSIGNMENTS.md`; no study guide created.
+**Notes:** No May 11 one-pager is needed. The next real GPPS 463 reading/class item is LD14 on May 13, Duterte Drug War, with the discussion draft already saved in `W7 - Duterte Drug War/Discussion Post LD14 - Duterte Drug War.md`.
+
+### 2026-05-17 -- Midterm 2 Packet One-Pager
+**Requested by:** Claudia (delegated Poseidon worker for Edgar's class-specific one-pager packet)
+**What was done:** Created a concise Markdown study guide for the GPPS 463 Midterm 2 packet in `inbox/midterm2/`, compressing LD8-LD11 and the Krugman, Hicken, MacIntyre, Wade, and Malesky/Abrami/Zheng readings into exam-ready mechanisms and comparison points.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/2026-05-17_gpps463_midterm2_packet_one_pager.md`
+**Notes:** Scope stayed course-specific and source-bound to the `inbox/midterm2/` packet, with APA references and Claudia output disclosure included in the deliverable.
+
+### 2026-05-17 -- LD15 UMNO, Malaysia, and State Capacity One-Pager
+**Requested by:** Edgar via Claudia/Poseidon invocation for Monday May 18 class prep.
+**What was done:** Created a concise Markdown study guide for Week 8 LD15, "Why did UMNO dominate Malaysian politics, and why did it lose power?", grounded primarily in Ostwald (2013) and lightly in the adjacent local Slater (2010) chapter for protection-pact/elite-coalition logic.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/2026-05-18_gpps463_ld15_umno_malaysia_state_capacity_1pager.md`
+**Notes:** Ostwald predates the 2018 turnover, so the loss-of-power section is explicitly labeled as a course-grounded extension from the reading's institutional mechanism rather than a direct claim from Ostwald.
+
+### 2026-05-20 -- LD16 Slater State Capacity One-Pager
+**Requested by:** Edgar via Claudia/Poseidon invocation for Wednesday May 20 class prep.
+**What was done:** Created a concise Markdown study guide for Week 8 LD16 on Slater (2010), Ch. 1, focused on protection pacts, elite collective action, and why Southeast Asian state capacity varies across domination, fragmentation, and militarization pathways.
+**Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/2026-05-20_gpps463_ld16_slater_state_capacity_1pager.md`
+**Notes:** Verified the local reading file identity by extracting text from `W8 - Malaysian Politics & State Capacity/to_extract_and_to_organize.pdf`; the PDF is a 30-page Cambridge Core excerpt titled "To Extract and To Organize" with DOI `10.1017/CBO9780511760891.003`.
