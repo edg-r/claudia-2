@@ -10,7 +10,8 @@ NATO's accession of Finland and Sweden is best explained through Stein's regime 
 
 ## Actor Map
 
-- **Finland and Sweden:** applicant states with long nonalignment traditions whose threat calculus changed after Russia's full-scale invasion of Ukraine.
+- **Finland / President Sauli Niinisto and Prime Minister Sanna Marin:** applicant state with a long nonalignment tradition whose threat calculus changed after Russia's full-scale invasion of Ukraine; name both leaders for the May 2022 application decision.
+- **Sweden / Prime Minister Magdalena Andersson:** applicant state with a long nonalignment tradition whose threat calculus changed after Russia's full-scale invasion of Ukraine; name Andersson for the May 2022 application decision.
 - **Existing NATO allies:** Article 5 commitment-bearing members who had to consent to extending collective-defense obligations to new members.
 - **United States / Biden:** U.S. support and ratification actor; important because the United States is the leading ally, but not the NATO-wide decider.
 - **Jens Stoltenberg:** NATO Secretary General during the Finland/Sweden accession process; process broker/facilitator, not a state principal.
@@ -48,6 +49,8 @@ NATO's accession of Finland and Sweden is best explained through Stein's regime 
 - Correct sequence:
   - Russia launched the full-scale invasion of Ukraine on February 24, 2022.
   - Finland and Sweden, formerly nonaligned/applicant states, applied to join NATO in May 2022 because the invasion changed their threat calculus.
+  - Finland's May 2022 application decision should be tied to President Sauli Niinisto and Prime Minister Sanna Marin.
+  - Sweden's May 2022 application decision should be tied to Prime Minister Magdalena Andersson.
   - Turkey/Erdogan raised objections as an existing member using NATO consensus leverage over security concerns, especially Kurdish groups, extradition/security cooperation, and arms restrictions.
   - Turkey, Finland, and Sweden signed a trilateral memorandum in Madrid on June 28, 2022.
   - Existing NATO allies signed accession protocols on July 5, 2022, beginning the move toward extending Article 5 obligations to the applicants.
@@ -55,6 +58,7 @@ NATO's accession of Finland and Sweden is best explained through Stein's regime 
   - Finland joined NATO on April 4, 2023.
   - Sweden joined NATO on March 7, 2024.
 - Use Jens Stoltenberg as NATO Secretary General and process broker during the accession period; do not use Mark Rutte for this period.
+- If the Sweden chronology needs one line of nuance, note that Andersson led the May 2022 application decision, while Sweden later had a different government during ratification/accession. Do not make that a main branch of the memo.
 
 ## 3. Stein Theory Setup (170 words)
 
@@ -73,11 +77,14 @@ NATO's accession of Finland and Sweden is best explained through Stein's regime 
 - Main move: Russia's invasion changed the security payoff of nonalignment.
 - Finland:
   - Treat Finland as an applicant/nonaligned state, not an existing NATO ally during the decision period.
+  - Name President Sauli Niinisto and Prime Minister Sanna Marin as the key Finnish leaders at the May 2022 application decision point.
   - Long border with Russia made unilateral defense and nonalignment less attractive after 2022.
   - Joining NATO converted Finnish security from independent defense planning into joint defense planning backed by Article 5.
   - Evidence placeholder: Finland became the 31st ally on April 4, 2023.
 - Sweden:
   - Treat Sweden as an applicant/nonaligned state, not an existing NATO ally during the decision period.
+  - Name Prime Minister Magdalena Andersson as the Swedish leader at the May 2022 application decision point.
+  - If mentioning accession timing, keep the later-government nuance brief: the application decision and the final ratification/accession period did not occur under the same Swedish government.
   - Sweden's long nonalignment became less valuable when the regional security environment shifted.
   - Accession placed Sweden inside NATO's joint planning and collective-defense expectations.
   - Evidence placeholder: Sweden became the 32nd ally on March 7, 2024.
@@ -123,6 +130,8 @@ NATO's accession of Finland and Sweden is best explained through Stein's regime 
 - Stein coordination/collaboration distinction: (Stein, 1982, pp. ___).
 - Gourevitch governance problem: (Gourevitch, 1999, pp. ___).
 - Finland/Sweden applied in May 2022: (NATO or official government source, date/page ___).
+- Finnish application leaders in May 2022: President Sauli Niinisto and Prime Minister Sanna Marin (official Finland source, date ___).
+- Swedish application leader in May 2022: Prime Minister Magdalena Andersson (official Sweden source, date ___).
 - Madrid trilateral memorandum, June 28, 2022: (NATO, 2022).
 - Accession protocols, July 5, 2022: (NATO, 2022).
 - Biden's U.S. ratification/support role, August 2022; use as U.S. national action, not NATO-wide decision: (White House or U.S. source, date ___).

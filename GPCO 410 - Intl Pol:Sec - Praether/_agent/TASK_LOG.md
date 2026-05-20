@@ -460,3 +460,9 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Patched the active PURPLE NATO argument map so actor identification is explicit throughout the outline: Finland/Sweden as applicant/nonaligned states, existing NATO allies as Article 5 commitment-bearing members, United States/Biden as U.S. support/ratification actor, Stoltenberg as Secretary General/process broker, and Turkey/Erdogan as consensus-leverage bargainer.
 **Output:** `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Purple Memo - NATO/Purple_Memo_NATO_v1.0.0_argument_map.md`
 **Notes:** Kept the artifact as an outline/argument map rather than submission prose; this applies Edgar's correction to the planning document as well as the working memo.
+
+### 2026-05-20 — PURPLE NATO argument-map Nordic leader patch
+**Requested by:** Edgar
+**What was done:** Patched the active PURPLE NATO argument map to name Finland's President Sauli Niinisto and Prime Minister Sanna Marin, plus Sweden's Prime Minister Magdalena Andersson, as the leaders tied to the May 2022 NATO application decision. Added the leader names to the Actor Map, timeline, Finland/Sweden application section, and citation placeholders.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Purple Memo - NATO/Purple_Memo_NATO_v1.0.0_argument_map.md`
+**Notes:** Kept the Sweden government-change nuance brief: Andersson is the relevant May 2022 application leader, while Sweden later had a different government during the ratification/accession period.
