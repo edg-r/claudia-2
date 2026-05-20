@@ -448,3 +448,9 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Turned Edgar's rough PURPLE NATO memo direction into a memo-safe outline and argument map without drafting submission prose. Grounded the theory in Stein's coordination/collaboration regime framework, used Gourevitch only as a light governance-dispute supplement, and checked core Finland/Sweden/Turkiye/NATO/Rutte timeline facts against local course files plus official/current sources.
 **Output:** Returned in chat.
 **Notes:** Keep Stein primary. Best thesis: Russia's 2022 invasion shifted Finland and Sweden's preference order toward joint NATO decision-making, while Turkiye's objection shows that NATO expansion was bargaining inside a consensus regime rather than automatic solidarity. Avoid claiming NATO fully solved burden-sharing, Russian deterrence, or internal preference conflict.
+
+### 2026-05-20 — PURPLE NATO memo actor-clarity patch
+**Requested by:** Edgar
+**What was done:** Inspected the active PURPLE NATO memo draft and argument map, then patched the draft narrowly to clarify actor roles: Finland/Sweden as applicants, existing allies as commitment-bearing members, the United States/Biden as U.S. ratifier/support actor, Stoltenberg as accession process broker, and Turkey/Erdogan as consensus bargainer.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Purple Memo - NATO/2026-05-20_purple_memo_nato_v1.0.0_working.md`
+**Notes:** Body word count verified at 737 words before footnotes/references/disclosure; actor-clarity correction also recorded in `FEEDBACK.md`.

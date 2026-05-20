@@ -118,3 +118,12 @@ Operational screen before returning any Athena memo draft: can the reader point 
 **What:** Edgar's final hand-written/submission draft moved away from Athena/Claudia's polished v4 trajectory in several durable ways: explicit section headers (`Introduction`, `Context`, `Theory`, `Conclusion`); a concrete hook title; a chronological context spine before theory application; a single Cederman footnote rather than a full multi-source apparatus; and plainer, rougher causal prose centered on "transition itself" and Min Aung Hlaing's preference to retain power.
 **Why:** The final draft shows Edgar's preferred student voice for short Praether ORANGE memos: visible scaffolding, direct causal narration, fewer sources, fewer institutional details, and less agent-smooth prose. The draft sacrifices some analytical neatness from Athena's version, but it sounds more like Edgar working through the claim himself.
 **Rule going forward:** For short GPCO 410 memos, Athena should draft in a structure Edgar can easily inhabit: use clear section labels when helpful; preserve a chronological case narrative; keep the theory source load very narrow; state quantitative findings plainly when they are the assignment's core reading; and avoid over-polishing actor-preference paragraphs into model-answer inventories. Treat Athena's polished versions as scaffolds, not the target final voice.
+
+---
+
+## 2026-05-20 — PURPLE NATO memo actor clarity
+
+**Type:** correction
+**What:** Edgar corrected the PURPLE NATO memo draft because the actors needed to be identified more clearly.
+**Why:** The NATO accession case can blur applicants, existing allies, national ratifiers, institutional process brokers, and bargaining members if the prose treats "NATO" as one actor.
+**Rule going forward:** In NATO accession writing, distinguish Finland and Sweden as applicants/nonaligned states whose threat calculus changed; existing NATO allies as commitment-bearing regime members; the United States/Biden as a ratification and support actor, not NATO-wide decider; Jens Stoltenberg as NATO Secretary General/process broker; and Turkey/Erdogan as a member using consensus to bargain over security concerns.
