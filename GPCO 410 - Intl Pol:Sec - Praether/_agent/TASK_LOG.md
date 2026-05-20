@@ -454,3 +454,9 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Inspected the active PURPLE NATO memo draft and argument map, then patched the draft narrowly to clarify actor roles: Finland/Sweden as applicants, existing allies as commitment-bearing members, the United States/Biden as U.S. ratifier/support actor, Stoltenberg as accession process broker, and Turkey/Erdogan as consensus bargainer.
 **Output:** `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Purple Memo - NATO/2026-05-20_purple_memo_nato_v1.0.0_working.md`
 **Notes:** Body word count verified at 737 words before footnotes/references/disclosure; actor-clarity correction also recorded in `FEEDBACK.md`.
+
+### 2026-05-20 — PURPLE NATO argument-map actor-clarity patch
+**Requested by:** Edgar
+**What was done:** Patched the active PURPLE NATO argument map so actor identification is explicit throughout the outline: Finland/Sweden as applicant/nonaligned states, existing NATO allies as Article 5 commitment-bearing members, United States/Biden as U.S. support/ratification actor, Stoltenberg as Secretary General/process broker, and Turkey/Erdogan as consensus-leverage bargainer.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Purple Memo - NATO/Purple_Memo_NATO_v1.0.0_argument_map.md`
+**Notes:** Kept the artifact as an outline/argument map rather than submission prose; this applies Edgar's correction to the planning document as well as the working memo.
