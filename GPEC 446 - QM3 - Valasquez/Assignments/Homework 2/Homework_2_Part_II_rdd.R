@@ -12,30 +12,33 @@
 
 options(stringsAsFactors = FALSE)
 
-# Locate the homework folder whether the script is run from RStudio or terminal.
-args_file <- commandArgs(trailingOnly = FALSE)
-script_arg <- grep("^--file=", args_file, value = TRUE)
-part_dir <- if (length(script_arg) > 0) {
-  dirname(normalizePath(sub("^--file=", "", script_arg[1])))
-} else {
-  getwd()
-}
-setwd(part_dir)
+setwd('/Users/edgar/Documents/01 Projects/Claudia/GPEC 446 - QM3 - Valasquez/Assignments/Homework 2')
 
-out_dir <- file.path(part_dir, "outputs", "part_ii")
-lib_dir <- file.path(out_dir, "R_libs")
-dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
-dir.create(lib_dir, recursive = TRUE, showWarnings = FALSE)
-.libPaths(c(normalizePath(lib_dir), .libPaths()))
-
-needed <- c("haven", "ggplot2")
-missing_needed <- needed[!vapply(needed, requireNamespace, logical(1), quietly = TRUE)]
-if (length(missing_needed) > 0) {
-  stop("Missing required package(s): ", paste(missing_needed, collapse = ", "))
-}
+.libPaths(c(normalizePath("outputs/part_ii/R_libs"), .libPaths()))
 
 library(haven)
 library(ggplot2)
+library(stargazer)
+library(rdrobust)
+
+out_dir <- file.path(getwd(), "outputs", "part_ii")
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+
+write_html_table <- function(df, file_name, title) {
+  invisible(
+    capture.output(
+      stargazer(
+        as.data.frame(df),
+        type = "html",
+        summary = FALSE,
+        rownames = FALSE,
+        title = title,
+        digits = 3,
+        out = file.path(out_dir, file_name)
+      )
+    )
+  )
+}
 
 # Main RD choices used throughout the script.
 cutoff <- 40
@@ -63,7 +66,7 @@ schema <- data.frame(
   min = vapply(grade5, function(x) if (is.numeric(x)) min(x, na.rm = TRUE) else NA_real_, numeric(1)),
   max = vapply(grade5, function(x) if (is.numeric(x)) max(x, na.rm = TRUE) else NA_real_, numeric(1))
 )
-write.csv(schema, file.path(out_dir, "grade5_schema.csv"), row.names = FALSE)
+write_html_table(schema, "grade5_schema.html", "Grade 5 Data Schema")
 
 # Create the centered running variable and treatment indicator for crossing 40.
 analysis <- grade5[, core_vars]
@@ -90,7 +93,7 @@ print(
     ) +
     theme_minimal(base_size = 12)
 )
-dev.off()
+invisible(dev.off())
 
 ################################################################################
 # Q7: Relationship Between Class Size and Scores
@@ -127,7 +130,7 @@ make_rdd_plot <- function(y_var, y_label, file_name) {
       ) +
       theme_minimal(base_size = 12)
   )
-  dev.off()
+  invisible(dev.off())
 }
 
 make_rdd_plot("classize", "Class size", "rdd_classize_cutoff40.png")
@@ -171,51 +174,46 @@ manual_results <- rbind(
   manual_rd(analysis_under80, "classize", manual_bw),
   manual_rd(analysis_under80, "disadvantaged", manual_bw)
 )
-write.csv(manual_results, file.path(out_dir, "manual_local_linear_results.csv"), row.names = FALSE)
+write_html_table(
+  manual_results,
+  "manual_local_linear_results.html",
+  "Manual Local Linear RD Results"
+)
 
 ################################################################################
 # Q8b: rdrobust RD Estimates
 ################################################################################
 
-# Use rdrobust when available. If it is missing, write a blocker file rather than
-# breaking the rest of the script.
-rdrobust_blocker <- NULL
-rdrobust_results <- data.frame()
-if (!requireNamespace("rdrobust", quietly = TRUE)) {
-  rdrobust_blocker <- paste0(
-    "rdrobust package unavailable after checking .libPaths(): ",
-    paste(.libPaths(), collapse = "; ")
+# Estimate the same RD effects with rdrobust's default bandwidth and inference.
+rd_result <- function(outcome) {
+  x <- analysis_under80$school_enrollment
+  y <- analysis_under80[[outcome]]
+  ok <- !is.na(x) & !is.na(y)
+  obj <- rdrobust(y = y[ok], x = x[ok], c = cutoff)
+  ci <- obj$ci
+  coef <- obj$coef
+  se <- obj$se
+  data.frame(
+    outcome = outcome,
+    cutoff = cutoff,
+    estimate_conventional = unname(coef[1, 1]),
+    se_conventional = unname(se[1, 1]),
+    ci95_low_conventional = unname(ci[1, 1]),
+    ci95_high_conventional = unname(ci[1, 2]),
+    bandwidth_left = unname(obj$bws[1, 1]),
+    bandwidth_right = unname(obj$bws[1, 2]),
+    n_left = unname(obj$N_h[1]),
+    n_right = unname(obj$N_h[2]),
+    stringsAsFactors = FALSE
   )
-} else {
-  rd_result <- function(outcome) {
-    x <- analysis_under80$school_enrollment
-    y <- analysis_under80[[outcome]]
-    ok <- !is.na(x) & !is.na(y)
-    obj <- rdrobust::rdrobust(y = y[ok], x = x[ok], c = cutoff)
-    ci <- obj$ci
-    coef <- obj$coef
-    se <- obj$se
-    data.frame(
-      outcome = outcome,
-      cutoff = cutoff,
-      estimate_conventional = unname(coef[1, 1]),
-      se_conventional = unname(se[1, 1]),
-      ci95_low_conventional = unname(ci[1, 1]),
-      ci95_high_conventional = unname(ci[1, 2]),
-      bandwidth_left = unname(obj$bws[1, 1]),
-      bandwidth_right = unname(obj$bws[1, 2]),
-      n_left = unname(obj$N_h[1]),
-      n_right = unname(obj$N_h[2]),
-      stringsAsFactors = FALSE
-    )
-  }
-  rdrobust_results <- rbind(rd_result("avgmath"), rd_result("avgverb"))
-  write.csv(rdrobust_results, file.path(out_dir, "rdrobust_default_results.csv"), row.names = FALSE)
 }
 
-if (!is.null(rdrobust_blocker)) {
-  writeLines(rdrobust_blocker, file.path(out_dir, "rdrobust_blocker.txt"))
-}
+rdrobust_results <- rbind(rd_result("avgmath"), rd_result("avgverb"))
+write_html_table(
+  rdrobust_results,
+  "rdrobust_default_results.html",
+  "rdrobust Default RD Results"
+)
 
 ################################################################################
 # Q9: Falsification Test
@@ -239,11 +237,7 @@ cat("Manual local linear bandwidth:", manual_bw, "students around cutoff", cutof
 cat("Manual results:\n")
 print(manual_results)
 cat("\nrdrobust results:\n")
-if (nrow(rdrobust_results) > 0) {
-  print(rdrobust_results)
-} else {
-  cat(rdrobust_blocker, "\n")
-}
+print(rdrobust_results)
 cat("\nInterpretation notes:\n")
 cat("- Manual estimates use a local linear specification with different slopes on each side of 40.\n")
 cat("- The disadvantaged covariate is the falsification/smoothness test.\n")
@@ -284,7 +278,7 @@ notes <- c(
   "",
   "## Question 4 rdrobust",
   "",
-  if (nrow(rdrobust_results) > 0) paste(capture.output(print(rdrobust_results)), collapse = "\n") else rdrobust_blocker,
+  paste(capture.output(print(rdrobust_results)), collapse = "\n"),
   "",
   "## Question 5 Falsification Test",
   "",

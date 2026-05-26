@@ -13,7 +13,9 @@ This file bootstraps AI sessions in the Claudia workspace. Codex is the active i
 
 ## Agent Invocation
 
-Agent invocation means delegation first. Use `_claudia/system/manifest.json` to identify the owning agent, then follow `_claudia/system/CODEX_WORKFLOW.md` for the concrete Codex dispatch/fallback procedure.
+Agent invocation means delegation first. Use `_claudia/system/manifest.json` to identify the owning agent, then follow `_claudia/system/CODEX_WORKFLOW.md` for the concrete Codex dispatch and blocker procedure.
+
+In Codex sessions, if subagent tools are not already visible, first use tool discovery for multi-agent/subagent dispatch. Treat missing delegation tooling as a blocker to report, not as permission for Claudia to perform agent-owned specialist work herself.
 
 ### Agent Types
 

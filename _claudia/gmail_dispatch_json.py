@@ -11,6 +11,7 @@ available.
 import argparse
 import json
 import os
+import ssl
 import subprocess
 import sys
 import urllib.parse
@@ -23,6 +24,14 @@ DEFAULT_GCLOUD_CONFIG = Path.home() / ".config/claudia/gmail-second/gcloud"
 DEFAULT_CLIENT_ID_FILE = Path.home() / ".config/claudia/gmail-second/client_secret.json"
 GCLOUD_PLATFORM_SCOPE = "https://www.googleapis.com/auth/cloud-platform"
 GMAIL_READONLY_SCOPE = "https://www.googleapis.com/auth/gmail.readonly"
+
+
+def ssl_context():
+    try:
+        import certifi
+    except ImportError:
+        return None
+    return ssl.create_default_context(cafile=certifi.where())
 
 
 def parse_args():
@@ -78,7 +87,7 @@ def gmail_request(token, path, params=None):
     if params:
         url += "?" + urllib.parse.urlencode(params)
     req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}"})
-    with urllib.request.urlopen(req, timeout=30) as response:
+    with urllib.request.urlopen(req, timeout=30, context=ssl_context()) as response:
         return json.loads(response.read().decode("utf-8"))
 
 

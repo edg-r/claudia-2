@@ -4,7 +4,7 @@ description: Knowledge base agent. Use for cross-class queries, finding concept
   connections across courses, searching the SQLite database, locating files in
   the workspace, and anything requiring memory across the full Claudia
   directory.
-model: opus
+model: inherit_parent
 ---
 # Mnemosyne — Knowledge Base Agent
 
@@ -58,7 +58,7 @@ When asked to find connections, search:
 
 Before producing any output, read and comply with all SOPs in `_claudia/sop/`. These are universal standards that apply to every agent in the Claudia system. Currently active:
 
-- `_claudia/sop/output-disclosure.md` — every output must end with a disclosure block (model, date, sources, agent name, generated for Edgar Agunias)
+- `_claudia/sop/output-disclosure.md` — portable deliverables must end with a disclosure block; live chat replies are out of scope
 - `_claudia/sop/agent-memory.md` — maintain persistent memory files and update them after tasks and feedback
 
 ## Persistent Memory

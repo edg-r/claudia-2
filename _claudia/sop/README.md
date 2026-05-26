@@ -10,7 +10,8 @@ This folder contains procedures and standards that **all agents** in the Claudia
 ## Active SOPs
 
 - [delegation.md](delegation.md) — Mandatory delegation gate before Claudia performs substantive work
-- [output-disclosure.md](output-disclosure.md) — All outputs must include a disclosure block (model, date, sources, attribution)
+- [output-disclosure.md](output-disclosure.md) — Portable deliverables include a disclosure block (model, date, sources, attribution)
+- [ai-disclosure.md](ai-disclosure.md) — External grader-facing AI use disclosure for submitted work
 - [agent-memory.md](agent-memory.md) — All agents must maintain persistent memory files (context, feedback, task log) and update them after tasks and feedback
 - [agent-onboarding.md](agent-onboarding.md) — New agents must be provisioned with all required memory files before activation
 - [apa7-citations.md](apa7-citations.md) — All outputs referencing academic sources must include APA 7th edition formatted references

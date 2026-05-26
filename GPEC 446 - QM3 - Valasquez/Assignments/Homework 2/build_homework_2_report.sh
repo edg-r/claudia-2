@@ -4,14 +4,17 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT"
 
-pandoc "Homework_2_Agunias_Draft.md" \
+DRAFT_DIR="$ROOT/drafts"
+mkdir -p "$DRAFT_DIR"
+
+pandoc "$DRAFT_DIR/Homework_2_Agunias_Draft.md" \
   --standalone \
   --metadata title="Homework 2: Panel and Regression Discontinuity" \
   --css "report.css" \
-  -o "Homework_2_Agunias_Draft.html"
+  -o "$DRAFT_DIR/Homework_2_Agunias_Draft.html"
 
 if command -v weasyprint >/dev/null 2>&1; then
-  if weasyprint "Homework_2_Agunias_Draft.html" "Homework_2_Agunias_Draft.pdf"; then
+  if weasyprint "$DRAFT_DIR/Homework_2_Agunias_Draft.html" "$DRAFT_DIR/Homework_2_Agunias_Draft.pdf"; then
     exit 0
   fi
 fi
@@ -23,8 +26,8 @@ if [[ -x "$CHROME" ]]; then
     --disable-gpu \
     --no-sandbox \
     --no-pdf-header-footer \
-    --print-to-pdf="$ROOT/Homework_2_Agunias_Draft.pdf" \
-    "file://$ROOT/Homework_2_Agunias_Draft.html"
+    --print-to-pdf="$DRAFT_DIR/Homework_2_Agunias_Draft.pdf" \
+    "file://$DRAFT_DIR/Homework_2_Agunias_Draft.html"
   exit 0
 fi
 

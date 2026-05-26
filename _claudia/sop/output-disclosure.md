@@ -1,6 +1,6 @@
 ---
 name: output-disclosure
-description: All agent outputs must include a disclosure block with model, date, sources, and attribution
+description: Portable agent deliverables must include a disclosure block with model, date, sources, and attribution
 applies_to: all agents
 ---
 

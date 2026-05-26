@@ -170,3 +170,15 @@ Ran two cross-course queries. First: full open-assignments rundown across GPCO 4
 **What was done:** Classified `inbox/harvey-2023-everyone-thinks-they-re-special-how-schools-teach-children-their-social-station.pdf` against active Claudia courses using PDF metadata/text, manifest course ownership, course agent contexts, SQLite `courses`/`readings`/`files` rows, course-admin syllabus extracts, and the prior inbox ambiguity report.
 **Output:** Returned to Claudia; no files moved and no study guide generated.
 **Notes:** No clear active course owner found. The article is an American Sociological Review piece on school socialization, social station, inequality, and social reproduction; it does not match current Spring 2026 course reading rows or course-admin extracts. Keep in inbox or ask Edgar whether to file under `knowledge/obsidian/`, a research project, or another non-course reference area.
+
+### 2026-05-21 - GPCO 410 PURPLE/NATO memo submission status
+**Requested by:** Claudia / Edgar
+**What was done:** Inspected the `assignments`, `courses`, and `agent_logs` schemas, then joined `assignments` to `courses` to find the matching GPCO 410 PURPLE/NATO memo row. Updated only assignment id 17 (`Analytic Memo — PURPLE (choose 1)`) from `pending` to `submitted`, stamped `submitted_at` and `last_verified_at` as `2026-05-21 12:23:59 PDT`, appended provenance to notes, and inserted a Mnemosyne `agent_logs` row.
+**Output:** `_claudia/claudia.db`
+**Notes:** GPCO 410 sibling rows were checked after the update and remained unchanged; Final Exam remains pending, Data Memo alternatives remain `alternate_option`, and the selected Regime Type data memo remains completed.
+
+### 2026-05-21 - GPEC 446 Homework II deadline correction
+**Requested by:** Edgar
+**What was done:** Updated exactly one assignment row in `_claudia/claudia.db`: GPEC 446 — Quantitative Methods 3 `Homework II` id 12 moved from Saturday `2026-05-23 23:59` to Sunday night `2026-05-24 23:59` America/Los_Angeles. Preserved Edgar's wording in the row notes and recorded the ambiguity resolution that "midnight on Sunday" was interpreted against the existing Saturday 23:59 row.
+**Output:** `_claudia/claudia.db`
+**Notes:** Set `deadline_source='edgar_correction'`, `source_confidence='confirmed_by_edgar'`, `date_kind='hard'`, and `last_verified_at='2026-05-21 12:27:59 PDT'`; inserted a matching Mnemosyne `agent_logs` row.

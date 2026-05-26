@@ -284,3 +284,39 @@
 **What was done:** Built two standalone interactive HTML budget-flow visualizations from the Spring Fling/Formal 2026 and GO GPS Finance 2025-26 workbooks, with hard-coded extracted data, scenario toggles, Sankey flows, line-item mode, compare animation, reallocation cards, and source caveats where workbook formulas materially affected interpretation.
 **Output:** `edgar/spring_fling_formal_2026_budget_flow.html`; `edgar/go_gps_finance_2025_26_budget_flow.html`; `_claudia/scripts/build_budget_flow_visualizations.py`
 **Notes:** Verified cached/formula views through dependency-free XLSX XML extraction, JavaScriptCore parse checks, and headless Chrome/Selenium render plus interaction smoke tests. GO GPS source summary formula D19 omits some entered actuals and uses the budgeted Spring Fling cell, so the artifact uses concrete line rows instead.
+
+### 2026-05-21 - UCSD Gmail helper SSL certificate fix
+**Requested by:** Edgar
+**What was done:** Patched `_claudia/gmail_dispatch_json.py` so Gmail API requests use certifi's CA bundle when certifi is installed, avoiding the local Python SSL issuer failure without requiring `SSL_CERT_FILE`.
+**Output:** `_claudia/gmail_dispatch_json.py`
+**Notes:** Verified `python3 _claudia/gmail_dispatch_json.py` succeeds without SSL environment setup and reads `eagunias@ucsd.edu` with 8 matching unread inbox messages.
+
+### 2026-05-21 - GO GPS inventory management TEST workbook MVP
+**Requested by:** Edgar
+**What was done:** Built a native Excel MVP for GO GPS office and club inventory, seeded from the 2025-2026 club leadership workbook in `inbox/`. Added a pastel dashboard with KPI cards, native charts for club/category/value/consumables, cost and consumable tracking fields, dropdown-backed inventory fields, checkout/return logging, barcode intake staging, and a club directory.
+**Output:** `edgar/TEST - GO GPS Inventory Management MVP.xlsx`
+**Notes:** Verified the final workbook from the `edgar/` copy with formula-error scan reporting zero matches. Google Drive native Sheet creation was blocked by connector upload/create permissions, so the deliverable was placed locally as requested.
+
+### 2026-05-21 - GO GPS inventory automation and barcode intake scaffold
+**Requested by:** Edgar
+**What was done:** Added workbook conditional formatting for consumable levels and quantity-available warnings, then created a Google Sheets Apps Script scaffold for stable `GOGPS-0001` Item ID generation, row formula installation, date stamping, conditional-format setup, barcode lookup, and a phone-facing scan/edit/add web-app flow.
+**Output:** `edgar/TEST - GO GPS Inventory Management MVP.xlsx`; `edgar/GO_GPS_inventory_google_sheets_automation.gs`; `edgar/GO_GPS_inventory_barcode_webapp_Index.html`
+**Notes:** Verified the rebuilt workbook from the `edgar/` copy with zero formula-error matches and confirmed Apps Script syntax with Node's CommonJS parser. The phone web app uses browser barcode detection where available and falls back to manual barcode entry; AppSheet remains the lower-maintenance production option for mobile barcode scanning.
+
+### 2026-05-24 - GPSA Budget Lakebed Capsule
+**Requested by:** Edgar
+**What was done:** Created a new Lakebed capsule folder for the existing GPSA budget-flow HTML using `npx lakebed new`, then adapted the client to host the interactive visualization inside the Lakebed app surface.
+**Output:** `gpsa-budget-lakebed/`
+**Notes:** Checked Lakebed docs at `lakebed.dev` and `docs.lakebed.dev`. Verified `npx lakebed build . --target anonymous --json` with Node 22, ran Lakebed dev on port 3017, and browser-tested year toggles, line-item mode, and compare animation. Port 3000 was already occupied.
+
+### 2026-05-25 - Claudia delegation reliability audit and doc alignment
+**Requested by:** Edgar
+**What was done:** Audited Claudia startup, delegation, SOP, manifest, and agent-definition surfaces after delegated audit workers stalled and Edgar explicitly authorized parent-thread completion. Tightened Codex tool-discovery instructions, removed stale manual-fallback language, aligned model metadata to inherited parent execution, clarified portable-output disclosure scope, registered the AI disclosure SOP in the manifest, and cleaned stale Hermes/Eos operational notes.
+**Output:** `AGENTS.md`; `_claudia/system/CLAUDIA.md`; `_claudia/system/CODEX_WORKFLOW.md`; `_claudia/system/manifest.json`; `_claudia/sop/delegation.md`; `_claudia/sop/README.md`; `_claudia/sop/output-disclosure.md`; `_claudia/memory/preferences.md`; `_claudia/agent_definitions/*.md`; `_claudia/agents/eos/AGENT_CONTEXT.md`; `_claudia/agents/hermes/AGENT_CONTEXT.md`
+**Notes:** Verified manifest JSON parses and all manifest/definition model metadata now uses `inherit_parent`. Remaining fallback references in task logs are historical records, not active routing instructions.
+
+### 2026-05-25 - Repo-wide checkpoint commit and security scan
+**Requested by:** Edgar
+**What was done:** Prepared a repo-wide checkpoint save, added ignore coverage for raw connector exports and local runtime artifacts, and ran focused pre-commit scans for obvious credential/token leakage before staging.
+**Output:** repo commit on `main`
+**Notes:** Raw `_claudia/dispatch_inputs/`, Python bytecode, R history, and R workspaces are local-only. High-confidence token/key scans over staged candidate files did not report secrets.

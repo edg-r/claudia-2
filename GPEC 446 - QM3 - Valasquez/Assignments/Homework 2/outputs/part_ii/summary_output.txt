@@ -1,9 +1,9 @@
 Homework 2 Part II RDD summary
-Generated: 2026-05-18 18:31:52 PDT 
+Generated: 2026-05-23 21:47:45 PDT
 
 Dataset dimensions: 2019 rows x 9 columns
-Unique schools: 1002 
-Manual local linear bandwidth: 10 students around cutoff 40 
+Unique schools: 1002
+Manual local linear bandwidth: 10 students around cutoff 40
 Manual results:
         outcome cutoff bandwidth  estimate std_error      p_value n_left
 1       avgmath     40        10  4.261135  2.570426 9.832313e-02     96

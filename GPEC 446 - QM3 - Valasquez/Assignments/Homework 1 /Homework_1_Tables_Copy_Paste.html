@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GPEC 446 Homework 1 Copy-Paste Tables</title>
+<style>
+body {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12pt;
+  color: #111;
+  background: #fff;
+  margin: 24px;
+}
+h1 {
+  font-size: 16pt;
+  font-weight: 700;
+  margin: 0 0 18px 0;
+}
+h2 {
+  font-size: 13pt;
+  font-weight: 700;
+  margin: 22px 0 6px 0;
+}
+p.copy-note {
+  font-size: 10.5pt;
+  margin: 0 0 18px 0;
+}
+table {
+  border-collapse: collapse;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 11pt;
+  margin: 8px 0 20px 0;
+  width: auto;
+}
+caption {
+  caption-side: top;
+  font-weight: 700;
+  padding-bottom: 6px;
+}
+td {
+  padding: 3px 8px;
+  vertical-align: middle;
+  line-height: 1.2;
+}
+sup {
+  font-size: 8pt;
+}
+.table-block {
+  page-break-inside: avoid;
+  margin-bottom: 24px;
+}
+.disclosure {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 10pt;
+  white-space: pre-wrap;
+  margin-top: 28px;
+  border-top: 1px solid #000;
+  padding-top: 8px;
+}
+</style>
+</head>
+<body>
+<h1>GPEC 446 Homework 1 Copy-Paste Tables</h1>
+<p class="copy-note">These tables reuse the computed Homework 1 values from this R script and are formatted for copying into Word.</p>
+<div class="table-block">
+<h2>Question 1-2: Selected Tract Comparison</h2>
+
+<table style="text-align:center"><caption><strong>Selected New Orleans tract compared with New Orleans and the rest of Louisiana</strong></caption>
+<tr><td colspan="5" style="border-bottom: 1px solid black"></td></tr><tr><td>Comparison group</td><td>Tracts</td><td>Mean upward mobility ($)</td><td>SD upward mobility ($)</td><td>Selected tract minus group mean ($)</td></tr><tr><td colspan="5" style="border-bottom: 1px solid black"></td></tr>
+<tr><td style="text-align:left">Selected tract: 22071012102</td><td style="text-align:center">   1</td><td style="text-align:center">72,747</td><td style="text-align:center">N/A</td><td style="text-align:center">0</td></tr>
+<tr><td style="text-align:left">New Orleans</td><td style="text-align:center"> 409</td><td style="text-align:center">30,615</td><td style="text-align:center">8,114</td><td style="text-align:center">42,133</td></tr>
+<tr><td style="text-align:left">Louisiana, excluding selected tract</td><td style="text-align:center">1134</td><td style="text-align:center">31,625</td><td style="text-align:center">7,052</td><td style="text-align:center">41,123</td></tr>
+
+</table>
+
+</div>
+<div class="table-block">
+<h2>Question 3: Poverty and Mobility by City</h2>
+
+<table style="text-align:center"><caption><strong>Poverty and Mobility: Simple Regressions by City</strong></caption>
+<tr><td colspan="5" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="4"><em>Dependent variable:</em></td></tr>
+<tr><td></td><td colspan="4" style="border-bottom: 1px solid black"></td></tr>
+<tr><td style="text-align:left"></td><td colspan="4">Child income at p25 (1000s)</td></tr>
+<tr><td style="text-align:left"></td><td>Los Angeles</td><td>New York</td><td>Chicago</td><td>New Orleans</td></tr>
+<tr><td style="text-align:left"></td><td>(1)</td><td>(2)</td><td>(3)</td><td>(4)</td></tr>
+<tr><td colspan="5" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Poverty rate in 1990 (pp)</td><td>-0.333<sup>***</sup></td><td>-0.411<sup>***</sup></td><td>-0.455<sup>***</sup></td><td>-0.339<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.009)</td><td>(0.011)</td><td>(0.012)</td><td>(0.017)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Constant</td><td>40.566<sup>***</sup></td><td>45.219<sup>***</sup></td><td>40.061<sup>***</sup></td><td>38.267<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.151)</td><td>(0.218)</td><td>(0.226)</td><td>(0.480)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td></tr>
+<tr><td colspan="5" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Observations</td><td>3,881</td><td>2,932</td><td>1,986</td><td>405</td></tr>
+<tr><td style="text-align:left">R<sup>2</sup></td><td>0.256</td><td>0.337</td><td>0.418</td><td>0.493</td></tr>
+<tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.256</td><td>0.337</td><td>0.418</td><td>0.491</td></tr>
+<tr><td colspan="5" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="4" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
+</table>
+</div>
+<div class="table-block">
+<h2>Question 4: Omitted-Variable-Bias Calculation</h2>
+
+<table style="text-align:center"><caption><strong>New Orleans omitted-variable-bias calculation</strong></caption>
+<tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td>Quantity</td><td>Value</td></tr><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr>
+<tr><td style="text-align:left">Naive poverty coefficient</td><td style="text-align:center">-0.339</td></tr>
+<tr><td style="text-align:left">Controlled poverty coefficient</td><td style="text-align:center">-0.219</td></tr>
+<tr><td style="text-align:left">Effect of majority non-white dummy</td><td style="text-align:center">-6.704</td></tr>
+<tr><td style="text-align:left">Auxiliary slope: majority non-white on poverty</td><td style="text-align:center">0.018</td></tr>
+<tr><td style="text-align:left">Predicted omitted-variable bias</td><td style="text-align:center">-0.120</td></tr>
+<tr><td style="text-align:left">Actual coefficient change</td><td style="text-align:center">-0.120</td></tr>
+
+</table>
+
+</div>
+<div class="table-block">
+<h2>Question 5: New Orleans Poverty, Race, and Mobility</h2>
+
+<table style="text-align:center"><caption><strong>New Orleans: Poverty, Race, and Upward Mobility</strong></caption>
+<tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="3"><em>Dependent variable:</em></td></tr>
+<tr><td></td><td colspan="3" style="border-bottom: 1px solid black"></td></tr>
+<tr><td style="text-align:left"></td><td colspan="3">Child income at p25 (1000s)</td></tr>
+<tr><td style="text-align:left"></td><td>Poverty only</td><td>+ Race dummy</td><td>+ Interaction</td></tr>
+<tr><td style="text-align:left"></td><td>(1)</td><td>(2)</td><td>(3)</td></tr>
+<tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Poverty rate in 1990 (pp)</td><td>-0.339<sup>***</sup></td><td>-0.219<sup>***</sup></td><td>-0.442<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.017)</td><td>(0.019)</td><td>(0.035)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Majority non-white tract (= 1)</td><td></td><td>-6.704<sup>***</sup></td><td>-12.727<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td></td><td>(0.656)</td><td>(1.007)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Poverty rate x Majority non-white</td><td></td><td></td><td>0.306<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td>(0.041)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Constant</td><td>38.267<sup>***</sup></td><td>38.305<sup>***</sup></td><td>41.431<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.480)</td><td>(0.428)</td><td>(0.577)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td></tr>
+<tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Observations</td><td>405</td><td>405</td><td>405</td></tr>
+<tr><td style="text-align:left">R<sup>2</sup></td><td>0.493</td><td>0.597</td><td>0.647</td></tr>
+<tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.491</td><td>0.595</td><td>0.645</td></tr>
+<tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="3" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
+</table>
+</div>
+<div class="table-block">
+<h2>Questions 7-9: Pooled OLS vs. CZ Fixed Effects</h2>
+
+<table style="text-align:center"><caption><strong>National Sample: Pooled OLS vs. Commuting-Zone Fixed Effects</strong></caption>
+<tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="2"><em>Dependent variable:</em></td></tr>
+<tr><td></td><td colspan="2" style="border-bottom: 1px solid black"></td></tr>
+<tr><td style="text-align:left"></td><td colspan="2">Child income at p25 (1000s)</td></tr>
+<tr><td style="text-align:left"></td><td>Pooled OLS</td><td>+ CZ Fixed Effects</td></tr>
+<tr><td style="text-align:left"></td><td>(1)</td><td>(2)</td></tr>
+<tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Poverty rate in 1990 (pp)</td><td>-0.293<sup>***</sup></td><td>-0.260<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.003)</td><td>(0.002)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Majority non-white tract (= 1)</td><td>-3.310<sup>***</sup></td><td>-5.614<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.070)</td><td>(0.069)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Constant</td><td>39.078<sup>***</sup></td><td>32.047<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.039)</td><td>(0.486)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td></tr>
+<tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Commuting-zone fixed effects</td><td>No</td><td>Yes</td></tr>
+<tr><td style="text-align:left">Observations</td><td>71,922</td><td>71,921</td></tr>
+<tr><td style="text-align:left">R<sup>2</sup></td><td>0.274</td><td>0.503</td></tr>
+<tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.274</td><td>0.498</td></tr>
+<tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="2" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
+<tr><td style="text-align:left"></td><td colspan="2" style="text-align:right">CZ fixed effects omitted from display.</td></tr>
+<tr><td style="text-align:left"></td><td colspan="2" style="text-align:right">Column (2) identifies associations using within-CZ tract differences.</td></tr>
+</table>
+</div>
+<div class="table-block">
+<h2>Open Question: Urban/Rural Proxy Regression</h2>
+
+<table style="text-align:center"><caption><strong>Urban/Rural Proxy and Upward Mobility</strong></caption>
+<tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="3"><em>Dependent variable:</em></td></tr>
+<tr><td></td><td colspan="3" style="border-bottom: 1px solid black"></td></tr>
+<tr><td style="text-align:left"></td><td colspan="3">Child income at p25 (1000s)</td></tr>
+<tr><td style="text-align:left"></td><td>Urban proxy only</td><td>+ Controls</td><td>+ CZ Fixed Effects</td></tr>
+<tr><td style="text-align:left"></td><td>(1)</td><td>(2)</td><td>(3)</td></tr>
+<tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Urban proxy: top density quartile</td><td>-1.358<sup>***</sup></td><td>0.875<sup>***</sup></td><td>-1.441<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.084)</td><td>(0.085)</td><td>(0.095)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Poverty rate in 1990 (pp)</td><td></td><td>-0.262<sup>***</sup></td><td>-0.218<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td></td><td>(0.003)</td><td>(0.003)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Majority non-white tract (= 1)</td><td></td><td>-3.680<sup>***</sup></td><td>-5.295<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td></td><td>(0.101)</td><td>(0.090)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Constant</td><td>34.743<sup>***</sup></td><td>38.801<sup>***</sup></td><td>31.998<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.060)</td><td>(0.070)</td><td>(0.672)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td></tr>
+<tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Commuting-zone fixed effects</td><td>No</td><td>No</td><td>Yes</td></tr>
+<tr><td style="text-align:left">Observations</td><td>35,862</td><td>35,838</td><td>35,837</td></tr>
+<tr><td style="text-align:left">R<sup>2</sup></td><td>0.007</td><td>0.250</td><td>0.542</td></tr>
+<tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.007</td><td>0.250</td><td>0.532</td></tr>
+<tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="3" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
+<tr><td style="text-align:left"></td><td colspan="3" style="text-align:right">Sample restricted to top and bottom population-density quartiles.</td></tr>
+<tr><td style="text-align:left"></td><td colspan="3" style="text-align:right">Urban proxy equals 1 for top-density-quartile tracts and 0 for bottom-density-quartile tracts.</td></tr>
+</table>
+</div>
+<div class="table-block">
+<h2>Questions 10-11: Manual 2SLS</h2>
+
+<table style="text-align:center"><caption><strong>Manual 2SLS: Same-Sex Instrument for Third Child</strong></caption>
+<tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="3"><em>Dependent variable:</em></td></tr>
+<tr><td></td><td colspan="3" style="border-bottom: 1px solid black"></td></tr>
+<tr><td style="text-align:left"></td><td>More kids</td><td colspan="2">Work</td></tr>
+<tr><td style="text-align:left"></td><td>First Stage</td><td>Reduced Form</td><td>Manual Second Stage</td></tr>
+<tr><td style="text-align:left"></td><td>(1)</td><td>(2)</td><td>(3)</td></tr>
+<tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Same-gender instrument</td><td>0.067<sup>***</sup></td><td>-0.403</td><td></td></tr>
+<tr><td style="text-align:left"></td><td>(0.006)</td><td>(0.253)</td><td></td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Predicted third child</td><td></td><td></td><td>-6.033</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td>(3.792)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Constant</td><td>0.344<sup>***</sup></td><td>19.412<sup>***</sup></td><td>21.488<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.004)</td><td>(0.180)</td><td>(1.437)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td></tr>
+<tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Observations</td><td>30,000</td><td>30,000</td><td>30,000</td></tr>
+<tr><td style="text-align:left">R<sup>2</sup></td><td>0.005</td><td>0.0001</td><td>0.0001</td></tr>
+<tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.005</td><td>0.0001</td><td>0.0001</td></tr>
+<tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="3" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
+<tr><td style="text-align:left"></td><td colspan="3" style="text-align:right">Manual second-stage point estimate uses fitted morekids from the first stage.</td></tr>
+<tr><td style="text-align:left"></td><td colspan="3" style="text-align:right">Manual second-stage standard errors are not corrected IV standard errors.</td></tr>
+</table>
+</div>
+<div class="table-block">
+<h2>Code Understanding Sufficiency Test</h2>
+
+<table style="text-align:center"><caption><strong>Code understanding reference</strong></caption>
+<tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td>Package</td><td>Function</td><td>Description</td></tr><tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr>
+<tr><td style="text-align:left">readr</td><td style="text-align:center">read_csv()</td><td style="text-align:center">Imports a CSV file into R as a data frame or tibble.</td></tr>
+<tr><td style="text-align:left">dplyr</td><td style="text-align:center">mutate()</td><td style="text-align:center">Creates new variables or transforms existing ones.</td></tr>
+<tr><td style="text-align:left">dplyr</td><td style="text-align:center">if_else()</td><td style="text-align:center">Creates a conditional variable using if/else logic.</td></tr>
+<tr><td style="text-align:left">dplyr</td><td style="text-align:center">filter()</td><td style="text-align:center">Keeps only rows that satisfy a condition.</td></tr>
+<tr><td style="text-align:left">dplyr</td><td style="text-align:center">arrange()</td><td style="text-align:center">Sorts rows in ascending or descending order.</td></tr>
+<tr><td style="text-align:left">dplyr</td><td style="text-align:center">slice()</td><td style="text-align:center">Selects rows by their position in the data frame.</td></tr>
+<tr><td style="text-align:left">dplyr</td><td style="text-align:center">summarise()</td><td style="text-align:center">Reduces data to summary statistics.</td></tr>
+<tr><td style="text-align:left">dplyr</td><td style="text-align:center">pull()</td><td style="text-align:center">Extracts one column from a data frame as a vector or single value.</td></tr>
+<tr><td style="text-align:left">ggplot2</td><td style="text-align:center">ggplot()</td><td style="text-align:center">Starts a graph by defining the dataset and aesthetics.</td></tr>
+<tr><td style="text-align:left">ggplot2</td><td style="text-align:center">geom_point()</td><td style="text-align:center">Adds a scatter-plot layer.</td></tr>
+<tr><td style="text-align:left">ggplot2</td><td style="text-align:center">geom_smooth()</td><td style="text-align:center">Adds a fitted line, such as a linear regression line.</td></tr>
+<tr><td style="text-align:left">ggplot2</td><td style="text-align:center">ggsave()</td><td style="text-align:center">Saves a ggplot object as an image file.</td></tr>
+<tr><td style="text-align:left">base R</td><td style="text-align:center">sprintf()</td><td style="text-align:center">Formats numbers or text, such as padding FIPS code pieces with zeros.</td></tr>
+<tr><td style="text-align:left">stargazer</td><td style="text-align:center">stargazer()</td><td style="text-align:center">Creates regression tables with coefficients, standard errors, and model statistics.</td></tr>
+<tr><td style="text-align:left">AER</td><td style="text-align:center">data()</td><td style="text-align:center">Loads a dataset that comes bundled with a package.</td></tr>
+
+</table>
+
+</div>
+<div class="disclosure">---
+Generated for: Edgar Agunias
+Date: 2026-05-23
+Model: GPT-5 Codex
+Sources: Homework_1.R, atlas.csv, AER::Fertility2, generated Homework 1 HTML table fragments
+Agent: Tyche with Hephaestus-style HTML implementation
+---</div>
+</body>
+</html>

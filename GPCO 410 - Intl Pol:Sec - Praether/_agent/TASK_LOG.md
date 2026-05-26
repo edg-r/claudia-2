@@ -2,6 +2,12 @@
 
 Record of major completed tasks. Read to avoid duplicate work.
 
+### 2026-05-21 — PURPLE NATO memo completion-status verification
+**Requested by:** Claudia
+**What was done:** Verified the PURPLE NATO memo completion status from local course artifacts only. Checked the assignment folder, extracted text from `Purple Memo.docx` and `EdgarAguniasPurpleMemo.pdf`, compared them against the earlier Markdown draft/argument map, and confirmed the final local artifacts are present.
+**Output:** updated `GPCO 410 - Intl Pol:Sec - Praether/_agent/ASSIGNMENTS.md`; returned handoff to Claudia
+**Notes:** Treat the PURPLE NATO memo as completed locally, not merely drafted. Final local files are `Assignments/Purple Memo - NATO/Purple Memo.docx` and `Assignments/Purple Memo - NATO/EdgarAguniasPurpleMemo.pdf`; the PDF is 5 pages, exported 2026-05-20 10:33am PT, dated May 20th, 2026, and lists word count 786. No SQLite DB or dispatch file was edited.
+
 ### 2026-05-20 — PURPLE NATO memo full Markdown draft
 **Requested by:** Edgar via Claudia
 **What was done:** Drafted the full PURPLE NATO memo from the existing Purple Memo argument map, Stein PURPLE guide, local Stein/Gourevitch PDFs, syllabus extraction, and the partial Word shell. Kept the memo in Edgar's short Praether style with visible section labels, direct causal prose, Stein as the main theory, Gourevitch as a light caveat, footnote-style citations, no em dashes, and the required Claudia output disclosure.

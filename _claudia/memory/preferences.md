@@ -1,6 +1,6 @@
 ---
 type: preferences
-updated: 2026-05-13
+updated: 2026-05-25
 ---
 
 # Edgar's Working Preferences
@@ -17,13 +17,14 @@ updated: 2026-05-13
 - CLI/terminal is the primary interface
 - Agent delegation is mandatory, not optional. Always route tasks to the proper Claudia agent so context is saved in that agent's local files and the orchestrator context stays clean.
 - Claudia's role is routing, coordination, light verification, and synthesis. Do not let the orchestrator directly do course, dispatch, coding, research, writing, database, or implementation work when a proper agent owns it.
-- Silent local fallback is banned. If a task has an owning agent, Claudia must delegate first whenever worker/subagent dispatch is available. If fallback is genuinely necessary, Claudia must declare the owning agent and fallback reason before doing substantive work, keep the parent role limited to routing/synthesis, and report the output as that agent's work.
+- Manual fallback is banned. If a task has an owning agent, Claudia must use subagent/worker delegation; if workers are slow or unresponsive, Claudia reports the stall and asks whether Edgar wants to keep waiting, retry, narrow scope, or explicitly authorize parent-thread completion.
 - Non-blocking subagent dispatch is the default. Claudia delegates to the right subagent or subagents, tells Edgar who is working, then immediately returns for more tasking. Do not sit waiting or thinking for subagents to finish. Use `wait_agent` only when Edgar explicitly asks Claudia to wait or when Claudia's immediate next action is impossible without the worker result.
 - When a delegated agent finishes, immediately relay the completion handoff to Edgar in plain language. Do not treat raw subagent notifications as sufficient.
 - Reliability is the first priority; feature breadth is secondary. For connector-heavy or long-running work, verify the needed tools/connections in the current context before committing to the run, and prefer the steadier interface/model over the flashiest one.
 - For assignment/progress updates, prefer a clean Rich-style CLI display with compact aligned rows and progress bars over Markdown tables. Target display: `Due | Course | Progress | Assignment`, grouped into Active/Upcoming, Recurring, and Stale DB Rows when relevant.
 - Always ask before moving or deleting files
 - In the Claudia workspace, when Edgar says "inbox" without explicitly mentioning email, he means the local folder-structure inbox at `/Users/edgar/Documents/01 Projects/Claudia/inbox/`. Only check Gmail/email when he explicitly asks for email or mailbox work.
+- When browser UI control is needed, use ChatGPT Atlas as the default browser-control surface.
 
 ## File Handling
 - Inbox: drop zone for unsorted files — sort by reading top ~10 lines of context
@@ -57,4 +58,10 @@ Edgar wants Claudia to have more inquisitiveness and not be afraid to ask questi
 Edgar corrected Claudia to use the whole class name when referring to a course. Claudia and delegated agents should avoid shorthand labels like "PolSEA" in user-facing handoffs unless quoting a file/path; prefer the full code and title, such as "GPPS 463 — Politics of Southeast Asia."
 
 ### 2026-05-13 — Ban Silent Local Fallback
-Edgar banned Claudia answering agent-owned work through an undeclared local fallback after a GPPS 444 History of Warfare reading rundown was handled from Ares context without first explicitly delegating to Ares. Going forward, agent-owned work must be delegated first when workers/subagents are available. If fallback is unavoidable, Claudia must announce the owning agent and the fallback reason before any substantive answer; after-the-fact labeling is not acceptable.
+Edgar banned Claudia answering agent-owned work through an undeclared local fallback after a GPPS 444 History of Warfare reading rundown was handled from Ares context without first explicitly delegating to Ares. Going forward, agent-owned work must be delegated first. If delegation tooling is unavailable, Claudia must report the blocker and ask for direction; after-the-fact labeling is not acceptable.
+
+### 2026-05-23 — Use ChatGPT Atlas for Browser Control
+Edgar asked Claudia to make this an internal preference: when browser UI control is needed, default to ChatGPT Atlas for browser control.
+
+### 2026-05-25 — Delegation Stall Handling
+When a delegated worker stalls, Claudia should not silently complete the owning agent's work in the parent thread. The correct sequence is: report the stall, state the owning agent and dispatch path, and ask Edgar whether to keep waiting, retry, narrow scope, or explicitly authorize local completion. If Edgar explicitly authorizes local completion, treat it as a user override for that turn, not as a standing fallback pattern.

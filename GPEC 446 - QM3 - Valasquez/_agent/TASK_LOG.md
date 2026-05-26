@@ -4,6 +4,18 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 <!-- No entries yet. Append new tasks below this line. -->
 
+### 2026-05-26 — Homework 2 Word doc completion inspection
+**Requested by:** Edgar
+**What was done:** Acting as Tyche, inspected `Assignments/Homework 2/Homework2EdgarAgunias.docx` via pandoc/DOCX metadata extraction and compared it against the Homework 2 prompt PDFs plus nearby HW2 notes, draft, outputs, and rebuild files. Did not edit the Word document.
+**Output:** returned to Edgar
+**Notes:** Word doc has Q1-Q7 largely present and Q8 partly present, but Q8 prose is unfinished, Q8b comparison is missing, Q9 is blank, and Q6 contradicts the generated Part II notes/draft by claiming parent manipulation/bunching where the notes say no obvious bunching. Nearby `drafts/Homework_2_Agunias_Draft.md` contains the missing Q8b/Q9/caveat/disclosure material and is the fastest source for repair.
+
+### 2026-05-24 — Homework 2 integrated R script cleanup
+**Requested by:** Edgar
+**What was done:** Removed embedded narrative note-writing sections from `Homework_2_Integrated.R`, including Part I notes, Part II `summary_output.txt`, `PART_II_NOTES.md`, and final console prose output. Preserved the analysis workflow and table/figure outputs.
+**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/Homework_2_Integrated.R`; `GPEC 446 - QM3 - Valasquez/_agent/FEEDBACK.md`
+**Notes:** Edgar's durable preference is now logged in Tyche feedback: QM3 R homework scripts should keep interpretation in the document unless explicitly requested.
+
 ### 2026-05-19 — Homework 2 code thought-process companion
 **Requested by:** Claudia
 **What was done:** Created a Q1-Q9 companion document explaining the goal, strategy, macro-level code flow, rationale, and output interpretation for the Homework 2 panel/TWFE/event-study and RDD analyses. Kept the work to a new explanatory Markdown file and did not edit the analysis scripts or final draft.
@@ -305,3 +317,33 @@ Eight-turn tutoring conversation sharpening Edgar's IV intuition across ITT, LAT
 **What was done:** Added Homework 1-style section banners and macro comments to both Homework 2 R scripts, created a Q1-Q9 thought-process companion explaining the logic behind each answer and code block, and rewrote the Homework 2 README into a general folder orientation with submission candidates, rebuild commands, output map, and caveats.
 **Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/Homework_2_Part_I_panel.R`; `Homework_2_Part_II_rdd.R`; `Homework_2_Code_Thought_Process.md`; `README.md`.
 **Notes:** Both R scripts were rerun successfully after the comment/section pass. `rdrobust` still reports expected mass-point warnings because `school_enrollment` is integer-valued. `outputs/part_ii/R_libs/` is a local package library and is not a submission artifact.
+
+### 2026-05-23 — Homework 2 dispatch submission breakdown
+**Requested by:** Claudia
+**What was done:** Inspected the live Homework 2 folder, assignment prompt, generated draft/report outputs, R scripts, output tables/figures, README, notes, and DB assignment row to prepare a dispatch-ready submission breakdown and task list.
+**Output:** returned to Claudia
+**Notes:** No homework code or report files were edited. Current submission candidates remain `Homework_2_Agunias_Draft.pdf`, `Homework_2_Part_I_panel.R`, and `Homework_2_Part_II_rdd.R`; DB row 12 still marks Homework II pending and due 2026-05-24 23:59 America/Los_Angeles.
+
+### 2026-05-23 — Homework 1 Word-copy HTML table wrappers
+**Requested by:** Edgar
+**What was done:** Inspected the Homework 1 script, compiled answers, existing HTML table fragments, figures, and reference `table_iv_manual_2sls.html`. Generated static Word-copy-friendly HTML wrappers for all Homework 1 table outputs, then updated `Homework_1.R` so the R workflow regenerates those wrapper pages after producing the source table fragments.
+**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 1 /Homework_1.R`; `Homework_1_Tables_Copy_Paste.html`; individual `copy_table_*.html` files; `generate_copy_tables.py`
+**Notes:** Output tables cover Q1-Q2, Q3, Q4 OVB, Q5, Q7-Q9, the open-question regression, manual IV/2SLS, and the code-understanding table. Files use simple Times-style CSS, no JavaScript, and include the required internal output disclosure. `Rscript Homework_1.R` was rerun successfully on 2026-05-23.
+
+### 2026-05-23 — Homework 2 drafts folder cleanup
+**Requested by:** Edgar
+**What was done:** Moved generated and superseded Homework 2 draft artifacts into a new `drafts/` folder, updated the report build script to read/write draft files there, and refreshed the README so the root folder focuses on active Word work, scripts, data, notes, and outputs.
+**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/drafts/`; updated `README.md`; updated `build_homework_2_report.sh`
+**Notes:** Left `Homework2EdgarAgunias.docx` in the assignment root as the active Word working document. Verified `./build_homework_2_report.sh` rebuilds `drafts/Homework_2_Agunias_Draft.pdf` via Chrome after the known WeasyPrint library failure.
+
+### 2026-05-23 — Homework 2 Part II setup simplification
+**Requested by:** Edgar
+**What was done:** Simplified `Homework_2_Part_II_rdd.R` setup to match the Part I script style: fixed `setwd(...)`, direct `library(...)` calls, and a simple `out_dir` definition. Removed script-location detection, package-check branching, and the rdrobust blocker fallback while preserving the local `R_libs` path needed for `rdrobust`.
+**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/Homework_2_Part_II_rdd.R`
+**Notes:** Verified `Rscript Homework_2_Part_II_rdd.R` runs successfully and regenerates Part II outputs. `rdrobust` still emits expected mass-point warnings because school enrollment is integer-valued.
+
+### 2026-05-23 — Homework 2 integrated R script
+**Requested by:** Edgar
+**What was done:** Created a new all-in-one Homework 2 R script that integrates Part I panel/TWFE work and Part II RDD work using the Part I setup style. Removed `out_dir` routing from the integrated script so HTML tables, figures, notes, and `summary_output.txt` write directly to the Homework 2 base folder.
+**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/Homework_2_Integrated.R`; updated base-folder HTML/PNG/notes outputs; updated `README.md`
+**Notes:** Verified `Rscript --vanilla Homework_2_Integrated.R` runs successfully. `rdrobust` still emits expected mass-point warnings because school enrollment is integer-valued. The separate Part I and Part II scripts remain as backups/reference files.

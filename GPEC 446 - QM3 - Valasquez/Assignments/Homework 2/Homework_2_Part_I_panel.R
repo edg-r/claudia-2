@@ -10,28 +10,45 @@
 # Setup & Output Folders
 ################################################################################
 
-required <- c("dplyr", "ggplot2", "jsonlite", "readr", "broom")
-missing_pkgs <- required[!vapply(required, requireNamespace, logical(1), quietly = TRUE)]
-if (length(missing_pkgs) > 0) {
-  stop("Missing required R packages: ", paste(missing_pkgs, collapse = ", "))
-}
+setwd('/Users/edgar/Documents/01 Projects/Claudia/GPEC 446 - QM3 - Valasquez/Assignments/Homework 2')
 
 library(dplyr)
 library(ggplot2)
 library(jsonlite)
-library(readr)
 library(broom)
+library(stargazer)
+library(fixest)
 
-# Locate the folder that contains the homework files. This lets the script run
-# either from RStudio or from the terminal with `Rscript Homework_2_Part_I_panel.R`.
-script_arg <- grep("^--file=", commandArgs(FALSE), value = TRUE)
-script_path <- if (length(script_arg) > 0) sub("^--file=", "", script_arg[[1]]) else "Homework_2_Part_I_panel.R"
-base_dir <- dirname(normalizePath(script_path, mustWork = FALSE))
-if (!file.exists(file.path(base_dir, "Africa_GDP.Rda"))) {
-  base_dir <- "/Users/edgar/Documents/01 Projects/Claudia/GPEC 446 - QM3 - Valasquez/Assignments/Homework 2"
+#write table code for standardized stargazer output and easier calling
+write_html_table <- function(df, file_name, title) {
+  invisible(
+    capture.output(
+      stargazer(
+        as.data.frame(df),
+        type = "html",
+        summary = FALSE,
+        rownames = FALSE,
+        title = title,
+        digits = 3,
+        out = file.path(out_dir, file_name)
+      )
+    )
+  )
 }
-out_dir <- file.path(base_dir, "outputs", "part_i")
-dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+
+write_model_table <- function(..., file_name) {
+  invisible(
+    capture.output(
+      stargazer(
+        ...,
+        type = "html",
+        omit.stat = c("f", "ser"),
+        digits = 3,
+        out = file.path(out_dir, file_name)
+      )
+    )
+  )
+}
 
 ################################################################################
 # Load Governance Panel
@@ -125,14 +142,10 @@ year_dummy_df <- model.matrix(~ factor(year) - 1, data = panel) %>%
 names(year_dummy_df) <- sub("factor\\(year\\)", "year_", names(year_dummy_df))
 panel_with_dummies <- bind_cols(panel, year_dummy_df)
 
-# Save the joined panel so the data-cleaning step is visible and checkable.
-write_csv(panel_with_dummies, file.path(out_dir, "part_i_analysis_panel.csv"))
-
 # Keep a small audit trail for unmatched World Bank rows.
 missing_join <- panel %>%
   filter(is.na(gdp_pc_constant_usd) | is.na(population)) %>%
   count(country, wb_name, iso3, name = "missing_rows")
-write_csv(missing_join, file.path(out_dir, "part_i_missing_wb_join_rows.csv"))
 missing_join_rows <- sum(missing_join$missing_rows)
 
 complete_panel <- panel %>%
@@ -147,7 +160,7 @@ complete_panel <- panel %>%
 pooled_ols <- lm(gdp_pc_constant_usd ~ pol_lib + year_factor, data = complete_panel)
 within_lsdv <- lm(gdp_pc_constant_usd ~ pol_lib + factor(country_id) + year_factor, data = complete_panel)
 
-# Pull the coefficient rows needed for clean CSV tables.
+# Pull the coefficient rows needed for the notes file.
 extract_key <- function(model, model_name, terms = c("pol_lib", "bigimp")) {
   n_val <- length(model$residuals)
   model_summary <- summary(model)
@@ -170,7 +183,16 @@ table_q1 <- bind_rows(
   extract_key(pooled_ols, "Pooled OLS + year FE", "pol_lib"),
   extract_key(within_lsdv, "Within/LSDV: country FE + year FE", "pol_lib")
 )
-write_csv(table_q1, file.path(out_dir, "table_q1_pooled_within.csv"))
+write_model_table(
+  pooled_ols,
+  within_lsdv,
+  title = "GDP per Capita and Political Liberties, Average-Country Estimates",
+  dep.var.labels = "GDP per capita (constant US dollars)",
+  column.labels = c("Pooled OLS + year FE", "Country FE + year FE"),
+  covariate.labels = "Political liberties",
+  keep = "pol_lib",
+  file_name = "table_q1_pooled_within.html"
+)
 
 ################################################################################
 # Q2: TWFE and Event Study Around Big Governance Improvements
@@ -178,19 +200,87 @@ write_csv(table_q1, file.path(out_dir, "table_q1_pooled_within.csv"))
 
 # The TWFE coefficient checks whether GDP is different in the exact year marked
 # as the largest political-liberty improvement, after country and year fixed effects.
-twfe_bigimp <- lm(gdp_pc_constant_usd ~ bigimp + factor(country_id) + year_factor, data = complete_panel)
+twfe_bigimp <- feols(gdp_pc_constant_usd ~ bigimp | country + year, data = complete_panel)
 
 table_twfe <- extract_key(twfe_bigimp, "TWFE big improvement indicator", "bigimp")
-write_csv(table_twfe, file.path(out_dir, "table_q2_twfe_bigimp.csv"))
+write_model_table(
+  twfe_bigimp,
+  title = "TWFE Estimate for Large Governance Improvement Year",
+  dep.var.labels = "GDP per capita (constant US dollars)",
+  covariate.labels = "Big governance improvement year",
+  keep = "bigimp",
+  file_name = "table_q2_twfe_bigimp.html"
+)
 
-# Remove country and year fixed effects, then graph average residual GDP around
-# each country's largest governance improvement.
-twfe_resid_model <- lm(gdp_pc_constant_usd ~ factor(country_id) + year_factor, data = complete_panel)
+# Build the event-study structure the same way as Lab 5: restrict to the
+# analysis window around treatment, make event time a factor, omit tau = -1 as
+# the reference period, and estimate one coefficient for each event-time period.
 event_data <- complete_panel %>%
+  filter(!is.na(leadlag), leadlag >= -5, leadlag <= 5) %>%
+  mutate(leadlag_f = relevel(factor(leadlag), ref = "-1"))
+
+event_study_model <- lm(
+  gdp_pc_constant_usd ~ leadlag_f + factor(country_id) + year_factor,
+  data = event_data
+)
+
+event_coef_table <- broom::tidy(event_study_model) %>%
+  filter(grepl("^leadlag_f", term)) %>%
+  transmute(
+    leadlag = as.integer(sub("^leadlag_f", "", term)),
+    estimate,
+    std_error = std.error,
+    statistic,
+    p_value = p.value,
+    ci_low = estimate - 1.96 * std_error,
+    ci_high = estimate + 1.96 * std_error
+  )
+
+# Add the omitted reference period, just like Lab 5 adds tau = -1 back to the
+# coefficient data before plotting.
+event_coef_plot_data <- bind_rows(
+  event_coef_table,
+  tibble::tibble(
+    leadlag = -1,
+    estimate = 0,
+    std_error = 0,
+    statistic = NA_real_,
+    p_value = NA_real_,
+    ci_low = 0,
+    ci_high = 0
+  )
+) %>%
+  arrange(leadlag)
+write_html_table(
+  event_coef_plot_data,
+  "event_study_leadlag_coefficients.html",
+  "Event-Study Lead/Lag Coefficients"
+)
+
+event_plot <- ggplot(event_coef_plot_data, aes(x = leadlag, y = estimate)) +
+  geom_hline(yintercept = 0, color = "darkred", linewidth = 0.4, linetype = "dashed") +
+  geom_vline(xintercept = -0.5, color = "steelblue", linewidth = 0.4, linetype = "dashed") +
+  geom_errorbar(aes(ymin = ci_low, ymax = ci_high), width = 0.15, color = "gray35") +
+  geom_point(color = "#1b4f72", size = 2) +
+  scale_x_continuous(breaks = -5:5) +
+  labs(
+    title = "Event Study: GDP and Governance Improvements",
+    subtitle = "TWFE event-time coefficients; reference period is year -1",
+    x = "Years before/after largest political-liberty improvement",
+    y = "Change in GDP per capita relative to year -1"
+  ) +
+  theme_minimal(base_size = 12)
+ggsave(file.path(out_dir, "figure_q2_event_study_coefficients.png"), event_plot, width = 8, height = 5, dpi = 300)
+ggsave(file.path(out_dir, "figure_q2_event_study_residuals.png"), event_plot, width = 8, height = 5, dpi = 300)
+
+# Keep the older residual-means summary as a diagnostic output. The submitted Q2
+# figure above now follows the Lab 5 coefficient-event-study template.
+twfe_resid_model <- lm(gdp_pc_constant_usd ~ factor(country_id) + year_factor, data = complete_panel)
+residual_event_data <- complete_panel %>%
   mutate(twfe_residual = resid(twfe_resid_model)) %>%
   filter(!is.na(leadlag), leadlag >= -5, leadlag <= 5)
 
-event_summary <- event_data %>%
+event_summary <- residual_event_data %>%
   group_by(leadlag) %>%
   summarise(
     mean_residual = mean(twfe_residual, na.rm = TRUE),
@@ -202,15 +292,13 @@ event_summary <- event_data %>%
     ci_low = mean_residual - 1.96 * se,
     ci_high = mean_residual + 1.96 * se
   )
-write_csv(event_summary, file.path(out_dir, "event_study_residual_means.csv"))
+write_html_table(
+  event_summary,
+  "event_study_residual_means.html",
+  "Event-Study Residual Means"
+)
 
-event_coef <- lm(twfe_residual ~ relevel(factor(leadlag), ref = "-1"), data = event_data)
-event_coef_table <- broom::tidy(event_coef) %>%
-  filter(term != "(Intercept)") %>%
-  mutate(leadlag = as.integer(gsub("relevel\\(factor\\(leadlag\\), ref = \"-1\"\\)", "", term)))
-write_csv(event_coef_table, file.path(out_dir, "event_study_leadlag_coefficients.csv"))
-
-event_plot <- ggplot(event_summary, aes(x = leadlag, y = mean_residual)) +
+residual_event_plot <- ggplot(event_summary, aes(x = leadlag, y = mean_residual)) +
   geom_hline(yintercept = 0, color = "gray45", linewidth = 0.4) +
   geom_vline(xintercept = 0, color = "firebrick", linewidth = 0.4, linetype = "dashed") +
   geom_errorbar(aes(ymin = ci_low, ymax = ci_high), width = 0.15, color = "gray35") +
@@ -224,7 +312,13 @@ event_plot <- ggplot(event_summary, aes(x = leadlag, y = mean_residual)) +
     y = "Mean GDP per capita residual (constant US dollars)"
   ) +
   theme_minimal(base_size = 12)
-ggsave(file.path(out_dir, "figure_q2_event_study_residuals.png"), event_plot, width = 8, height = 5, dpi = 300)
+ggsave(
+  file.path(out_dir, "figure_q2_event_study_residual_means_diagnostic.png"),
+  residual_event_plot,
+  width = 8,
+  height = 5,
+  dpi = 300
+)
 
 ################################################################################
 # Q4: Representative-Person Version
@@ -250,7 +344,16 @@ table_q4 <- bind_rows(
   extract_key(weighted_pooled, "Population-weighted pooled OLS + year FE", "pol_lib"),
   extract_key(weighted_within, "Population-weighted country FE + year FE", "pol_lib")
 )
-write_csv(table_q4, file.path(out_dir, "table_q4_representative_person.csv"))
+write_model_table(
+  weighted_pooled,
+  weighted_within,
+  title = "GDP per Capita and Political Liberties, Representative-Person Estimates",
+  dep.var.labels = "GDP per capita (constant US dollars)",
+  column.labels = c("Population-weighted pooled OLS + year FE", "Population-weighted country FE + year FE"),
+  covariate.labels = "Political liberties",
+  keep = "pol_lib",
+  file_name = "table_q4_representative_person.html"
+)
 
 weighted_resid_model <- lm(
   gdp_pc_constant_usd ~ factor(country_id) + year_factor,
@@ -269,7 +372,11 @@ weighted_event_summary <- weighted_event_data %>%
     country_years = dplyr::n(),
     .groups = "drop"
   )
-write_csv(weighted_event_summary, file.path(out_dir, "weighted_event_study_residual_means.csv"))
+write_html_table(
+  weighted_event_summary,
+  "weighted_event_study_residual_means.html",
+  "Population-Weighted Event-Study Residual Means"
+)
 
 weighted_event_plot <- ggplot(weighted_event_summary, aes(x = leadlag, y = weighted_mean_residual)) +
   geom_hline(yintercept = 0, color = "gray45", linewidth = 0.4) +
@@ -316,7 +423,7 @@ interpretation <- c(
   "## Q2 TWFE big-improvement estimate",
   make_md_table(table_twfe),
   "",
-  "The event-study figure should be read as residual GDP per capita after country and year fixed effects. Points before zero are pre-improvement years; points after zero are post-improvement years. A clear upward slope before zero would suggest income growth precedes governance improvement; movement after zero would be more consistent with income changes following the governance event.",
+  "The event-study figure follows the Lab 5 template: construct event time around the treatment year, omit year -1 as the reference period, estimate one TWFE coefficient for each lead/lag, and plot coefficients with 95% confidence intervals. Points before zero are pre-improvement years; points after zero are post-improvement years. A clear upward pre-trend would suggest income growth precedes governance improvement; post-zero movement would be more consistent with income changes following the governance event.",
   "",
   "## Q4 Table: representative-person estimates",
   make_md_table(table_q4),
@@ -324,15 +431,15 @@ interpretation <- c(
   "Population weighting changes the estimand from the average country-year to the average person-year. Large-population countries, especially Nigeria, Ethiopia, Democratic Republic of Congo, South Africa, Tanzania, Kenya, Sudan, and Uganda, therefore receive much more influence than small countries such as Seychelles, Sao Tome and Principe, and Comoros.",
   "",
   "## Files generated",
-  "- `part_i_analysis_panel.csv`",
-  "- `part_i_missing_wb_join_rows.csv`",
-  "- `table_q1_pooled_within.csv`",
-  "- `table_q2_twfe_bigimp.csv`",
-  "- `event_study_residual_means.csv`",
-  "- `event_study_leadlag_coefficients.csv`",
+  "- `table_q1_pooled_within.html`",
+  "- `table_q2_twfe_bigimp.html`",
+  "- `event_study_residual_means.html`",
+  "- `event_study_leadlag_coefficients.html`",
+  "- `figure_q2_event_study_coefficients.png`",
   "- `figure_q2_event_study_residuals.png`",
-  "- `table_q4_representative_person.csv`",
-  "- `weighted_event_study_residual_means.csv`",
+  "- `figure_q2_event_study_residual_means_diagnostic.png`",
+  "- `table_q4_representative_person.html`",
+  "- `weighted_event_study_residual_means.html`",
   "- `figure_q4_weighted_event_study_residuals.png`",
   "",
   "---",

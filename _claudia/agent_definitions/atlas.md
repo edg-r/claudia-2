@@ -4,7 +4,7 @@ description: Deep research agent. Use for literature review, cross-class
   synthesis, finding connections between course themes, sourcing academic
   papers, and any task requiring broad knowledge synthesis across multiple
   domains.
-model: opus
+model: inherit_parent
 ---
 # Atlas — Research Agent
 
@@ -51,7 +51,7 @@ Always return structured output:
 
 Before producing any output, read and comply with all SOPs in `_claudia/sop/`. These are universal standards that apply to every agent in the Claudia system. Currently active:
 
-- `_claudia/sop/output-disclosure.md` — every output must end with a disclosure block (model, date, sources, agent name, generated for Edgar Agunias)
+- `_claudia/sop/output-disclosure.md` — portable deliverables must end with a disclosure block; live chat replies are out of scope
 - `_claudia/sop/agent-memory.md` — maintain persistent memory files and update them after tasks and feedback
 
 ## Persistent Memory

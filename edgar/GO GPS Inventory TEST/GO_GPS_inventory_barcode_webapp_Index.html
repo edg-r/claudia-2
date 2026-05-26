@@ -1,0 +1,393 @@
+<!doctype html>
+<html>
+  <head>
+    <base target="_top">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      :root {
+        --ink: #243441;
+        --muted: #657780;
+        --mint: #b8d8d8;
+        --cream: #f7f4ea;
+        --blush: #f9dde1;
+        --lavender: #e8e1f2;
+        --green: #cfe7c8;
+        --line: #dce7ea;
+        --white: #fff;
+      }
+      * { box-sizing: border-box; }
+      html {
+        width: 100%;
+        min-height: 100%;
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        margin: 0;
+        width: 100%;
+        min-height: 100dvh;
+        overflow-x: hidden;
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 16px;
+        background: var(--cream);
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        padding: max(12px, env(safe-area-inset-top)) 14px 12px;
+        background: var(--mint);
+        box-shadow: 0 1px 0 rgba(36, 52, 65, 0.08);
+      }
+      h1 {
+        margin: 0;
+        font-size: 20px;
+        line-height: 1.15;
+      }
+      main {
+        display: grid;
+        gap: 10px;
+        width: 100%;
+        max-width: 620px;
+        margin: 0 auto;
+        padding: 10px 10px calc(24px + env(safe-area-inset-bottom));
+      }
+      section {
+        background: var(--white);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 10px;
+      }
+      .scanner {
+        display: grid;
+        gap: 10px;
+      }
+      video {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        max-height: 260px;
+        background: #17232b;
+        border-radius: 10px;
+        object-fit: cover;
+      }
+      label {
+        display: grid;
+        gap: 5px;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--muted);
+      }
+      input, select, textarea, button {
+        width: 100%;
+        border: 1px solid #c7d6da;
+        border-radius: 8px;
+        font: inherit;
+      }
+      input, select, textarea {
+        min-height: 48px;
+        padding: 10px 11px;
+        background: #fff;
+        color: var(--ink);
+        font-size: 16px;
+      }
+      textarea {
+        min-height: 96px;
+        resize: vertical;
+      }
+      button {
+        min-height: 50px;
+        padding: 10px 12px;
+        border: 0;
+        background: var(--mint);
+        color: var(--ink);
+        font-weight: 700;
+        font-size: 16px;
+        touch-action: manipulation;
+      }
+      button.secondary { background: var(--lavender); }
+      button.warning { background: var(--blush); }
+      button.primary { background: var(--green); }
+      .grid {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: 1fr;
+      }
+      .actions {
+        display: grid;
+        gap: 8px;
+        grid-template-columns: 1fr 1fr;
+      }
+      .status {
+        border-radius: 8px;
+        padding: 10px;
+        background: var(--lavender);
+        color: var(--ink);
+        font-size: 14px;
+        min-height: 44px;
+      }
+      .hidden { display: none; }
+
+      @media (max-width: 520px) {
+        header { padding-left: 12px; padding-right: 12px; }
+        h1 { font-size: 18px; }
+        main { padding-left: 8px; padding-right: 8px; }
+        section { padding: 10px; }
+        video { max-height: 220px; }
+        .actions { gap: 8px; }
+      }
+
+      @media (min-width: 980px) {
+        main {
+          grid-template-columns: 420px minmax(0, 1fr);
+          align-items: start;
+          max-width: 1080px;
+          padding: 12px;
+        }
+        .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        label.full { grid-column: 1 / -1; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>GO GPS Inventory Intake</h1>
+    </header>
+
+    <main>
+      <section class="scanner">
+        <video id="preview" playsinline muted></video>
+        <div class="actions">
+          <button id="scanButton" type="button">Start Scan</button>
+          <button id="stopButton" class="secondary" type="button">Stop</button>
+        </div>
+        <label>
+          Barcode / UPC
+          <input id="barcode" inputmode="numeric" autocomplete="off">
+        </label>
+        <div class="actions">
+          <button id="lookupButton" class="secondary" type="button">Search</button>
+          <button id="clearButton" class="warning" type="button">Clear</button>
+        </div>
+        <div id="status" class="status">Ready.</div>
+      </section>
+
+      <section>
+        <form id="itemForm" class="grid">
+          <label class="full">
+            Item Name
+            <input id="itemName" required>
+          </label>
+          <label>
+            Category
+            <select id="category"></select>
+          </label>
+          <label>
+            Club / Owner
+            <select id="clubOwner"></select>
+          </label>
+          <label>
+            Location
+            <select id="location"></select>
+          </label>
+          <label>
+            Quantity to Add
+            <input id="quantity" type="number" min="1" step="1" value="1">
+          </label>
+          <label>
+            Unit Cost
+            <input id="unitCost" type="number" min="0" step="0.01" value="0">
+          </label>
+          <label>
+            Consumable?
+            <select id="consumable">
+              <option>No</option>
+              <option>Yes</option>
+            </select>
+          </label>
+          <label>
+            Reorder Level
+            <input id="reorderLevel" type="number" min="0" step="1" value="0">
+          </label>
+          <label>
+            Condition
+            <select id="condition"></select>
+          </label>
+          <label>
+            Photo Link
+            <input id="photoLink" type="url">
+          </label>
+          <label class="full">
+            Notes
+            <textarea id="notes"></textarea>
+          </label>
+          <label class="full hidden">
+            Lookup Status
+            <input id="lookupStatus" value="Manual entry">
+          </label>
+          <button class="primary full" type="submit">Add to Inventory</button>
+        </form>
+      </section>
+    </main>
+
+    <script>
+      const state = {
+        detector: null,
+        stream: null,
+        scanning: false,
+      };
+
+      const $ = (id) => document.getElementById(id);
+
+      function setStatus(message) {
+        $("status").textContent = message;
+      }
+
+      function fillSelect(id, values) {
+        const select = $(id);
+        select.innerHTML = "";
+        values.forEach((value) => {
+          const option = document.createElement("option");
+          option.value = value;
+          option.textContent = value;
+          select.appendChild(option);
+        });
+      }
+
+      function loadOptions() {
+        google.script.run
+          .withSuccessHandler((options) => {
+            fillSelect("category", options.categories || []);
+            fillSelect("clubOwner", options.clubs || []);
+            fillSelect("location", options.locations || []);
+            fillSelect("condition", options.conditions || []);
+            if ($("clubOwner").value === "") $("clubOwner").value = "GO GPS General";
+            if ($("condition").value === "") $("condition").value = "Good";
+          })
+          .withFailureHandler((error) => setStatus(error.message || String(error)))
+          .getInventoryFormOptions();
+      }
+
+      async function startScan() {
+        if (!("BarcodeDetector" in window)) {
+          setStatus("This browser does not support camera barcode detection. Type the barcode manually or use AppSheet.");
+          return;
+        }
+        const formats = await BarcodeDetector.getSupportedFormats();
+        const wanted = ["ean_13", "ean_8", "upc_a", "upc_e", "code_128", "code_39"];
+        const usable = wanted.filter((format) => formats.includes(format));
+        state.detector = new BarcodeDetector(usable.length ? { formats: usable } : undefined);
+        state.stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
+        $("preview").srcObject = state.stream;
+        await $("preview").play();
+        state.scanning = true;
+        setStatus("Scanning...");
+        requestAnimationFrame(scanFrame);
+      }
+
+      async function scanFrame() {
+        if (!state.scanning || !state.detector) return;
+        try {
+          const codes = await state.detector.detect($("preview"));
+          if (codes.length > 0) {
+            const raw = codes[0].rawValue || "";
+            $("barcode").value = raw;
+            setStatus(`Scanned ${raw}. Searching inventory...`);
+            stopScan();
+            lookupBarcode();
+            return;
+          }
+        } catch (error) {
+          setStatus(error.message || String(error));
+        }
+        requestAnimationFrame(scanFrame);
+      }
+
+      function stopScan() {
+        state.scanning = false;
+        if (state.stream) {
+          state.stream.getTracks().forEach((track) => track.stop());
+          state.stream = null;
+        }
+      }
+
+      function lookupBarcode() {
+        const barcode = $("barcode").value.trim();
+        if (!barcode) {
+          setStatus("Enter or scan a barcode first.");
+          return;
+        }
+        google.script.run
+          .withSuccessHandler((result) => {
+            if (!result.found) {
+              setStatus("New barcode. Fill in the item details, then add it to inventory.");
+              return;
+            }
+            $("itemName").value = result.itemName || "";
+            $("category").value = result.category || $("category").value;
+            $("clubOwner").value = result.clubOwner || $("clubOwner").value;
+            $("location").value = result.location || $("location").value;
+            $("unitCost").value = cleanMoney(result.unitCost);
+            $("consumable").value = result.consumable || "No";
+            $("reorderLevel").value = Number(result.reorderLevel || 0);
+            $("condition").value = result.condition || $("condition").value;
+            $("notes").value = result.notes || "";
+            setStatus(`Found ${result.itemId}. Adding will increase its quantity.`);
+          })
+          .withFailureHandler((error) => setStatus(error.message || String(error)))
+          .findInventoryItemByBarcode(barcode);
+      }
+
+      function cleanMoney(value) {
+        return String(value || "0").replace(/[^0-9.]/g, "") || "0";
+      }
+
+      function formPayload() {
+        return {
+          barcode: $("barcode").value.trim(),
+          itemName: $("itemName").value.trim(),
+          category: $("category").value,
+          clubOwner: $("clubOwner").value,
+          location: $("location").value,
+          quantity: Number($("quantity").value || 1),
+          unitCost: Number($("unitCost").value || 0),
+          consumable: $("consumable").value,
+          reorderLevel: Number($("reorderLevel").value || 0),
+          condition: $("condition").value,
+          photoLink: $("photoLink").value.trim(),
+          lookupStatus: $("lookupStatus").value || "Manual entry",
+          notes: $("notes").value.trim(),
+        };
+      }
+
+      function clearForm() {
+        $("itemForm").reset();
+        $("quantity").value = 1;
+        $("unitCost").value = 0;
+        $("reorderLevel").value = 0;
+        $("barcode").value = "";
+        setStatus("Ready.");
+      }
+
+      $("scanButton").addEventListener("click", () => startScan().catch((error) => setStatus(error.message || String(error))));
+      $("stopButton").addEventListener("click", () => {
+        stopScan();
+        setStatus("Scanner stopped.");
+      });
+      $("lookupButton").addEventListener("click", lookupBarcode);
+      $("clearButton").addEventListener("click", clearForm);
+      $("itemForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        setStatus("Adding item...");
+        google.script.run
+          .withSuccessHandler((result) => {
+            setStatus(`${result.message} Item ID: ${result.itemId}`);
+            $("quantity").value = 1;
+          })
+          .withFailureHandler((error) => setStatus(error.message || String(error)))
+          .addScannedItemToInventory(formPayload());
+      });
+
+      loadOptions();
+    </script>
+  </body>
+</html>

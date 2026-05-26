@@ -16,25 +16,31 @@ The assignment prompt asks for both:
 
 Current submission candidates:
 
-- `Homework_2_Agunias_Draft.pdf`
-- `Homework_2_Part_I_panel.R`
-- `Homework_2_Part_II_rdd.R`
+- `Homework2EdgarAgunias.docx`
+- `Homework_2_Integrated.R`
 
-Before submitting, Edgar should read the two R scripts once and make sure he can explain the main blocks, especially the World Bank join, fixed-effects models, event-study construction, RD bandwidth choice, and `rdrobust` output.
+Before submitting, Edgar should read the integrated R script once and make sure he can explain the main blocks, especially the World Bank join, fixed-effects models, event-study construction, RD bandwidth choice, and `rdrobust` output.
 
 ## Main Files
 
-- `Homework_2_Agunias_Draft.md` — Markdown source for the current answer draft.
-- `Homework_2_Agunias_Draft.pdf` — current PDF answer draft.
-- `Homework_2_Agunias_Draft.html` — intermediate HTML used to build the PDF.
-- `Homework_2_Part_I_panel.R` — Part I script for the panel/TWFE/event-study analysis.
-- `Homework_2_Part_II_rdd.R` — Part II script for the RDD analysis.
-- `Homework_2_Code_Thought_Process.md` — plain-English companion explaining the logic behind each question and the code structure.
-- `Homework_2_Report_Skeleton.md` — earlier integration skeleton with Q1-Q9 headings.
+- `Homework2EdgarAgunias.docx` — active Word working document.
+- `Homework_2_Integrated.R` — current all-in-one script for Part I and Part II. This writes HTML tables, figures, notes, and `summary_output.txt` directly to this folder.
+- `Homework_2_Part_I_panel.R` — older separate Part I script retained as a backup/reference.
+- `Homework_2_Part_II_rdd.R` — older separate Part II script retained as a backup/reference.
 - `PART_I_NOTES.md` — generated Part I notes and interpretation source.
 - `PART_II_NOTES.md` — generated Part II notes and interpretation source.
 - `build_homework_2_report.sh` — rebuilds the answer PDF from Markdown through HTML/headless Chrome.
 - `report.css` — print styling for the generated HTML/PDF.
+
+## Drafts Folder
+
+`drafts/` holds generated or superseded answer drafts so the assignment root stays focused on active submission files, scripts, source data, and outputs:
+
+- `drafts/Homework_2_Agunias_Draft.md` — Markdown source for the generated answer draft.
+- `drafts/Homework_2_Agunias_Draft.html` — intermediate HTML used to build the generated PDF.
+- `drafts/Homework_2_Agunias_Draft.pdf` — generated PDF answer draft.
+- `drafts/Homework_2_Code_Thought_Process.md` — plain-English companion explaining the logic behind each question and the code structure.
+- `drafts/Homework_2_Report_Skeleton.md` — earlier integration skeleton with Q1-Q9 headings.
 
 ## Source Data and Prompt Files
 
@@ -44,7 +50,17 @@ Before submitting, Edgar should read the two R scripts once and make sure he can
 - `grade5.dta` — fifth-grade school data for Part II.
 - `rdd_paper.pdf` — assigned Angrist and Lavy (1999) paper. This local PDF is scan-only, so text extraction is limited.
 
-## Output Folders
+## Current Base-Folder Outputs
+
+The integrated script writes Word-copy-friendly tables and figures directly to the Homework 2 folder:
+
+- Part I tables: `table_q1_pooled_within.html`, `table_q2_twfe_bigimp.html`, `table_q4_representative_person.html`
+- Part I event-study outputs: `event_study_leadlag_coefficients.html`, `event_study_residual_means.html`, `weighted_event_study_residual_means.html`, and related `figure_q*.png` files
+- Part II tables: `grade5_schema.html`, `manual_local_linear_results.html`, `rdrobust_default_results.html`
+- Part II figures: `hist_school_enrollment.png`, `rdd_classize_cutoff40.png`, `rdd_avgmath_cutoff40.png`, `rdd_avgverb_cutoff40.png`
+- Notes and summary: `PART_I_NOTES.md`, `PART_II_NOTES.md`, `summary_output.txt`
+
+## Older Output Folders
 
 `outputs/part_i/` contains the generated Part I panel files:
 
@@ -70,18 +86,17 @@ Before submitting, Edgar should read the two R scripts once and make sure he can
 From this folder:
 
 ```bash
-Rscript Homework_2_Part_I_panel.R
-Rscript Homework_2_Part_II_rdd.R
+Rscript --vanilla Homework_2_Integrated.R
 ./build_homework_2_report.sh
 ```
 
-The Part I script fetches World Bank GDP per capita and population data, so it needs internet access.
+The integrated script fetches World Bank GDP per capita and population data, so it needs internet access. It also uses `outputs/part_ii/R_libs` only to load the locally installed `rdrobust` package. The build script reads and writes the generated answer draft in `drafts/`.
 
 ## Macro Workflow
 
 1. Part I loads the Africa governance panel and keeps 1985-1998.
 2. It joins World Bank GDP per capita and population data to the governance panel.
-3. It estimates pooled OLS, country/year fixed effects, TWFE around `bigimp`, and an event-study style figure.
+3. It estimates pooled OLS, country/year fixed effects, TWFE around `bigimp`, and a Lab 5-style event-study coefficient figure with year -1 as the omitted reference period.
 4. It repeats the core relationship using population weights to shift from average country-year to representative person-year.
 5. Part II loads `grade5.dta`, creates the running variable around the cutoff of 40, and checks the enrollment distribution.
 6. It plots class size, math scores, and verbal scores around the cutoff.

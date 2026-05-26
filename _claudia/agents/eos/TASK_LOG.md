@@ -2,6 +2,24 @@
 
 Record of major completed tasks. Read to avoid duplicate work.
 
+### 2026-05-23 — Obsidian Daily Dispatch
+**Requested by:** Claudia / Edgar
+**What was done:** Generated the Saturday daily dispatch from `_claudia/claudia.db` using the plain Markdown workflow. Ran timelog sync and dashboard regeneration, checked near-term academic load, included the local UCSD Gmail helper output, and copied the dispatch to the established Obsidian Daily archive.
+**Output:** `_claudia/dispatches/2026-05-23_daily-dispatch.md`; `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/ObiV3/000 ARCHIVES/Daily/2026-05-23_daily-dispatch.md`
+**Notes:** QM3 Homework II is a near-term item due Sunday 2026-05-24 at 23:59, worth 25%, but Eos left only a Tyche placeholder per the parent instruction not to do QM3 substance. Google Calendar connector failed with an HTTP transport error, so schedule coverage is incomplete. UCSD Gmail helper returned 8 unread inbox messages; personal Gmail remains connector-only for the Markdown generator.
+
+### 2026-05-22 — Obsidian Daily Dispatch
+**Requested by:** Claudia / Edgar
+**What was done:** Generated the Friday daily dispatch from `_claudia/claudia.db` using the plain Markdown workflow. Ran timelog sync and dashboard preflight, supplied NWS UCSD weather, checked the daily-briefing calendar set where the connector allowed access, collected UCSD Gmail via the local helper, and copied the final file to the Obsidian Daily archive.
+**Output:** `_claudia/dispatches/2026-05-22_daily-dispatch.md`; `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/ObiV3/000 ARCHIVES/Daily/2026-05-22_daily-dispatch.md`
+**Notes:** Timelog sync imported 13 rows / 8.14 hours. Calendar found GPEC 446 QM3 Lab, 11:00-12:20 at RBC AUD; 001 Personal, 003 Deadlines, and 004 Meals had no events; 002 Learning returned a reauthentication warning. UCSD Gmail helper returned 12 unread inbox messages newer_than:2d, including QM3 Homework II correction emails, campus safety alerts, housing inspection/fire alarm reminder, and internship/career items. Personal Gmail connector failed with a transient HTTP transport error, so the dispatch records that diagnostic rather than summarizing personal unread mail.
+
+### 2026-05-21 — Obsidian Daily Dispatch
+**Requested by:** Claudia
+**What was done:** Reran Thursday's full-workflow plain Obsidian Markdown daily dispatch using `_claudia/daily_dispatch_md.py --date 2026-05-21`, fresh calendar/email JSON inputs, live NWS SGX UCSD weather, time tracker sync, and dashboard preflight. Verified before generation that `_claudia/claudia.db` has GPEC 446 — Quantitative Methods 3 Homework II due Sunday 2026-05-24 at 23:59, pending, worth 25%.
+**Output:** `_claudia/dispatches/2026-05-21_daily-dispatch.md`; `_claudia/dispatch_inputs/2026-05-21_calendar.json`; `_claudia/dispatch_inputs/2026-05-21_email.json`; `_claudia/dispatch_inputs/2026-05-21_ucsd_email_raw.json`
+**Notes:** `sync_timelog.py` reported 13 rows / 8.14 hours and `dashboard.py` regenerated `_claudia/dashboard.html`. All five Google Calendars were checked; only 005 UCSD had GPEC 446 — Quantitative Methods 3, 09:30-10:50, RBC AUD. `_claudia/gmail_dispatch_json.py` worked with restored UCSD Gmail auth for `eagunias@ucsd.edu`, returning 12 unread inbox messages newer_than:2d. Personal Gmail connector worked for `is:unread newer_than:2d -in:spam -in:trash`; main action item is the Capital One payment/payment-return cluster.
+
 ### 2026-05-17 — Obsidian Daily Dispatch
 **Requested by:** Edgar
 **What was done:** Generated the Sunday daily dispatch from `_claudia/claudia.db` using `_claudia/daily_dispatch_md.py --date 2026-05-17 --auto-email` with an Eos-supplied La Jolla weather snapshot. Verified the dispatch content, corrected the artifact footer to identify Eos as agent, and copied it to the established Obsidian daily archive path.
@@ -508,3 +526,9 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Generated the Wednesday daily dispatch from `_claudia/claudia.db` with live Google Calendar events, NWS La Jolla / UCSD weather, time tracker sync, dashboard regeneration, and the local UCSD Gmail diagnostic helper.
 **Output:** `_claudia/dispatches/2026-05-20_daily-dispatch.md`
 **Notes:** Main action is GPCO 410 Analytic Memo - PURPLE due today at 11:00, worth 10% of grade. QM3 Homework II remains due 2026-05-23 at 23:59, worth 25%. UCSD Gmail is still blocked by an expired/revoked local gcloud token; personal Gmail remains connector-only for the Markdown generator.
+
+### 2026-05-25 — Obsidian Daily Dispatch
+**Requested by:** Edgar
+**What was done:** Ran the Eos daily dispatch workflow: synced the time log, regenerated the dashboard, generated the Markdown dispatch with live La Jolla weather, local UCSD Gmail auto-check, Google Calendar connector checks, and personal Gmail connector signal.
+**Output:** `_claudia/dispatches/2026-05-25_daily-dispatch.md`
+**Notes:** UCSD Gmail local OAuth is working again and returned 8 unread inbox messages. Calendar checks found one UCSD event, `GO GPS` 10:00-11:00 in 3107; the personal calendar lookup failed twice with a connector transport error. Personal Gmail connector returned unread items, mainly Capital One updates plus routine LinkedIn/VA messages.

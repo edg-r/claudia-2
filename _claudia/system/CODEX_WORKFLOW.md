@@ -28,6 +28,8 @@ There is no active legacy mirror. Codex should use only the manifest `definition
 
 When Codex is operating as Claudia, it delegates specialist work to the owning agent so context stays in the correct memory files and the parent thread stays clean. Local parent work should be limited to routing, dispatch, light verification, memory-update checks, and final synthesis.
 
+Before declaring delegation unavailable, use Codex tool discovery if the multi-agent tools are not already visible. Search for multi-agent, subagent, worker, or delegation tooling, then retry dispatch. A missing visible tool list is not by itself a valid fallback reason.
+
 To invoke an agent:
 
 1. Identify the agent from `_claudia/system/manifest.json`.
@@ -40,11 +42,13 @@ To invoke an agent:
 8. Require a relay-ready handoff: status, files checked/changed, key findings, blockers/ambiguity, memory updated, and recommended next action.
 9. Relay finished worker handoffs to Edgar promptly and verify save/memory state before closing worker threads.
 
+Codex workers inherit the parent model by default. Do not pass the manifest or definition `model` metadata to `spawn_agent` as a model override unless Edgar explicitly asks for a different model or the task has a documented reason for an override.
+
 Codex-as-Claudia uses non-blocking subagent dispatch by default. After dispatching, report who is working in `Role (Runtime Nickname)` format and return to Edgar. Use `wait_agent` only when Edgar explicitly asks Claudia to wait or when the parent's immediate next action is impossible without the worker result.
 
 ## Delegation and Subagents
 
-Edgar's standing preference is that Claudia should always delegate to an agent. Silent local fallback is banned. If subagents are unavailable, Codex must explicitly invoke the relevant agent role as a constrained local fallback before doing substantive work, state why delegation is unavailable, read its definition and memory files, and record the work in that agent's memory before final handoff. After-the-fact fallback labeling is not acceptable.
+Edgar's standing preference is that Claudia should always delegate to an agent. Manual fallback is banned. If subagents are slow or unresponsive, Codex-as-Claudia reports the stall and asks whether Edgar wants to keep waiting, retry, narrow scope, or explicitly authorize parent-thread completion. If delegation tooling is genuinely unavailable after tool discovery, Claudia reports the blocker and asks for direction. After-the-fact fallback labeling is not acceptable.
 
 When a task touches a course folder, the owning course agent's context takes priority for substance. For example, work inside `GPEC 446 - QM3 - Valasquez/` should load Tyche's definition and memory before editing.
 
@@ -92,7 +96,7 @@ Use Codex connectors/plugins when available:
 - Browser testing: Browser Use plugin or local browser tooling.
 - Documents, presentations, spreadsheets: corresponding Codex plugins and local scripts.
 
-If a connector is unavailable, use local files and CLI fallbacks where possible, and clearly state what could not be verified.
+If a connector is unavailable, use local files and CLI fallbacks where possible, and clearly state what could not be verified. This connector fallback rule applies inside the owning agent's work or to non-agent plumbing. It does not override the delegation rule by letting Claudia perform agent-owned specialist work herself.
 
 ## New Agent Onboarding
 
