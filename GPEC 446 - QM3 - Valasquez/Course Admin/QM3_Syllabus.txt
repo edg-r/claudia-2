@@ -1,0 +1,173 @@
+GPEC 446: APPLIED DATA ANALYSIS & STATISTICAL
+DECISION MAKING
+Instructor: Mateo Vásquez-Cortés
+vcmateo@ucsd.edu
+TA for Data Labs: David Vargas, dlvargas@ucsd.edu
+TA for Sections: Vincent Alulu, valulu@ucsd.edu
+TA for Class: Ofri Mantell, omantell@ucsd.edu
+Class: Tuesday and Thursday, 9:30 – 11:00 am in Auditorium
+Data Lab hours: Friday, 11:00 am – 12:00 pm in Auditorium
+TA Section hours: Thursdays, 2:00 pm – 3:00 pm in Room 3201
+Office Hours:
+Mateo: Thursday 12:00 – 2:00 pm RBC 1306
+David : Thursday 11:00 am – 12:00 pm 262 Malik Hall
+Vincent : Tuesday 3:30 pm – 4:30 pm in Room 313
+Ofri : Wednesday 12:30 pm –1:30 pm Room 3131
+
+Course Information
+This will be a practical, hands-on course whose purpose is the use of statistics to estimate
+causal policy impacts using real-world data. The course is an introduction to the study of
+causal inference for policy evaluation. In this class we will study the main identification
+strategies that allow researchers and policy makers to draw credible causal conclusions from
+data, including randomized experiments, difference-in-differences estimation, and regression
+discontinuity designs.
+The course emphasizes practical implementation alongside conceptual understanding. Students will learn when a specific method is appropriate, what assumptions are required, and
+how to assess whether those assumptions are plausible in real-world settings. All methods
+will be applied to policy-relevant questions, with a focus on techniques commonly employed
+in program evaluation, development economics, health policy, and related fields.
+
+Software
+For data analysis exercises, all programming will be done in R.
+1
+
+Labs and TA Sections
+Attendance at Friday data labs is strongly encouraged; these labs will focus on developing
+technical coding skills and providing hands-on support for homework assignments.
+Weekly TA sections are intended to review lecture material, work through practice problems,
+and allow students to ask questions on topics that remain unclear.
+
+Requirements and Policies
+In the past, considerable emphasis was placed on at-home coding and analytical exercises.
+However, AI tools now make completing these tasks relatively trivial. As a result, the emphasis in this course will be on conceptual understanding, analytical skills, and judgment.
+The objective of the class is for students to develop both the interest and the ability to recognize challenges and opportunities related to causal identification and statistical inference,
+as well as ways to work through them. The topics and requirements of the course reflect this
+focus on developing conceptual and analytical skills.
+You may use AI tools to help with coding tasks and to better understand the literature and
+key topics. Assignment responses will be evaluated based on the quality of your reasoning
+and interpretation, not on writing style. All written explanations must be composed by you.
+Any use of AI tools to generate written responses for homework will be treated as academic
+dishonesty and will be referred to the UCSD Office of Academic Integrity.
+
+Plagiarism Policy
+Students should work independently on all assignments, and homework will be submitted
+through TurnItIn.com. Students may discuss the concepts behind homework questions with
+each other, and may share snippets of code with each other for the purpose of improving
+programming ability, but the writeup of the answers should be 100% individual. Any student
+found plagiarizing on assignments will be given an F for the course and reported to the UCSD
+Office of Academic Integrity.
+
+Intended Learning Outcomes
+This course develops expertise in the applied use of data to estimate policy impacts. Students
+will learn key principles and statistical techniques across several types of analysis, including
+cross-sectional methods (such as regression for causal inference and instrumental variables),
+panel data approaches (including the intuition and use of two-way fixed effects, as well as
+the basics of research design and why experiments help address causal inference challenges),
+and time-series analysis (covering autocorrelation and basic forecasting techniques).
+2
+
+Course Grading
+Homework I: 25%
+Homework II: 25%
+In-class midterm exam: 25%
+Data Project: 25%
+
+Homework and data analysis exercises
+You will have two data analysis problem sets. You will have to submit your completed assignment within a week (exact deadlines will be made clear on the assignment). Students may
+discuss the concepts behind homework questions with each other, and may share snippets
+of code with each other for the purpose of improving programming ability, but the write-up
+of the answers should be individual.
+Homework will be graded on points as indicated in each assignment and each will count
+toward 25% of your grade.
+(Week 4 & Week 8)
+
+Midterm exam
+An in-class midterm will take place mid-way though the quarter. This will be an in-class
+exam.
+The midterm will count toward 25% of your grade.
+(Tuesday, Week 6)
+
+Data Project
+Students will complete an independent data analysis project applying the empirical methods
+covered in the course to a real-world policy question. The assignment requires formulating
+a clear research question, conducting statistical analysis, and presenting results in a concise
+and interpretable format. More details on this project will be provided throughout the
+quarter.
+The final project will count toward 25% of you grade.
+(Week 10)
+
+3
+
+Texts
+We will rely on textbooks and papers for the class. The recommended textbook is:
+• Angrist, Joshua D., and Jörn-Steffen Pischke. Mastering ’Metrics: The Path from
+Cause to Effect. Princeton University Press, 2014.
+We will also make references to:
+• Gerber, A. and D. Green.Field Experiments: Design, Analysis, and Interpretation. W.
+W. Norton. 2012.
+• Angrist, Joshua D., and Jörn-Steffen Pischke. Mostly Harmless Econometrics: An
+Empiricist’s Companion. Princeton University Press, 2009.
+• Hansen, Bruce E. Econometrics. Princeton University Press, 2022.
+• Wooldridge, Jeffrey M. Introductory Econometrics: A Modern Approach, 7th ed. Cengage Learning, 2020.
+Additional reading and papers will be listed according to topic and will be shared in Canvas.
+
+Course Outline
+Week 1: Causality and Quantitative Analysis
+• Introduction to causal inference
+• Selection problems
+• Random assignment as a solution
+• Introduction to regression
+Suggested reading: Mastering ’Metrics, Ch. 1.
+
+Week 2: Regression for Causal Inference
+• When does regression identify causal effects?
+• Regression as stratification
+• Omitted variable bias
+Suggested reading: Mastering ’Metrics, Ch. 2.
+4
+
+Week 3: Instrumental Variables
+• Introduction to instrumental variables
+• Two-stage least squares (2SLS)
+• Identifying conditions for LATE
+Suggested reading: Mastering ’Metrics, Ch. 3.
+
+Week 4: Panel Data Basics
+• Panel data structure
+• Fixed effects
+• Difference-in-differences (DiD) model
+Suggested reading: Mastering ’Metrics, Ch. 5; Wooldridge, Ch. 13.
+
+Week 5: Difference-in-Differences II
+• Staggered treatment adoption
+• Event study designs
+Suggested reading: Mastering ’Metrics, Ch. 5; Wooldridge, Ch. 14.
+
+Week 6: Matching and Synthetic Control
+• Matching methods
+• Synthetic control methods
+Suggested reading: Additional readings.
+
+Week 7: Regression Discontinuity Design
+• RDD intuition and identification
+• Applications and extensions
+Suggested reading: Mastering ’Metrics, Ch. 4.
+5
+
+Week 8: Experiments I and Applied Topics
+• Basics of experimental design
+• Stratification and block randomization
+Suggested reading: Gerber, A. and D. Green, Ch. 3.
+
+Week 9: Experiments II and Applied Topics
+• Non-compliance
+• Factorial designs and interaction effects
+Suggested reading: Gerber, A. and D. Green, Ch. 4.
+
+Week 10: Time Series Estimation
+• Time-series data
+• Lagged variables and seasonality
+Suggested reading: Wooldridge, Ch. 10 and 11.
+
+6
+
+

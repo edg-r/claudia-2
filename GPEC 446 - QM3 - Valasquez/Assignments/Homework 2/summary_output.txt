@@ -1,5 +1,5 @@
 Homework 2 integrated script summary
-Generated: 2026-05-24 15:55:34 PDT
+Generated: 2026-05-25 22:03:48 PDT
 
 Part I rows with GDP and governance: 623
 Part I missing World Bank join rows: 21

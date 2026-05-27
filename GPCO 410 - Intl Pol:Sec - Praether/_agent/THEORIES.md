@@ -77,30 +77,125 @@ For each theory/framework, capture:
 
 ## 3. Commitment Problems (Powell 2006)
 - Week introduced: Week 3
-- Status: fully synthesized
-- Source: Powell, R. (2006). War as a Commitment Problem. International Organization, 60(1), 169–203.
-- Core intuition: War is not primarily a product of information failure or indivisibility — it is produced by the structural inability to make credible intertemporal commitments when power is shifting. Three distinct types unify under this one mechanism.
+- Status: fully synthesized / corrected
+- Source: Powell, R. (2006). War as a Commitment Problem. *International Organization*, *60*(1), 169–203.
+- Core intuition: War is not primarily a product of information failure or indivisibility. It is produced by the structural inability to make credible intertemporal commitments when the distribution of power is shifting.
 - Main assumptions:
-  - Actors are rational and forward-looking
-  - No third-party enforcer can hold states to intertemporal agreements
-  - Power shifts can be large, rapid, and partly endogenous to bargaining outcomes
-- Key actors / units of analysis: States in a dyadic or systemic bargaining relationship with a shifting balance of power
-- Three types:
-  1. Preventive war — declining state attacks rising state to close a closing window of advantage before the balance tips further
-  2. Bargaining over the distribution of power itself — concessions endogenously worsen the declining state's future position; no side-payment can break the trap; this is the master mechanism
-  3. First-strike advantage — offense-dominant technology makes the peaceful equilibrium non-self-enforcing; both sides preempt in a crisis even if both prefer peace
-- Key distinctions:
-  - Type 1 vs. Type 2: preventive war is a special case of the master mechanism, but is defined by a specific rising challenger and a closing military window
-  - Type 1 vs. Type 3: preventive war is long-run and asymmetric; first-strike is crisis-driven, symmetric, and technology-dependent
-  - Type 2 vs. Type 3: bargaining over power is structural and can unfold over years; first-strike collapses in a crisis over days
-  - All three hold under complete information — information failure is NOT required
+  - Actors are rational, unitary, and forward-looking.
+  - No third-party enforcer exists to hold states to intertemporal agreements (anarchy).
+  - Shifts in the distribution of power can be large, rapid, and partly endogenous to bargaining outcomes.
+  - Bargaining stakes are divisible, and complete information holds.
+- Key actors / units of analysis: States in a dyadic or systemic bargaining relationship with a shifting balance of power.
+- Strategic logic / mechanism:
+  - Powell argues that commitment problems are a **single, unifying master mechanism** behind rationalist war, not a set of three distinct types. 
+  - This unifying mechanism generates several observable phenomena or dynamics, which are often synthesized as:
+    1. *Preventive War:* A temporarily strong, declining actor attacks a rising challenger to close a closing window of military advantage before the balance tips further.
+    2. *Bargaining over Power:* Concessions are endogenous. Conceding an asset today shifts future bargaining power, meaning the rising actor cannot credibly commit to not using its newly acquired power to demand further concessions in the future.
+    3. *First-Strike Advantage:* Offensive-dominant technology makes a peaceful equilibrium non-self-enforcing, forcing preemption in a crisis.
+- **Grader Clarification & Correction (Praether/Ali):** Do not present these three dynamics as three named "types of commitment problems" by Powell. Powell's central payoff is showing that a single mechanism (dynamic inconsistency) holds under complete information, with divisible stakes, and between rational actors.
 - Canonical cases:
   - Preventive war: Israel's 1981 Osirak strike
-  - Bargaining over power: 2003 Iraq War (Powell's framing)
+  - Bargaining over power / asset-concession shift: 2003 Iraq War (preemption logic)
   - First-strike: July Crisis 1914 / European mobilization spiral
-- Key terms: dynamic inconsistency, window of opportunity, power-shifting asset, non-fungibility of concessions, offense-defense balance, crisis instability, shadow of the future
+- Key terms: dynamic inconsistency, inefficiency puzzle, anticipated power shift, non-fungibility of concessions, bargaining surplus, intertemporal credibility.
 - Relationship to other theories:
-  - Extends and critiques Fearon (1995): information and indivisibility are insufficient; commitment is the master cause
-  - Connects to Week 1 game theory (subgame perfection, backward induction)
-  - Connects to power-transition literature (Organski, Gilpin) by formalizing preventive war logic
-  - Relevant to Week 3 Iraq War essay: reframes the 2003 war as a commitment problem, not an intelligence failure
+  - Extends and critiques Fearon (1995): information and indivisibility are insufficient; commitment is the primary rationalist cause of war.
+  - Connects to subgame perfection and backward induction.
+  - Connects to Walter's demobilization vulnerability (which is a specific commitment problem).
+
+## 4. Democratization and Civil War Risk (Cederman, Hug & Krebs 2010)
+- Week introduced: Week 5
+- Status: fully synthesized
+- Source: Cederman, L.-E., Hug, S., & Krebs, L. F. (2010). Democratization and civil war: Empirical evidence. *Journal of Peace Research*, *47*(4), 377–394.
+- Core intuition: Regime transition itself, rather than stable democracy or autocracy, raises the risk of civil war. This risk is disproportionately concentrated in conflicts over national government, not regional secession.
+- Main assumptions:
+  - Democratization opens political participation and mobilizes new groups.
+  - Weak or transitioning state institutions struggle to absorb and manage new participation.
+- Key actors: Central state leaders, mobilized elite factions, and social groups.
+- Strategic logic / mechanism:
+  - *Mobilization-Institutionalization Lag:* Democratization mobilizes social groups faster than state institutions can develop rules to manage conflict.
+  - *Empirical Findings:* Transition periods increase civil war risk **2.77 times** compared to stable regime periods. This risk is concentrated in **governmental conflicts** (contests over who controls the state) and is negligible or non-existent in **territorial conflicts** (regional secession).
+- Strengths:
+  - Robust quantitative empirical validation.
+  - Moves beyond broad institutional democratic peace claims to examine transition dynamics.
+- Weaknesses / critiques:
+  - Relies on Polity IV/5 dataset definitions, which may conflate transition indicators with conflict proxy measures.
+  - Does not model the micro-mechanisms of tactical armed mobilization.
+- Useful applications:
+  - Myanmar transition (2010-2018) and the subsequent 2021 coup.
+  - Yugoslavia's post-Cold War dissolution.
+- Relationship to other theories:
+  - Pairs with Huntington's mobilization lag and Walter's settlement problems.
+  - Connects to Powell's commitment problem (democratization creates an anticipated power shift that elites may preempt).
+
+## 5. Regimes: Coordination vs. Collaboration (Stein 1982)
+- Week introduced: Week 8
+- Status: fully synthesized
+- Source: Stein, A. A. (1982). Coordination and collaboration: Regimes in an anarchic world. *International Organization*, *36*(2), 299–324.
+- Core intuition: International regimes emerge when self-interested actors shift from independent to joint decision-making. Regimes solve two distinct structural dilemmas: common interests and common aversions.
+- Main assumptions:
+  - States are rational, self-interested, and unitary actors under anarchy.
+  - Institutions/regimes do not require altruism; they are built to realize individual self-interest.
+- Key actors: Sovereign states under anarchy.
+- Strategic logic / mechanism:
+  - *Dilemma of Common Interests (Collaboration):* Actors share a preference for a cooperative outcome, but each has an individual incentive to cheat/defect (e.g. Prisoner's Dilemma). Requires **collaboration**—formal regimes with strict monitoring, enforcement, and cost-sharing to prevent free-riding (e.g., Article 5 burden-sharing).
+  - *Dilemma of Common Aversions (Coordination):* Actors do not share the same ideal outcome, but they all want to avoid a mutually disastrous outcome (e.g. Battle of the Sexes). Requires **coordination**—regimes that align expectations and establish common rules. Once coordinated, the equilibrium is stable, and there is no individual incentive to defect (e.g., military standardization).
+- Strengths:
+  - Elegant typology based on strategic game structures.
+  - Distinguishes when cheating is a threat (collaboration) vs. when misalignment is the threat (coordination).
+- Weaknesses / critiques:
+  - Simplifies real-world regimes which often mix both dilemmas.
+  - Treats states as unitary actors, ignoring domestic ratification constraints.
+- Useful applications:
+  - NATO collective security (coordination of military standards + collaboration of defense spending).
+  - Arms control treaties and trade agreements.
+- Relationship to other theories:
+  - Extends basic game theory models to explain the durability of international institutions.
+
+## 6. The Governance Problem (Gourevitch 1999)
+- Week introduced: Week 8
+- Status: fully synthesized
+- Source: Gourevitch, P. A. (1999). The governance problem in international relations. In D. A. Lake & R. Powell (Eds.), *Strategic Choice and International Relations* (pp. 137–164). Princeton University Press.
+- Core intuition: Rules and institutions are not neutral background conditions. Because rules distribute power and shape outcomes, the governance rules of an institution are themselves a constant site of political contestation.
+- Main assumptions:
+  - Actors are rational and understand how rules affect their payoffs.
+  - Institutions distribute power unevenly among members.
+- Key actors: State members of international organizations, institutional process brokers.
+- Strategic logic / mechanism:
+  - *Rules as Distributive Objects:* If institutions matter, actors will fight to shape the rules of the institution to favor their own interests. 
+  - *Institutional Leverage:* Actors with high leverage or veto rights (granted by rules, e.g., NATO consensus) can block cooperation to extract concessions from other members, relocating material power struggles into procedural disputes.
+- Strengths:
+  - Exposes the highly political, contested nature of international organizations.
+  - Connects formal rules to material bargaining power.
+- Weaknesses / critiques:
+  - May underestimate the binding power of institutional norms.
+- Useful applications:
+  - Turkey's exploitation of NATO's consensus rule to delay Finland and Sweden's accession until it extracted policy concessions.
+- Relationship to other theories:
+  - Complements Stein's regime theory by showing that coordinating or collaborating is always contested by governance struggles.
+
+## 7. Statebuilding and Legitimacy (Lake 2016)
+- Week introduced: Week 9
+- Status: fully synthesized
+- Source: Lake, D. A. (2016). *The Statebuilder's Dilemma: On the Limits of Foreign Intervention*. Cornell University Press.
+- Core intuition: Statebuilding requires creating both a monopoly on violence and political legitimacy. Legitimacy is locked in through the "vesting" of relationally specific assets by compliance constituencies. External statebuilders face a structural dilemma where their strategic interests undermine the host leader's domestic legitimacy.
+- Main assumptions:
+  - Legitimacy is positive, social, and positive-law based (quasi-voluntary compliance).
+  - Regimes must be self-enforcing to endure.
+  - Relationship-specific investments depend on expectations of regime durability.
+- Key actors: External statebuilder, local state leader, domestic societal factions.
+- Strategic logic / mechanism:
+  - *Vesting Process:* Legitimacy is built on ideological interests (shared values) and circumstantial interests (relationally specific assets). When actors make relationally specific investments (property, skills) under a regime's rules, they form a "compliance constituency" that defends the state.
+  - *The Statebuilder's Dilemma:* Because statebuilding is costly and of indefinite duration, any statebuilder willing to bear these costs has strategic interests in the target state. Rather than picking a neutral social order at the host society's political center, the statebuilder supports a partisan "loyalist" leader. This pulls policy away from the domestic center, destroying the host leader's domestic legitimacy and trapping the statebuilder in a cycle of instability and indefinite presence.
+- Strengths:
+  - Elegantly models state consolidation through asset specificity and compliance constituencies.
+  - Explains why most foreign statebuilding interventions fail (Iraq, Somalia).
+- Weaknesses / critiques:
+  - Assumes a high degree of economic rationality behind social legitimacy.
+- Useful applications:
+  - Post-2003 Iraq statebuilding failure.
+  - Post-coup Myanmar Tatmadaw's failure to build legitimacy (predatory state).
+- Relationship to other theories:
+  - Connects to Walter's civil war settlement demobilization problem (external enforcer vs. domestic vesting).
+  - Pairs with Powell's commitment problem (deadlines undermine credibility, halting the vesting of assets).
+

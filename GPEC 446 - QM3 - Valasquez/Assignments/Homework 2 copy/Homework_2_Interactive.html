@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GPEC 446 Homework 2: Interactive Analysis Dashboard</title>
+  
+  <!-- Sleek Typography: Playfair Display for headers and Outfits for body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js via CDN for responsive, hardware-accelerated interactive plotting -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+    /* Styling tokens following rich, vibrant, sleek dark-mode aesthetics */
+    :root {
+      --bg-dark: #0f172a;
+      --panel-dark: rgba(30, 41, 59, 0.7);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --primary-glow: rgba(56, 189, 248, 0.15);
+      --accent: #c084fc;
+      --accent-glow: rgba(192, 132, 252, 0.15);
+      --success: #34d399;
+      --danger: #f87171;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.05) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(192, 132, 252, 0.05) 0px, transparent 50%);
+      color: var(--text-main);
+      font-family: "Outfit", sans-serif;
+      line-height: 1.6;
+      padding-bottom: 80px;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border-color);
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .badge {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 9999px;
+      color: #000;
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      padding: 4px 16px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-family: "Playfair Display", serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      font-weight: 300;
+    }
+
+    main {
+      margin: 0 auto;
+      max-width: 1200px;
+      padding: 40px 20px;
+    }
+
+    .section-card {
+      background: var(--panel-dark);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      margin-bottom: 40px;
+      overflow: hidden;
+      padding: 30px;
+    }
+
+    .section-title {
+      border-left: 4px solid var(--primary);
+      font-family: "Playfair Display", serif;
+      font-size: 1.8rem;
+      margin-bottom: 24px;
+      padding-left: 12px;
+    }
+
+    .grid-2 {
+      display: grid;
+      gap: 30px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 900px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .control-panel {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 24px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    label {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-toggle {
+      background: #1e293b;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: "Outfit", sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 10px 16px;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+
+    .btn-toggle.active {
+      background: linear-gradient(135deg, var(--primary-glow), var(--accent-glow));
+      border-color: var(--primary);
+      color: var(--primary);
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+
+    .btn-toggle:hover {
+      border-color: var(--primary);
+      color: var(--text-main);
+    }
+
+    .btn-flex-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* Elegant Custom Slider Styling */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: #334155;
+      border-radius: 9999px;
+      height: 8px;
+      margin: 10px 0;
+      outline: none;
+      width: 100%;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      background: var(--primary);
+      border-radius: 50%;
+      cursor: pointer;
+      height: 20px;
+      transition: transform 0.1s ease;
+      width: 20px;
+      box-shadow: 0 0 10px var(--primary);
+    }
+
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    .slider-val-box {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .chart-container {
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      min-height: 400px;
+      padding: 16px;
+      position: relative;
+    }
+
+    /* Premium Sleek Table Design */
+    .table-container {
+      overflow-x: auto;
+      margin-top: 15px;
+    }
+
+    table {
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      width: 100%;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 16px;
+      text-align: left;
+    }
+
+    th {
+      background-color: rgba(15, 23, 42, 0.5);
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+    }
+
+    td {
+      color: var(--text-main);
+    }
+
+    tr:hover td {
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    .metric-value {
+      font-family: "Playfair Display", serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .metric-title {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .metrics-row {
+      display: grid;
+      gap: 15px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      margin-top: 20px;
+    }
+
+    .metric-box {
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .text-block {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+    }
+
+    .highlight {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color);
+      color: var(--text-muted);
+      margin: 60px auto 0;
+      max-width: 1200px;
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">Quantitative Methods 3</div>
+    <h1>Homework 2: Interactive Analysis Dashboard</h1>
+    <div class="subtitle">Interactive Panel fixed-effects & Regression Discontinuity Design (RDD) exploration</div>
+  </header>
+
+  <main>
+    
+    <!-- =======================================================================
+         SECTION 1: Part I Panel Event Study
+         ======================================================================= -->
+    <div class="section-card">
+      <div class="section-title">Part I: Dynamic Effects of Governance on Income (Panel Event Study)</div>
+      
+      <div class="text-block">
+        This section visualizes the relationship between governance improvements and income using an 
+        <span class="highlight">Event Study Framework</span>. We remove country and year fixed effects to obtain 
+        residuals and map these residuals across a 10-year window centered around each country's largest political-liberty improvement.
+      </div>
+
+      <div class="grid-2">
+        <div class="control-panel">
+          <div class="control-group">
+            <label>Weighting Strategy</label>
+            <div class="text-block" style="font-size: 0.85rem; margin-bottom: 12px;">
+              Toggle between unweighted (country-level) and population-weighted (representative-person) residual patterns.
+            </div>
+            <div class="btn-flex-group">
+              <button class="btn-toggle active" id="btn-p1-unweighted" onclick="togglePart1('unweighted')">Country-Average (Unweighted)</button>
+              <button class="btn-toggle" id="btn-p1-weighted" onclick="togglePart1('weighted')">Representative-Person (Weighted)</button>
+            </div>
+          </div>
+          
+          <div class="control-group" style="margin-top: 10px;">
+            <label>Statistical Summary</label>
+            <div class="metrics-row" id="p1-metrics">
+              <div class="metric-box">
+                <div class="metric-value" id="p1-ols-est">228.965</div>
+                <div class="metric-title">Pooled OLS Estimate</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-value" id="p1-fe-est">-0.188</div>
+                <div class="metric-title">Country FE Estimate</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-block" style="font-size: 0.85rem; line-height: 1.5; margin-top: 10px;">
+            <strong>Interpretation:</strong> Notice how the pooled OLS shows a strong positive correlation, but inclusion of country fixed effects pulls the coefficient to zero. The event-study curve visually confirms this, showing completely flat residuals before and after the political opening.
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <canvas id="part1Chart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- =======================================================================
+         SECTION 2: Part II Regression Discontinuity Design
+         ======================================================================= -->
+    <div class="section-card">
+      <div class="section-title">Part II: Maimonides' Rule Class Size & Achievement Discontinuity (RDD)</div>
+      
+      <div class="text-block">
+        Angrist and Lavy (1999) exploit Maimonides' Rule (which caps Israeli class size at 40) to estimate the causal impact of class size on fifth-grade scores. Cross the enrollment cutoff of 40 and watch class size split!
+      </div>
+
+      <div class="grid-2">
+        <div class="control-panel">
+          <div class="control-group">
+            <label>1. Select Outcome Variable</label>
+            <div class="btn-flex-group">
+              <button class="btn-toggle active" id="btn-rdd-classize" onclick="setRDDOutcome('classize')">Class Size</button>
+              <button class="btn-toggle" id="btn-rdd-avgmath" onclick="setRDDOutcome('avgmath')">Math Score</button>
+              <button class="btn-toggle" id="btn-rdd-avgverb" onclick="setRDDOutcome('avgverb')">Verbal Score</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label>2. Bandwidth (h): <span class="highlight" id="lbl-bandwidth">10</span> students</label>
+            <input type="range" id="slider-bandwidth" min="5" max="25" value="10" step="1" oninput="updateBandwidth(this.value)">
+            <div class="slider-val-box">
+              <span>Narrow (Low bias)</span>
+              <span>Wide (Low variance)</span>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label>Live Local OLS Regression Estimates</label>
+            <div class="metrics-row">
+              <div class="metric-box">
+                <div class="metric-value" id="rdd-beta">-7.107</div>
+                <div class="metric-title">RD Effect (&beta;<sub>RD</sub>)</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-value" id="rdd-se">1.445</div>
+                <div class="metric-title">Standard Error</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-value" id="rdd-n">332</div>
+                <div class="metric-title">Effective N</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-block" style="font-size: 0.85rem; line-height: 1.5; margin-top: 5px;">
+            <strong>Trade-off exploration:</strong> Sliding the bandwidth wider adds more schools further from the cutoff, making the standard error smaller but introducing curvature bias. Sliding the bandwidth below 8 targets only schools immediately next to 40, removing bias but dramatically increasing standard errors!
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <canvas id="part2Chart"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Edgar Agunias &bull; GPEC 446 Quant Methods 3 &bull; Generated by Claudia Agent System (Tyche)</p>
+    <p style="font-size: 0.75rem; margin-top: 10px; opacity: 0.6;">Model: Gemini 3.5 Flash &bull; Data sources: World Bank WDI API, Angrist & Lavy (1999) grade5.dta</p>
+  </footer>
+
+  <script>
+    // Inject the real R-extracted datasets directly as JSON
+    const part1Unweighted = [{"leadlag":-5,"mean_residual":2.3432,"se":54.7893,"n":36},{"leadlag":-4,"mean_residual":22.4356,"se":36.8366,"n":38},{"leadlag":-3,"mean_residual":17.2333,"se":26.4988,"n":39},{"leadlag":-2,"mean_residual":4.6734,"se":25.2106,"n":39},{"leadlag":-1,"mean_residual":3.2398,"se":27.4339,"n":39},{"leadlag":0,"mean_residual":-2.4299,"se":32.5326,"n":39},{"leadlag":1,"mean_residual":-35.5087,"se":28.6233,"n":39},{"leadlag":2,"mean_residual":-31.4336,"se":26.1976,"n":38},{"leadlag":3,"mean_residual":0.3205,"se":44.3511,"n":32},{"leadlag":4,"mean_residual":14.1528,"se":80.5189,"n":30},{"leadlag":5,"mean_residual":15.1575,"se":100.846,"n":25}];
+    const part1Weighted = [{"leadlag":-5,"weighted_mean_residual":48.5379,"total_population":345926177,"country_years":36},{"leadlag":-4,"weighted_mean_residual":15.8996,"total_population":442347415,"country_years":38},{"leadlag":-3,"weighted_mean_residual":-1.8389,"total_population":457267770,"country_years":39},{"leadlag":-2,"weighted_mean_residual":-15.0567,"total_population":470694485,"country_years":39},{"leadlag":-1,"weighted_mean_residual":-0.002,"total_population":484530899,"country_years":39},{"leadlag":0,"weighted_mean_residual":-2.6819,"total_population":498491689,"country_years":39},{"leadlag":1,"weighted_mean_residual":8.064,"total_population":511100478,"country_years":39},{"leadlag":2,"weighted_mean_residual":12.1208,"total_population":521528455,"country_years":38},{"leadlag":3,"weighted_mean_residual":19.9552,"total_population":480386526,"country_years":32},{"leadlag":4,"weighted_mean_residual":5.0191,"total_population":458932106,"country_years":30},{"leadlag":5,"weighted_mean_residual":-24.8767,"total_population":328657707,"country_years":25}];
+    const rddData = [{"schlcode":11005,"enrollment":54,"classize":28,"avgmath":74.11,"avgverb":70.57,"disadvantaged":24},{"schlcode":11005,"enrollment":54,"classize":26,"avgmath":71.11,"avgverb":75,"disadvantaged":24},{"schlcode":11006,"enrollment":37,"classize":22,"avgmath":64,"avgverb":75.47,"disadvantaged":38},{"schlcode":11006,"enrollment":37,"classize":15,"avgmath":50,"avgverb":60.6475,"disadvantaged":38},{"schlcode":11009,"enrollment":32,"classize":32,"avgmath":68.38,"avgverb":73.97,"disadvantaged":6},{"schlcode":11010,"enrollment":68,"classize":34,"avgmath":59.86,"avgverb":69.55,"disadvantaged":3},{"schlcode":11010,"enrollment":68,"classize":34,"avgmath":61.9,"avgverb":68.13,"disadvantaged":3},{"schlcode":11017,"enrollment":77,"classize":39,"avgmath":65.78,"avgverb":70.37,"disadvantaged":9},{"schlcode":11017,"enrollment":77,"classize":38,"avgmath":68.5047,"avgverb":71.7113,"disadvantaged":9},{"schlcode":11021,"enrollment":58,"classize":30,"avgmath":57.86,"avgverb":72.64,"disadvantaged":11},{"schlcode":11021,"enrollment":58,"classize":28,"avgmath":56.54,"avgverb":67.71,"disadvantaged":11},{"schlcode":11029,"enrollment":70,"classize":34,"avgmath":56.23,"avgverb":65.19,"disadvantaged":11},{"schlcode":11029,"enrollment":70,"classize":36,"avgmath":57.7021,"avgverb":74.3856,"disadvantaged":11},{"schlcode":11031,"enrollment":42,"classize":23,"avgmath":67.09,"avgverb":74.57,"disadvantaged":12},{"schlcode":11031,"enrollment":42,"classize":19,"avgmath":64.41,"avgverb":69.06,"disadvantaged":12},{"schlcode":11034,"enrollment":56,"classize":28,"avgmath":64.75,"avgverb":70.59,"disadvantaged":11},{"schlcode":11034,"enrollment":56,"classize":28,"avgmath":67.2963,"avgverb":71.41,"disadvantaged":11},{"schlcode":11044,"enrollment":11,"classize":17,"avgmath":55.58,"avgverb":69.25,"disadvantaged":50},{"schlcode":11045,"enrollment":76,"classize":38,"avgmath":68.58,"avgverb":74.85,"disadvantaged":9},{"schlcode":11045,"enrollment":76,"classize":38,"avgmath":67.4683,"avgverb":75.1417,"disadvantaged":9},{"schlcode":11048,"enrollment":74,"classize":38,"avgmath":67.76,"avgverb":82.03,"disadvantaged":11},{"schlcode":11048,"enrollment":74,"classize":36,"avgmath":75.35,"avgverb":75.65,"disadvantaged":11},{"schlcode":11054,"enrollment":35,"classize":35,"avgmath":63,"avgverb":68,"disadvantaged":17},{"schlcode":11061,"enrollment":46,"classize":16,"avgmath":44.27,"avgverb":61.64,"disadvantaged":15},{"schlcode":11061,"enrollment":46,"classize":30,"avgmath":57.08,"avgverb":73.75,"disadvantaged":15},{"schlcode":11064,"enrollment":40,"classize":40,"avgmath":48.73,"avgverb":52.77,"disadvantaged":25},{"schlcode":11065,"enrollment":20,"classize":20,"avgmath":67.5,"avgverb":73.67,"disadvantaged":42},{"schlcode":11067,"enrollment":62,"classize":22,"avgmath":47.71,"avgverb":61,"disadvantaged":31},{"schlcode":11067,"enrollment":62,"classize":29,"avgmath":51.54,"avgverb":66.42,"disadvantaged":31},{"schlcode":11072,"enrollment":41,"classize":21,"avgmath":68.89,"avgverb":71.84,"disadvantaged":25},{"schlcode":11072,"enrollment":41,"classize":20,"avgmath":61.3045,"avgverb":72.152,"disadvantaged":25},{"schlcode":11073,"enrollment":60,"classize":30,"avgmath":72.36,"avgverb":84.93,"disadvantaged":7},{"schlcode":11073,"enrollment":60,"classize":30,"avgmath":65.48,"avgverb":72.8,"disadvantaged":7},{"schlcode":11106,"enrollment":58,"classize":29,"avgmath":77.6,"avgverb":80.1,"disadvantaged":3},{"schlcode":11106,"enrollment":58,"classize":29,"avgmath":78.4706,"avgverb":86.4118,"disadvantaged":3},{"schlcode":11108,"enrollment":12,"classize":12,"avgmath":48.75,"avgverb":57.09,"disadvantaged":54},{"schlcode":11115,"enrollment":57,"classize":30,"avgmath":58.44,"avgverb":76.53,"disadvantaged":11},{"schlcode":11115,"enrollment":57,"classize":27,"avgmath":61.9968,"avgverb":73.0875,"disadvantaged":11},{"schlcode":11117,"enrollment":66,"classize":28,"avgmath":62.59,"avgverb":67.46,"disadvantaged":31},{"schlcode":11117,"enrollment":66,"classize":27,"avgmath":57.63,"avgverb":62.66,"disadvantaged":31},{"schlcode":11126,"enrollment":47,"classize":22,"avgmath":53.91,"avgverb":66.48,"disadvantaged":16},{"schlcode":11126,"enrollment":47,"classize":25,"avgmath":54.96,"avgverb":66.43,"disadvantaged":16},{"schlcode":11127,"enrollment":29,"classize":29,"avgmath":62.78,"avgverb":78.03,"disadvantaged":6},{"schlcode":11128,"enrollment":79,"classize":22,"avgmath":81.43,"avgverb":79.09,"disadvantaged":12},{"schlcode":11128,"enrollment":79,"classize":31,"avgmath":74.39,"avgverb":78.11,"disadvantaged":12},{"schlcode":11128,"enrollment":79,"classize":26,"avgmath":75.46,"avgverb":80.08,"disadvantaged":12},{"schlcode":11133,"enrollment":29,"classize":29,"avgmath":72,"avgverb":80,"disadvantaged":7},{"schlcode":11134,"enrollment":60,"classize":28,"avgmath":69.74,"avgverb":84.65,"disadvantaged":2},{"schlcode":11134,"enrollment":60,"classize":32,"avgmath":69.8,"avgverb":82.93,"disadvantaged":2},{"schlcode":11135,"enrollment":65,"classize":33,"avgmath":79.86,"avgverb":80.5,"disadvantaged":4},{"schlcode":11135,"enrollment":65,"classize":32,"avgmath":72.14,"avgverb":79.4828,"disadvantaged":4},{"schlcode":11151,"enrollment":42,"classize":22,"avgmath":48.95,"avgverb":69.28,"disadvantaged":42},{"schlcode":11151,"enrollment":42,"classize":20,"avgmath":49.0528,"avgverb":52.72,"disadvantaged":42},{"schlcode":11152,"enrollment":68,"classize":34,"avgmath":73.06,"avgverb":74.1,"disadvantaged":5},{"schlcode":11152,"enrollment":68,"classize":34,"avgmath":75.5,"avgverb":79.53,"disadvantaged":5},{"schlcode":11159,"enrollment":50,"classize":26,"avgmath":74.56,"avgverb":80.78,"disadvantaged":17},{"schlcode":11159,"enrollment":50,"classize":24,"avgmath":58.83,"avgverb":70.21,"disadvantaged":17},{"schlcode":11161,"enrollment":40,"classize":18,"avgmath":61.83,"avgverb":77.29,"disadvantaged":19},{"schlcode":11161,"enrollment":40,"classize":22,"avgmath":62.1457,"avgverb":73.1462,"disadvantaged":19},{"schlcode":11165,"enrollment":21,"classize":21,"avgmath":78.17,"avgverb":77.67,"disadvantaged":1},{"schlcode":11168,"enrollment":24,"classize":24,"avgmath":58.48,"avgverb":73.26,"disadvantaged":5},{"schlcode":11170,"enrollment":67,"classize":43,"avgmath":74.25,"avgverb":85.19,"disadvantaged":2},{"schlcode":11170,"enrollment":67,"classize":24,"avgmath":77.52,"avgverb":86.09,"disadvantaged":2},{"schlcode":11171,"enrollment":74,"classize":33,"avgmath":70.66,"avgverb":77.48,"disadvantaged":8},{"schlcode":11171,"enrollment":74,"classize":41,"avgmath":63.49,"avgverb":69.85,"disadvantaged":8},{"schlcode":11172,"enrollment":13,"classize":13,"avgmath":81.27,"avgverb":86,"disadvantaged":7},{"schlcode":11181,"enrollment":64,"classize":32,"avgmath":68.32,"avgverb":71.96,"disadvantaged":8},{"schlcode":11181,"enrollment":64,"classize":32,"avgmath":59.64,"avgverb":72.79,"disadvantaged":8},{"schlcode":11182,"enrollment":46,"classize":23,"avgmath":69.35,"avgverb":79.39,"disadvantaged":9},{"schlcode":11182,"enrollment":46,"classize":23,"avgmath":74.9024,"avgverb":82.7633,"disadvantaged":9},{"schlcode":11183,"enrollment":79,"classize":39,"avgmath":64.06,"avgverb":78.25,"disadvantaged":1},{"schlcode":11183,"enrollment":79,"classize":40,"avgmath":68.21,"avgverb":76.37,"disadvantaged":1},{"schlcode":11188,"enrollment":60,"classize":25,"avgmath":47.33,"avgverb":70.67,"disadvantaged":12},{"schlcode":11188,"enrollment":60,"classize":30,"avgmath":39.4166,"avgverb":56.6524,"disadvantaged":12},{"schlcode":11189,"enrollment":32,"classize":32,"avgmath":81.22,"avgverb":77.1,"disadvantaged":11},{"schlcode":11196,"enrollment":28,"classize":28,"avgmath":73.22,"avgverb":81.26,"disadvantaged":0},{"schlcode":11203,"enrollment":23,"classize":23,"avgmath":66.76,"avgverb":82.24,"disadvantaged":0},{"schlcode":11205,"enrollment":20,"classize":20,"avgmath":70,"avgverb":78,"disadvantaged":3},{"schlcode":11207,"enrollment":75,"classize":25,"avgmath":61.61,"avgverb":64.48,"disadvantaged":10},{"schlcode":11207,"enrollment":75,"classize":27,"avgmath":66.96,"avgverb":68.19,"disadvantaged":10},{"schlcode":11207,"enrollment":75,"classize":23,"avgmath":70.08,"avgverb":75.04,"disadvantaged":10},{"schlcode":11209,"enrollment":33,"classize":33,"avgmath":59.41,"avgverb":76.16,"disadvantaged":0},{"schlcode":11212,"enrollment":32,"classize":32,"avgmath":78.03,"avgverb":82.59,"disadvantaged":2},{"schlcode":11219,"enrollment":22,"classize":22,"avgmath":80.25,"avgverb":79,"disadvantaged":3},{"schlcode":11222,"enrollment":75,"classize":26,"avgmath":67.71,"avgverb":79.42,"disadvantaged":3},{"schlcode":11222,"enrollment":75,"classize":25,"avgmath":67.48,"avgverb":75.83,"disadvantaged":3},{"schlcode":11222,"enrollment":75,"classize":24,"avgmath":65.57,"avgverb":70.23,"disadvantaged":3},{"schlcode":11225,"enrollment":70,"classize":25,"avgmath":74.27,"avgverb":77.23,"disadvantaged":2},{"schlcode":11228,"enrollment":39,"classize":39,"avgmath":68.03,"avgverb":73.11,"disadvantaged":19},{"schlcode":11233,"enrollment":53,"classize":28,"avgmath":64.08,"avgverb":76.4,"disadvantaged":11},{"schlcode":11233,"enrollment":53,"classize":25,"avgmath":60.9,"avgverb":73.1,"disadvantaged":11},{"schlcode":11235,"enrollment":39,"classize":40,"avgmath":63.13,"avgverb":79.39,"disadvantaged":8},{"schlcode":11238,"enrollment":32,"classize":32,"avgmath":68.09,"avgverb":75.7,"disadvantaged":1},{"schlcode":11239,"enrollment":71,"classize":36,"avgmath":61.63,"avgverb":72.61,"disadvantaged":3},{"schlcode":11239,"enrollment":71,"classize":35,"avgmath":68.71,"avgverb":79.65,"disadvantaged":3},{"schlcode":11247,"enrollment":64,"classize":29,"avgmath":55.96,"avgverb":63.07,"disadvantaged":5},{"schlcode":11247,"enrollment":64,"classize":35,"avgmath":57,"avgverb":68.54,"disadvantaged":5},{"schlcode":11249,"enrollment":20,"classize":20,"avgmath":67.33,"avgverb":82.72,"disadvantaged":15},{"schlcode":11251,"enrollment":10,"classize":10,"avgmath":75.22,"avgverb":84.44,"disadvantaged":8},{"schlcode":11256,"enrollment":30,"classize":30,"avgmath":71.89,"avgverb":77.56,"disadvantaged":3},{"schlcode":11257,"enrollment":21,"classize":21,"avgmath":62.24,"avgverb":67.48,"disadvantaged":5},{"schlcode":11258,"enrollment":59,"classize":23,"avgmath":71.85,"avgverb":77.8,"disadvantaged":3},{"schlcode":11258,"enrollment":59,"classize":25,"avgmath":72.15,"avgverb":72.2,"disadvantaged":3},{"schlcode":11259,"enrollment":58,"classize":19,"avgmath":67.33,"avgverb":78.04,"disadvantaged":0},{"schlcode":11259,"enrollment":58,"classize":21,"avgmath":61.79,"avgverb":82.54,"disadvantaged":0},{"schlcode":11281,"enrollment":29,"classize":29,"avgmath":76.46,"avgverb":85.38,"disadvantaged":3},{"schlcode":11295,"enrollment":22,"classize":15,"avgmath":56.41,"avgverb":72.21,"disadvantaged":5},{"schlcode":11307,"enrollment":30,"classize":30,"avgmath":75.27,"avgverb":74.59,"disadvantaged":5},{"schlcode":11317,"enrollment":28,"classize":28,"avgmath":66.31,"avgverb":73.88,"disadvantaged":0},{"schlcode":21005,"enrollment":22,"classize":22,"avgmath":69.39,"avgverb":81,"disadvantaged":0},{"schlcode":21006,"enrollment":63,"classize":31,"avgmath":65,"avgverb":81.72,"disadvantaged":2},{"schlcode":21006,"enrollment":63,"classize":32,"avgmath":62.17,"avgverb":78.92,"disadvantaged":2},{"schlcode":21010,"enrollment":18,"classize":18,"avgmath":62.5,"avgverb":71.29,"disadvantaged":43},{"schlcode":21012,"enrollment":33,"classize":33,"avgmath":67,"avgverb":84,"disadvantaged":1},{"schlcode":21013,"enrollment":24,"classize":24,"avgmath":87.2,"avgverb":88.2,"disadvantaged":0},{"schlcode":21021,"enrollment":21,"classize":21,"avgmath":66.38,"avgverb":76.25,"disadvantaged":0},{"schlcode":21028,"enrollment":42,"classize":27,"avgmath":62.41,"avgverb":65.6,"disadvantaged":40},{"schlcode":21029,"enrollment":42,"classize":22,"avgmath":60.87,"avgverb":65.91,"disadvantaged":44},{"schlcode":21029,"enrollment":42,"classize":20,"avgmath":59.31,"avgverb":71,"disadvantaged":44},{"schlcode":21030,"enrollment":42,"classize":33,"avgmath":57.69,"avgverb":64.72,"disadvantaged":65},{"schlcode":21031,"enrollment":52,"classize":26,"avgmath":63.85,"avgverb":73.84,"disadvantaged":36},{"schlcode":21031,"enrollment":52,"classize":26,"avgmath":72.15,"avgverb":76.1154,"disadvantaged":36},{"schlcode":21032,"enrollment":51,"classize":24,"avgmath":55.73,"avgverb":70,"disadvantaged":13},{"schlcode":21032,"enrollment":51,"classize":27,"avgmath":59.35,"avgverb":68.25,"disadvantaged":13},{"schlcode":21041,"enrollment":23,"classize":23,"avgmath":69,"avgverb":85,"disadvantaged":3},{"schlcode":21042,"enrollment":37,"classize":26,"avgmath":51.1,"avgverb":78.38,"disadvantaged":0},{"schlcode":21043,"enrollment":45,"classize":23,"avgmath":61.91,"avgverb":77.86,"disadvantaged":1},{"schlcode":21043,"enrollment":45,"classize":22,"avgmath":58.57,"avgverb":82.36,"disadvantaged":1},{"schlcode":21050,"enrollment":54,"classize":26,"avgmath":67.56,"avgverb":77.43,"disadvantaged":3},{"schlcode":21050,"enrollment":54,"classize":28,"avgmath":72.04,"avgverb":85.36,"disadvantaged":3},{"schlcode":21052,"enrollment":24,"classize":24,"avgmath":65.77,"avgverb":84.23,"disadvantaged":0},{"schlcode":21057,"enrollment":51,"classize":25,"avgmath":71.95,"avgverb":88.87,"disadvantaged":2},{"schlcode":21057,"enrollment":51,"classize":26,"avgmath":66.404,"avgverb":83.3596,"disadvantaged":2},{"schlcode":21064,"enrollment":52,"classize":25,"avgmath":56.5,"avgverb":70,"disadvantaged":1},{"schlcode":21064,"enrollment":52,"classize":27,"avgmath":54.74,"avgverb":69.08,"disadvantaged":1},{"schlcode":21065,"enrollment":14,"classize":14,"avgmath":71,"avgverb":86,"disadvantaged":0},{"schlcode":21067,"enrollment":45,"classize":21,"avgmath":64.25,"avgverb":62.43,"disadvantaged":38},{"schlcode":21067,"enrollment":45,"classize":24,"avgmath":58.73,"avgverb":61.83,"disadvantaged":38},{"schlcode":21068,"enrollment":59,"classize":30,"avgmath":56.7,"avgverb":72.83,"disadvantaged":33},{"schlcode":21068,"enrollment":59,"classize":29,"avgmath":64.4103,"avgverb":69.5486,"disadvantaged":33},{"schlcode":21074,"enrollment":42,"classize":21,"avgmath":37.8,"avgverb":44.45,"disadvantaged":52},{"schlcode":21074,"enrollment":42,"classize":21,"avgmath":41.72,"avgverb":46.24,"disadvantaged":52},{"schlcode":21077,"enrollment":25,"classize":25,"avgmath":46.27,"avgverb":57.59,"disadvantaged":48},{"schlcode":21079,"enrollment":31,"classize":31,"avgmath":48,"avgverb":57,"disadvantaged":60},{"schlcode":21080,"enrollment":24,"classize":24,"avgmath":59.46,"avgverb":69.46,"disadvantaged":14},{"schlcode":21081,"enrollment":24,"classize":24,"avgmath":51.33,"avgverb":65,"disadvantaged":49},{"schlcode":21088,"enrollment":35,"classize":35,"avgmath":70.97,"avgverb":78.07,"disadvantaged":7},{"schlcode":21089,"enrollment":65,"classize":33,"avgmath":68.94,"avgverb":70.83,"disadvantaged":14},{"schlcode":21089,"enrollment":65,"classize":32,"avgmath":80.47,"avgverb":75.53,"disadvantaged":14},{"schlcode":21090,"enrollment":29,"classize":21,"avgmath":69,"avgverb":78,"disadvantaged":42},{"schlcode":21091,"enrollment":22,"classize":22,"avgmath":60.61,"avgverb":79.67,"disadvantaged":0},{"schlcode":21093,"enrollment":41,"classize":20,"avgmath":71.56,"avgverb":80.53,"disadvantaged":0},{"schlcode":21093,"enrollment":41,"classize":21,"avgmath":67.6,"avgverb":84.57,"disadvantaged":0},{"schlcode":21095,"enrollment":22,"classize":22,"avgmath":69.18,"avgverb":77.95,"disadvantaged":2},{"schlcode":21096,"enrollment":60,"classize":23,"avgmath":68.91,"avgverb":82.61,"disadvantaged":3},{"schlcode":21096,"enrollment":60,"classize":24,"avgmath":76.13,"avgverb":83.04,"disadvantaged":3},{"schlcode":21097,"enrollment":53,"classize":27,"avgmath":62.29,"avgverb":80.14,"disadvantaged":0},{"schlcode":21097,"enrollment":53,"classize":26,"avgmath":59.452,"avgverb":79.846,"disadvantaged":0},{"schlcode":21102,"enrollment":65,"classize":33,"avgmath":72.97,"avgverb":84.91,"disadvantaged":8},{"schlcode":21102,"enrollment":65,"classize":32,"avgmath":77.2,"avgverb":85.53,"disadvantaged":8},{"schlcode":21105,"enrollment":18,"classize":18,"avgmath":69.29,"avgverb":81.59,"disadvantaged":0},{"schlcode":21111,"enrollment":33,"classize":22,"avgmath":65.9,"avgverb":65.75,"disadvantaged":49},{"schlcode":21114,"enrollment":20,"classize":20,"avgmath":70.12,"avgverb":78.59,"disadvantaged":1},{"schlcode":21116,"enrollment":15,"classize":15,"avgmath":69.87,"avgverb":84.53,"disadvantaged":25},{"schlcode":21117,"enrollment":72,"classize":29,"avgmath":74.83,"avgverb":68.54,"disadvantaged":21},{"schlcode":21117,"enrollment":72,"classize":30,"avgmath":81.17,"avgverb":71.5141,"disadvantaged":21},{"schlcode":21119,"enrollment":30,"classize":20,"avgmath":47,"avgverb":72,"disadvantaged":63},{"schlcode":21123,"enrollment":17,"classize":17,"avgmath":77.71,"avgverb":77.81,"disadvantaged":0},{"schlcode":21126,"enrollment":20,"classize":20,"avgmath":76.21,"avgverb":79.74,"disadvantaged":3},{"schlcode":21127,"enrollment":46,"classize":21,"avgmath":52.29,"avgverb":59.88,"disadvantaged":43},{"schlcode":21127,"enrollment":46,"classize":25,"avgmath":68.4035,"avgverb":74.902,"disadvantaged":43},{"schlcode":21130,"enrollment":23,"classize":23,"avgmath":53.92,"avgverb":65.83,"disadvantaged":22},{"schlcode":21132,"enrollment":66,"classize":28,"avgmath":75.04,"avgverb":85.4,"disadvantaged":0},{"schlcode":21132,"enrollment":66,"classize":28,"avgmath":72.8696,"avgverb":80.3913,"disadvantaged":0},{"schlcode":21134,"enrollment":23,"classize":23,"avgmath":73.37,"avgverb":80.63,"disadvantaged":10},{"schlcode":21138,"enrollment":25,"classize":25,"avgmath":58.18,"avgverb":75.73,"disadvantaged":48},{"schlcode":21141,"enrollment":16,"classize":16,"avgmath":73.81,"avgverb":80.88,"disadvantaged":0},{"schlcode":21144,"enrollment":51,"classize":25,"avgmath":82.3,"avgverb":83.57,"disadvantaged":1},{"schlcode":21144,"enrollment":51,"classize":26,"avgmath":77.63,"avgverb":83.88,"disadvantaged":1},{"schlcode":21146,"enrollment":48,"classize":24,"avgmath":68,"avgverb":66.85,"disadvantaged":17},{"schlcode":21146,"enrollment":48,"classize":24,"avgmath":63.7,"avgverb":75,"disadvantaged":17},{"schlcode":21148,"enrollment":42,"classize":22,"avgmath":48.7,"avgverb":64.15,"disadvantaged":38},{"schlcode":21148,"enrollment":42,"classize":20,"avgmath":47.2632,"avgverb":63.8421,"disadvantaged":38},{"schlcode":21153,"enrollment":24,"classize":24,"avgmath":62,"avgverb":74,"disadvantaged":30},{"schlcode":21160,"enrollment":41,"classize":27,"avgmath":62.17,"avgverb":73.11,"disadvantaged":24},{"schlcode":21160,"enrollment":41,"classize":27,"avgmath":43.26,"avgverb":60.67,"disadvantaged":24},{"schlcode":21162,"enrollment":52,"classize":40,"avgmath":60.13,"avgverb":64,"disadvantaged":22},{"schlcode":21163,"enrollment":26,"classize":26,"avgmath":53.79,"avgverb":69.04,"disadvantaged":20},{"schlcode":21166,"enrollment":23,"classize":24,"avgmath":67.61,"avgverb":85.65,"disadvantaged":2},{"schlcode":21168,"enrollment":43,"classize":21,"avgmath":73.33,"avgverb":84.56,"disadvantaged":0},{"schlcode":21168,"enrollment":43,"classize":22,"avgmath":72.7171,"avgverb":81.44,"disadvantaged":0},{"schlcode":21171,"enrollment":23,"classize":23,"avgmath":78.53,"avgverb":88.21,"disadvantaged":0},{"schlcode":21173,"enrollment":34,"classize":34,"avgmath":63.97,"avgverb":79.79,"disadvantaged":4},{"schlcode":21175,"enrollment":42,"classize":22,"avgmath":64.5,"avgverb":76.78,"disadvantaged":0},{"schlcode":21175,"enrollment":42,"classize":20,"avgmath":59.8571,"avgverb":79.098,"disadvantaged":0},{"schlcode":21176,"enrollment":12,"classize":12,"avgmath":63.91,"avgverb":68.8,"disadvantaged":3},{"schlcode":21178,"enrollment":48,"classize":27,"avgmath":57.71,"avgverb":73.17,"disadvantaged":21},{"schlcode":21178,"enrollment":48,"classize":21,"avgmath":64.1584,"avgverb":57.1704,"disadvantaged":21},{"schlcode":21182,"enrollment":54,"classize":25,"avgmath":55.62,"avgverb":61.63,"disadvantaged":5},{"schlcode":21182,"enrollment":54,"classize":29,"avgmath":52.7612,"avgverb":66.1067,"disadvantaged":5},{"schlcode":21184,"enrollment":46,"classize":23,"avgmath":71.68,"avgverb":75.86,"disadvantaged":33},{"schlcode":21184,"enrollment":46,"classize":23,"avgmath":77.21,"avgverb":76.89,"disadvantaged":33},{"schlcode":21185,"enrollment":38,"classize":19,"avgmath":57.11,"avgverb":73.89,"disadvantaged":35},{"schlcode":21185,"enrollment":38,"classize":19,"avgmath":60.89,"avgverb":70.11,"disadvantaged":35},{"schlcode":21190,"enrollment":72,"classize":32,"avgmath":56.58,"avgverb":57.41,"disadvantaged":30},{"schlcode":21190,"enrollment":72,"classize":32,"avgmath":65.66,"avgverb":67.65,"disadvantaged":30},{"schlcode":21195,"enrollment":48,"classize":21,"avgmath":55.04,"avgverb":64.83,"disadvantaged":71},{"schlcode":21195,"enrollment":48,"classize":27,"avgmath":41.96,"avgverb":58.71,"disadvantaged":71},{"schlcode":21196,"enrollment":41,"classize":20,"avgmath":44.8,"avgverb":62.68,"disadvantaged":76},{"schlcode":21196,"enrollment":41,"classize":21,"avgmath":39.0526,"avgverb":55.32,"disadvantaged":76},{"schlcode":21200,"enrollment":24,"classize":24,"avgmath":81.5,"avgverb":82.67,"disadvantaged":5},{"schlcode":21201,"enrollment":27,"classize":14,"avgmath":60.08,"avgverb":62.54,"disadvantaged":49},{"schlcode":21201,"enrollment":27,"classize":13,"avgmath":47.5,"avgverb":54.67,"disadvantaged":49},{"schlcode":21203,"enrollment":56,"classize":27,"avgmath":69.47,"avgverb":77.89,"disadvantaged":8},{"schlcode":21203,"enrollment":56,"classize":29,"avgmath":65.85,"avgverb":74.74,"disadvantaged":8},{"schlcode":21204,"enrollment":27,"classize":27,"avgmath":65.11,"avgverb":74.89,"disadvantaged":41},{"schlcode":21205,"enrollment":75,"classize":36,"avgmath":68.67,"avgverb":72.13,"disadvantaged":21},{"schlcode":21205,"enrollment":75,"classize":39,"avgmath":63.92,"avgverb":74.97,"disadvantaged":21},{"schlcode":21206,"enrollment":35,"classize":35,"avgmath":62.79,"avgverb":72.21,"disadvantaged":32},{"schlcode":21208,"enrollment":60,"classize":27,"avgmath":60.3,"avgverb":64.67,"disadvantaged":40},{"schlcode":21208,"enrollment":60,"classize":33,"avgmath":64.59,"avgverb":72.25,"disadvantaged":40},{"schlcode":21209,"enrollment":75,"classize":38,"avgmath":62.38,"avgverb":67.74,"disadvantaged":41},{"schlcode":21209,"enrollment":75,"classize":37,"avgmath":74.83,"avgverb":76.75,"disadvantaged":41},{"schlcode":21210,"enrollment":66,"classize":33,"avgmath":69.38,"avgverb":71.62,"disadvantaged":46},{"schlcode":21210,"enrollment":66,"classize":33,"avgmath":67.87,"avgverb":65.83,"disadvantaged":46},{"schlcode":21211,"enrollment":22,"classize":22,"avgmath":66.43,"avgverb":58.2,"disadvantaged":56},{"schlcode":21212,"enrollment":56,"classize":28,"avgmath":66.4,"avgverb":74.6,"disadvantaged":44},{"schlcode":21212,"enrollment":56,"classize":28,"avgmath":67.93,"avgverb":65.36,"disadvantaged":44},{"schlcode":21213,"enrollment":22,"classize":22,"avgmath":72.33,"avgverb":80.9,"disadvantaged":0},{"schlcode":21214,"enrollment":34,"classize":34,"avgmath":71,"avgverb":80,"disadvantaged":4},{"schlcode":21215,"enrollment":41,"classize":21,"avgmath":70.67,"avgverb":82.05,"disadvantaged":3},{"schlcode":21215,"enrollment":41,"classize":20,"avgmath":72,"avgverb":85,"disadvantaged":3},{"schlcode":21221,"enrollment":52,"classize":25,"avgmath":67.33,"avgverb":73.47,"disadvantaged":6},{"schlcode":21221,"enrollment":52,"classize":27,"avgmath":75.17,"avgverb":78.58,"disadvantaged":6},{"schlcode":21229,"enrollment":12,"classize":12,"avgmath":50.17,"avgverb":77.27,"disadvantaged":5},{"schlcode":21235,"enrollment":25,"classize":25,"avgmath":44,"avgverb":63,"disadvantaged":35},{"schlcode":21236,"enrollment":44,"classize":24,"avgmath":63,"avgverb":75.76,"disadvantaged":35},{"schlcode":21236,"enrollment":44,"classize":20,"avgmath":62.94,"avgverb":64.29,"disadvantaged":35},{"schlcode":21241,"enrollment":43,"classize":22,"avgmath":65.9,"avgverb":76.65,"disadvantaged":2},{"schlcode":21241,"enrollment":43,"classize":21,"avgmath":72.1,"avgverb":79.35,"disadvantaged":2},{"schlcode":21258,"enrollment":20,"classize":20,"avgmath":51.1,"avgverb":69.75,"disadvantaged":63},{"schlcode":21265,"enrollment":58,"classize":32,"avgmath":64.35,"avgverb":71.9,"disadvantaged":34},{"schlcode":21265,"enrollment":58,"classize":26,"avgmath":68.92,"avgverb":76.88,"disadvantaged":34},{"schlcode":21273,"enrollment":34,"classize":23,"avgmath":56,"avgverb":65,"disadvantaged":33},{"schlcode":21275,"enrollment":21,"classize":21,"avgmath":59.9,"avgverb":75.38,"disadvantaged":11},{"schlcode":21276,"enrollment":23,"classize":23,"avgmath":58.43,"avgverb":72.57,"disadvantaged":59},{"schlcode":21277,"enrollment":59,"classize":29,"avgmath":53.57,"avgverb":67.58,"disadvantaged":11},{"schlcode":21277,"enrollment":59,"classize":30,"avgmath":46.175,"avgverb":58.2368,"disadvantaged":11},{"schlcode":21279,"enrollment":50,"classize":26,"avgmath":69.42,"avgverb":72.62,"disadvantaged":34},{"schlcode":21279,"enrollment":50,"classize":24,"avgmath":64.16,"avgverb":67.64,"disadvantaged":34},{"schlcode":21280,"enrollment":17,"classize":17,"avgmath":69,"avgverb":77,"disadvantaged":7},{"schlcode":21281,"enrollment":48,"classize":27,"avgmath":71.06,"avgverb":76.5,"disadvantaged":43},{"schlcode":21281,"enrollment":48,"classize":21,"avgmath":74.92,"avgverb":76.77,"disadvantaged":43},{"schlcode":21282,"enrollment":65,"classize":27,"avgmath":67.63,"avgverb":72.08,"disadvantaged":31},{"schlcode":21282,"enrollment":65,"classize":27,"avgmath":58.5354,"avgverb":71.9231,"disadvantaged":31},{"schlcode":21285,"enrollment":24,"classize":24,"avgmath":56.19,"avgverb":63.1,"disadvantaged":45},{"schlcode":21293,"enrollment":50,"classize":25,"avgmath":68.6,"avgverb":74.56,"disadvantaged":27},{"schlcode":21293,"enrollment":50,"classize":25,"avgmath":67.4444,"avgverb":75.4074,"disadvantaged":27},{"schlcode":21310,"enrollment":64,"classize":26,"avgmath":72.73,"avgverb":79.2,"disadvantaged":44},{"schlcode":21310,"enrollment":64,"classize":26,"avgmath":53.8916,"avgverb":68.5263,"disadvantaged":44},{"schlcode":21312,"enrollment":70,"classize":36,"avgmath":64,"avgverb":76.24,"disadvantaged":10},{"schlcode":21312,"enrollment":70,"classize":34,"avgmath":53.77,"avgverb":76.61,"disadvantaged":10},{"schlcode":21313,"enrollment":45,"classize":23,"avgmath":61.72,"avgverb":85.5,"disadvantaged":3},{"schlcode":21313,"enrollment":45,"classize":22,"avgmath":67.17,"avgverb":83.67,"disadvantaged":3},{"schlcode":21315,"enrollment":74,"classize":27,"avgmath":65.4954,"avgverb":84.1713,"disadvantaged":8},{"schlcode":21316,"enrollment":33,"classize":11,"avgmath":58,"avgverb":64.44,"disadvantaged":24},{"schlcode":21316,"enrollment":33,"classize":22,"avgmath":49.9,"avgverb":64,"disadvantaged":24},{"schlcode":21323,"enrollment":48,"classize":25,"avgmath":74.08,"avgverb":84.71,"disadvantaged":4},{"schlcode":21323,"enrollment":48,"classize":23,"avgmath":65.104,"avgverb":85.3663,"disadvantaged":4},{"schlcode":21327,"enrollment":45,"classize":23,"avgmath":75.9,"avgverb":78.25,"disadvantaged":1},{"schlcode":21327,"enrollment":45,"classize":22,"avgmath":70.45,"avgverb":81.55,"disadvantaged":1},{"schlcode":21330,"enrollment":74,"classize":37,"avgmath":49.37,"avgverb":73.73,"disadvantaged":6},{"schlcode":21330,"enrollment":74,"classize":37,"avgmath":50.92,"avgverb":74.62,"disadvantaged":6},{"schlcode":21331,"enrollment":57,"classize":31,"avgmath":65.03,"avgverb":75.3,"disadvantaged":19},{"schlcode":21331,"enrollment":57,"classize":26,"avgmath":58.38,"avgverb":64.7,"disadvantaged":19},{"schlcode":21340,"enrollment":60,"classize":30,"avgmath":64.86,"avgverb":75.46,"disadvantaged":30},{"schlcode":21340,"enrollment":60,"classize":30,"avgmath":50.54,"avgverb":64.18,"disadvantaged":30},{"schlcode":21350,"enrollment":74,"classize":30,"avgmath":68.83,"avgverb":67.91,"disadvantaged":32},{"schlcode":21350,"enrollment":74,"classize":28,"avgmath":60.7281,"avgverb":63.6879,"disadvantaged":32},{"schlcode":21351,"enrollment":43,"classize":21,"avgmath":71.67,"avgverb":86.29,"disadvantaged":0},{"schlcode":21351,"enrollment":43,"classize":22,"avgmath":77.22,"avgverb":89.61,"disadvantaged":0},{"schlcode":21356,"enrollment":58,"classize":29,"avgmath":69.25,"avgverb":70.85,"disadvantaged":28},{"schlcode":21356,"enrollment":58,"classize":29,"avgmath":60.46,"avgverb":67.95,"disadvantaged":28},{"schlcode":21357,"enrollment":19,"classize":19,"avgmath":69.05,"avgverb":77.42,"disadvantaged":0},{"schlcode":21359,"enrollment":43,"classize":21,"avgmath":54.05,"avgverb":70.74,"disadvantaged":10},{"schlcode":21359,"enrollment":43,"classize":22,"avgmath":59.5477,"avgverb":71.247,"disadvantaged":10},{"schlcode":21362,"enrollment":62,"classize":31,"avgmath":61.89,"avgverb":70.44,"disadvantaged":13},{"schlcode":21362,"enrollment":62,"classize":31,"avgmath":72.42,"avgverb":74.16,"disadvantaged":13},{"schlcode":21370,"enrollment":68,"classize":34,"avgmath":66.94,"avgverb":73.22,"disadvantaged":9},{"schlcode":21370,"enrollment":68,"classize":34,"avgmath":74.56,"avgverb":72.84,"disadvantaged":9},{"schlcode":21371,"enrollment":79,"classize":39,"avgmath":66.06,"avgverb":77.09,"disadvantaged":3},{"schlcode":21371,"enrollment":79,"classize":40,"avgmath":79.3,"avgverb":86.18,"disadvantaged":3},{"schlcode":21373,"enrollment":50,"classize":25,"avgmath":81.6,"avgverb":84.2,"disadvantaged":1},{"schlcode":21373,"enrollment":50,"classize":25,"avgmath":78.82,"avgverb":85.18,"disadvantaged":1},{"schlcode":21374,"enrollment":47,"classize":24,"avgmath":83.29,"avgverb":84.43,"disadvantaged":0},{"schlcode":21374,"enrollment":47,"classize":23,"avgmath":84.68,"avgverb":83.91,"disadvantaged":0},{"schlcode":21375,"enrollment":78,"classize":39,"avgmath":54.51,"avgverb":63.21,"disadvantaged":11},{"schlcode":21375,"enrollment":78,"classize":39,"avgmath":54.08,"avgverb":62.94,"disadvantaged":11},{"schlcode":21379,"enrollment":70,"classize":35,"avgmath":68.83,"avgverb":77.74,"disadvantaged":12},{"schlcode":21379,"enrollment":70,"classize":35,"avgmath":69.76,"avgverb":69.79,"disadvantaged":12},{"schlcode":31001,"enrollment":72,"classize":30,"avgmath":63.04,"avgverb":60.39,"disadvantaged":31},{"schlcode":31001,"enrollment":72,"classize":28,"avgmath":63.07,"avgverb":62.24,"disadvantaged":31},{"schlcode":31002,"enrollment":60,"classize":23,"avgmath":73.26,"avgverb":79.65,"disadvantaged":41},{"schlcode":31002,"enrollment":60,"classize":29,"avgmath":67.33,"avgverb":64.95,"disadvantaged":41},{"schlcode":31007,"enrollment":62,"classize":22,"avgmath":79.95,"avgverb":83.15,"disadvantaged":7},{"schlcode":31007,"enrollment":62,"classize":22,"avgmath":69.91,"avgverb":78.86,"disadvantaged":7},{"schlcode":31008,"enrollment":18,"classize":18,"avgmath":61.85,"avgverb":62.69,"disadvantaged":42},{"schlcode":31012,"enrollment":19,"classize":19,"avgmath":55,"avgverb":74,"disadvantaged":4},{"schlcode":31019,"enrollment":20,"classize":20,"avgmath":69.2,"avgverb":70.45,"disadvantaged":32},{"schlcode":31021,"enrollment":74,"classize":31,"avgmath":45.2,"avgverb":63.12,"disadvantaged":32},{"schlcode":31021,"enrollment":74,"classize":31,"avgmath":54.13,"avgverb":69.42,"disadvantaged":32},{"schlcode":31025,"enrollment":71,"classize":27,"avgmath":68.21,"avgverb":73.5,"disadvantaged":17},{"schlcode":31025,"enrollment":71,"classize":32,"avgmath":63.44,"avgverb":71.33,"disadvantaged":17},{"schlcode":31026,"enrollment":48,"classize":35,"avgmath":57.47,"avgverb":66.7,"disadvantaged":30},{"schlcode":31028,"enrollment":61,"classize":23,"avgmath":55.43,"avgverb":69.56,"disadvantaged":13},{"schlcode":31028,"enrollment":61,"classize":25,"avgmath":52.38,"avgverb":69.55,"disadvantaged":13},{"schlcode":31029,"enrollment":17,"classize":17,"avgmath":63.76,"avgverb":63.24,"disadvantaged":58},{"schlcode":31030,"enrollment":45,"classize":23,"avgmath":63.29,"avgverb":67.77,"disadvantaged":31},{"schlcode":31030,"enrollment":45,"classize":22,"avgmath":58.15,"avgverb":71,"disadvantaged":31},{"schlcode":31031,"enrollment":44,"classize":20,"avgmath":68.12,"avgverb":72.24,"disadvantaged":41},{"schlcode":31031,"enrollment":44,"classize":24,"avgmath":74.264,"avgverb":71.6862,"disadvantaged":41},{"schlcode":31033,"enrollment":26,"classize":26,"avgmath":46.7,"avgverb":60,"disadvantaged":41},{"schlcode":31034,"enrollment":14,"classize":14,"avgmath":78.38,"avgverb":74.69,"disadvantaged":36},{"schlcode":31035,"enrollment":59,"classize":35,"avgmath":68.43,"avgverb":78.36,"disadvantaged":26},{"schlcode":31035,"enrollment":59,"classize":34,"avgmath":63.3,"avgverb":70.89,"disadvantaged":26},{"schlcode":31040,"enrollment":44,"classize":40,"avgmath":80.36,"avgverb":83.61,"disadvantaged":4},{"schlcode":31046,"enrollment":42,"classize":32,"avgmath":61.1,"avgverb":71.53,"disadvantaged":10},{"schlcode":31048,"enrollment":55,"classize":20,"avgmath":58.04,"avgverb":77.45,"disadvantaged":11},{"schlcode":31048,"enrollment":55,"classize":12,"avgmath":71.95,"avgverb":77.16,"disadvantaged":11},{"schlcode":31049,"enrollment":59,"classize":27,"avgmath":86.77,"avgverb":85.16,"disadvantaged":2},{"schlcode":31049,"enrollment":59,"classize":32,"avgmath":81.8176,"avgverb":84.8788,"disadvantaged":2},{"schlcode":31055,"enrollment":71,"classize":37,"avgmath":78.03,"avgverb":85.91,"disadvantaged":3},{"schlcode":31055,"enrollment":71,"classize":34,"avgmath":75.79,"avgverb":85.26,"disadvantaged":3},{"schlcode":31060,"enrollment":78,"classize":29,"avgmath":62.25,"avgverb":67.78,"disadvantaged":13},{"schlcode":31060,"enrollment":78,"classize":29,"avgmath":57.41,"avgverb":70.87,"disadvantaged":13},{"schlcode":31063,"enrollment":41,"classize":21,"avgmath":68.61,"avgverb":79.83,"disadvantaged":6},{"schlcode":31063,"enrollment":41,"classize":20,"avgmath":69.27,"avgverb":79.47,"disadvantaged":6},{"schlcode":31067,"enrollment":71,"classize":26,"avgmath":60.84,"avgverb":76.5,"disadvantaged":17},{"schlcode":31067,"enrollment":71,"classize":22,"avgmath":63.37,"avgverb":67.63,"disadvantaged":17},{"schlcode":31068,"enrollment":48,"classize":24,"avgmath":64.05,"avgverb":67.33,"disadvantaged":15},{"schlcode":31068,"enrollment":48,"classize":24,"avgmath":66.43,"avgverb":65.43,"disadvantaged":15},{"schlcode":31069,"enrollment":69,"classize":24,"avgmath":62.5,"avgverb":81.79,"disadvantaged":6},{"schlcode":31069,"enrollment":69,"classize":26,"avgmath":60.28,"avgverb":73.52,"disadvantaged":6},{"schlcode":31070,"enrollment":47,"classize":37,"avgmath":70.24,"avgverb":75.04,"disadvantaged":11},{"schlcode":31073,"enrollment":26,"classize":26,"avgmath":62.2,"avgverb":71.14,"disadvantaged":16},{"schlcode":31077,"enrollment":77,"classize":26,"avgmath":74.36,"avgverb":68.09,"disadvantaged":13},{"schlcode":31077,"enrollment":77,"classize":26,"avgmath":71.22,"avgverb":72.48,"disadvantaged":13},{"schlcode":31079,"enrollment":79,"classize":20,"avgmath":70.14,"avgverb":75.62,"disadvantaged":12},{"schlcode":31079,"enrollment":79,"classize":20,"avgmath":73.05,"avgverb":82.89,"disadvantaged":12},{"schlcode":31079,"enrollment":79,"classize":32,"avgmath":59.0972,"avgverb":74.3248,"disadvantaged":12},{"schlcode":31083,"enrollment":22,"classize":22,"avgmath":69.94,"avgverb":75.86,"disadvantaged":38},{"schlcode":31084,"enrollment":64,"classize":33,"avgmath":80.1,"avgverb":83.84,"disadvantaged":8},{"schlcode":31084,"enrollment":64,"classize":31,"avgmath":72.69,"avgverb":81.91,"disadvantaged":8},{"schlcode":31085,"enrollment":23,"classize":23,"avgmath":52.11,"avgverb":69.5,"disadvantaged":28},{"schlcode":31086,"enrollment":9,"classize":9,"avgmath":47.18,"avgverb":46.33,"disadvantaged":51},{"schlcode":31087,"enrollment":66,"classize":33,"avgmath":76.46,"avgverb":84.63,"disadvantaged":5},{"schlcode":31087,"enrollment":66,"classize":33,"avgmath":75.4969,"avgverb":85.3819,"disadvantaged":5},{"schlcode":31089,"enrollment":52,"classize":26,"avgmath":63.91,"avgverb":64.7,"disadvantaged":15},{"schlcode":31089,"enrollment":52,"classize":26,"avgmath":70.04,"avgverb":70.73,"disadvantaged":15},{"schlcode":31092,"enrollment":16,"classize":16,"avgmath":58.58,"avgverb":73.27,"disadvantaged":23},{"schlcode":31095,"enrollment":22,"classize":22,"avgmath":83.47,"avgverb":84.8,"disadvantaged":0},{"schlcode":31098,"enrollment":57,"classize":24,"avgmath":63.48,"avgverb":59.87,"disadvantaged":16},{"schlcode":31098,"enrollment":57,"classize":9,"avgmath":67.42,"avgverb":63.57,"disadvantaged":16},{"schlcode":31099,"enrollment":27,"classize":27,"avgmath":64.88,"avgverb":72.19,"disadvantaged":20},{"schlcode":31101,"enrollment":40,"classize":40,"avgmath":57.18,"avgverb":60.18,"disadvantaged":50},{"schlcode":31103,"enrollment":19,"classize":19,"avgmath":72.32,"avgverb":78.91,"disadvantaged":2},{"schlcode":31107,"enrollment":63,"classize":31,"avgmath":64.43,"avgverb":78.8,"disadvantaged":7},{"schlcode":31107,"enrollment":63,"classize":32,"avgmath":61.41,"avgverb":75.9,"disadvantaged":7},{"schlcode":31108,"enrollment":21,"classize":21,"avgmath":77,"avgverb":82,"disadvantaged":28},{"schlcode":31114,"enrollment":20,"classize":20,"avgmath":67,"avgverb":79,"disadvantaged":1},{"schlcode":31115,"enrollment":17,"classize":17,"avgmath":62.53,"avgverb":73.06,"disadvantaged":0},{"schlcode":31116,"enrollment":33,"classize":33,"avgmath":74.67,"avgverb":86.48,"disadvantaged":0},{"schlcode":31120,"enrollment":16,"classize":16,"avgmath":66,"avgverb":74,"disadvantaged":11},{"schlcode":31121,"enrollment":56,"classize":24,"avgmath":76.36,"avgverb":77.04,"disadvantaged":13},{"schlcode":31121,"enrollment":56,"classize":20,"avgmath":60.13,"avgverb":64.25,"disadvantaged":13},{"schlcode":31122,"enrollment":52,"classize":33,"avgmath":80.67,"avgverb":80.35,"disadvantaged":9},{"schlcode":31122,"enrollment":52,"classize":33,"avgmath":73.0364,"avgverb":77.596,"disadvantaged":9},{"schlcode":31125,"enrollment":35,"classize":35,"avgmath":75.97,"avgverb":73,"disadvantaged":17},{"schlcode":31129,"enrollment":43,"classize":21,"avgmath":61,"avgverb":80.69,"disadvantaged":2},{"schlcode":31129,"enrollment":43,"classize":22,"avgmath":59.94,"avgverb":78.06,"disadvantaged":2},{"schlcode":31130,"enrollment":20,"classize":20,"avgmath":68,"avgverb":79.33,"disadvantaged":2},{"schlcode":31132,"enrollment":20,"classize":20,"avgmath":67,"avgverb":74,"disadvantaged":18},{"schlcode":31133,"enrollment":40,"classize":40,"avgmath":65.79,"avgverb":73.15,"disadvantaged":19},{"schlcode":31134,"enrollment":14,"classize":14,"avgmath":44.69,"avgverb":64.38,"disadvantaged":46},{"schlcode":31136,"enrollment":56,"classize":23,"avgmath":67.33,"avgverb":70.52,"disadvantaged":21},{"schlcode":31136,"enrollment":56,"classize":23,"avgmath":68.6117,"avgverb":77.045,"disadvantaged":21},{"schlcode":31139,"enrollment":63,"classize":30,"avgmath":64.81,"avgverb":73.65,"disadvantaged":22},{"schlcode":31139,"enrollment":63,"classize":33,"avgmath":60.66,"avgverb":73.45,"disadvantaged":22},{"schlcode":31141,"enrollment":20,"classize":20,"avgmath":44,"avgverb":53,"disadvantaged":60},{"schlcode":31151,"enrollment":29,"classize":29,"avgmath":70,"avgverb":80,"disadvantaged":9},{"schlcode":31152,"enrollment":51,"classize":26,"avgmath":74.28,"avgverb":79.56,"disadvantaged":5},{"schlcode":31152,"enrollment":51,"classize":25,"avgmath":74.2,"avgverb":84.04,"disadvantaged":5},{"schlcode":31154,"enrollment":10,"classize":10,"avgmath":72.2,"avgverb":77.4,"disadvantaged":40},{"schlcode":31159,"enrollment":49,"classize":21,"avgmath":73,"avgverb":71.96,"disadvantaged":57},{"schlcode":31162,"enrollment":69,"classize":34,"avgmath":72.32,"avgverb":82.42,"disadvantaged":13},{"schlcode":31162,"enrollment":69,"classize":35,"avgmath":78.94,"avgverb":83.31,"disadvantaged":13},{"schlcode":31164,"enrollment":25,"classize":25,"avgmath":76,"avgverb":82,"disadvantaged":15},{"schlcode":31165,"enrollment":20,"classize":20,"avgmath":69.7,"avgverb":75.7,"disadvantaged":43},{"schlcode":31167,"enrollment":14,"classize":14,"avgmath":81.27,"avgverb":86.1,"disadvantaged":4},{"schlcode":31168,"enrollment":11,"classize":11,"avgmath":81.82,"avgverb":87.45,"disadvantaged":0},{"schlcode":31207,"enrollment":44,"classize":31,"avgmath":52,"avgverb":75.19,"disadvantaged":9},{"schlcode":31210,"enrollment":78,"classize":40,"avgmath":80.53,"avgverb":83.24,"disadvantaged":3},{"schlcode":31210,"enrollment":78,"classize":38,"avgmath":81.33,"avgverb":83.95,"disadvantaged":3},{"schlcode":31212,"enrollment":29,"classize":29,"avgmath":56,"avgverb":66,"disadvantaged":44},{"schlcode":31213,"enrollment":70,"classize":27,"avgmath":79.58,"avgverb":73,"disadvantaged":20},{"schlcode":31213,"enrollment":70,"classize":29,"avgmath":79.14,"avgverb":77.27,"disadvantaged":20},{"schlcode":31214,"enrollment":35,"classize":25,"avgmath":81,"avgverb":84,"disadvantaged":4},{"schlcode":31219,"enrollment":47,"classize":19,"avgmath":31.45,"avgverb":46.77,"disadvantaged":40},{"schlcode":31219,"enrollment":47,"classize":19,"avgmath":47,"avgverb":54,"disadvantaged":40},{"schlcode":31222,"enrollment":42,"classize":21,"avgmath":63.88,"avgverb":66.76,"disadvantaged":44},{"schlcode":31222,"enrollment":42,"classize":21,"avgmath":62.22,"avgverb":73.06,"disadvantaged":44},{"schlcode":31224,"enrollment":22,"classize":22,"avgmath":48.57,"avgverb":52.37,"disadvantaged":50},{"schlcode":31232,"enrollment":24,"classize":12,"avgmath":60.82,"avgverb":76.18,"disadvantaged":6},{"schlcode":31237,"enrollment":48,"classize":27,"avgmath":87.05,"avgverb":86.43,"disadvantaged":2},{"schlcode":31237,"enrollment":48,"classize":21,"avgmath":77.25,"avgverb":83.31,"disadvantaged":2},{"schlcode":31238,"enrollment":59,"classize":29,"avgmath":71.9,"avgverb":69.04,"disadvantaged":6},{"schlcode":31238,"enrollment":59,"classize":30,"avgmath":68.55,"avgverb":73,"disadvantaged":6},{"schlcode":31239,"enrollment":66,"classize":33,"avgmath":67.48,"avgverb":77.94,"disadvantaged":6},{"schlcode":31239,"enrollment":66,"classize":33,"avgmath":70.4725,"avgverb":81.9956,"disadvantaged":6},{"schlcode":31253,"enrollment":59,"classize":26,"avgmath":61.45,"avgverb":72.4,"disadvantaged":23},{"schlcode":31253,"enrollment":59,"classize":24,"avgmath":53.1304,"avgverb":64.1739,"disadvantaged":23},{"schlcode":31255,"enrollment":21,"classize":21,"avgmath":58.79,"avgverb":60.93,"disadvantaged":46},{"schlcode":31256,"enrollment":60,"classize":30,"avgmath":78,"avgverb":80.84,"disadvantaged":5},{"schlcode":31256,"enrollment":60,"classize":30,"avgmath":79.4,"avgverb":79.2,"disadvantaged":5},{"schlcode":31259,"enrollment":43,"classize":24,"avgmath":56,"avgverb":77,"disadvantaged":31},{"schlcode":31260,"enrollment":34,"classize":15,"avgmath":44,"avgverb":54,"disadvantaged":30},{"schlcode":31262,"enrollment":45,"classize":24,"avgmath":77.59,"avgverb":83,"disadvantaged":10},{"schlcode":31262,"enrollment":45,"classize":21,"avgmath":65.32,"avgverb":82.16,"disadvantaged":10},{"schlcode":31265,"enrollment":41,"classize":27,"avgmath":75.54,"avgverb":82.92,"disadvantaged":5},{"schlcode":41001,"enrollment":36,"classize":23,"avgmath":80.89,"avgverb":83.32,"disadvantaged":8},{"schlcode":41003,"enrollment":41,"classize":21,"avgmath":68.88,"avgverb":73.29,"disadvantaged":31},{"schlcode":41003,"enrollment":41,"classize":20,"avgmath":64.77,"avgverb":68.85,"disadvantaged":31},{"schlcode":41006,"enrollment":15,"classize":15,"avgmath":68.13,"avgverb":72.13,"disadvantaged":19},{"schlcode":41009,"enrollment":58,"classize":24,"avgmath":81.07,"avgverb":81.79,"disadvantaged":10},{"schlcode":41009,"enrollment":58,"classize":24,"avgmath":74.86,"avgverb":81.28,"disadvantaged":10},{"schlcode":41010,"enrollment":45,"classize":23,"avgmath":71.62,"avgverb":76.62,"disadvantaged":10},{"schlcode":41010,"enrollment":45,"classize":22,"avgmath":54.7718,"avgverb":61.38,"disadvantaged":10},{"schlcode":41012,"enrollment":29,"classize":29,"avgmath":58.16,"avgverb":63.84,"disadvantaged":33},{"schlcode":41016,"enrollment":11,"classize":11,"avgmath":52.82,"avgverb":59.78,"disadvantaged":28},{"schlcode":41017,"enrollment":29,"classize":29,"avgmath":65.07,"avgverb":64.93,"disadvantaged":30},{"schlcode":41018,"enrollment":30,"classize":30,"avgmath":72.81,"avgverb":84.06,"disadvantaged":1},{"schlcode":41019,"enrollment":27,"classize":27,"avgmath":78.7,"avgverb":81,"disadvantaged":5},{"schlcode":41023,"enrollment":51,"classize":24,"avgmath":78.65,"avgverb":76.26,"disadvantaged":11},{"schlcode":41023,"enrollment":51,"classize":27,"avgmath":71.7712,"avgverb":75.77,"disadvantaged":11},{"schlcode":41024,"enrollment":43,"classize":20,"avgmath":62.69,"avgverb":85.81,"disadvantaged":11},{"schlcode":41024,"enrollment":43,"classize":23,"avgmath":60.52,"avgverb":88.38,"disadvantaged":11},{"schlcode":41025,"enrollment":52,"classize":25,"avgmath":70.17,"avgverb":76.05,"disadvantaged":11},{"schlcode":41025,"enrollment":52,"classize":27,"avgmath":69.8489,"avgverb":77.7464,"disadvantaged":11},{"schlcode":41030,"enrollment":19,"classize":19,"avgmath":57.94,"avgverb":76.72,"disadvantaged":0},{"schlcode":41034,"enrollment":73,"classize":33,"avgmath":71.59,"avgverb":79.79,"disadvantaged":12},{"schlcode":41034,"enrollment":73,"classize":29,"avgmath":75.96,"avgverb":80.04,"disadvantaged":12},{"schlcode":41035,"enrollment":41,"classize":21,"avgmath":62.7,"avgverb":69.05,"disadvantaged":21},{"schlcode":41035,"enrollment":41,"classize":20,"avgmath":61.3636,"avgverb":67.0455,"disadvantaged":21},{"schlcode":41037,"enrollment":58,"classize":20,"avgmath":66.32,"avgverb":69.47,"disadvantaged":18},{"schlcode":41037,"enrollment":58,"classize":22,"avgmath":60.43,"avgverb":70.9,"disadvantaged":18},{"schlcode":41039,"enrollment":32,"classize":32,"avgmath":58,"avgverb":66,"disadvantaged":24},{"schlcode":41040,"enrollment":73,"classize":32,"avgmath":67.94,"avgverb":78.1,"disadvantaged":6},{"schlcode":41040,"enrollment":73,"classize":31,"avgmath":76.97,"avgverb":79.25,"disadvantaged":6},{"schlcode":41041,"enrollment":21,"classize":21,"avgmath":73.14,"avgverb":78.1,"disadvantaged":9},{"schlcode":41046,"enrollment":19,"classize":19,"avgmath":78,"avgverb":76.88,"disadvantaged":6},{"schlcode":41058,"enrollment":42,"classize":22,"avgmath":69.57,"avgverb":78.3,"disadvantaged":16},{"schlcode":41058,"enrollment":42,"classize":20,"avgmath":65.11,"avgverb":82,"disadvantaged":16},{"schlcode":41059,"enrollment":16,"classize":16,"avgmath":72.06,"avgverb":78.63,"disadvantaged":40},{"schlcode":41063,"enrollment":67,"classize":32,"avgmath":73.56,"avgverb":79.19,"disadvantaged":20},{"schlcode":41063,"enrollment":67,"classize":35,"avgmath":62.21,"avgverb":67.8,"disadvantaged":20},{"schlcode":41066,"enrollment":22,"classize":22,"avgmath":59,"avgverb":71,"disadvantaged":22},{"schlcode":41068,"enrollment":23,"classize":23,"avgmath":73.27,"avgverb":78.32,"disadvantaged":0},{"schlcode":41071,"enrollment":73,"classize":36,"avgmath":63.09,"avgverb":73.94,"disadvantaged":3},{"schlcode":41071,"enrollment":73,"classize":37,"avgmath":69.41,"avgverb":77.08,"disadvantaged":3},{"schlcode":41072,"enrollment":41,"classize":21,"avgmath":72.59,"avgverb":79.18,"disadvantaged":9},{"schlcode":41072,"enrollment":41,"classize":20,"avgmath":69.39,"avgverb":83.61,"disadvantaged":9},{"schlcode":41074,"enrollment":20,"classize":20,"avgmath":71.55,"avgverb":65.6,"disadvantaged":11},{"schlcode":41077,"enrollment":66,"classize":32,"avgmath":68.22,"avgverb":72.31,"disadvantaged":25},{"schlcode":41077,"enrollment":66,"classize":34,"avgmath":67.7572,"avgverb":75.8648,"disadvantaged":25},{"schlcode":41079,"enrollment":25,"classize":25,"avgmath":57,"avgverb":59,"disadvantaged":34},{"schlcode":41080,"enrollment":43,"classize":34,"avgmath":50.21,"avgverb":64.26,"disadvantaged":35},{"schlcode":41082,"enrollment":17,"classize":17,"avgmath":72.63,"avgverb":70.44,"disadvantaged":41},{"schlcode":41083,"enrollment":14,"classize":14,"avgmath":79.8,"avgverb":73.5,"disadvantaged":54},{"schlcode":41084,"enrollment":68,"classize":31,"avgmath":73.6,"avgverb":77.5,"disadvantaged":6},{"schlcode":41084,"enrollment":68,"classize":25,"avgmath":73.96,"avgverb":77.46,"disadvantaged":6},{"schlcode":41091,"enrollment":78,"classize":39,"avgmath":71.46,"avgverb":72.78,"disadvantaged":11},{"schlcode":41091,"enrollment":78,"classize":39,"avgmath":82.3942,"avgverb":81.22,"disadvantaged":11},{"schlcode":41092,"enrollment":28,"classize":28,"avgmath":57.07,"avgverb":68.22,"disadvantaged":16},{"schlcode":41093,"enrollment":27,"classize":25,"avgmath":61.33,"avgverb":69.53,"disadvantaged":51},{"schlcode":41094,"enrollment":23,"classize":23,"avgmath":83.77,"avgverb":83.73,"disadvantaged":3},{"schlcode":41095,"enrollment":51,"classize":23,"avgmath":84.2,"avgverb":81.15,"disadvantaged":26},{"schlcode":41095,"enrollment":51,"classize":23,"avgmath":83.29,"avgverb":79.62,"disadvantaged":26},{"schlcode":41096,"enrollment":41,"classize":20,"avgmath":57.65,"avgverb":62.22,"disadvantaged":36},{"schlcode":41096,"enrollment":41,"classize":21,"avgmath":67.18,"avgverb":69.41,"disadvantaged":36},{"schlcode":41097,"enrollment":43,"classize":22,"avgmath":72.81,"avgverb":80.43,"disadvantaged":8},{"schlcode":41097,"enrollment":43,"classize":21,"avgmath":60.85,"avgverb":79.9,"disadvantaged":8},{"schlcode":41098,"enrollment":38,"classize":38,"avgmath":38.18,"avgverb":56.56,"disadvantaged":36},{"schlcode":41099,"enrollment":55,"classize":25,"avgmath":56.11,"avgverb":63.57,"disadvantaged":27},{"schlcode":41099,"enrollment":55,"classize":30,"avgmath":48.65,"avgverb":58.56,"disadvantaged":27},{"schlcode":41100,"enrollment":62,"classize":31,"avgmath":63.06,"avgverb":72.66,"disadvantaged":23},{"schlcode":41100,"enrollment":62,"classize":31,"avgmath":71.13,"avgverb":65.9,"disadvantaged":23},{"schlcode":41101,"enrollment":44,"classize":23,"avgmath":51.38,"avgverb":60.95,"disadvantaged":43},{"schlcode":41101,"enrollment":44,"classize":21,"avgmath":45.82,"avgverb":59.33,"disadvantaged":43},{"schlcode":41105,"enrollment":33,"classize":33,"avgmath":62.22,"avgverb":76.37,"disadvantaged":40},{"schlcode":41108,"enrollment":54,"classize":27,"avgmath":77.52,"avgverb":74.63,"disadvantaged":20},{"schlcode":41108,"enrollment":54,"classize":27,"avgmath":71.43,"avgverb":75.19,"disadvantaged":20},{"schlcode":41114,"enrollment":23,"classize":23,"avgmath":72.5,"avgverb":84.89,"disadvantaged":2},{"schlcode":41118,"enrollment":54,"classize":25,"avgmath":66.09,"avgverb":74.5,"disadvantaged":4},{"schlcode":41118,"enrollment":54,"classize":29,"avgmath":81.14,"avgverb":81.21,"disadvantaged":4},{"schlcode":41122,"enrollment":19,"classize":19,"avgmath":63,"avgverb":76,"disadvantaged":11},{"schlcode":41125,"enrollment":70,"classize":30,"avgmath":78.25,"avgverb":78.95,"disadvantaged":10},{"schlcode":41125,"enrollment":70,"classize":28,"avgmath":80.79,"avgverb":76.18,"disadvantaged":10},{"schlcode":41127,"enrollment":56,"classize":28,"avgmath":74.54,"avgverb":75.85,"disadvantaged":17},{"schlcode":41127,"enrollment":56,"classize":28,"avgmath":78.46,"avgverb":73.15,"disadvantaged":17},{"schlcode":41129,"enrollment":24,"classize":24,"avgmath":48.67,"avgverb":58.65,"disadvantaged":33},{"schlcode":41131,"enrollment":47,"classize":23,"avgmath":78.61,"avgverb":80.52,"disadvantaged":0},{"schlcode":41131,"enrollment":47,"classize":24,"avgmath":77.64,"avgverb":79.5,"disadvantaged":0},{"schlcode":41132,"enrollment":58,"classize":28,"avgmath":75,"avgverb":78.57,"disadvantaged":0},{"schlcode":41132,"enrollment":58,"classize":30,"avgmath":84.18,"avgverb":84.07,"disadvantaged":0},{"schlcode":41134,"enrollment":51,"classize":24,"avgmath":47.7,"avgverb":47.79,"disadvantaged":31},{"schlcode":41134,"enrollment":51,"classize":27,"avgmath":72.26,"avgverb":81.09,"disadvantaged":31},{"schlcode":41136,"enrollment":63,"classize":31,"avgmath":74.06,"avgverb":78.03,"disadvantaged":24},{"schlcode":41136,"enrollment":63,"classize":32,"avgmath":80.93,"avgverb":82.07,"disadvantaged":24},{"schlcode":41140,"enrollment":64,"classize":26,"avgmath":59.11,"avgverb":60.11,"disadvantaged":40},{"schlcode":41140,"enrollment":64,"classize":12,"avgmath":54.1,"avgverb":61.57,"disadvantaged":40},{"schlcode":41143,"enrollment":46,"classize":22,"avgmath":70.33,"avgverb":68.67,"disadvantaged":40},{"schlcode":41143,"enrollment":46,"classize":24,"avgmath":54.7113,"avgverb":63.9975,"disadvantaged":40},{"schlcode":41145,"enrollment":28,"classize":28,"avgmath":66.09,"avgverb":71.57,"disadvantaged":19},{"schlcode":41146,"enrollment":46,"classize":22,"avgmath":69.45,"avgverb":68.1,"disadvantaged":41},{"schlcode":41146,"enrollment":46,"classize":24,"avgmath":63.67,"avgverb":62,"disadvantaged":41},{"schlcode":41148,"enrollment":59,"classize":29,"avgmath":54.21,"avgverb":59.32,"disadvantaged":46},{"schlcode":41148,"enrollment":59,"classize":30,"avgmath":53.37,"avgverb":64.97,"disadvantaged":46},{"schlcode":41150,"enrollment":38,"classize":38,"avgmath":76.47,"avgverb":83.65,"disadvantaged":1},{"schlcode":41153,"enrollment":10,"classize":10,"avgmath":62,"avgverb":75,"disadvantaged":0},{"schlcode":41154,"enrollment":17,"classize":17,"avgmath":77.24,"avgverb":81.53,"disadvantaged":0},{"schlcode":41155,"enrollment":76,"classize":33,"avgmath":72.09,"avgverb":79.56,"disadvantaged":1},{"schlcode":41155,"enrollment":76,"classize":31,"avgmath":78.24,"avgverb":82.66,"disadvantaged":1},{"schlcode":41163,"enrollment":64,"classize":31,"avgmath":57.28,"avgverb":80.34,"disadvantaged":8},{"schlcode":41163,"enrollment":64,"classize":33,"avgmath":57.43,"avgverb":82.79,"disadvantaged":8},{"schlcode":41164,"enrollment":15,"classize":15,"avgmath":55.36,"avgverb":68,"disadvantaged":16},{"schlcode":41167,"enrollment":28,"classize":28,"avgmath":62.32,"avgverb":73.61,"disadvantaged":8},{"schlcode":41169,"enrollment":73,"classize":38,"avgmath":73.64,"avgverb":75.58,"disadvantaged":10},{"schlcode":41169,"enrollment":73,"classize":39,"avgmath":66.38,"avgverb":67.42,"disadvantaged":10},{"schlcode":41176,"enrollment":24,"classize":24,"avgmath":67.52,"avgverb":68.9,"disadvantaged":43},{"schlcode":41178,"enrollment":49,"classize":24,"avgmath":87.83,"avgverb":87.87,"disadvantaged":5},{"schlcode":41178,"enrollment":49,"classize":25,"avgmath":81.43,"avgverb":79.3,"disadvantaged":5},{"schlcode":41179,"enrollment":61,"classize":32,"avgmath":71.93,"avgverb":78.08,"disadvantaged":5},{"schlcode":41179,"enrollment":61,"classize":29,"avgmath":74,"avgverb":76.08,"disadvantaged":5},{"schlcode":41181,"enrollment":53,"classize":22,"avgmath":61.78,"avgverb":69.56,"disadvantaged":20},{"schlcode":41181,"enrollment":53,"classize":21,"avgmath":72.22,"avgverb":78.44,"disadvantaged":20},{"schlcode":41182,"enrollment":37,"classize":25,"avgmath":61.54,"avgverb":73.18,"disadvantaged":45},{"schlcode":41183,"enrollment":69,"classize":29,"avgmath":76.79,"avgverb":80.79,"disadvantaged":2},{"schlcode":41183,"enrollment":69,"classize":32,"avgmath":79.61,"avgverb":82.74,"disadvantaged":2},{"schlcode":41184,"enrollment":49,"classize":24,"avgmath":74.65,"avgverb":77.26,"disadvantaged":26},{"schlcode":41184,"enrollment":49,"classize":25,"avgmath":78,"avgverb":79.48,"disadvantaged":26},{"schlcode":41185,"enrollment":63,"classize":28,"avgmath":57.71,"avgverb":70.46,"disadvantaged":20},{"schlcode":41185,"enrollment":63,"classize":27,"avgmath":64.74,"avgverb":71.85,"disadvantaged":20},{"schlcode":41186,"enrollment":47,"classize":25,"avgmath":65.24,"avgverb":70.5,"disadvantaged":24},{"schlcode":41186,"enrollment":47,"classize":22,"avgmath":66.21,"avgverb":71.61,"disadvantaged":24},{"schlcode":41189,"enrollment":54,"classize":27,"avgmath":79.19,"avgverb":64.35,"disadvantaged":14},{"schlcode":41189,"enrollment":54,"classize":27,"avgmath":69.26,"avgverb":63.52,"disadvantaged":14},{"schlcode":41193,"enrollment":44,"classize":20,"avgmath":55.68,"avgverb":69.45,"disadvantaged":21},{"schlcode":41193,"enrollment":44,"classize":24,"avgmath":59,"avgverb":69.65,"disadvantaged":21},{"schlcode":41198,"enrollment":51,"classize":25,"avgmath":80.67,"avgverb":81.43,"disadvantaged":6},{"schlcode":41198,"enrollment":51,"classize":26,"avgmath":80.75,"avgverb":77.5,"disadvantaged":6},{"schlcode":41206,"enrollment":67,"classize":34,"avgmath":75.35,"avgverb":74.03,"disadvantaged":10},{"schlcode":41206,"enrollment":67,"classize":33,"avgmath":71.42,"avgverb":76.93,"disadvantaged":10},{"schlcode":41214,"enrollment":21,"classize":21,"avgmath":53.71,"avgverb":59.29,"disadvantaged":41},{"schlcode":41217,"enrollment":49,"classize":23,"avgmath":60.41,"avgverb":62.36,"disadvantaged":46},{"schlcode":41217,"enrollment":49,"classize":26,"avgmath":63.5209,"avgverb":71.4383,"disadvantaged":46},{"schlcode":41218,"enrollment":28,"classize":28,"avgmath":69.85,"avgverb":73.88,"disadvantaged":2},{"schlcode":41227,"enrollment":36,"classize":36,"avgmath":64.09,"avgverb":77.66,"disadvantaged":2},{"schlcode":41232,"enrollment":19,"classize":19,"avgmath":64.32,"avgverb":79.95,"disadvantaged":0},{"schlcode":41236,"enrollment":23,"classize":23,"avgmath":50,"avgverb":66,"disadvantaged":33},{"schlcode":41237,"enrollment":19,"classize":19,"avgmath":70.87,"avgverb":85.13,"disadvantaged":34},{"schlcode":41274,"enrollment":19,"classize":19,"avgmath":43.56,"avgverb":44.19,"disadvantaged":28},{"schlcode":41275,"enrollment":34,"classize":34,"avgmath":65.62,"avgverb":82.69,"disadvantaged":4},{"schlcode":41282,"enrollment":64,"classize":30,"avgmath":59.32,"avgverb":65.43,"disadvantaged":14},{"schlcode":41282,"enrollment":64,"classize":34,"avgmath":55.36,"avgverb":67.64,"disadvantaged":14},{"schlcode":41285,"enrollment":74,"classize":37,"avgmath":61.06,"avgverb":58.94,"disadvantaged":21},{"schlcode":41285,"enrollment":74,"classize":37,"avgmath":59.64,"avgverb":64,"disadvantaged":21},{"schlcode":41288,"enrollment":37,"classize":37,"avgmath":60.47,"avgverb":63.65,"disadvantaged":7},{"schlcode":41289,"enrollment":39,"classize":14,"avgmath":37.58,"avgverb":46.67,"disadvantaged":44},{"schlcode":41289,"enrollment":39,"classize":25,"avgmath":45.9564,"avgverb":47.18,"disadvantaged":44},{"schlcode":41290,"enrollment":79,"classize":25,"avgmath":69.96,"avgverb":80.04,"disadvantaged":3},{"schlcode":41290,"enrollment":79,"classize":29,"avgmath":77.46,"avgverb":76.25,"disadvantaged":3},{"schlcode":41290,"enrollment":79,"classize":25,"avgmath":74.1791,"avgverb":77.913,"disadvantaged":3},{"schlcode":41294,"enrollment":57,"classize":31,"avgmath":69.08,"avgverb":75.96,"disadvantaged":7},{"schlcode":41294,"enrollment":57,"classize":26,"avgmath":65.67,"avgverb":80.38,"disadvantaged":7},{"schlcode":41296,"enrollment":47,"classize":24,"avgmath":71.38,"avgverb":67.58,"disadvantaged":33},{"schlcode":41296,"enrollment":47,"classize":23,"avgmath":72.7832,"avgverb":70.7937,"disadvantaged":33},{"schlcode":41304,"enrollment":41,"classize":21,"avgmath":69.28,"avgverb":75.43,"disadvantaged":15},{"schlcode":41305,"enrollment":19,"classize":19,"avgmath":85.94,"avgverb":84.28,"disadvantaged":44},{"schlcode":41306,"enrollment":31,"classize":31,"avgmath":50,"avgverb":58,"disadvantaged":40},{"schlcode":41308,"enrollment":70,"classize":26,"avgmath":69.3,"avgverb":77.52,"disadvantaged":9},{"schlcode":41308,"enrollment":70,"classize":27,"avgmath":66.43,"avgverb":69.2,"disadvantaged":9},{"schlcode":41315,"enrollment":32,"classize":20,"avgmath":57.81,"avgverb":62.29,"disadvantaged":38},{"schlcode":41316,"enrollment":46,"classize":23,"avgmath":67.96,"avgverb":53.19,"disadvantaged":20},{"schlcode":41316,"enrollment":46,"classize":23,"avgmath":56,"avgverb":54.65,"disadvantaged":20},{"schlcode":41324,"enrollment":53,"classize":27,"avgmath":47.45,"avgverb":46.86,"disadvantaged":31},{"schlcode":41324,"enrollment":53,"classize":26,"avgmath":46.55,"avgverb":41.0038,"disadvantaged":31},{"schlcode":41326,"enrollment":53,"classize":27,"avgmath":64.69,"avgverb":66.63,"disadvantaged":47},{"schlcode":41326,"enrollment":53,"classize":26,"avgmath":58.68,"avgverb":59.15,"disadvantaged":47},{"schlcode":41327,"enrollment":55,"classize":27,"avgmath":72.44,"avgverb":73.16,"disadvantaged":16},{"schlcode":41327,"enrollment":55,"classize":28,"avgmath":54.2593,"avgverb":67.0741,"disadvantaged":16},{"schlcode":41336,"enrollment":21,"classize":21,"avgmath":75,"avgverb":81,"disadvantaged":3},{"schlcode":41338,"enrollment":38,"classize":26,"avgmath":27.69,"avgverb":34.8,"disadvantaged":46},{"schlcode":41339,"enrollment":50,"classize":27,"avgmath":70.92,"avgverb":76.38,"disadvantaged":16},{"schlcode":41339,"enrollment":50,"classize":23,"avgmath":73.3,"avgverb":79.77,"disadvantaged":16},{"schlcode":41342,"enrollment":79,"classize":40,"avgmath":84.38,"avgverb":82.45,"disadvantaged":9},{"schlcode":41342,"enrollment":79,"classize":39,"avgmath":77.76,"avgverb":78.03,"disadvantaged":9},{"schlcode":41344,"enrollment":71,"classize":33,"avgmath":87.79,"avgverb":87.55,"disadvantaged":0},{"schlcode":41344,"enrollment":71,"classize":38,"avgmath":86.55,"avgverb":86.26,"disadvantaged":0},{"schlcode":41362,"enrollment":62,"classize":30,"avgmath":76.85,"avgverb":83.81,"disadvantaged":4},{"schlcode":41362,"enrollment":62,"classize":25,"avgmath":62.79,"avgverb":82.5,"disadvantaged":4},{"schlcode":41365,"enrollment":47,"classize":36,"avgmath":64,"avgverb":67,"disadvantaged":43},{"schlcode":41370,"enrollment":30,"classize":30,"avgmath":75.57,"avgverb":83.11,"disadvantaged":4},{"schlcode":41371,"enrollment":39,"classize":39,"avgmath":73.31,"avgverb":79.64,"disadvantaged":5},{"schlcode":41381,"enrollment":66,"classize":33,"avgmath":66.56,"avgverb":62.38,"disadvantaged":30},{"schlcode":41381,"enrollment":66,"classize":33,"avgmath":53.5,"avgverb":63.77,"disadvantaged":30},{"schlcode":41384,"enrollment":78,"classize":32,"avgmath":76,"avgverb":81.15,"disadvantaged":5},{"schlcode":41392,"enrollment":56,"classize":26,"avgmath":54.91,"avgverb":57.45,"disadvantaged":25},{"schlcode":41392,"enrollment":56,"classize":30,"avgmath":64.39,"avgverb":67.27,"disadvantaged":25},{"schlcode":41394,"enrollment":60,"classize":30,"avgmath":76.85,"avgverb":83.26,"disadvantaged":3},{"schlcode":41394,"enrollment":60,"classize":30,"avgmath":79.1089,"avgverb":78.8207,"disadvantaged":3},{"schlcode":41397,"enrollment":31,"classize":31,"avgmath":82.28,"avgverb":84.23,"disadvantaged":0},{"schlcode":41398,"enrollment":35,"classize":35,"avgmath":59.69,"avgverb":74.72,"disadvantaged":8},{"schlcode":41399,"enrollment":68,"classize":30,"avgmath":74.86,"avgverb":79.9,"disadvantaged":32},{"schlcode":41399,"enrollment":68,"classize":28,"avgmath":74.46,"avgverb":78.39,"disadvantaged":32},{"schlcode":41403,"enrollment":21,"classize":21,"avgmath":76.1,"avgverb":76.25,"disadvantaged":14},{"schlcode":41408,"enrollment":73,"classize":37,"avgmath":67.21,"avgverb":70.62,"disadvantaged":15},{"schlcode":41408,"enrollment":73,"classize":36,"avgmath":64.9034,"avgverb":69.4381,"disadvantaged":15},{"schlcode":41411,"enrollment":29,"classize":29,"avgmath":62.7,"avgverb":75.52,"disadvantaged":32},{"schlcode":41415,"enrollment":63,"classize":34,"avgmath":76.88,"avgverb":77.52,"disadvantaged":4},{"schlcode":41415,"enrollment":63,"classize":29,"avgmath":71.37,"avgverb":74.93,"disadvantaged":4},{"schlcode":41417,"enrollment":79,"classize":40,"avgmath":60.22,"avgverb":68.19,"disadvantaged":10},{"schlcode":41417,"enrollment":79,"classize":39,"avgmath":68.2525,"avgverb":78.4112,"disadvantaged":10},{"schlcode":41418,"enrollment":60,"classize":30,"avgmath":76.82,"avgverb":82.71,"disadvantaged":5},{"schlcode":41419,"enrollment":34,"classize":34,"avgmath":58.81,"avgverb":71.65,"disadvantaged":6},{"schlcode":41421,"enrollment":23,"classize":23,"avgmath":42.32,"avgverb":51.23,"disadvantaged":66},{"schlcode":41424,"enrollment":55,"classize":28,"avgmath":73.14,"avgverb":72.91,"disadvantaged":7},{"schlcode":41424,"enrollment":55,"classize":27,"avgmath":62.73,"avgverb":77.09,"disadvantaged":7},{"schlcode":41427,"enrollment":51,"classize":24,"avgmath":57.33,"avgverb":61.95,"disadvantaged":25},{"schlcode":41427,"enrollment":51,"classize":27,"avgmath":52.5687,"avgverb":62.0457,"disadvantaged":25},{"schlcode":41432,"enrollment":69,"classize":33,"avgmath":74.67,"avgverb":77.37,"disadvantaged":16},{"schlcode":41432,"enrollment":69,"classize":36,"avgmath":68.79,"avgverb":73.94,"disadvantaged":16},{"schlcode":41433,"enrollment":76,"classize":37,"avgmath":85.87,"avgverb":77.38,"disadvantaged":3},{"schlcode":41433,"enrollment":76,"classize":39,"avgmath":79.39,"avgverb":77.15,"disadvantaged":3},{"schlcode":41437,"enrollment":61,"classize":31,"avgmath":74.14,"avgverb":77.03,"disadvantaged":3},{"schlcode":41437,"enrollment":61,"classize":30,"avgmath":73.72,"avgverb":79.55,"disadvantaged":3},{"schlcode":41442,"enrollment":76,"classize":34,"avgmath":60.92,"avgverb":70.58,"disadvantaged":13},{"schlcode":41442,"enrollment":76,"classize":33,"avgmath":79.4432,"avgverb":82.7105,"disadvantaged":13},{"schlcode":41444,"enrollment":65,"classize":34,"avgmath":82.94,"avgverb":84,"disadvantaged":1},{"schlcode":41444,"enrollment":65,"classize":31,"avgmath":77.79,"avgverb":75.32,"disadvantaged":1},{"schlcode":41447,"enrollment":32,"classize":32,"avgmath":79,"avgverb":83.5,"disadvantaged":0},{"schlcode":41448,"enrollment":73,"classize":33,"avgmath":63.96,"avgverb":70.63,"disadvantaged":8},{"schlcode":41448,"enrollment":73,"classize":32,"avgmath":64.61,"avgverb":69.68,"disadvantaged":8},{"schlcode":41449,"enrollment":41,"classize":41,"avgmath":73.27,"avgverb":78.72,"disadvantaged":13},{"schlcode":41456,"enrollment":38,"classize":38,"avgmath":81.81,"avgverb":81.51,"disadvantaged":6},{"schlcode":41457,"enrollment":70,"classize":36,"avgmath":73.73,"avgverb":76,"disadvantaged":7},{"schlcode":41457,"enrollment":70,"classize":34,"avgmath":77.71,"avgverb":77.88,"disadvantaged":7},{"schlcode":41458,"enrollment":72,"classize":36,"avgmath":52.71,"avgverb":72.12,"disadvantaged":6},{"schlcode":41458,"enrollment":72,"classize":36,"avgmath":55.29,"avgverb":77.21,"disadvantaged":6},{"schlcode":41462,"enrollment":20,"classize":20,"avgmath":66.33,"avgverb":77.48,"disadvantaged":4},{"schlcode":41468,"enrollment":44,"classize":22,"avgmath":87.67,"avgverb":80.57,"disadvantaged":4},{"schlcode":41468,"enrollment":44,"classize":22,"avgmath":79.14,"avgverb":80.32,"disadvantaged":4},{"schlcode":51004,"enrollment":61,"classize":31,"avgmath":60.64,"avgverb":65.21,"disadvantaged":33},{"schlcode":51004,"enrollment":61,"classize":30,"avgmath":57.21,"avgverb":57.93,"disadvantaged":33},{"schlcode":51006,"enrollment":36,"classize":16,"avgmath":47.94,"avgverb":54.07,"disadvantaged":25},{"schlcode":51006,"enrollment":36,"classize":20,"avgmath":38.75,"avgverb":51,"disadvantaged":25},{"schlcode":51008,"enrollment":5,"classize":5,"avgmath":74,"avgverb":69.67,"disadvantaged":31},{"schlcode":51009,"enrollment":17,"classize":17,"avgmath":63,"avgverb":67,"disadvantaged":11},{"schlcode":51010,"enrollment":51,"classize":26,"avgmath":54.78,"avgverb":64.92,"disadvantaged":27},{"schlcode":51010,"enrollment":51,"classize":26,"avgmath":54.54,"avgverb":67.79,"disadvantaged":27},{"schlcode":51011,"enrollment":52,"classize":28,"avgmath":62.45,"avgverb":67.11,"disadvantaged":18},{"schlcode":51011,"enrollment":52,"classize":24,"avgmath":65.9543,"avgverb":64.6487,"disadvantaged":18},{"schlcode":51012,"enrollment":28,"classize":28,"avgmath":62.07,"avgverb":71.5,"disadvantaged":7},{"schlcode":51014,"enrollment":24,"classize":24,"avgmath":51.48,"avgverb":68.88,"disadvantaged":19},{"schlcode":51015,"enrollment":46,"classize":21,"avgmath":60.76,"avgverb":59.59,"disadvantaged":34},{"schlcode":51015,"enrollment":46,"classize":16,"avgmath":61.31,"avgverb":65.69,"disadvantaged":34},{"schlcode":51016,"enrollment":70,"classize":35,"avgmath":60.79,"avgverb":76.64,"disadvantaged":10},{"schlcode":51016,"enrollment":70,"classize":35,"avgmath":66.61,"avgverb":81.26,"disadvantaged":10},{"schlcode":51018,"enrollment":22,"classize":22,"avgmath":32.05,"avgverb":49.33,"disadvantaged":52},{"schlcode":51019,"enrollment":55,"classize":25,"avgmath":85.17,"avgverb":84.9,"disadvantaged":2},{"schlcode":51019,"enrollment":55,"classize":30,"avgmath":73.92,"avgverb":80.13,"disadvantaged":2},{"schlcode":51020,"enrollment":37,"classize":15,"avgmath":39.89,"avgverb":54.67,"disadvantaged":34},{"schlcode":51020,"enrollment":37,"classize":22,"avgmath":55.9995,"avgverb":63.9984,"disadvantaged":34},{"schlcode":51022,"enrollment":73,"classize":26,"avgmath":55.16,"avgverb":67.8,"disadvantaged":34},{"schlcode":51022,"enrollment":73,"classize":23,"avgmath":48,"avgverb":62.19,"disadvantaged":34},{"schlcode":51026,"enrollment":51,"classize":26,"avgmath":56.82,"avgverb":68.94,"disadvantaged":18},{"schlcode":51026,"enrollment":51,"classize":25,"avgmath":56.06,"avgverb":60.71,"disadvantaged":18},{"schlcode":51027,"enrollment":53,"classize":26,"avgmath":47.09,"avgverb":62,"disadvantaged":42},{"schlcode":51027,"enrollment":53,"classize":27,"avgmath":49.37,"avgverb":63.3,"disadvantaged":42},{"schlcode":51028,"enrollment":57,"classize":29,"avgmath":54.46,"avgverb":69.48,"disadvantaged":18},{"schlcode":51028,"enrollment":57,"classize":28,"avgmath":62.67,"avgverb":74.73,"disadvantaged":18},{"schlcode":51032,"enrollment":76,"classize":31,"avgmath":66.52,"avgverb":82.96,"disadvantaged":2},{"schlcode":51032,"enrollment":76,"classize":31,"avgmath":62.42,"avgverb":81.08,"disadvantaged":2},{"schlcode":51033,"enrollment":53,"classize":26,"avgmath":71.63,"avgverb":75.71,"disadvantaged":3},{"schlcode":51033,"enrollment":53,"classize":27,"avgmath":82.1552,"avgverb":84.1184,"disadvantaged":3},{"schlcode":51034,"enrollment":47,"classize":22,"avgmath":72.65,"avgverb":83.65,"disadvantaged":3},{"schlcode":51034,"enrollment":47,"classize":25,"avgmath":76.17,"avgverb":82.86,"disadvantaged":3},{"schlcode":51035,"enrollment":65,"classize":33,"avgmath":71.5,"avgverb":74.63,"disadvantaged":2},{"schlcode":51035,"enrollment":65,"classize":35,"avgmath":72.15,"avgverb":79.19,"disadvantaged":2},{"schlcode":51036,"enrollment":49,"classize":22,"avgmath":82.32,"avgverb":83.36,"disadvantaged":4},{"schlcode":51036,"enrollment":49,"classize":27,"avgmath":76.08,"avgverb":78.96,"disadvantaged":4},{"schlcode":51038,"enrollment":70,"classize":35,"avgmath":72.13,"avgverb":80.74,"disadvantaged":3},{"schlcode":51038,"enrollment":70,"classize":35,"avgmath":70.74,"avgverb":82.88,"disadvantaged":3},{"schlcode":51040,"enrollment":61,"classize":33,"avgmath":64.13,"avgverb":75.45,"disadvantaged":11},{"schlcode":51040,"enrollment":61,"classize":28,"avgmath":60.41,"avgverb":74.78,"disadvantaged":11},{"schlcode":51044,"enrollment":61,"classize":28,"avgmath":62.82,"avgverb":66.41,"disadvantaged":18},{"schlcode":51044,"enrollment":61,"classize":33,"avgmath":67.29,"avgverb":67.91,"disadvantaged":18},{"schlcode":51045,"enrollment":51,"classize":24,"avgmath":59.28,"avgverb":70.25,"disadvantaged":10},{"schlcode":51045,"enrollment":51,"classize":27,"avgmath":67.77,"avgverb":80.31,"disadvantaged":10},{"schlcode":51046,"enrollment":40,"classize":20,"avgmath":58.15,"avgverb":66.6,"disadvantaged":30},{"schlcode":51046,"enrollment":40,"classize":20,"avgmath":60.7,"avgverb":65.05,"disadvantaged":30},{"schlcode":51049,"enrollment":34,"classize":34,"avgmath":69.65,"avgverb":68.03,"disadvantaged":20},{"schlcode":51051,"enrollment":50,"classize":25,"avgmath":77.8,"avgverb":77.04,"disadvantaged":8},{"schlcode":51051,"enrollment":50,"classize":25,"avgmath":61.875,"avgverb":64.7083,"disadvantaged":8},{"schlcode":51053,"enrollment":35,"classize":14,"avgmath":45.38,"avgverb":52,"disadvantaged":28},{"schlcode":51053,"enrollment":35,"classize":21,"avgmath":48.28,"avgverb":60.56,"disadvantaged":28},{"schlcode":51054,"enrollment":72,"classize":36,"avgmath":67.14,"avgverb":69.46,"disadvantaged":6},{"schlcode":51054,"enrollment":72,"classize":36,"avgmath":62.64,"avgverb":67.69,"disadvantaged":6},{"schlcode":51055,"enrollment":47,"classize":24,"avgmath":69.4,"avgverb":72.2,"disadvantaged":8},{"schlcode":51055,"enrollment":47,"classize":23,"avgmath":71.48,"avgverb":77.2,"disadvantaged":8},{"schlcode":51057,"enrollment":65,"classize":30,"avgmath":48.04,"avgverb":56.14,"disadvantaged":20},{"schlcode":51057,"enrollment":65,"classize":35,"avgmath":62.69,"avgverb":65.81,"disadvantaged":20},{"schlcode":51058,"enrollment":67,"classize":33,"avgmath":57.62,"avgverb":60.21,"disadvantaged":12},{"schlcode":51058,"enrollment":67,"classize":34,"avgmath":50.53,"avgverb":65.07,"disadvantaged":12},{"schlcode":51059,"enrollment":39,"classize":38,"avgmath":58.63,"avgverb":68.94,"disadvantaged":7},{"schlcode":51062,"enrollment":72,"classize":38,"avgmath":55.87,"avgverb":72.05,"disadvantaged":19},{"schlcode":51062,"enrollment":72,"classize":36,"avgmath":58.5,"avgverb":72.13,"disadvantaged":19},{"schlcode":51069,"enrollment":53,"classize":28,"avgmath":68.04,"avgverb":81.22,"disadvantaged":4},{"schlcode":51069,"enrollment":53,"classize":26,"avgmath":68.84,"avgverb":81.6,"disadvantaged":4},{"schlcode":51070,"enrollment":53,"classize":26,"avgmath":67.69,"avgverb":76.5,"disadvantaged":3},{"schlcode":51070,"enrollment":53,"classize":27,"avgmath":73.5329,"avgverb":84.4211,"disadvantaged":3},{"schlcode":51071,"enrollment":39,"classize":39,"avgmath":62.95,"avgverb":74.08,"disadvantaged":7},{"schlcode":51072,"enrollment":38,"classize":38,"avgmath":66.37,"avgverb":75.34,"disadvantaged":10},{"schlcode":51073,"enrollment":35,"classize":25,"avgmath":64.16,"avgverb":74.26,"disadvantaged":13},{"schlcode":51074,"enrollment":35,"classize":35,"avgmath":67.03,"avgverb":78.31,"disadvantaged":3},{"schlcode":51075,"enrollment":73,"classize":37,"avgmath":68.46,"avgverb":73.66,"disadvantaged":3},{"schlcode":51075,"enrollment":73,"classize":36,"avgmath":69.6517,"avgverb":74.4103,"disadvantaged":3},{"schlcode":51076,"enrollment":69,"classize":32,"avgmath":67.77,"avgverb":74.58,"disadvantaged":4},{"schlcode":51076,"enrollment":69,"classize":37,"avgmath":67.97,"avgverb":78.71,"disadvantaged":4},{"schlcode":51078,"enrollment":47,"classize":25,"avgmath":68.15,"avgverb":79.9,"disadvantaged":7},{"schlcode":51078,"enrollment":47,"classize":22,"avgmath":69.85,"avgverb":80.1,"disadvantaged":7},{"schlcode":51079,"enrollment":53,"classize":28,"avgmath":57.07,"avgverb":71.11,"disadvantaged":21},{"schlcode":51079,"enrollment":53,"classize":25,"avgmath":55.44,"avgverb":65.4,"disadvantaged":21},{"schlcode":51080,"enrollment":76,"classize":39,"avgmath":66.51,"avgverb":76,"disadvantaged":1},{"schlcode":51080,"enrollment":76,"classize":38,"avgmath":67.49,"avgverb":74.0541,"disadvantaged":1},{"schlcode":51081,"enrollment":49,"classize":24,"avgmath":68.39,"avgverb":76.65,"disadvantaged":6},{"schlcode":51081,"enrollment":49,"classize":29,"avgmath":75.33,"avgverb":77.3,"disadvantaged":6},{"schlcode":51082,"enrollment":27,"classize":27,"avgmath":72,"avgverb":77,"disadvantaged":4},{"schlcode":51083,"enrollment":74,"classize":37,"avgmath":72.54,"avgverb":83.72,"disadvantaged":3},{"schlcode":51083,"enrollment":74,"classize":37,"avgmath":80.78,"avgverb":83.06,"disadvantaged":3},{"schlcode":51085,"enrollment":39,"classize":39,"avgmath":60.17,"avgverb":76.09,"disadvantaged":3},{"schlcode":51086,"enrollment":44,"classize":23,"avgmath":75.7,"avgverb":81.74,"disadvantaged":2},{"schlcode":51086,"enrollment":44,"classize":21,"avgmath":67.9476,"avgverb":75.999,"disadvantaged":2},{"schlcode":51087,"enrollment":28,"classize":28,"avgmath":64.82,"avgverb":76.62,"disadvantaged":14},{"schlcode":51088,"enrollment":57,"classize":26,"avgmath":70.69,"avgverb":79.54,"disadvantaged":10},{"schlcode":51088,"enrollment":57,"classize":31,"avgmath":71.2687,"avgverb":80.3987,"disadvantaged":10},{"schlcode":51090,"enrollment":10,"classize":10,"avgmath":69.67,"avgverb":80.56,"disadvantaged":11},{"schlcode":51091,"enrollment":31,"classize":31,"avgmath":64.62,"avgverb":67.7,"disadvantaged":19},{"schlcode":51093,"enrollment":79,"classize":39,"avgmath":71.08,"avgverb":80.89,"disadvantaged":2},{"schlcode":51093,"enrollment":79,"classize":40,"avgmath":74.776,"avgverb":85.0045,"disadvantaged":2},{"schlcode":51098,"enrollment":69,"classize":34,"avgmath":83.16,"avgverb":84.69,"disadvantaged":2},{"schlcode":51098,"enrollment":69,"classize":35,"avgmath":74.94,"avgverb":86.48,"disadvantaged":2},{"schlcode":51100,"enrollment":48,"classize":36,"avgmath":69,"avgverb":79,"disadvantaged":4},{"schlcode":51104,"enrollment":51,"classize":29,"avgmath":77.82,"avgverb":84.21,"disadvantaged":4},{"schlcode":51104,"enrollment":51,"classize":22,"avgmath":70.7,"avgverb":77.65,"disadvantaged":4},{"schlcode":51107,"enrollment":78,"classize":39,"avgmath":76.92,"avgverb":82.59,"disadvantaged":3},{"schlcode":51107,"enrollment":78,"classize":39,"avgmath":81.3177,"avgverb":81.3426,"disadvantaged":3},{"schlcode":51111,"enrollment":55,"classize":18,"avgmath":60.41,"avgverb":67.81,"disadvantaged":18},{"schlcode":51111,"enrollment":55,"classize":25,"avgmath":71.09,"avgverb":73.82,"disadvantaged":18},{"schlcode":51112,"enrollment":54,"classize":25,"avgmath":72.24,"avgverb":81.86,"disadvantaged":9},{"schlcode":51112,"enrollment":54,"classize":22,"avgmath":67.5242,"avgverb":77.9442,"disadvantaged":9},{"schlcode":51117,"enrollment":48,"classize":26,"avgmath":71.26,"avgverb":79.04,"disadvantaged":12},{"schlcode":51117,"enrollment":48,"classize":22,"avgmath":64.57,"avgverb":73.33,"disadvantaged":12},{"schlcode":51118,"enrollment":62,"classize":32,"avgmath":75.03,"avgverb":82.16,"disadvantaged":23},{"schlcode":51118,"enrollment":62,"classize":29,"avgmath":83.2438,"avgverb":77.691,"disadvantaged":23},{"schlcode":51119,"enrollment":47,"classize":21,"avgmath":59,"avgverb":68.41,"disadvantaged":19},{"schlcode":51119,"enrollment":47,"classize":26,"avgmath":54.23,"avgverb":67.35,"disadvantaged":19},{"schlcode":51120,"enrollment":51,"classize":26,"avgmath":58.64,"avgverb":73.16,"disadvantaged":20},{"schlcode":51120,"enrollment":51,"classize":25,"avgmath":46.2857,"avgverb":57.4762,"disadvantaged":20},{"schlcode":51121,"enrollment":58,"classize":26,"avgmath":68.13,"avgverb":86.61,"disadvantaged":3},{"schlcode":51121,"enrollment":58,"classize":32,"avgmath":78.35,"avgverb":86.68,"disadvantaged":3},{"schlcode":51122,"enrollment":61,"classize":31,"avgmath":76.59,"avgverb":81.44,"disadvantaged":4},{"schlcode":51122,"enrollment":61,"classize":30,"avgmath":93.73,"avgverb":91.57,"disadvantaged":4},{"schlcode":51126,"enrollment":20,"classize":20,"avgmath":85.35,"avgverb":79.41,"disadvantaged":8},{"schlcode":51127,"enrollment":44,"classize":22,"avgmath":62.12,"avgverb":58.81,"disadvantaged":15},{"schlcode":51127,"enrollment":44,"classize":22,"avgmath":70.9505,"avgverb":75.352,"disadvantaged":15},{"schlcode":51130,"enrollment":49,"classize":21,"avgmath":66.22,"avgverb":73.44,"disadvantaged":14},{"schlcode":51130,"enrollment":49,"classize":19,"avgmath":68.29,"avgverb":75,"disadvantaged":14},{"schlcode":51132,"enrollment":27,"classize":27,"avgmath":77.27,"avgverb":85.88,"disadvantaged":9},{"schlcode":51133,"enrollment":59,"classize":28,"avgmath":77.96,"avgverb":76.33,"disadvantaged":15},{"schlcode":51133,"enrollment":59,"classize":31,"avgmath":80.08,"avgverb":79.8,"disadvantaged":15},{"schlcode":51135,"enrollment":76,"classize":27,"avgmath":69.15,"avgverb":83.95,"disadvantaged":4},{"schlcode":51135,"enrollment":76,"classize":33,"avgmath":80.8929,"avgverb":89.1786,"disadvantaged":4},{"schlcode":51138,"enrollment":32,"classize":32,"avgmath":89.16,"avgverb":85.23,"disadvantaged":5},{"schlcode":51145,"enrollment":77,"classize":34,"avgmath":63.21,"avgverb":69.41,"disadvantaged":7},{"schlcode":51145,"enrollment":77,"classize":32,"avgmath":69.75,"avgverb":74.37,"disadvantaged":7},{"schlcode":51157,"enrollment":53,"classize":27,"avgmath":85.79,"avgverb":90.13,"disadvantaged":0},{"schlcode":51157,"enrollment":53,"classize":26,"avgmath":84.77,"avgverb":86.54,"disadvantaged":0},{"schlcode":51163,"enrollment":75,"classize":40,"avgmath":79.08,"avgverb":82.74,"disadvantaged":4},{"schlcode":51163,"enrollment":75,"classize":35,"avgmath":83,"avgverb":88.93,"disadvantaged":4},{"schlcode":51165,"enrollment":52,"classize":27,"avgmath":83.42,"avgverb":82.46,"disadvantaged":20},{"schlcode":51165,"enrollment":52,"classize":25,"avgmath":65.31,"avgverb":76.71,"disadvantaged":20},{"schlcode":51166,"enrollment":50,"classize":28,"avgmath":77.88,"avgverb":79.42,"disadvantaged":3},{"schlcode":51166,"enrollment":50,"classize":22,"avgmath":68.5,"avgverb":78.09,"disadvantaged":3},{"schlcode":51167,"enrollment":59,"classize":30,"avgmath":78.77,"avgverb":82.77,"disadvantaged":10},{"schlcode":51167,"enrollment":59,"classize":29,"avgmath":75.14,"avgverb":67.76,"disadvantaged":10},{"schlcode":51172,"enrollment":69,"classize":28,"avgmath":66.92,"avgverb":83.25,"disadvantaged":6},{"schlcode":51172,"enrollment":69,"classize":29,"avgmath":74.32,"avgverb":76.73,"disadvantaged":6},{"schlcode":51178,"enrollment":40,"classize":29,"avgmath":67.36,"avgverb":75.2,"disadvantaged":20},{"schlcode":51179,"enrollment":39,"classize":19,"avgmath":66.33,"avgverb":73.71,"disadvantaged":5},{"schlcode":51179,"enrollment":39,"classize":20,"avgmath":59.5,"avgverb":69.89,"disadvantaged":5},{"schlcode":51181,"enrollment":8,"classize":8,"avgmath":45.67,"avgverb":58,"disadvantaged":31},{"schlcode":51186,"enrollment":62,"classize":29,"avgmath":65.57,"avgverb":76.71,"disadvantaged":12},{"schlcode":51186,"enrollment":62,"classize":24,"avgmath":77.6104,"avgverb":79.6418,"disadvantaged":12},{"schlcode":51188,"enrollment":65,"classize":32,"avgmath":81.84,"avgverb":86.25,"disadvantaged":6},{"schlcode":51188,"enrollment":65,"classize":33,"avgmath":78.3,"avgverb":84.15,"disadvantaged":6},{"schlcode":51189,"enrollment":17,"classize":17,"avgmath":64,"avgverb":72,"disadvantaged":17},{"schlcode":51190,"enrollment":28,"classize":28,"avgmath":66.15,"avgverb":86.08,"disadvantaged":2},{"schlcode":51193,"enrollment":23,"classize":23,"avgmath":52.17,"avgverb":67.82,"disadvantaged":27},{"schlcode":51194,"enrollment":76,"classize":24,"avgmath":63,"avgverb":76.63,"disadvantaged":11},{"schlcode":51194,"enrollment":76,"classize":25,"avgmath":56,"avgverb":69.91,"disadvantaged":11},{"schlcode":51194,"enrollment":76,"classize":27,"avgmath":52.5185,"avgverb":66.8837,"disadvantaged":11},{"schlcode":51199,"enrollment":29,"classize":29,"avgmath":82.48,"avgverb":87.86,"disadvantaged":2},{"schlcode":51203,"enrollment":69,"classize":35,"avgmath":57.56,"avgverb":69.81,"disadvantaged":35},{"schlcode":51203,"enrollment":69,"classize":34,"avgmath":54.8655,"avgverb":70.1382,"disadvantaged":35},{"schlcode":51208,"enrollment":12,"classize":12,"avgmath":46.5,"avgverb":58.83,"disadvantaged":28},{"schlcode":51244,"enrollment":50,"classize":27,"avgmath":70.56,"avgverb":81.96,"disadvantaged":1},{"schlcode":51244,"enrollment":50,"classize":23,"avgmath":69.3913,"avgverb":84.1304,"disadvantaged":1},{"schlcode":51246,"enrollment":79,"classize":35,"avgmath":78.8,"avgverb":82.37,"disadvantaged":4},{"schlcode":51246,"enrollment":79,"classize":35,"avgmath":83.51,"avgverb":79.05,"disadvantaged":4},{"schlcode":51247,"enrollment":59,"classize":21,"avgmath":75.35,"avgverb":79,"disadvantaged":5},{"schlcode":51247,"enrollment":59,"classize":38,"avgmath":85.431,"avgverb":84.5238,"disadvantaged":5},{"schlcode":51256,"enrollment":79,"classize":40,"avgmath":61.08,"avgverb":68.89,"disadvantaged":10},{"schlcode":51256,"enrollment":79,"classize":39,"avgmath":60.41,"avgverb":73.13,"disadvantaged":10},{"schlcode":51263,"enrollment":33,"classize":33,"avgmath":71.82,"avgverb":79.39,"disadvantaged":2},{"schlcode":51267,"enrollment":52,"classize":28,"avgmath":48.79,"avgverb":56.5,"disadvantaged":17},{"schlcode":51267,"enrollment":52,"classize":24,"avgmath":47.052,"avgverb":62.1579,"disadvantaged":17},{"schlcode":51269,"enrollment":66,"classize":33,"avgmath":63.94,"avgverb":75.44,"disadvantaged":14},{"schlcode":51269,"enrollment":66,"classize":33,"avgmath":69.5,"avgverb":77.27,"disadvantaged":14},{"schlcode":51273,"enrollment":43,"classize":22,"avgmath":68.11,"avgverb":78.58,"disadvantaged":8},{"schlcode":51273,"enrollment":43,"classize":21,"avgmath":67.89,"avgverb":77.42,"disadvantaged":8},{"schlcode":51278,"enrollment":79,"classize":29,"avgmath":75.07,"avgverb":79.36,"disadvantaged":0},{"schlcode":51278,"enrollment":79,"classize":25,"avgmath":75.54,"avgverb":78.38,"disadvantaged":0},{"schlcode":51278,"enrollment":79,"classize":25,"avgmath":68.045,"avgverb":79.2,"disadvantaged":0},{"schlcode":51281,"enrollment":49,"classize":26,"avgmath":62.46,"avgverb":76.13,"disadvantaged":13},{"schlcode":51281,"enrollment":49,"classize":23,"avgmath":62.5,"avgverb":70.79,"disadvantaged":13},{"schlcode":51282,"enrollment":70,"classize":37,"avgmath":64.36,"avgverb":66.82,"disadvantaged":12},{"schlcode":51282,"enrollment":70,"classize":34,"avgmath":62.1,"avgverb":72.82,"disadvantaged":12},{"schlcode":51288,"enrollment":41,"classize":20,"avgmath":55.75,"avgverb":70.15,"disadvantaged":21},{"schlcode":51288,"enrollment":41,"classize":21,"avgmath":50.15,"avgverb":70.7,"disadvantaged":21},{"schlcode":51289,"enrollment":40,"classize":40,"avgmath":62.47,"avgverb":67.97,"disadvantaged":14},{"schlcode":51291,"enrollment":77,"classize":31,"avgmath":63.66,"avgverb":72.85,"disadvantaged":31},{"schlcode":51291,"enrollment":77,"classize":31,"avgmath":49.8467,"avgverb":62.9635,"disadvantaged":31},{"schlcode":51295,"enrollment":47,"classize":26,"avgmath":68.71,"avgverb":78.54,"disadvantaged":3},{"schlcode":51295,"enrollment":47,"classize":21,"avgmath":73.19,"avgverb":80.24,"disadvantaged":3},{"schlcode":51297,"enrollment":56,"classize":31,"avgmath":59.86,"avgverb":70.36,"disadvantaged":9},{"schlcode":51297,"enrollment":56,"classize":25,"avgmath":66.6633,"avgverb":78.2467,"disadvantaged":9},{"schlcode":51299,"enrollment":59,"classize":30,"avgmath":70.75,"avgverb":77.75,"disadvantaged":3},{"schlcode":51299,"enrollment":59,"classize":29,"avgmath":73.38,"avgverb":79.52,"disadvantaged":3},{"schlcode":51300,"enrollment":71,"classize":35,"avgmath":57.66,"avgverb":72.11,"disadvantaged":5},{"schlcode":51300,"enrollment":71,"classize":36,"avgmath":61.79,"avgverb":67.82,"disadvantaged":5},{"schlcode":51302,"enrollment":76,"classize":38,"avgmath":63.16,"avgverb":72.78,"disadvantaged":10},{"schlcode":51302,"enrollment":76,"classize":38,"avgmath":73.42,"avgverb":77.17,"disadvantaged":10},{"schlcode":51305,"enrollment":45,"classize":23,"avgmath":76.32,"avgverb":85.09,"disadvantaged":1},{"schlcode":51305,"enrollment":45,"classize":22,"avgmath":76.52,"avgverb":80.62,"disadvantaged":1},{"schlcode":51308,"enrollment":34,"classize":27,"avgmath":55.68,"avgverb":69.76,"disadvantaged":14},{"schlcode":51310,"enrollment":79,"classize":28,"avgmath":52.52,"avgverb":68.92,"disadvantaged":14},{"schlcode":51310,"enrollment":79,"classize":24,"avgmath":38.83,"avgverb":61.09,"disadvantaged":14},{"schlcode":51310,"enrollment":79,"classize":27,"avgmath":45.23,"avgverb":57.46,"disadvantaged":14},{"schlcode":51312,"enrollment":54,"classize":27,"avgmath":64.55,"avgverb":69.05,"disadvantaged":23},{"schlcode":51312,"enrollment":54,"classize":27,"avgmath":65.13,"avgverb":75.3,"disadvantaged":23},{"schlcode":51316,"enrollment":46,"classize":22,"avgmath":77.73,"avgverb":81.86,"disadvantaged":2},{"schlcode":51316,"enrollment":46,"classize":24,"avgmath":77,"avgverb":84.33,"disadvantaged":2},{"schlcode":51317,"enrollment":74,"classize":37,"avgmath":70.73,"avgverb":75.16,"disadvantaged":8},{"schlcode":51317,"enrollment":74,"classize":37,"avgmath":70.54,"avgverb":77.09,"disadvantaged":8},{"schlcode":51319,"enrollment":70,"classize":28,"avgmath":66.52,"avgverb":69.96,"disadvantaged":8},{"schlcode":51319,"enrollment":70,"classize":31,"avgmath":70.31,"avgverb":74.43,"disadvantaged":8},{"schlcode":51322,"enrollment":45,"classize":22,"avgmath":70.57,"avgverb":80.38,"disadvantaged":1},{"schlcode":51322,"enrollment":45,"classize":23,"avgmath":86.04,"avgverb":90.43,"disadvantaged":1},{"schlcode":51323,"enrollment":41,"classize":41,"avgmath":85.91,"avgverb":89.27,"disadvantaged":2},{"schlcode":51335,"enrollment":72,"classize":36,"avgmath":71.53,"avgverb":79.5,"disadvantaged":3},{"schlcode":51335,"enrollment":72,"classize":36,"avgmath":70.47,"avgverb":76.5,"disadvantaged":3},{"schlcode":51339,"enrollment":71,"classize":39,"avgmath":82.05,"avgverb":83.25,"disadvantaged":18},{"schlcode":51339,"enrollment":71,"classize":34,"avgmath":69.33,"avgverb":76.78,"disadvantaged":18},{"schlcode":51340,"enrollment":67,"classize":23,"avgmath":76.86,"avgverb":77.59,"disadvantaged":8},{"schlcode":51340,"enrollment":67,"classize":24,"avgmath":66.27,"avgverb":71.18,"disadvantaged":8},{"schlcode":51340,"enrollment":67,"classize":20,"avgmath":69.3427,"avgverb":72.8707,"disadvantaged":8},{"schlcode":51353,"enrollment":70,"classize":34,"avgmath":56.79,"avgverb":73.85,"disadvantaged":9},{"schlcode":51353,"enrollment":70,"classize":36,"avgmath":65.3376,"avgverb":70.0306,"disadvantaged":9},{"schlcode":51356,"enrollment":27,"classize":27,"avgmath":56.12,"avgverb":69.73,"disadvantaged":23},{"schlcode":51361,"enrollment":74,"classize":37,"avgmath":65.79,"avgverb":76.76,"disadvantaged":5},{"schlcode":51361,"enrollment":74,"classize":37,"avgmath":72.43,"avgverb":81.3,"disadvantaged":5},{"schlcode":51364,"enrollment":63,"classize":31,"avgmath":73.3,"avgverb":76.17,"disadvantaged":9},{"schlcode":51364,"enrollment":63,"classize":32,"avgmath":73.61,"avgverb":77.57,"disadvantaged":9},{"schlcode":51365,"enrollment":68,"classize":34,"avgmath":70.22,"avgverb":85.97,"disadvantaged":0},{"schlcode":51365,"enrollment":68,"classize":34,"avgmath":75.78,"avgverb":88.03,"disadvantaged":0},{"schlcode":51367,"enrollment":12,"classize":12,"avgmath":64.42,"avgverb":74,"disadvantaged":24},{"schlcode":51368,"enrollment":66,"classize":32,"avgmath":77.8,"avgverb":88.07,"disadvantaged":1},{"schlcode":51368,"enrollment":66,"classize":34,"avgmath":79.63,"avgverb":89.34,"disadvantaged":1},{"schlcode":51369,"enrollment":76,"classize":23,"avgmath":56.96,"avgverb":69.73,"disadvantaged":10},{"schlcode":51369,"enrollment":76,"classize":27,"avgmath":63.42,"avgverb":68.15,"disadvantaged":10},{"schlcode":51369,"enrollment":76,"classize":26,"avgmath":53.33,"avgverb":69.62,"disadvantaged":10},{"schlcode":51375,"enrollment":28,"classize":28,"avgmath":54.52,"avgverb":57.59,"disadvantaged":16},{"schlcode":51412,"enrollment":37,"classize":37,"avgmath":66.97,"avgverb":71.78,"disadvantaged":3},{"schlcode":61001,"enrollment":55,"classize":28,"avgmath":62,"avgverb":63.59,"disadvantaged":45},{"schlcode":61001,"enrollment":55,"classize":27,"avgmath":56.96,"avgverb":72.88,"disadvantaged":45},{"schlcode":61003,"enrollment":69,"classize":29,"avgmath":66.32,"avgverb":78.64,"disadvantaged":10},{"schlcode":61003,"enrollment":69,"classize":26,"avgmath":62.46,"avgverb":73.23,"disadvantaged":10},{"schlcode":61004,"enrollment":18,"classize":18,"avgmath":70.76,"avgverb":73.88,"disadvantaged":14},{"schlcode":61005,"enrollment":49,"classize":38,"avgmath":66.58,"avgverb":76.18,"disadvantaged":26},{"schlcode":61006,"enrollment":24,"classize":24,"avgmath":67.48,"avgverb":64.05,"disadvantaged":33},{"schlcode":61007,"enrollment":44,"classize":36,"avgmath":68.86,"avgverb":71.8,"disadvantaged":32},{"schlcode":61008,"enrollment":33,"classize":24,"avgmath":58.09,"avgverb":74.14,"disadvantaged":50},{"schlcode":61012,"enrollment":61,"classize":29,"avgmath":71.79,"avgverb":80.76,"disadvantaged":7},{"schlcode":61012,"enrollment":61,"classize":32,"avgmath":69,"avgverb":77.34,"disadvantaged":7},{"schlcode":61013,"enrollment":36,"classize":18,"avgmath":64.22,"avgverb":64.11,"disadvantaged":32},{"schlcode":61013,"enrollment":36,"classize":18,"avgmath":67.78,"avgverb":67.89,"disadvantaged":32},{"schlcode":61016,"enrollment":61,"classize":30,"avgmath":69.96,"avgverb":69,"disadvantaged":28},{"schlcode":61016,"enrollment":61,"classize":31,"avgmath":66.88,"avgverb":68.17,"disadvantaged":28},{"schlcode":61018,"enrollment":66,"classize":34,"avgmath":76.55,"avgverb":79.85,"disadvantaged":14},{"schlcode":61018,"enrollment":66,"classize":32,"avgmath":65.5,"avgverb":78.56,"disadvantaged":14},{"schlcode":61019,"enrollment":30,"classize":30,"avgmath":75.29,"avgverb":78.07,"disadvantaged":44},{"schlcode":61020,"enrollment":72,"classize":31,"avgmath":55.84,"avgverb":66.77,"disadvantaged":48},{"schlcode":61020,"enrollment":72,"classize":30,"avgmath":66.5159,"avgverb":69.271,"disadvantaged":48},{"schlcode":61022,"enrollment":13,"classize":12,"avgmath":67.85,"avgverb":72.92,"disadvantaged":1},{"schlcode":61025,"enrollment":62,"classize":33,"avgmath":65.55,"avgverb":65.79,"disadvantaged":23},{"schlcode":61025,"enrollment":62,"classize":32,"avgmath":60.2741,"avgverb":70.465,"disadvantaged":23},{"schlcode":61026,"enrollment":55,"classize":28,"avgmath":62.64,"avgverb":63.68,"disadvantaged":31},{"schlcode":61026,"enrollment":55,"classize":28,"avgmath":52.79,"avgverb":59.78,"disadvantaged":31},{"schlcode":61027,"enrollment":69,"classize":35,"avgmath":57.29,"avgverb":62.38,"disadvantaged":31},{"schlcode":61027,"enrollment":69,"classize":36,"avgmath":53.54,"avgverb":61.57,"disadvantaged":31},{"schlcode":61030,"enrollment":57,"classize":28,"avgmath":70.96,"avgverb":72.41,"disadvantaged":15},{"schlcode":61030,"enrollment":57,"classize":29,"avgmath":68.32,"avgverb":73.86,"disadvantaged":15},{"schlcode":61031,"enrollment":38,"classize":38,"avgmath":66.59,"avgverb":66.83,"disadvantaged":28},{"schlcode":61035,"enrollment":23,"classize":22,"avgmath":51.59,"avgverb":70.9,"disadvantaged":38},{"schlcode":61037,"enrollment":73,"classize":31,"avgmath":61.64,"avgverb":72.72,"disadvantaged":20},{"schlcode":61037,"enrollment":73,"classize":42,"avgmath":66.18,"avgverb":80.87,"disadvantaged":20},{"schlcode":61038,"enrollment":47,"classize":25,"avgmath":64.95,"avgverb":69.18,"disadvantaged":40},{"schlcode":61038,"enrollment":47,"classize":22,"avgmath":56.05,"avgverb":65.86,"disadvantaged":40},{"schlcode":61040,"enrollment":21,"classize":21,"avgmath":47.22,"avgverb":57.89,"disadvantaged":53},{"schlcode":61042,"enrollment":31,"classize":23,"avgmath":55.88,"avgverb":66.33,"disadvantaged":45},{"schlcode":61047,"enrollment":20,"classize":20,"avgmath":70.83,"avgverb":76.89,"disadvantaged":36},{"schlcode":61055,"enrollment":62,"classize":29,"avgmath":68.88,"avgverb":79.18,"disadvantaged":9},{"schlcode":61055,"enrollment":62,"classize":33,"avgmath":71.0871,"avgverb":82.7665,"disadvantaged":9},{"schlcode":61058,"enrollment":57,"classize":29,"avgmath":79.36,"avgverb":74.29,"disadvantaged":32},{"schlcode":61058,"enrollment":57,"classize":28,"avgmath":61.75,"avgverb":68.8,"disadvantaged":32},{"schlcode":61063,"enrollment":21,"classize":21,"avgmath":59.86,"avgverb":70.05,"disadvantaged":0},{"schlcode":61064,"enrollment":14,"classize":16,"avgmath":77.2,"avgverb":82.67,"disadvantaged":1},{"schlcode":61065,"enrollment":24,"classize":24,"avgmath":74.88,"avgverb":87.17,"disadvantaged":1},{"schlcode":61073,"enrollment":68,"classize":29,"avgmath":77.57,"avgverb":82,"disadvantaged":30},{"schlcode":61073,"enrollment":68,"classize":29,"avgmath":80.81,"avgverb":77.42,"disadvantaged":30},{"schlcode":61077,"enrollment":24,"classize":23,"avgmath":67,"avgverb":71,"disadvantaged":34},{"schlcode":61079,"enrollment":52,"classize":28,"avgmath":75.56,"avgverb":79.24,"disadvantaged":12},{"schlcode":61079,"enrollment":52,"classize":28,"avgmath":67.14,"avgverb":72.86,"disadvantaged":12},{"schlcode":61080,"enrollment":25,"classize":26,"avgmath":64.14,"avgverb":80.7,"disadvantaged":2},{"schlcode":61081,"enrollment":15,"classize":15,"avgmath":75.83,"avgverb":80.17,"disadvantaged":2},{"schlcode":61084,"enrollment":27,"classize":27,"avgmath":63.85,"avgverb":79.92,"disadvantaged":3},{"schlcode":61085,"enrollment":55,"classize":24,"avgmath":72.68,"avgverb":80.84,"disadvantaged":25},{"schlcode":61085,"enrollment":55,"classize":31,"avgmath":73.2667,"avgverb":81.1333,"disadvantaged":25},{"schlcode":61089,"enrollment":66,"classize":32,"avgmath":65.97,"avgverb":76.85,"disadvantaged":4},{"schlcode":61089,"enrollment":66,"classize":34,"avgmath":65.29,"avgverb":73.91,"disadvantaged":4},{"schlcode":61093,"enrollment":59,"classize":24,"avgmath":41.3,"avgverb":67.91,"disadvantaged":50},{"schlcode":61093,"enrollment":59,"classize":26,"avgmath":50.324,"avgverb":64.2428,"disadvantaged":50},{"schlcode":61095,"enrollment":26,"classize":26,"avgmath":65.83,"avgverb":78.5,"disadvantaged":5},{"schlcode":61101,"enrollment":62,"classize":32,"avgmath":71.28,"avgverb":77,"disadvantaged":24},{"schlcode":61101,"enrollment":62,"classize":32,"avgmath":64.1952,"avgverb":70.52,"disadvantaged":24},{"schlcode":61102,"enrollment":66,"classize":31,"avgmath":76.41,"avgverb":81.37,"disadvantaged":17},{"schlcode":61102,"enrollment":66,"classize":31,"avgmath":73.5,"avgverb":83.93,"disadvantaged":17},{"schlcode":61103,"enrollment":69,"classize":35,"avgmath":65.06,"avgverb":71.43,"disadvantaged":54},{"schlcode":61103,"enrollment":69,"classize":34,"avgmath":62.66,"avgverb":74.34,"disadvantaged":54},{"schlcode":61104,"enrollment":34,"classize":20,"avgmath":66.64,"avgverb":76.45,"disadvantaged":35},{"schlcode":61104,"enrollment":34,"classize":14,"avgmath":50.58,"avgverb":65.22,"disadvantaged":35},{"schlcode":61106,"enrollment":62,"classize":25,"avgmath":47,"avgverb":61.63,"disadvantaged":46},{"schlcode":61106,"enrollment":62,"classize":35,"avgmath":62.9677,"avgverb":71.1574,"disadvantaged":46},{"schlcode":61108,"enrollment":13,"classize":14,"avgmath":62.79,"avgverb":80,"disadvantaged":0},{"schlcode":61116,"enrollment":42,"classize":44,"avgmath":66.23,"avgverb":58.03,"disadvantaged":38},{"schlcode":61117,"enrollment":41,"classize":23,"avgmath":73.05,"avgverb":77.82,"disadvantaged":52},{"schlcode":61117,"enrollment":41,"classize":18,"avgmath":45.63,"avgverb":58.06,"disadvantaged":52},{"schlcode":61121,"enrollment":28,"classize":22,"avgmath":55,"avgverb":68,"disadvantaged":32},{"schlcode":61124,"enrollment":20,"classize":20,"avgmath":52.16,"avgverb":64,"disadvantaged":58},{"schlcode":61136,"enrollment":36,"classize":39,"avgmath":76.2,"avgverb":85.05,"disadvantaged":27},{"schlcode":61137,"enrollment":51,"classize":24,"avgmath":59.74,"avgverb":71.09,"disadvantaged":35},{"schlcode":61137,"enrollment":51,"classize":26,"avgmath":48.05,"avgverb":68.63,"disadvantaged":35},{"schlcode":61138,"enrollment":72,"classize":30,"avgmath":58.67,"avgverb":55.84,"disadvantaged":31},{"schlcode":61138,"enrollment":72,"classize":12,"avgmath":58.24,"avgverb":65.04,"disadvantaged":31},{"schlcode":61139,"enrollment":28,"classize":28,"avgmath":58.04,"avgverb":67.56,"disadvantaged":49},{"schlcode":61140,"enrollment":36,"classize":34,"avgmath":51.19,"avgverb":64.57,"disadvantaged":25},{"schlcode":61141,"enrollment":47,"classize":23,"avgmath":50.5,"avgverb":66.59,"disadvantaged":52},{"schlcode":61141,"enrollment":47,"classize":27,"avgmath":63.2174,"avgverb":73.41,"disadvantaged":52},{"schlcode":61142,"enrollment":27,"classize":9,"avgmath":49.67,"avgverb":46,"disadvantaged":51},{"schlcode":61145,"enrollment":65,"classize":33,"avgmath":64.3,"avgverb":78,"disadvantaged":6},{"schlcode":61145,"enrollment":65,"classize":32,"avgmath":59.5516,"avgverb":80.069,"disadvantaged":6},{"schlcode":61149,"enrollment":62,"classize":32,"avgmath":65.89,"avgverb":64.33,"disadvantaged":37},{"schlcode":61149,"enrollment":62,"classize":31,"avgmath":52,"avgverb":57.33,"disadvantaged":37},{"schlcode":61150,"enrollment":38,"classize":39,"avgmath":50.35,"avgverb":64.85,"disadvantaged":46},{"schlcode":61151,"enrollment":42,"classize":20,"avgmath":63.37,"avgverb":69.63,"disadvantaged":42},{"schlcode":61151,"enrollment":42,"classize":22,"avgmath":73.14,"avgverb":75.76,"disadvantaged":42},{"schlcode":61152,"enrollment":30,"classize":30,"avgmath":70.13,"avgverb":78.21,"disadvantaged":32},{"schlcode":61156,"enrollment":15,"classize":15,"avgmath":53,"avgverb":59,"disadvantaged":67},{"schlcode":61157,"enrollment":60,"classize":32,"avgmath":68.31,"avgverb":75.38,"disadvantaged":10},{"schlcode":61157,"enrollment":60,"classize":34,"avgmath":74.07,"avgverb":71.43,"disadvantaged":10},{"schlcode":61163,"enrollment":53,"classize":21,"avgmath":70.94,"avgverb":71.22,"disadvantaged":51},{"schlcode":61163,"enrollment":53,"classize":22,"avgmath":61.9582,"avgverb":63.5473,"disadvantaged":51},{"schlcode":61165,"enrollment":56,"classize":28,"avgmath":54.11,"avgverb":69.26,"disadvantaged":60},{"schlcode":61165,"enrollment":56,"classize":29,"avgmath":43.68,"avgverb":37.81,"disadvantaged":60},{"schlcode":61169,"enrollment":50,"classize":24,"avgmath":61,"avgverb":74.17,"disadvantaged":25},{"schlcode":61169,"enrollment":50,"classize":24,"avgmath":68.88,"avgverb":77.95,"disadvantaged":25},{"schlcode":61171,"enrollment":19,"classize":19,"avgmath":76.63,"avgverb":84.79,"disadvantaged":2},{"schlcode":61172,"enrollment":38,"classize":38,"avgmath":60,"avgverb":71,"disadvantaged":43},{"schlcode":61173,"enrollment":9,"classize":11,"avgmath":55.6,"avgverb":66.56,"disadvantaged":36},{"schlcode":61174,"enrollment":55,"classize":28,"avgmath":62.16,"avgverb":70.6,"disadvantaged":13},{"schlcode":61174,"enrollment":55,"classize":29,"avgmath":65.83,"avgverb":71.42,"disadvantaged":13},{"schlcode":61178,"enrollment":57,"classize":21,"avgmath":62.28,"avgverb":68.83,"disadvantaged":52},{"schlcode":61178,"enrollment":57,"classize":25,"avgmath":50.92,"avgverb":66.36,"disadvantaged":52},{"schlcode":61186,"enrollment":60,"classize":30,"avgmath":72.17,"avgverb":81.9,"disadvantaged":4},{"schlcode":61186,"enrollment":60,"classize":30,"avgmath":78.63,"avgverb":80.37,"disadvantaged":4},{"schlcode":61188,"enrollment":56,"classize":25,"avgmath":55.24,"avgverb":74.33,"disadvantaged":20},{"schlcode":61188,"enrollment":56,"classize":25,"avgmath":63.83,"avgverb":70.82,"disadvantaged":20},{"schlcode":61190,"enrollment":36,"classize":43,"avgmath":60.15,"avgverb":58.07,"disadvantaged":44},{"schlcode":61193,"enrollment":68,"classize":36,"avgmath":54.63,"avgverb":59.81,"disadvantaged":17},{"schlcode":61193,"enrollment":68,"classize":35,"avgmath":59.6758,"avgverb":62.2284,"disadvantaged":17},{"schlcode":61196,"enrollment":49,"classize":27,"avgmath":62.32,"avgverb":67.17,"disadvantaged":23},{"schlcode":61196,"enrollment":49,"classize":28,"avgmath":51.71,"avgverb":64.7,"disadvantaged":23},{"schlcode":61197,"enrollment":56,"classize":21,"avgmath":48.91,"avgverb":63.04,"disadvantaged":42},{"schlcode":61197,"enrollment":56,"classize":24,"avgmath":45.05,"avgverb":56.55,"disadvantaged":42},{"schlcode":61198,"enrollment":16,"classize":16,"avgmath":73.5,"avgverb":82.13,"disadvantaged":0},{"schlcode":61199,"enrollment":43,"classize":22,"avgmath":70.05,"avgverb":67.65,"disadvantaged":46},{"schlcode":61199,"enrollment":43,"classize":21,"avgmath":52.5294,"avgverb":66.2353,"disadvantaged":46},{"schlcode":61203,"enrollment":31,"classize":19,"avgmath":41,"avgverb":64,"disadvantaged":52},{"schlcode":61204,"enrollment":71,"classize":28,"avgmath":67,"avgverb":69.96,"disadvantaged":17},{"schlcode":61204,"enrollment":71,"classize":29,"avgmath":75.36,"avgverb":77.14,"disadvantaged":17},{"schlcode":61205,"enrollment":55,"classize":27,"avgmath":43.88,"avgverb":52.27,"disadvantaged":35},{"schlcode":61205,"enrollment":55,"classize":28,"avgmath":46,"avgverb":61.3921,"disadvantaged":35},{"schlcode":61209,"enrollment":30,"classize":30,"avgmath":62.92,"avgverb":75.85,"disadvantaged":3},{"schlcode":61211,"enrollment":22,"classize":21,"avgmath":62.42,"avgverb":69.63,"disadvantaged":53},{"schlcode":61213,"enrollment":48,"classize":23,"avgmath":66.61,"avgverb":80.96,"disadvantaged":0},{"schlcode":61213,"enrollment":48,"classize":23,"avgmath":61.86,"avgverb":81.1,"disadvantaged":0},{"schlcode":61218,"enrollment":30,"classize":29,"avgmath":51.86,"avgverb":54.45,"disadvantaged":43},{"schlcode":61219,"enrollment":74,"classize":31,"avgmath":62.67,"avgverb":75,"disadvantaged":5},{"schlcode":61219,"enrollment":74,"classize":32,"avgmath":51.14,"avgverb":70.25,"disadvantaged":5},{"schlcode":61220,"enrollment":21,"classize":21,"avgmath":71.65,"avgverb":65.15,"disadvantaged":48},{"schlcode":61223,"enrollment":42,"classize":21,"avgmath":55.89,"avgverb":68.79,"disadvantaged":24},{"schlcode":61223,"enrollment":42,"classize":22,"avgmath":59.21,"avgverb":68,"disadvantaged":24},{"schlcode":61224,"enrollment":56,"classize":29,"avgmath":64.61,"avgverb":74.5,"disadvantaged":1},{"schlcode":61224,"enrollment":56,"classize":27,"avgmath":59.96,"avgverb":73.23,"disadvantaged":1},{"schlcode":61227,"enrollment":53,"classize":29,"avgmath":62.71,"avgverb":58.22,"disadvantaged":33},{"schlcode":61227,"enrollment":53,"classize":28,"avgmath":54.8448,"avgverb":63.9064,"disadvantaged":33},{"schlcode":61228,"enrollment":57,"classize":29,"avgmath":70.14,"avgverb":66.46,"disadvantaged":17},{"schlcode":61228,"enrollment":57,"classize":29,"avgmath":67.36,"avgverb":75.48,"disadvantaged":17},{"schlcode":61231,"enrollment":37,"classize":37,"avgmath":65.56,"avgverb":78.69,"disadvantaged":23},{"schlcode":61232,"enrollment":48,"classize":23,"avgmath":70,"avgverb":78.57,"disadvantaged":12},{"schlcode":61232,"enrollment":48,"classize":25,"avgmath":67.38,"avgverb":77.63,"disadvantaged":12},{"schlcode":61235,"enrollment":25,"classize":21,"avgmath":53.13,"avgverb":74.53,"disadvantaged":19},{"schlcode":61238,"enrollment":48,"classize":23,"avgmath":55.29,"avgverb":68,"disadvantaged":26},{"schlcode":61238,"enrollment":48,"classize":25,"avgmath":60.71,"avgverb":70.04,"disadvantaged":26},{"schlcode":61239,"enrollment":71,"classize":34,"avgmath":56,"avgverb":61.5,"disadvantaged":26},{"schlcode":61239,"enrollment":71,"classize":36,"avgmath":58.14,"avgverb":69.31,"disadvantaged":26},{"schlcode":61240,"enrollment":54,"classize":20,"avgmath":55.58,"avgverb":70.63,"disadvantaged":44},{"schlcode":61240,"enrollment":54,"classize":21,"avgmath":50.42,"avgverb":61.37,"disadvantaged":44},{"schlcode":61243,"enrollment":23,"classize":22,"avgmath":56.43,"avgverb":61.48,"disadvantaged":66},{"schlcode":61246,"enrollment":25,"classize":26,"avgmath":42.59,"avgverb":50.86,"disadvantaged":59},{"schlcode":61248,"enrollment":62,"classize":31,"avgmath":57.74,"avgverb":65.07,"disadvantaged":19},{"schlcode":61248,"enrollment":62,"classize":34,"avgmath":57.58,"avgverb":57.26,"disadvantaged":19},{"schlcode":61251,"enrollment":59,"classize":30,"avgmath":57.77,"avgverb":69.7,"disadvantaged":27},{"schlcode":61251,"enrollment":59,"classize":29,"avgmath":59.93,"avgverb":66.46,"disadvantaged":27},{"schlcode":61253,"enrollment":74,"classize":37,"avgmath":61.06,"avgverb":68.41,"disadvantaged":16},{"schlcode":61253,"enrollment":74,"classize":37,"avgmath":70.67,"avgverb":74.29,"disadvantaged":16},{"schlcode":61254,"enrollment":54,"classize":32,"avgmath":57.63,"avgverb":73.78,"disadvantaged":10},{"schlcode":61254,"enrollment":54,"classize":32,"avgmath":60.24,"avgverb":74.76,"disadvantaged":10},{"schlcode":61255,"enrollment":69,"classize":35,"avgmath":68.1,"avgverb":73.73,"disadvantaged":23},{"schlcode":61255,"enrollment":69,"classize":35,"avgmath":65.9688,"avgverb":82.0031,"disadvantaged":23},{"schlcode":61256,"enrollment":67,"classize":35,"avgmath":78.47,"avgverb":76.94,"disadvantaged":5},{"schlcode":61256,"enrollment":67,"classize":32,"avgmath":73.47,"avgverb":77.8,"disadvantaged":5},{"schlcode":61261,"enrollment":63,"classize":30,"avgmath":47.24,"avgverb":61.33,"disadvantaged":23},{"schlcode":61261,"enrollment":63,"classize":33,"avgmath":54.4075,"avgverb":60.7269,"disadvantaged":23},{"schlcode":61262,"enrollment":61,"classize":30,"avgmath":54.16,"avgverb":71.46,"disadvantaged":13},{"schlcode":61262,"enrollment":61,"classize":30,"avgmath":59.26,"avgverb":70.04,"disadvantaged":13},{"schlcode":61265,"enrollment":43,"classize":22,"avgmath":71.47,"avgverb":79.84,"disadvantaged":36},{"schlcode":61265,"enrollment":43,"classize":21,"avgmath":70.5039,"avgverb":74.0022,"disadvantaged":36},{"schlcode":61270,"enrollment":9,"classize":9,"avgmath":70.5,"avgverb":82.63,"disadvantaged":0},{"schlcode":61271,"enrollment":21,"classize":15,"avgmath":57.93,"avgverb":66.21,"disadvantaged":34},{"schlcode":61274,"enrollment":45,"classize":27,"avgmath":59.91,"avgverb":69.52,"disadvantaged":16},{"schlcode":61277,"enrollment":62,"classize":32,"avgmath":54.9,"avgverb":68.31,"disadvantaged":24},{"schlcode":61277,"enrollment":62,"classize":32,"avgmath":55.72,"avgverb":61.22,"disadvantaged":24},{"schlcode":61278,"enrollment":77,"classize":31,"avgmath":66.61,"avgverb":75.68,"disadvantaged":15},{"schlcode":61278,"enrollment":77,"classize":33,"avgmath":67.3412,"avgverb":74.32,"disadvantaged":15},{"schlcode":61284,"enrollment":68,"classize":35,"avgmath":69.5,"avgverb":71.9,"disadvantaged":25},{"schlcode":61284,"enrollment":68,"classize":34,"avgmath":75.03,"avgverb":74.92,"disadvantaged":25},{"schlcode":61290,"enrollment":48,"classize":25,"avgmath":60.14,"avgverb":67.14,"disadvantaged":29},{"schlcode":61290,"enrollment":48,"classize":23,"avgmath":52.04,"avgverb":64.9096,"disadvantaged":29},{"schlcode":61292,"enrollment":43,"classize":22,"avgmath":48.2,"avgverb":61.7,"disadvantaged":49},{"schlcode":61292,"enrollment":43,"classize":21,"avgmath":63.83,"avgverb":72.39,"disadvantaged":49},{"schlcode":61293,"enrollment":71,"classize":31,"avgmath":62.17,"avgverb":74.21,"disadvantaged":7},{"schlcode":61293,"enrollment":71,"classize":35,"avgmath":57.45,"avgverb":76.55,"disadvantaged":7},{"schlcode":61294,"enrollment":47,"classize":23,"avgmath":64.83,"avgverb":78,"disadvantaged":36},{"schlcode":61294,"enrollment":47,"classize":24,"avgmath":59.96,"avgverb":81.5,"disadvantaged":36},{"schlcode":61297,"enrollment":78,"classize":34,"avgmath":65.97,"avgverb":67.38,"disadvantaged":23},{"schlcode":61297,"enrollment":78,"classize":34,"avgmath":58.97,"avgverb":70.2,"disadvantaged":23},{"schlcode":61298,"enrollment":73,"classize":31,"avgmath":77.1,"avgverb":74.83,"disadvantaged":7},{"schlcode":61298,"enrollment":73,"classize":28,"avgmath":68.6071,"avgverb":66.8964,"disadvantaged":7},{"schlcode":61299,"enrollment":28,"classize":20,"avgmath":37.75,"avgverb":56.75,"disadvantaged":19},{"schlcode":61300,"enrollment":65,"classize":33,"avgmath":53.96,"avgverb":64.12,"disadvantaged":12},{"schlcode":61300,"enrollment":65,"classize":30,"avgmath":46.04,"avgverb":56.21,"disadvantaged":12},{"schlcode":61305,"enrollment":30,"classize":29,"avgmath":58.04,"avgverb":61.28,"disadvantaged":44},{"schlcode":61308,"enrollment":42,"classize":28,"avgmath":58.39,"avgverb":70.61,"disadvantaged":40},{"schlcode":61311,"enrollment":68,"classize":33,"avgmath":57.55,"avgverb":64.23,"disadvantaged":25},{"schlcode":61311,"enrollment":68,"classize":35,"avgmath":68.2797,"avgverb":63.77,"disadvantaged":25},{"schlcode":61312,"enrollment":34,"classize":34,"avgmath":52.12,"avgverb":58.84,"disadvantaged":41},{"schlcode":61314,"enrollment":22,"classize":22,"avgmath":63.22,"avgverb":73.78,"disadvantaged":36},{"schlcode":61316,"enrollment":72,"classize":35,"avgmath":73.9,"avgverb":77.19,"disadvantaged":9},{"schlcode":61316,"enrollment":72,"classize":28,"avgmath":81.37,"avgverb":83.26,"disadvantaged":9},{"schlcode":61317,"enrollment":52,"classize":28,"avgmath":75.78,"avgverb":79.93,"disadvantaged":5},{"schlcode":61317,"enrollment":52,"classize":26,"avgmath":61.6776,"avgverb":71.7556,"disadvantaged":5},{"schlcode":61318,"enrollment":28,"classize":28,"avgmath":64,"avgverb":66.88,"disadvantaged":54},{"schlcode":61320,"enrollment":79,"classize":39,"avgmath":62.47,"avgverb":74.84,"disadvantaged":11},{"schlcode":61320,"enrollment":79,"classize":40,"avgmath":71.6524,"avgverb":75.1643,"disadvantaged":11},{"schlcode":61321,"enrollment":64,"classize":34,"avgmath":44.17,"avgverb":55.97,"disadvantaged":35},{"schlcode":61321,"enrollment":64,"classize":31,"avgmath":44.71,"avgverb":62.15,"disadvantaged":35},{"schlcode":61325,"enrollment":49,"classize":24,"avgmath":71.04,"avgverb":74.22,"disadvantaged":17},{"schlcode":61325,"enrollment":49,"classize":25,"avgmath":74.8783,"avgverb":71.8308,"disadvantaged":17},{"schlcode":61326,"enrollment":46,"classize":23,"avgmath":72.35,"avgverb":79.77,"disadvantaged":18},{"schlcode":61326,"enrollment":46,"classize":23,"avgmath":71.7,"avgverb":79.24,"disadvantaged":18},{"schlcode":61327,"enrollment":71,"classize":36,"avgmath":68.6,"avgverb":80.77,"disadvantaged":5},{"schlcode":61327,"enrollment":71,"classize":35,"avgmath":72.53,"avgverb":79.68,"disadvantaged":5},{"schlcode":61331,"enrollment":53,"classize":27,"avgmath":67.13,"avgverb":75.58,"disadvantaged":8},{"schlcode":61331,"enrollment":53,"classize":28,"avgmath":67.71,"avgverb":74.38,"disadvantaged":8},{"schlcode":61332,"enrollment":35,"classize":37,"avgmath":45,"avgverb":65,"disadvantaged":7},{"schlcode":61334,"enrollment":15,"classize":16,"avgmath":69.5,"avgverb":84.6,"disadvantaged":3},{"schlcode":61335,"enrollment":54,"classize":26,"avgmath":63.7,"avgverb":72.7,"disadvantaged":30},{"schlcode":61335,"enrollment":54,"classize":28,"avgmath":53.81,"avgverb":65.78,"disadvantaged":30},{"schlcode":61338,"enrollment":61,"classize":31,"avgmath":52.1,"avgverb":60.94,"disadvantaged":12},{"schlcode":61338,"enrollment":61,"classize":30,"avgmath":55.9,"avgverb":71.73,"disadvantaged":12},{"schlcode":61339,"enrollment":60,"classize":24,"avgmath":59.43,"avgverb":72,"disadvantaged":36},{"schlcode":61339,"enrollment":60,"classize":27,"avgmath":54.4485,"avgverb":69.95,"disadvantaged":36},{"schlcode":61341,"enrollment":76,"classize":39,"avgmath":70.76,"avgverb":74.26,"disadvantaged":2},{"schlcode":61341,"enrollment":76,"classize":39,"avgmath":72.97,"avgverb":80.54,"disadvantaged":2},{"schlcode":61343,"enrollment":32,"classize":34,"avgmath":69.06,"avgverb":75.63,"disadvantaged":21},{"schlcode":61344,"enrollment":27,"classize":27,"avgmath":93.27,"avgverb":85.77,"disadvantaged":4},{"schlcode":61345,"enrollment":14,"classize":15,"avgmath":64.6,"avgverb":78.2,"disadvantaged":16},{"schlcode":61346,"enrollment":76,"classize":39,"avgmath":69.18,"avgverb":79.61,"disadvantaged":5},{"schlcode":61346,"enrollment":76,"classize":38,"avgmath":79.82,"avgverb":80.03,"disadvantaged":5},{"schlcode":61347,"enrollment":17,"classize":16,"avgmath":49,"avgverb":63,"disadvantaged":65},{"schlcode":61348,"enrollment":31,"classize":31,"avgmath":88.72,"avgverb":90.14,"disadvantaged":3},{"schlcode":61349,"enrollment":34,"classize":34,"avgmath":66.15,"avgverb":71.82,"disadvantaged":34},{"schlcode":61350,"enrollment":28,"classize":28,"avgmath":71,"avgverb":79,"disadvantaged":20},{"schlcode":61351,"enrollment":19,"classize":19,"avgmath":68.47,"avgverb":81.29,"disadvantaged":26},{"schlcode":61363,"enrollment":27,"classize":27,"avgmath":70.27,"avgverb":79.36,"disadvantaged":22},{"schlcode":61364,"enrollment":70,"classize":38,"avgmath":70.1,"avgverb":77.36,"disadvantaged":0},{"schlcode":61364,"enrollment":70,"classize":32,"avgmath":69.53,"avgverb":81.53,"disadvantaged":0},{"schlcode":61365,"enrollment":20,"classize":20,"avgmath":50.37,"avgverb":61.58,"disadvantaged":60}];
+
+    // --------------------------------------------------------------------------
+    // PART 1 CHART CONTROLLERS
+    // --------------------------------------------------------------------------
+    let part1ChartInstance;
+
+    function renderPart1Chart(type) {
+      const data = type === 'unweighted' ? part1Unweighted : part1Weighted;
+      const key = type === 'unweighted' ? 'mean_residual' : 'weighted_mean_residual';
+      
+      const labels = data.map(d => d.leadlag);
+      const points = data.map(d => d[key]);
+      
+      const ctx = document.getElementById('part1Chart').getContext('2d');
+      
+      if (part1ChartInstance) {
+        part1ChartInstance.destroy();
+      }
+
+      const primaryColor = type === 'unweighted' ? '#38bdf8' : '#c084fc';
+
+      part1ChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: type === 'unweighted' ? 'Mean GDP Residual (USD)' : 'Pop-Weighted Mean Residual (USD)',
+            data: points,
+            borderColor: primaryColor,
+            backgroundColor: primaryColor + '20',
+            tension: 0.15,
+            borderWidth: 3,
+            pointBackgroundColor: primaryColor,
+            pointRadius: 6,
+            pointHoverRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `Residual: $${context.parsed.y.toFixed(3)}`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: { color: '#94a3b8' },
+              title: { display: true, text: 'Years relative to largest political-liberty improvement', color: '#94a3b8' }
+            },
+            y: {
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: { color: '#94a3b8' },
+              title: { display: true, text: 'GDP per capita residual (constant USD)', color: '#94a3b8' }
+            }
+          }
+        }
+      });
+    }
+
+    function togglePart1(type) {
+      document.getElementById('btn-p1-unweighted').classList.toggle('active', type === 'unweighted');
+      document.getElementById('btn-p1-weighted').classList.toggle('active', type === 'weighted');
+      
+      const olsBox = document.getElementById('p1-ols-est');
+      const feBox = document.getElementById('p1-fe-est');
+
+      if (type === 'unweighted') {
+        olsBox.innerText = "228.965";
+        feBox.innerText = "-0.188";
+      } else {
+        olsBox.innerText = "179.305";
+        feBox.innerText = "-2.895";
+      }
+
+      renderPart1Chart(type);
+    }
+
+    // --------------------------------------------------------------------------
+    // PART 2 CHART & OLS REGRESSION CONTROLLERS (Real-time Solver)
+    // --------------------------------------------------------------------------
+    let currentRDDOutcome = 'classize';
+    let currentBandwidth = 10;
+    let part2ChartInstance;
+
+    function setRDDOutcome(outcome) {
+      const outcomes = ['classize', 'avgmath', 'avgverb'];
+      outcomes.forEach(o => {
+        document.getElementById(`btn-rdd-${o}`).classList.toggle('active', o === outcome);
+      });
+      currentRDDOutcome = outcome;
+      recalculateRDD();
+    }
+
+    function updateBandwidth(val) {
+      document.getElementById('lbl-bandwidth').innerText = val;
+      currentBandwidth = parseInt(val);
+      recalculateRDD();
+    }
+
+    // High performance OLS regression engine written in javascript
+    // Resolves: Y = beta0 + beta1 * above_cutoff + beta2 * centered + beta3 * above_cutoff * centered
+    function solveOLS(data) {
+      const n = data.length;
+      if (n < 4) return { beta1: 0, se: 0, beta0: 0, beta2: 0, beta3: 0 };
+
+      // Design matrix X columns: [1, above_cutoff, centered, interaction]
+      const X = data.map(d => [1, d.above, d.centered, d.above * d.centered]);
+      const Y = data.map(d => d.y);
+
+      // Transpose X
+      const XT = [[], [], [], []];
+      for (let r = 0; r < 4; r++) {
+        for (let c = 0; c < n; c++) {
+          XT[r][c] = X[c][r];
+        }
+      }
+
+      // X'X multiplication (4x4 matrix)
+      const XTX = Array(4).fill(0).map(() => Array(4).fill(0));
+      for (let r = 0; r < 4; r++) {
+        for (let c = 0; c < 4; c++) {
+          let sum = 0;
+          for (let k = 0; k < n; k++) {
+            sum += XT[r][k] * X[k][c];
+          }
+          XTX[r][c] = sum;
+        }
+      }
+
+      // X'Y multiplication (4x1 matrix)
+      const XTY = [0, 0, 0, 0];
+      for (let r = 0; r < 4; r++) {
+        let sum = 0;
+        for (let k = 0; k < n; k++) {
+          sum += XT[r][k] * Y[k];
+        }
+        XTY[r] = sum;
+      }
+
+      // 4x4 Determinant/Inverse Solver using Gauss-Jordan elimination
+      const M = XTX.map((row, i) => [...row, ...Array(4).fill(0).map((_, j) => i === j ? 1 : 0)]);
+      for (let i = 0; i < 4; i++) {
+        let maxRow = i;
+        for (let k = i + 1; k < 4; k++) {
+          if (Math.abs(M[k][i]) > Math.abs(M[maxRow][i])) maxRow = k;
+        }
+        const temp = M[i]; M[i] = M[maxRow]; M[maxRow] = temp;
+        const diagVal = M[i][i];
+        if (Math.abs(diagVal) < 1e-12) return { beta1: 0, se: 0, beta0: 0, beta2: 0, beta3: 0 }; // Singular matrix
+
+        for (let j = i; j < 8; j++) M[i][j] /= diagVal;
+        for (let k = 0; k < 4; k++) {
+          if (k !== i) {
+            const factor = M[k][i];
+            for (let j = i; j < 8; j++) M[k][j] -= factor * M[i][j];
+          }
+        }
+      }
+
+      const inv = M.map(row => row.slice(4));
+
+      // Coefficients vector = inv(X'X) * X'Y
+      const coeffs = [0, 0, 0, 0];
+      for (let r = 0; r < 4; r++) {
+        let sum = 0;
+        for (let c = 0; c < 4; c++) {
+          sum += inv[r][c] * XTY[c];
+        }
+        coeffs[r] = sum;
+      }
+
+      // Residual variance calculation
+      let sumResidSq = 0;
+      for (let i = 0; i < n; i++) {
+        const predCorrect = coeffs[0] + coeffs[1] * X[i][1] + coeffs[2] * X[i][2] + coeffs[3] * X[i][3];
+        const error = Y[i] - predCorrect;
+        sumResidSq += error * error;
+      }
+      const sigmaSq = sumResidSq / (n - 4);
+
+      // Covariance matrix of coefficients = sigmaSq * inv(X'X)
+      // Standard error of beta1 (above_cutoff coefficient) is cov[1][1]
+      const cov11 = sigmaSq * inv[1][1];
+      const seBeta1 = cov11 > 0 ? Math.sqrt(cov11) : 0;
+
+      return {
+        beta0: coeffs[0],
+        beta1: coeffs[1],
+        beta2: coeffs[2],
+        beta3: coeffs[3],
+        se: seBeta1
+      };
+    }
+
+    function recalculateRDD() {
+      // 1. Filter under-80 data to bandwidth window around 40
+      const win = rddData.filter(d => Math.abs(d.enrollment - 40) <= currentBandwidth && !isNaN(d[currentRDDOutcome]));
+      
+      const regressionPayload = win.map(d => ({
+        centered: d.enrollment - 40,
+        above: d.enrollment >= 40 ? 1 : 0,
+        y: d[currentRDDOutcome]
+      }));
+
+      const res = solveOLS(regressionPayload);
+
+      // Display live parameters
+      document.getElementById('rdd-beta').innerText = res.beta1.toFixed(3);
+      document.getElementById('rdd-se').innerText = res.se.toFixed(3);
+      document.getElementById('rdd-n').innerText = win.length;
+
+      // Prepare Chart.js data
+      // Draw binned points for visibility and scatter
+      const binMap = new Map();
+      win.forEach(d => {
+        const e = d.enrollment;
+        if (!binMap.has(e)) binMap.set(e, { sum: 0, count: 0 });
+        binMap.get(e).sum += d[currentRDDOutcome];
+        binMap.get(e).count++;
+      });
+
+      const binPoints = [];
+      binMap.forEach((val, key) => {
+        binPoints.push({ x: key, y: val.sum / val.count });
+      });
+
+      // Regression lines points
+      // Left of cutoff (enrollment from 40-h to 39)
+      const lineLeftPoints = [];
+      const leftStart = 40 - currentBandwidth;
+      const leftEnd = 39.9;
+      lineLeftPoints.push({ x: leftStart, y: res.beta0 + res.beta2 * (leftStart - 40) });
+      lineLeftPoints.push({ x: leftEnd, y: res.beta0 + res.beta2 * (leftEnd - 40) });
+
+      // Right of cutoff (enrollment from 40 to 40+h)
+      const lineRightPoints = [];
+      const rightStart = 40;
+      const rightEnd = 40 + currentBandwidth;
+      lineRightPoints.push({ x: rightStart, y: res.beta0 + res.beta1 + (res.beta2 + res.beta3) * (rightStart - 40) });
+      lineRightPoints.push({ x: rightEnd, y: res.beta0 + res.beta1 + (res.beta2 + res.beta3) * (rightEnd - 40) });
+
+      const ctx = document.getElementById('part2Chart').getContext('2d');
+
+      if (part2ChartInstance) {
+        part2ChartInstance.destroy();
+      }
+
+      part2ChartInstance = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+          datasets: [
+            {
+              label: 'Enrollment averages',
+              data: binPoints,
+              backgroundColor: '#34d399',
+              pointRadius: 6,
+              zIndex: 10
+            },
+            {
+              label: 'Left linear fit',
+              data: lineLeftPoints,
+              type: 'line',
+              borderColor: '#1f77b4',
+              borderWidth: 3,
+              pointRadius: 0,
+              tension: 0
+            },
+            {
+              label: 'Right linear fit',
+              data: lineRightPoints,
+              type: 'line',
+              borderColor: '#d62728',
+              borderWidth: 3,
+              pointRadius: 0,
+              tension: 0
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: {
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: { color: '#94a3b8' },
+              min: 40 - currentBandwidth - 2,
+              max: 40 + currentBandwidth + 2,
+              title: { display: true, text: 'School enrollment', color: '#94a3b8' }
+            },
+            y: {
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: { color: '#94a3b8' },
+              title: { display: true, text: currentRDDOutcome.toUpperCase(), color: '#94a3b8' }
+            }
+          }
+        }
+      });
+    }
+
+    // --------------------------------------------------------------------------
+    // DASHBOARD ONLOAD INITIALIZATION
+    // --------------------------------------------------------------------------
+    window.onload = function() {
+      // Render Part 1 default chart (unweighted)
+      renderPart1Chart('unweighted');
+
+      // Render Part 2 default RDD (classize outcome)
+      recalculateRDD();
+    };
+
+  </script>
+</body>
+</html>

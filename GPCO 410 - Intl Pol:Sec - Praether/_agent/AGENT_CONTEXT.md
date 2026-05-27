@@ -22,11 +22,9 @@ This is Athena's running long-memory file for the course across the full quarter
 - Week 2 topic folder exists: `W2 - Preferance Theory`
 - Syllabus PDF present in course root
 
-## Open questions
-- What are the major graded components?
-- What type of written work is expected in this course?
-- How does Praether prefer theory to be applied: formal, historical, policy-facing, or mixed?
-- What is the expected balance of abstract theory vs real-world security application?
+## Open questions (Resolved)
+- **Grading & Expectations:** Verified final exam weight (30%, June 3). In-class format randomly expands on one of the three completed memos (Blue, Orange, Purple).
+- **Theory Application:** Praether and TA Ali expect highly structured strategic choice framework applications (Actors, Preferences, Strategies/Alternatives, Beliefs, Payoffs) along with a dedicated "Why No Deal" settlement breakdown. Abstract theory must be tightly paired with empirical cases and exact terminological anchors from the readings (e.g. Cederman, Powell, Lake, Stein).
 
 ## 2026-04-20 — Assignment carry-forward
 - For the Regime Type data memo, the live Center for Systemic Peace download still points to `Polity5 v2018`, not a newer public release.
@@ -66,3 +64,9 @@ TA Ali rewards explicit, structured application of the strategic choice framewor
 - Week 8 May 18/May 20 is terrorism strategy and collective security: Kydd & Walter on terrorism as costly signaling, Stein on coordination/collaboration regimes, and Gourevitch on governance disputes over institutions.
 - Local file placement is messy: Kydd & Walter is physically in `W9 - Statebuilding/`, Stein is in `W10 - Public Opinion & Intl Security/`, and Gourevitch is in `W8 - Terrorism & Collective Security/`, while the syllabus and DB assign all three to Week 8.
 - The bridge to the Myanmar / regime-type memo is institutional strength: formal rules can structure choices while still leaving coercive power weakly constrained. Keep class prep focused on mechanisms, not a full Myanmar application, unless Edgar asks.
+
+## 2026-05-27 — Final Exam Prep & Lake Summary Completion
+- **Reading Summary:** David Lake (2016) Ch. 1 on statebuilding and legitimacy. Key focus on state failure pathways (predatory vs factionalized), relationally specific assets/compliance constituencies, and the *Statebuilder's Dilemma* (strategic self-interest of external powers undermining host-leader legitimacy). Summary created at `Study Guides/2026-05-27_lake_building_legitimate_states_ch1_summary.md`.
+- **Final Exam Prep:** Comprehensive expansion strategy and checklist prepared for the randomly selected memo format on June 3. Prep guide created at `Study Guides/2026-05-27_gpco410_final_exam_prep_guide.md`.
+- **Key Exam Anchors:** Focus on walking through all six strategic slots (actors, preferences, strategies/alternatives, beliefs, payoffs, and counterfactual deal mechanism) in the essay. Bridge cases to late-quarter concepts (e.g. NATO consensus rule via Gourevitch; Myanmar coup preemption via Powell/Walter; Iraq WMD signaling via Kydd & Walter).
+

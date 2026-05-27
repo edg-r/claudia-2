@@ -182,3 +182,27 @@ Ran two cross-course queries. First: full open-assignments rundown across GPCO 4
 **What was done:** Updated exactly one assignment row in `_claudia/claudia.db`: GPEC 446 — Quantitative Methods 3 `Homework II` id 12 moved from Saturday `2026-05-23 23:59` to Sunday night `2026-05-24 23:59` America/Los_Angeles. Preserved Edgar's wording in the row notes and recorded the ambiguity resolution that "midnight on Sunday" was interpreted against the existing Saturday 23:59 row.
 **Output:** `_claudia/claudia.db`
 **Notes:** Set `deadline_source='edgar_correction'`, `source_confidence='confirmed_by_edgar'`, `date_kind='hard'`, and `last_verified_at='2026-05-21 12:27:59 PDT'`; inserted a matching Mnemosyne `agent_logs` row.
+
+### 2026-05-26 - Embedding Index Health Audit
+**Requested by:** Edgar
+**What was done:** Inspected `_claudia/claudia.db` read-only for embedding schema, vector dimensions, nulls, row counts, chunk integrity, timestamps, source-file coverage, and drift against `_claudia/embeddings.py` behavior.
+**Output:** Relay-ready audit returned to Claudia; no database changes.
+**Notes:** Embedding blobs are structurally healthy: 9,130 chunks, 182 source paths, all `nomic-embed-text`, all 3,072-byte 768-float blobs, no null text/blob/model fields, no duplicate or gapped chunk indices. Main drift is metadata/source hygiene: 39 embedded sources no longer exist on disk, five embedded sources are not current expected file sources, `files.indexed` has 46 false negatives plus one non-indexable false positive, and one existing indexable image PDF has no extractable text.
+
+### 2026-05-27 - Local gcalcli calendar fallback capability
+**Requested by:** Claudia
+**What was done:** Inspected `_claudia/claudia.db` schema for a suitable capability/tool record pattern, then recorded the verified local `gcalcli` Google Calendar fallback as an Open Brain `brain_memories` capability row and an `agent_logs` trace row. Updated Mnemosyne context with the operational rule and caution around calendar writes.
+**Output:** `_claudia/claudia.db`; `_claudia/agents/mnemosyne/AGENT_CONTEXT.md`
+**Notes:** `brain_memories` id=2 records `/opt/homebrew/bin/gcalcli`, version 4.5.1, successful authenticated `gcalcli list`, visible calendars, and read/fallback usage guidance. After briefly starting Ollama, vector indexing succeeded for the new memory row using the sqlite-vec backend.
+
+### 2026-05-27 - Email account access registry
+**Requested by:** Edgar
+**What was done:** Added an `email_accounts` table to `_claudia/claudia.db` and registered two mailbox access paths: UCSD Email (`eagunias@ucsd.edu`) via `_claudia/gmail_dispatch_json.py` and the local gcloud profile, and Personal Gmail (`edgar.agunias@gmail.com`) via the Codex Gmail connector.
+**Output:** `_claudia/claudia.db`; `_claudia/agents/mnemosyne/AGENT_CONTEXT.md`
+**Notes:** UCSD access verified on 2026-05-27 with the helper's `profile`, `search --full`, and `dispatch` commands. Personal Gmail remains connector-scoped rather than CLI-readable.
+
+### 2026-05-27 - Daily vector DB maintenance
+**Requested by:** Claudia / Edgar
+**What was done:** Inspected the existing vector setup (`_claudia/embeddings.py`, `_claudia/brain.py`, `_claudia/system/open-brain.md`, vector dashboard server, SQLite schemas, and prior task logs). Ran the established course-material embedding update path after starting local Ollama, then migrated refreshed legacy embeddings into the Open Brain sqlite-vec layer and ran Open Brain vector indexing. Cleaned 109 orphaned Open Brain mirror rows whose `source_table='embeddings'` source ids no longer existed after reindexing.
+**Output:** `_claudia/claudia.db`; `_claudia/agents/mnemosyne/TASK_LOG.md`
+**Notes:** Final verification: `embeddings` has 9,136 chunks across 182 source paths, all embedding blobs are 3,072 bytes, `PRAGMA integrity_check` returned `ok`, and Open Brain vector status reports 9,144 total vector items/embeddings/sqlite-vec rows: 9,136 legacy embedding rows plus 3 handoffs, 3 events, and 2 memories. Existing drift remains in the legacy status metric: 182 indexed sources vs. 180 DB-indexable file rows because some embedded sources are outside the current `files` table source set.

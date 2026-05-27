@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Homework 2: Panel and Regression Discontinuity</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="report.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Homework 2: Panel and Regression Discontinuity</h1>
+</header>
+<h1 id="homework-2-panel-and-regression-discontinuity">Homework 2: Panel
+and Regression Discontinuity</h1>
+<p><strong>Edgar Agunias</strong><br />
+<strong>GPEC 446 - Quantitative Methods 3 (Valasquez)</strong><br />
+<strong>Graduate School of Global Policy and Strategy,
+UCSD</strong><br />
+<strong>May 2026</strong></p>
+<hr />
+<h2 id="part-i-panel-and-two-way-fixed-effects">Part I: Panel and
+Two-Way Fixed Effects</h2>
+<h3 id="question-1-pooled-ols-vs.-country-fixed-effects">Question 1:
+Pooled OLS vs. Country Fixed Effects</h3>
+<p>The governance panel covers African country-years from 1985 to 1998.
+To analyze the relationship between GDP per capita and political
+liberties, I generated a numeric country identifier and year dummies,
+then estimated two distinct regression models: 1. <strong>Pooled
+OLS</strong> with year fixed effects (treating country-year observations
+as independent). 2. <strong>Within/LSDV Country Fixed-Effects</strong>
+model with year fixed effects (controlling for time-invariant country
+characteristics).</p>
+<p>The constant GDP per capita (constant 2015 USD) was obtained from the
+World Bank API. Table 1 presents the regression results for both
+models.</p>
+<p><strong>Table 1. GDP per capita and political liberties,
+average-country estimates</strong></p>
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 35%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Explanatory Variable / Statistic</th>
+<th style="text-align: center;">(1) Pooled OLS + Year FE</th>
+<th style="text-align: center;">(2) Country FE + Year FE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Political liberties
+(RHS)</strong></td>
+<td style="text-align: center;">228.965***</td>
+<td style="text-align: center;">-0.188</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(55.203)</td>
+<td style="text-align: center;">(14.113)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Country Fixed
+Effects</strong></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">Yes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Year Fixed Effects</strong></td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">Yes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Observations</strong></td>
+<td style="text-align: center;">623</td>
+<td style="text-align: center;">623</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>R²</strong></td>
+<td style="text-align: center;">0.028</td>
+<td style="text-align: center;">0.972</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Adjusted R²</strong></td>
+<td style="text-align: center;">0.006</td>
+<td style="text-align: center;">0.970</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note: Standard errors are in parentheses. *** p &lt; 0.01, ** p
+&lt; 0.05, * p &lt; 0.1.</em></p>
+<h4 id="interpretation-and-comparison">Interpretation and
+Comparison:</h4>
+<ul>
+<li><strong>Pooled OLS Model:</strong> In the pooled model, higher
+political-liberty scores are strongly associated with higher GDP per
+capita. A one-point increase in the political-liberty scale is
+associated with an average increase of about **<span
+class="math inline">228.97 * *<em>i</em><em>n</em><em>G</em><em>D</em><em>P</em><em>p</em><em>e</em><em>r</em><em>c</em><em>a</em><em>p</em><em>i</em><em>t</em><em>a</em>.<em>T</em><em>h</em><em>i</em><em>s</em><em>e</em><em>s</em><em>t</em><em>i</em><em>m</em><em>a</em><em>t</em><em>e</em><em>i</em><em>s</em><em>h</em><em>i</em><em>g</em><em>h</em><em>l</em><em>y</em><em>s</em><em>t</em><em>a</em><em>t</em><em>i</em><em>s</em><em>t</em><em>i</em><em>c</em><em>a</em><em>l</em><em>l</em><em>y</em><em>s</em><em>i</em><em>g</em><em>n</em><em>i</em><em>f</em><em>i</em><em>c</em><em>a</em><em>n</em><em>t</em>(</span>p
+&lt; 0.001$).</li>
+<li><strong>Within-Country Fixed Effects Model:</strong> In the
+within-country fixed-effects model, the estimate is practically zero
+(**-<span
+class="math inline">0.188 * *)<em>a</em><em>n</em><em>d</em><em>c</em><em>o</em><em>m</em><em>p</em><em>l</em><em>e</em><em>t</em><em>e</em><em>l</em><em>y</em><em>s</em><em>t</em><em>a</em><em>t</em><em>i</em><em>s</em><em>t</em><em>i</em><em>c</em><em>a</em><em>l</em><em>l</em><em>y</em><em>i</em><em>n</em><em>s</em><em>i</em><em>g</em><em>n</em><em>i</em><em>f</em><em>i</em><em>c</em><em>a</em><em>n</em><em>t</em>(</span>p
+= 0.989$).</li>
+<li><strong>Substantive Difference:</strong> The stark contrast between
+these two models illustrates a classic omitted-variable and selection
+bias issue. The pooled OLS model mostly compares differences
+<em>across</em> countries, showing that on average, richer African
+countries have higher political liberties. However, when we include
+country fixed effects, we control for all time-invariant
+country-specific factors (e.g., geography, historical institutions,
+colonial history, cultural factors). The within-country model asks
+whether a <em>given</em> country becomes richer in years when its
+political-liberty score improves. The results show that once we control
+for country fixed effects, there is no evidence that short-term
+improvements in political liberties are contemporaneously associated
+with increases in GDP per capita.</li>
+</ul>
+<hr />
+<h3 id="question-2-two-way-fixed-effects-twfe-and-event-study">Question
+2: Two-Way Fixed Effects (TWFE) and Event Study</h3>
+<p>I next utilized a specialized binary indicator <code>bigimp</code> to
+identify the specific year of each country’s largest improvement in
+political liberties (if any occurred). The two-way fixed-effects (TWFE)
+regression uses GDP per capita as the outcome and includes country and
+year fixed effects.</p>
+<p><strong>Table 2. TWFE estimate for large governance improvement
+year</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Explanatory Variable / Statistic</th>
+<th style="text-align: center;">(1) TWFE (bigimp)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Big governance improvement year
+(bigimp)</strong></td>
+<td style="text-align: center;">-2.855</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(56.887)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Country Fixed
+Effects</strong></td>
+<td style="text-align: center;">Yes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Year Fixed Effects</strong></td>
+<td style="text-align: center;">Yes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Observations</strong></td>
+<td style="text-align: center;">623</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>R²</strong></td>
+<td style="text-align: center;">0.972</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Adjusted R²</strong></td>
+<td style="text-align: center;">0.970</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note: Standard errors are in parentheses. *** p &lt; 0.01, ** p
+&lt; 0.05, * p &lt; 0.1.</em></p>
+<h4 id="interpretation-of-static-twfe">Interpretation of Static
+TWFE:</h4>
+<p>The static TWFE point estimate is extremely small
+(<strong>-$2.855</strong>) relative to its standard error (**<span
+class="math inline">56.887 * *), <em>a</em><em>n</em><em>d</em><em>i</em><em>s</em><em>c</em><em>o</em><em>m</em><em>p</em><em>l</em><em>e</em><em>t</em><em>e</em><em>l</em><em>y</em><em>s</em><em>t</em><em>a</em><em>t</em><em>i</em><em>s</em><em>t</em><em>i</em><em>c</em><em>a</em><em>l</em><em>l</em><em>y</em><em>i</em><em>n</em><em>s</em><em>i</em><em>g</em><em>n</em><em>i</em><em>f</em><em>i</em><em>c</em><em>a</em><em>n</em><em>t</em>(</span>p
+= 0.960$). Thus, the TWFE regression does not show a clear
+contemporaneous GDP increase in the exact year of a large governance
+improvement.</p>
+<h4 id="event-study-analysis">Event-Study Analysis:</h4>
+<p>To understand the dynamic effects around these governance
+improvements, I estimated a Lab 5-style event-study regression. The
+event window is restricted to 5 years before and 5 years after the large
+improvement (<span class="math inline">[−5, +5]</span>), with the year
+prior to the event (year <span class="math inline">−1</span>) omitted as
+the reference period. Figure 1 plots the resulting event-study
+coefficients with their 95% confidence intervals.</p>
+<p><strong>Figure 1. Lab 5-style event-study coefficients around large
+governance improvements</strong><br />
+<img src="figure_q2_event_study_coefficients.png"
+alt="Event-study coefficients around large governance improvements" /></p>
+<h4 id="interpretation-of-figure-1">Interpretation of Figure 1:</h4>
+<ul>
+<li><strong>Pre-trends (Leads):</strong> The coefficients for the years
+leading up to the governance improvement (<span
+class="math inline">[−5, −2]</span>) are statistically insignificant and
+relatively stable near zero. They do not show a clear rising pattern,
+which suggests that systematic income growth does not consistently
+precede governance improvements.</li>
+<li><strong>Post-trends (Lags):</strong> Following the governance
+improvement (<span class="math inline">[0, +5]</span>), the coefficients
+remain highly noisy and statistically insignificant. There is no
+evidence of a sustained increase or lag-effect in GDP per capita
+following a major political opening.</li>
+<li><strong>Timing and Causality:</strong> Combined, the pre- and
+post-event coefficients are noisy and stay close to zero. My reading is
+that the timing evidence is very weak, failing to support a clean story
+of economic growth causing democratization, or democratization causing
+subsequent economic growth.</li>
+</ul>
+<hr />
+<h3 id="question-3-substantive-and-policy-implications">Question 3:
+Substantive and Policy Implications</h3>
+<p>The results from Questions 1 and 2 carry major policy and analytical
+implications: 1. <strong>The Cross-Section vs. Within-Country
+Distinction:</strong> Richer African countries appear better governed on
+average in the cross-section (pooled OLS), but within-country estimates
+are extremely weak. This means we cannot use cross-country correlations
+to infer that a country will experience economic development if it
+changes its political institutions, or vice-versa. 2. <strong>Economic
+Growth as a Driver of Democracy:</strong> Based on these results, I
+would not strongly expect political improvements just because an African
+country has a rapidly expanding economy. While faster growth might
+theoretically make political transitions easier or relieve fiscal
+stress, the event-study evidence does not show a clear pattern of GDP
+rising systematically before large governance improvements. 3.
+<strong>Institutional Reforms as Drivers of Growth:</strong> Similarly,
+a policy advocate claiming that institutional democratization is the
+primary “engine” of economic growth would find little support in this
+data. In the short-to-medium term (up to 5 years after), there is no
+detectable increase in GDP per capita after a large governance
+improvement. 4. <strong>Safest Conclusion:</strong> The safest
+conclusion is that although wealth and political liberties are strongly
+positively associated across different countries in Africa, the
+within-country and event-study evidence from this panel is insufficient
+to claim a causal timing relationship.</p>
+<hr />
+<h3
+id="question-4-population-weighted-representative-person-estimates">Question
+4: Population-Weighted (Representative-Person) Estimates</h3>
+<p>To shift the analytical focus from the <strong>average
+country</strong> (where small states like Seychelles or Mauritius have
+equal weight to giants like Nigeria) to the <strong>representative
+person</strong> (where country-years are weighted by population), I
+integrated World Bank population data and estimated population-weighted
+versions of the pooled OLS and fixed-effects models.</p>
+<p><strong>Table 3. GDP per capita and political liberties,
+representative-person estimates</strong></p>
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 35%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Explanatory Variable / Statistic</th>
+<th style="text-align: center;">(1) Weighted Pooled OLS + Year FE</th>
+<th style="text-align: center;">(2) Weighted Country FE + Year FE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Political liberties
+(RHS)</strong></td>
+<td style="text-align: center;">179.305***</td>
+<td style="text-align: center;">-2.895</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(40.217)</td>
+<td style="text-align: center;">(6.922)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Country Fixed
+Effects</strong></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">Yes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Year Fixed Effects</strong></td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">Yes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Population Weights</strong></td>
+<td style="text-align: center;">Yes (World Bank population)</td>
+<td style="text-align: center;">Yes (World Bank population)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Observations</strong></td>
+<td style="text-align: center;">623</td>
+<td style="text-align: center;">623</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>R²</strong></td>
+<td style="text-align: center;">0.034</td>
+<td style="text-align: center;">0.986</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Adjusted R²</strong></td>
+<td style="text-align: center;">0.012</td>
+<td style="text-align: center;">0.985</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note: Standard errors are in parentheses. Models are weighted by
+country population to estimate representative-person parameters. *** p
+&lt; 0.01, ** p &lt; 0.05, * p &lt; 0.1.</em></p>
+<p>To diagnose the dynamic patterns for the representative person, I
+extracted residuals from a population-weighted TWFE model and plotted
+the weighted mean residuals across the <span
+class="math inline">[−5, +5]</span> event window in Figure 2.</p>
+<p><strong>Figure 2. Population-weighted event-study residual GDP per
+capita</strong><br />
+<img src="figure_q4_weighted_event_study_residuals.png"
+alt="Population-weighted event-study residual GDP per capita" /></p>
+<h4 id="interpretation-of-population-weighted-results">Interpretation of
+Population-Weighted Results:</h4>
+<ul>
+<li><strong>Shift in Estimand:</strong> Population weighting changes the
+unit of observation from the average country-year to the average
+person-year. Heavily populated countries—such as <strong>Nigeria,
+Ethiopia, Democratic Republic of Congo, South Africa, Tanzania, Kenya,
+Sudan, and Uganda</strong>—get substantially more weight, while
+micro-states are heavily discounted.</li>
+<li><strong>Weighted Pooled Estimate:</strong> The weighted pooled
+estimate is still positive and highly significant
+(<strong>$179.305</strong>, <span
+class="math inline"><em>p</em> &lt; 0.001</span>), but it is smaller
+than the unweighted estimate (<span class="math inline">228.965</span>).
+This indicates that the positive cross-sectional correlation between
+income and governance is slightly weaker in the most populous
+countries.</li>
+<li><strong>Weighted Fixed-Effects Estimate:</strong> The weighted
+country fixed-effects estimate remains near zero (**-<span
+class="math inline">2.895</span>) and statistically insignificant (<span
+class="math inline"><em>p</em> = 0.676</span>).</li>
+<li><strong>Weighted Event-Study Curve:</strong> As shown in Figure 2,
+the population-weighted event-study residuals show a somewhat erratic
+pattern around the event year (including a rise followed by a subsequent
+drop). However, the absolute magnitudes are small, and the overall
+narrative is unchanged: the representative-person version does not
+change the core conclusion. Richer places are better governed on
+average, but within-country dynamics do not reveal a robust causal or
+timing pattern between GDP growth and political openings.</li>
+</ul>
+<hr />
+<h2 id="part-ii-regression-discontinuity-design">Part II: Regression
+Discontinuity Design</h2>
+<h3 id="question-5-endogeneity-of-class-size">Question 5: Endogeneity of
+Class Size</h3>
+<p>In school-level analyses of test scores (such as Angrist and Lavy,
+1999), class size is highly endogenous. OLS regressions of test scores
+on class size are subject to severe selection and omitted-variable
+biases: - <strong>Advantaged Family Sorting (Negative Bias on Class Size
+/ Positive Bias on Achievement):</strong> Wealthier or more educated
+parents often actively seek out schools with smaller class sizes, or
+live in wealthier districts that can afford to hire more teachers. These
+advantaged families also provide more resources at home (tutoring,
+books, stable environments), which independently boosts test scores. If
+we fail to fully control for family background, OLS would make small
+classes look artificially highly beneficial (overestimating the negative
+coefficient of class size on test scores). - <strong>Compensatory School
+Sorting (Positive Bias on Class Size / Negative Bias on
+Achievement):</strong> Alternatively, school administrators might
+deliberately place struggling, lower-performing, or special-needs
+students into smaller classes to give them more individual attention.
+This would create a correlation between small classes and low test
+scores, leading OLS to underestimate the true benefits of class size
+reductions. - <strong>Maimonides’ Rule Solution:</strong> To overcome
+these biases, Angrist and Lavy (1999) exploit a historic rule proposed
+by Maimonides, which caps Israeli class sizes at 40. This rule creates
+sharp, non-linear discontinuities in class sizes at enrollment multiples
+of 40 (<span class="math inline">40, 80, 120, …</span>), which can be
+leveraged in a Regression Discontinuity Design (RDD).</p>
+<hr />
+<h3 id="question-6-running-variable-density-test-histogram">Question 6:
+Running Variable Density Test (Histogram)</h3>
+<p>A critical assumption of the RDD is that actors (parents, schools)
+cannot precisely manipulate the running variable (school enrollment)
+around the treatment cutoff. If schools strategically manipulated
+enrollment to stay just below or just above the cutoff of 40 (e.g., to
+gain funding or avoid splitting classes), we would see a suspicious
+“bunching” or sorting of observations on one side of the cutoff. I
+constructed a histogram of school enrollment to visually check this
+assumption.</p>
+<p><strong>Figure 3. Histogram of fifth-grade school
+enrollment</strong><br />
+<img src="hist_school_enrollment.png"
+alt="Histogram of fifth-grade school enrollment" /></p>
+<h4 id="discussion-of-figure-3">Discussion of Figure 3:</h4>
+<p>The school-level enrollment histogram (Figure 3) does not show
+obvious, suspicious bunching right around the Maimonides’ Rule
+enrollment cutoff of 40. The distribution of schools appears relatively
+continuous and smooth across the boundary. If parents or school
+administrators were systematically manipulating enrollment to exploit
+the rule, we would expect a massive spike in schools just below 40 or
+just above 40. Since this sorting pattern is not visually apparent, the
+assumption of no strategic manipulation looks highly credible,
+supporting the validity of the RD design.</p>
+<hr />
+<h3 id="question-7-graphical-regression-discontinuity-analysis">Question
+7: Graphical Regression Discontinuity Analysis</h3>
+<p>To visually inspect the first-stage relationship (the effect of the
+rule on actual class size) and the reduced-form relationships (the
+effect of the rule on test scores), I generated RDD plots using
+individual school observations, binned enrollment averages, and separate
+linear fits on each side of the cutoff.</p>
+<p><strong>Figure 4. Class size around the Maimonides’ Rule
+cutoff</strong><br />
+<img src="rdd_classize_cutoff40.png"
+alt="Class size around the Maimonides’ Rule cutoff" /></p>
+<p><strong>Figure 5. Math scores around the Maimonides’ Rule
+cutoff</strong><br />
+<img src="rdd_avgmath_cutoff40.png"
+alt="Math scores around the Maimonides’ Rule cutoff" /></p>
+<p><strong>Figure 6. Verbal scores around the Maimonides’ Rule
+cutoff</strong><br />
+<img src="rdd_avgverb_cutoff40.png"
+alt="Verbal scores around the Maimonides’ Rule cutoff" /></p>
+<h4 id="visual-interpretation">Visual Interpretation:</h4>
+<ul>
+<li><strong>Class Size (Figure 4 - First Stage):</strong> Figure 4
+demonstrates a powerful first-stage discontinuity. As fifth-grade school
+enrollment approaches 40 from the left, class sizes grow linearly up to
+40. Once enrollment crosses the cutoff of 40, the rule dictates
+splitting the enrollment into two classes, causing average class size to
+immediately plunge from approximately 40 to about 20. This confirms that
+the enrollment cutoff of 40 is a highly powerful instrument for class
+size.</li>
+<li><strong>Math and Verbal Scores (Figures 5 and 6 - Reduced
+Form):</strong> Both test score plots show substantial noise, which is
+typical for school-level achievement data. However, at the cutoff of 40,
+there is a visible upward jump in average scores. Schools just above the
+cutoff of 40 (which have much smaller class sizes due to class
+splitting) exhibit higher average math and verbal scores than schools
+just below 40.</li>
+<li><strong>RD Logic:</strong> This graphical jump suggests a beneficial
+effect of smaller class sizes. The strength of the RDD is that schools
+with 39 students and schools with 41 students are likely identical on
+all other dimensions (parent demographics, teacher quality, school
+funding). The only systematic difference is that the school with 41
+students is forced to split into classes of size 20 and 21, whereas the
+school with 39 students remains in a single massive class of 39.</li>
+</ul>
+<hr />
+<h3 id="question-8-regression-discontinuity-estimation">Question 8:
+Regression Discontinuity Estimation</h3>
+<p>To formally quantify the visual discontinuities, I restricted the
+sample to schools with under 80 students enrolled and estimated the
+treatment effects at the 40-student cutoff.</p>
+<h4
+id="question-8a-manual-local-linear-regression-bandwidth-10">Question
+8a: Manual Local Linear Regression (Bandwidth = 10)</h4>
+<p>I manually estimated local linear regressions on both sides of the
+cutoff using a symmetric bandwidth of 10 students (restricting school
+enrollment to <span class="math inline">[30, 50]</span>). The regression
+model is: <span
+class="math display">Score<sub><em>i</em></sub> = <em>β</em><sub>0</sub> + <em>β</em><sub>1</sub>𝕀(Enrollment<sub><em>i</em></sub> ≥ 40) + <em>β</em><sub>2</sub>(Enrollment<sub><em>i</em></sub> − 40) + <em>β</em><sub>3</sub>𝕀(Enrollment<sub><em>i</em></sub> ≥ 40) × (Enrollment<sub><em>i</em></sub> − 40) + <em>ϵ</em><sub><em>i</em></sub></span>
+Where <span class="math inline"><em>β</em><sub>1</sub></span> represents
+the estimated jump at the cutoff. I selected a bandwidth of 10 because
+it is narrow enough to maintain local comparability around the cutoff,
+while retaining sufficient sample size (<span
+class="math inline"><em>N</em> = 332</span>) to ensure statistical
+power.</p>
+<p><strong>Table 4. Manual local linear RD results (Bandwidth =
+10)</strong></p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Outcome</th>
+<th style="text-align: center;">Cutoff</th>
+<th style="text-align: center;">Bandwidth</th>
+<th style="text-align: center;">Estimate</th>
+<th style="text-align: center;">Std. Error</th>
+<th style="text-align: center;">p-value</th>
+<th style="text-align: center;">N Left</th>
+<th style="text-align: center;">N Right</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>avgmath</strong> (Math Score)</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">4.261</td>
+<td style="text-align: center;">2.570</td>
+<td style="text-align: center;">0.098</td>
+<td style="text-align: center;">96</td>
+<td style="text-align: center;">236</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>avgverb</strong> (Verbal
+Score)</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">4.319</td>
+<td style="text-align: center;">2.295</td>
+<td style="text-align: center;">0.061</td>
+<td style="text-align: center;">96</td>
+<td style="text-align: center;">236</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>classize</strong> (Class
+Size)</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">-7.107***</td>
+<td style="text-align: center;">1.445</td>
+<td style="text-align: center;">&lt;0.001</td>
+<td style="text-align: center;">96</td>
+<td style="text-align: center;">236</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>disadvantaged</strong>
+(Disadvantaged Share)</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">4.819</td>
+<td style="text-align: center;">4.368</td>
+<td style="text-align: center;">0.271</td>
+<td style="text-align: center;">96</td>
+<td style="text-align: center;">236</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note: Models are estimated using OLS on a restricted sample of
+schools with enrollment between 30 and 50. Standard errors are
+conventional. *** p &lt; 0.01, ** p &lt; 0.05, * p &lt; 0.1.</em></p>
+<ul>
+<li><strong>First Stage:</strong> The class size discontinuity is
+estimated at <strong>-7.107</strong> and is highly statistically
+significant (<span class="math inline"><em>p</em> &lt; 0.001</span>).
+Crossing the 40-student threshold reduces class size by an average of
+over 7 students.</li>
+<li><strong>Math and Verbal Scores:</strong> Crossing the cutoff is
+associated with an increase of <strong>4.261 points</strong> in average
+math scores (<span class="math inline"><em>p</em> = 0.098</span>) and
+<strong>4.319 points</strong> in average verbal scores (<span
+class="math inline"><em>p</em> = 0.061</span>). Both coefficients are
+positive and marginally statistically significant at the 10% level. This
+suggests that the rule-induced reduction in class size leads to higher
+test scores near the cutoff.</li>
+</ul>
+<h4
+id="question-8b-robust-rd-estimation-rdrobust-default-settings">Question
+8b: Robust RD Estimation (<code>rdrobust</code> Default Settings)</h4>
+<p>Next, I used the industry-standard package <code>rdrobust</code> to
+estimate the discontinuities. The package automatically implements
+data-driven MSE-optimal bandwidth selection, local linear fits,
+conventional standard errors, and triangular kernel weights.</p>
+<p><strong>Table 5. rdrobust default RD estimates</strong></p>
+<table>
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Outcome</th>
+<th style="text-align: center;">Cutoff</th>
+<th style="text-align: center;">Estimate</th>
+<th style="text-align: center;">Std. Error</th>
+<th style="text-align: center;">95% Conf. Interval</th>
+<th style="text-align: center;">Bandwidth Left</th>
+<th style="text-align: center;">Bandwidth Right</th>
+<th style="text-align: center;">N Left</th>
+<th style="text-align: center;">N Right</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>avgmath</strong> (Math Score)</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">2.939</td>
+<td style="text-align: center;">3.753</td>
+<td style="text-align: center;">[-4.416, 10.294]</td>
+<td style="text-align: center;">7.901</td>
+<td style="text-align: center;">7.901</td>
+<td style="text-align: center;">70</td>
+<td style="text-align: center;">172</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>avgverb</strong> (Verbal
+Score)</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">3.623</td>
+<td style="text-align: center;">3.706</td>
+<td style="text-align: center;">[-3.640, 10.887]</td>
+<td style="text-align: center;">8.186</td>
+<td style="text-align: center;">8.186</td>
+<td style="text-align: center;">79</td>
+<td style="text-align: center;">198</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note: Default rdrobust conventional estimates. Bandwidths are
+MSE-optimal and selected automatically.</em></p>
+<ul>
+<li><strong>Bandwidth Selection:</strong> The data-driven optimal
+bandwidth is <strong>7.901</strong> for math and <strong>8.186</strong>
+for verbal scores. These are slightly narrower than the manual bandwidth
+of 10.</li>
+<li><strong>Estimates:</strong> The conventional RD estimates remain
+positive: <strong>2.939</strong> for math and <strong>3.623</strong> for
+verbal.</li>
+<li><strong>Precision:</strong> However, because of the narrower
+bandwidth and the robust weighting structure, the standard errors are
+larger (<strong>3.753</strong> for math, <strong>3.706</strong> for
+verbal), and both 95% confidence intervals include zero (math: <span
+class="math inline">[−4.416, 10.294]</span>, verbal: <span
+class="math inline">[−3.640, 10.887]</span>).</li>
+<li><strong>Comparison:</strong> The manual and <code>rdrobust</code>
+estimates are substantively aligned—both indicate a positive test-score
+jump at the cutoff. However, the manual estimates (with a fixed
+bandwidth of 10) are slightly larger and marginally statistically
+significant, whereas the <code>rdrobust</code> optimal estimates are
+smaller and statistically insignificant. This difference is a classic
+example of the RDD trade-off: a larger bandwidth increases sample size
+and precision but may introduce functional form bias, whereas a narrower
+optimal bandwidth reduces bias but increases standard errors, leading to
+wider confidence intervals.</li>
+</ul>
+<hr />
+<h3 id="question-9-falsification-test-covariate-smoothness">Question 9:
+Falsification Test (Covariate Smoothness)</h3>
+<p>A core assumption of the RDD is that background covariates are
+“smooth” (continuous) across the threshold. If pre-determined
+characteristics—such as student socio-economic disadvantage—jumped
+discontinuously at the 40-student cutoff, it would suggest that families
+are strategically sorting or that schools are fundamentally different on
+either side of the cutoff. I estimated a manual local linear regression
+(bandwidth = 10) using <code>disadvantaged</code> (the share of
+disadvantaged students in the school) as the dependent variable.</p>
+<p><strong>Table 6. Falsification test: discontinuity in disadvantaged
+share</strong></p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Outcome</th>
+<th style="text-align: center;">Cutoff</th>
+<th style="text-align: center;">Bandwidth</th>
+<th style="text-align: center;">Estimate</th>
+<th style="text-align: center;">Std. Error</th>
+<th style="text-align: center;">p-value</th>
+<th style="text-align: center;">N Left</th>
+<th style="text-align: center;">N Right</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>disadvantaged</strong></td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">4.819</td>
+<td style="text-align: center;">4.368</td>
+<td style="text-align: center;">0.271</td>
+<td style="text-align: center;">96</td>
+<td style="text-align: center;">236</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note: Restricted to schools with school enrollment &lt; 80. Local
+linear model using OLS.</em></p>
+<h4 id="substantive-interpretation">Substantive Interpretation:</h4>
+<p>The estimated discontinuity in the disadvantaged student share at the
+40-student threshold is <strong>4.819</strong> with a standard error of
+<strong>4.368</strong>, yielding a <span
+class="math inline"><em>p</em></span>-value of <strong>0.271</strong>.
+This estimate is statistically insignificant, meaning we cannot reject
+the null hypothesis of no jump in student disadvantage at the
+boundary.</p>
+<p>This result is highly reassuring. If the test had failed (i.e., if we
+found a large, statistically significant jump in disadvantaged share at
+40), it would suggest that schools just above and just below the cutoff
+were not comparable in terms of student backgrounds. In that case, the
+observed jumps in math and verbal scores could have been driven by
+student background differences rather than the rule-induced drop in
+class size. The smoothness of the disadvantaged share supports the
+internal validity of the RDD.</p>
+<hr />
+<h2 id="caveats-and-data-limitations">Caveats and Data Limitations</h2>
+<p>Before submitting, several analytical caveats should be noted: 1.
+<strong>R robust standard errors vs. OLS:</strong> The manual local
+linear estimates utilize conventional standard errors, which are
+slightly tighter than the robust standard errors implemented in
+<code>rdrobust</code>. Substantively, the evidence for class size
+effects remains suggestive rather than definitive since the
+optimal-bandwidth <code>rdrobust</code> confidence intervals span zero.
+2. <strong>Data Availability / Missing Join Cases:</strong> In the Part
+I World Bank join, 21 country-year observations are missing GDP per
+capita data. These are concentrated heavily in <strong>Eritrea</strong>
+and <strong>Somalia</strong> during the late 1980s and early 1990s
+(driven by civil conflict and state collapse). This minor selection
+issue does not affect the main results but should be disclosed. 3.
+<strong>External Validity:</strong> The RDD results represent a
+<strong>Local Average Treatment Effect (LATE)</strong>. The estimates
+reflect the impact of class size reductions <em>specifically for schools
+with enrollments close to 40 students</em>. We should be cautious about
+generalizing these findings to very large schools or different school
+systems where class sizes are already small.</p>
+<hr />
+<h2 id="references">References</h2>
+<p>Angrist, J. D., &amp; V. Lavy (1999). Using Maimonides’ Rule to
+estimate the effect of class size on scholastic achievement. <em>The
+Quarterly Journal of Economics</em>, 114(2), 533-575.
+https://doi.org/10.1162/003355399556061</p>
+<p>World Bank. (2026). <em>World Development Indicators: NY.GDP.PCAP.KD
+(GDP per capita, constant 2015 USD)</em> and <em>SP.POP.TOTL (Total
+Population)</em>. World Bank Group.</p>
+<hr />
+<h2 id="ai-use-disclosure">AI Use Disclosure</h2>
+<p>I used Gemini 1.5 Pro via the Claudia agent system across the full
+drafting process and to assist with code drafting, debugging,
+statistical analysis, and data transformation for this assignment. The
+model contributed to outlining, drafting prose, revising for clarity,
+restructuring arguments, and summarizing sources. I directed the work,
+set the argument and thesis, reviewed every section of the output,
+verified all factual claims and citations against primary sources, and
+revised the final text to reflect my own voice and judgment. I reviewed,
+ran, and verified all code and output. Any interpretation, written
+analysis, and conclusions are my own. I accept full intellectual and
+academic responsibility for the final submission, including any
+errors.</p>
+</body>
+</html>

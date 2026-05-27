@@ -26,7 +26,11 @@
 - Variables for analyzing battle outcomes: terrain, tactics, weather, technology, culture of combatants
 
 ## Professor Tendencies
-To be populated as patterns emerge.
+- **Civil-Military Strategic Alignment (Supreme Command):** Thomas constantly emphasizes that "war is too important to be left to the generals." He heavily values arguments focused on civil-military relations, Eliot Cohen's "unequal dialogue," and the critical distinction between raw tactical battlefield success and long-term strategic/political stability.
+- **Logistical and Financial Asymmetry:** Thomas rejects purely "heroic" or purely tactical explanations of battle outcomes. He strongly prioritizes arguments built around supply chains, funding, credit networks, foraging systems, and resource mobilization (e.g., Swedish copper/subsidy trade at Breitenfeld, globalized civilian supply chains for modern PGMs).
+- **Offense-Defense Transitions:** Thomas frames tactical evolutions as shifts in the offense-defense balance. Expect him to ask how physical terrain (urban cities, jungles, reefs) or prepared fortifications neutralize high-tech offensive mobility, giving the advantage back to the defense.
+- **Adaptability Following Failure:** A favorite quiz theme is how military organizations adapt after a disastrous operation (e.g., the Tarawa disaster leading to successful bypass tactics at Kwajalein; Germany's costly success at Crete ending major airborne assaults).
+- **Demodernization in Contemporary Conflicts:** Thomas frequently connects historical concepts to current events (Ukraine, Sudan, Middle East) through the demodernization thesis—where state collapse leads conflict to regress into brutal, low-tech violence executed by small, irregular criminal/extremist bands.
 
 ## Key Resources
 - Prior analysis exists in `AI/` subfolder (Battle of Breitenfeld)

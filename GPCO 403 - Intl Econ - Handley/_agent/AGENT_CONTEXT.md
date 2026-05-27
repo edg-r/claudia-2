@@ -20,11 +20,14 @@
 - Final: 40% (cumulative, weighted toward last 5-6 weeks)
 - Participation: 4%
 
-## Current Status (as of 2026-04-12)
-- Week ~3 of the quarter
-- Concept Check 1: completed
-- Data Brief 1: in progress, draft exists, due April 17
-- Lectures 1-3 received
+## Current Status (as of 2026-05-27)
+- Week 9 of the quarter (Memorial Day week)
+- Midterm Exam: completed (Grade: 95%)
+- Concept Checks 1-4: completed
+- Concept Check 5: active (opens May 27, due June 1/2)
+- Data Brief 1: completed
+- Data Brief 2 (timed WTO profile memo): active (opens May 20, due June 3)
+- Readings/topics digested and summarized through Week 9
 
 ## Professor Tendencies
 - TBD -- update as patterns emerge from lectures and exams

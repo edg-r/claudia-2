@@ -2,11 +2,30 @@
 
 Record of major completed tasks. Read to avoid duplicate work.
 
+### 2026-05-27 — Lake South Korea follow-up: statebuilder's dilemma
+**Requested by:** Edgar via Claudia
+**What was done:** Answered how the U.S. did or did not overcome Lake's statebuilder's dilemma in South Korea, building on the prior postwar South Korea application.
+**Output:** Returned in chat.
+**Notes:** Core finding: the U.S. did not neatly solve the dilemma at the start; it mitigated it through long-term security guarantees and economic support while South Korea gradually outgrew the dilemma as domestic capacity, compliance constituencies, and democratic legitimacy replaced dependence on U.S.-backed coercion.
+
+### 2026-05-27 — Lake framework application to postwar South Korea
+**Requested by:** Edgar via Claudia
+**What was done:** Applied David A. Lake's "Building Legitimate States" framework to South Korea after the Korean War in a concise study-useful chat explanation. Used official Lake terminology: monopoly on violence, legitimacy, relationally specific assets, compliance constituencies, political center, loyalists, coercion/consent, and the Statebuilder's Dilemma.
+**Output:** Returned in chat.
+**Notes:** Core finding: South Korea begins as a U.S.-backed security-dependent and partly predatory state under Rhee, gains domestic governance capacity and vested compliance constituencies during Park-era development despite authoritarian coercion, and later becomes closer to Lake's consolidated-state type as economic and democratic legitimacy increasingly replace external backing and repression.
+
+### 2026-05-27 — Final Exam Prep Guide & Lake Reading Summary
+**Requested by:** Claudia / Edgar
+**What was done:** Synthesized the final required reading (David A. Lake 2016 Ch. 1 on Statebuilding) into a BLUF-first SFS memo-summarizer format. Created a comprehensive 30% weight Final Exam Prep Guide and Memo Expansion Strategy covering all three written memos (Blue, Orange, Purple) mapped onto the 6-slot strategic choice framework and late-quarter conceptual dialogues.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/2026-05-27_lake_building_legitimate_states_ch1_summary.md` and `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/2026-05-27_gpco410_final_exam_prep_guide.md`
+**Notes:** Re-aligned Powell's commitment problem entry in THEORIES.md to reflect the corrected non-taxonomy unifying-mechanism frame. Updated course assignments log to canonical status including the May 4 midterm and prep guides.
+
 ### 2026-05-21 — PURPLE NATO memo completion-status verification
 **Requested by:** Claudia
 **What was done:** Verified the PURPLE NATO memo completion status from local course artifacts only. Checked the assignment folder, extracted text from `Purple Memo.docx` and `EdgarAguniasPurpleMemo.pdf`, compared them against the earlier Markdown draft/argument map, and confirmed the final local artifacts are present.
 **Output:** updated `GPCO 410 - Intl Pol:Sec - Praether/_agent/ASSIGNMENTS.md`; returned handoff to Claudia
 **Notes:** Treat the PURPLE NATO memo as completed locally, not merely drafted. Final local files are `Assignments/Purple Memo - NATO/Purple Memo.docx` and `Assignments/Purple Memo - NATO/EdgarAguniasPurpleMemo.pdf`; the PDF is 5 pages, exported 2026-05-20 10:33am PT, dated May 20th, 2026, and lists word count 786. No SQLite DB or dispatch file was edited.
+
 
 ### 2026-05-20 — PURPLE NATO memo full Markdown draft
 **Requested by:** Edgar via Claudia

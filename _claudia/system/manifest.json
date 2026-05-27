@@ -14,10 +14,12 @@
   "codex_dispatch_policy": {
     "tool_discovery": "If multi-agent/subagent tools are not visible, use Codex tool discovery before declaring delegation unavailable.",
     "model_override": "Omit model override by default; workers inherit the parent model unless Edgar explicitly asks for a different model or a documented task-specific reason exists.",
+    "agent_type": "For Claudia delegation, prefer the manifest owning custom role agent_type such as atlas, mnemosyne, hephaestus, tyche, or eos when available. Custom subagents load their own definition and memory first. Use generic explorer or worker only for non-Claudia generic codebase subtasks or when no custom role fits.",
+    "user_facing_agent_labels": "Use the human/custom agent name only in user-facing dispatch prose, such as Athena or Hephaestus. Preserve runtime IDs internally when needed; avoid parenthetical labels unless there is genuine ambiguity.",
     "manual_fallback": "Manual parent-thread fallback is prohibited unless Edgar explicitly authorizes local completion for that turn after a reported delegation blocker or stall."
   },
   "agent_definitions_dir": "_claudia/agent_definitions/",
-  "startup_required": [
+  "parent_startup_required": [
     "AGENTS.md",
     "_claudia/system/CLAUDIA.md",
     "_claudia/system/CLAUDIA_SOUL.md",
@@ -25,6 +27,21 @@
     "_claudia/memory/preferences.md",
     "_claudia/sop/",
     "_claudia/system/CODEX_WORKFLOW.md"
+  ],
+  "custom_subagent_dispatch_packet": [
+    "task and acceptance criteria",
+    "agent name",
+    "manifest definition path",
+    "manifest memory path",
+    "relevant SOP and save expectations",
+    "task-specific files, folders, connectors, or constraints"
+  ],
+  "custom_subagent_context_default": [
+    "manifest agent definition",
+    "AGENT_CONTEXT.md",
+    "FEEDBACK.md",
+    "TASK_LOG.md selectively by tail or relevant search unless full history is needed",
+    "task-specific SOPs or workflow excerpts needed to act safely"
   ],
   "routing": {
     "delegation_gate": "Classify work type, identify owning agent, use tool discovery if needed, delegate through worker/subagent path, and report blockers or stalls instead of doing agent-owned work locally.",

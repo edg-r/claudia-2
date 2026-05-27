@@ -2,6 +2,12 @@
 
 Record of major completed tasks. Read to avoid duplicate work.
 
+### 2026-05-28 — Obsidian Daily Dispatch
+**Requested by:** Claudia / Edgar
+**What was done:** Generated the Thursday daily dispatch from `_claudia/claudia.db` using the plain Markdown workflow. Ran timelog sync and dashboard preflight, supplied La Jolla weather forecast, populated calendar event for GPEC 446 lecture, collected UCSD Gmail via the local helper, and saved the dispatch to `_claudia/dispatches/2026-05-28_daily-dispatch.md`.
+**Output:** `_claudia/dispatches/2026-05-28_daily-dispatch.md`
+**Notes:** GPEC 446 lecture is at 9:30-10:50 AM in RBC AUD. UCSD Gmail returned 2 unread inbox messages. Personal Gmail remains connector-only.
+
 ### 2026-05-23 — Obsidian Daily Dispatch
 **Requested by:** Claudia / Edgar
 **What was done:** Generated the Saturday daily dispatch from `_claudia/claudia.db` using the plain Markdown workflow. Ran timelog sync and dashboard regeneration, checked near-term academic load, included the local UCSD Gmail helper output, and copied the dispatch to the established Obsidian Daily archive.

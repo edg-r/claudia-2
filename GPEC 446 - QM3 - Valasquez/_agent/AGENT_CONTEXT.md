@@ -16,12 +16,17 @@ Lecture sequence as of 2026-04-15 (materials received for L1-L5, Labs 1-2). **No
 | L3 Regression | `W3 - Regression/` | Week 2 | OLS fundamentals |
 | L4 Regression 2 | `W3 - Regression/` | Week 3 | Multivariate / controls |
 | L5 Instrumental Variables | `W4 - Instrumental Variables/` | **Week 3** | IV estimation (*Mastering 'Metrics* Ch. 3) |
-| L7 Panel Data / DiD I | `Lectures/QM3_L7_panel1.pdf` | Week 4+ | Two-period DiD, counterfactual trends, parallel trends, road-repair example |
-| L8 Panel Data / FE and DiD | `Lectures/QM3_L8_Panel2.pdf` | Week 4+ | DiD potential outcomes, no anticipation, first differences, FE/TWFE, event-study basics |
-| L9 Panel Data / Event Study | `Lectures/QM3_L9_Panel3.pdf` | Week 4+ | Multi-period DiD, event studies, pre-trends, conditional parallel trends, staggered adoption, Goodman-Bacon |
-| L10 Panel Data / Extensions | `Lectures/QM3_L10_Panel4.pdf` | Week 4+ | Staggered-adoption bias, DDD, continuous-treatment DiD, threats to DiD, falsification tests |
+| L7 Panel Data / DiD I | `Lectures/QM3_L7_panel1.pdf` | Week 4 | Two-period DiD, counterfactual trends, parallel trends, road-repair example |
+| L8 Panel Data / FE and DiD | `Lectures/QM3_L8_Panel2.pdf` | Week 5 | DiD potential outcomes, no anticipation, first differences, FE/TWFE, event-study basics |
+| L9 Panel Data / Event Study | `Lectures/QM3_L9_Panel3.pdf` | Week 5 | Multi-period DiD, event studies, pre-trends, conditional parallel trends, staggered adoption, Goodman-Bacon |
+| L10 Panel Data / Extensions | `Lectures/QM3_L10_Panel4.pdf` | Week 5 | Staggered-adoption bias, DDD, continuous-treatment DiD, threats to DiD, falsification tests |
+| - Matching & Synthetic Control | `Course Admin/syllabus_extracted.md` | Week 6 | Matching methods, synthetic control |
+| - Regression Discontinuity | `Course Admin/syllabus_extracted.md` | Week 7 | RDD intuition and identification (*Mastering 'Metrics* Ch. 4) |
+| - Experiments I | `Course Admin/syllabus_extracted.md` | Week 8 | Experimental design, block randomization (*Field Experiments* Ch. 3) |
+| - Experiments II | `Course Admin/syllabus_extracted.md` | Week 9 | Non-compliance, covariate adjustment, ANCOVA, interactions (*Field Experiments* Ch. 4) |
+| - Time Series Estimation | `Course Admin/syllabus_extracted.md` | Week 10 | Time-series basics, lag models, exogeneity, stationarity, unit roots (*Wooldridge* Ch. 10-11) |
 
-Syllabus Week 4 is **Panel Data Basics (FE + DiD)**, NOT IV. The course folder `W4 - Instrumental Variables/` contains what the syllabus calls Week 3 material. Week 4+ panel-data lecture slides are now present in `Lectures/` as L7-L10. Any "Week 4" reference by Valasquez or the TA should be read as panel data.
+Syllabus Week 4 is **Panel Data Basics (FE + DiD)**, NOT IV. The course folder `W4 - Instrumental Variables/` contains what the syllabus calls Week 3 material. Week 4+ panel-data lecture slides are present in `Lectures/` as L7-L10. Any "Week 4" reference by Valasquez or the TA should be read as panel data. Late-term readings (Field Experiments Ch. 4, Wooldridge Ch. 10-11) have been fully summarized and integrated into `_agent/CONCEPT_NOTES.md`. An independent Data Project scaffold is also prepared to guide empirical research.
 
 ## Panel Data / DiD Update (2026-05-01)
 - New panel-data lecture sequence is `QM3_L7_panel1.pdf`, `QM3_L8_Panel2.pdf`, `QM3_L9_Panel3.pdf`, and `QM3_L10_Panel4.pdf`.

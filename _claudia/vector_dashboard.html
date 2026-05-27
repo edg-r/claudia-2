@@ -1,0 +1,2593 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Claudia Open Brain Vector Layer Dashboard - Local vector search, indexing stats, and embedding visualizer.">
+  <title>Claudia Vector Core</title>
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Three.js & OrbitControls for 3D Vector Space Topology Visualizer -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  
+  <style>
+    :root {
+      --ink: #151512;
+      --soft-ink: #484842;
+      --muted: #77766d;
+      --line: #d5d1c6;
+      --field: #fbfaf4;
+      --paper: #f4f1e7;
+      --white: #fffefa;
+      
+      /* Edgar's Course Accent Palette */
+      --blue: #006fba;
+      --orange: #f2a000;
+      --red: #ef3e33;
+      --violet: #6b45a4;
+      --green: #4b9f38;
+      
+      /* Subtle transparent states */
+      --line-soft: rgba(21, 21, 18, 0.08);
+      --shadow-soft: rgba(21, 21, 18, 0.06);
+      --glow-soft: rgba(0, 111, 186, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    
+    html {
+      background: var(--field);
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Outfit", system-ui, -apple-system, sans-serif;
+      background: #e9e8df;
+      padding: 0;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+    }
+
+    h1, h2, h3, h4, p { margin: 0; }
+
+    /* Layout & Vintage Binder Page System */
+    .page {
+      width: min(1560px, calc(100vw - 20px));
+      margin: 0 auto;
+      padding: 20px 0 40px;
+    }
+
+    .manual-page {
+      min-height: calc(100vh - 40px);
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      background:
+        linear-gradient(90deg, transparent 0 84px, var(--line-soft) 84px 85px, transparent 85px),
+        var(--field);
+      padding: 24px 28px 24px 108px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Hole Punch Accents */
+    .manual-page::before,
+    .manual-page::after,
+    .manual-hole-middle {
+      content: "";
+      position: absolute;
+      left: 34px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--ink);
+      box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.4);
+      z-index: 10;
+    }
+    .manual-page::before { top: 12%; }
+    .manual-hole-middle { top: 50%; transform: translateY(-50%); }
+    .manual-page::after { bottom: 12%; }
+
+    /* Margins Indicator (Red notebook margin line) */
+    .manual-margin-line {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 100px;
+      width: 1px;
+      background: rgba(239, 62, 51, 0.35);
+      pointer-events: none;
+    }
+
+    /* Header */
+    .manual-head {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 20px;
+      border-top: 2px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+      padding: 10px 0 9px;
+      margin-bottom: 28px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .manual-head span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .live-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: var(--white);
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 900;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .live-status .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--muted);
+      display: inline-block;
+    }
+
+    .live-status.connected {
+      color: var(--green);
+      border-color: var(--green);
+    }
+    .live-status.connected .pulse {
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse-glow 2s infinite ease-in-out;
+    }
+
+    .live-status.error {
+      color: var(--red);
+      border-color: var(--red);
+    }
+    .live-status.error .pulse {
+      background: var(--red);
+    }
+
+    .live-status.refreshing {
+      color: var(--orange);
+      border-color: var(--orange);
+    }
+    .live-status.refreshing .pulse {
+      background: var(--orange);
+      animation: rotating 1.5s infinite linear;
+      border-radius: 2px; /* make it square to spin */
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes rotating {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Primary layout: Sidebar + Dashboard Core */
+    .manual-layout {
+      display: grid;
+      grid-template-columns: 310px 1fr;
+      gap: 40px;
+    }
+
+    /* Left Sidebar */
+    .manual-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      border-right: 1px dashed var(--line);
+      padding-right: 28px;
+    }
+
+    .sidebar-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .label {
+      color: var(--soft-ink);
+      font-size: 11px;
+      line-height: 1.4;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .label::after {
+      content: "";
+      height: 1px;
+      flex-grow: 1;
+      background: var(--line);
+    }
+
+    /* Massive Status Counter */
+    .big-stats {
+      background: var(--white);
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      padding: 16px;
+      display: grid;
+      gap: 4px;
+      position: relative;
+    }
+    
+    .big-stats::after {
+      content: "";
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      border: 1px solid var(--white);
+      pointer-events: none;
+    }
+
+    .big-stats .num {
+      font-size: 54px;
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+    }
+
+    .big-stats .title {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+
+    /* Small stats rows */
+    .sidebar-stats-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 10px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .stat-row span {
+      color: var(--soft-ink);
+    }
+
+    .stat-row b {
+      color: var(--ink);
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+    }
+
+    /* Progress Distribution List */
+    .dist-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .dist-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .dist-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .dist-bar-wrapper {
+      height: 6px;
+      background: rgba(21, 21, 18, 0.05);
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .dist-bar {
+      height: 100%;
+      background: var(--ink);
+      border-radius: 2px;
+      transition: width 0.6s cubic-bezier(0.1, 0.8, 0.2, 1);
+    }
+
+    /* Right Main Panel */
+    .main-workspace {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      min-width: 0;
+    }
+
+    /* Tab Switcher Styles */
+    .search-suite {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      background: var(--white);
+      padding: 20px;
+      position: relative;
+    }
+
+    .search-suite::after {
+      content: "";
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      border: 1px solid var(--white);
+      pointer-events: none;
+    }
+
+    .suite-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 12px;
+    }
+
+    .tab-group {
+      display: inline-flex;
+      border: 1.5px solid var(--ink);
+      border-radius: 6px;
+      background: var(--paper);
+      padding: 2px;
+    }
+
+    .tab-btn {
+      appearance: none;
+      background: transparent;
+      border: none;
+      color: var(--soft-ink);
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 6px 14px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      transition: all 180ms ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--ink);
+    }
+
+    .tab-btn.active {
+      background: var(--ink);
+      color: var(--field);
+    }
+
+    .suite-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .select-limit {
+      appearance: none;
+      background: var(--field) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M0,0 L5,5 L10,0' stroke='%23151512' stroke-width='2' fill='none'/></svg>") no-repeat right 8px center;
+      border: 1.5px solid var(--ink);
+      border-radius: 6px;
+      color: var(--ink);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 28px 5px 10px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .select-limit:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--glow-soft);
+    }
+
+    /* Search Bar Input */
+    .search-bar-form {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .search-input-wrapper {
+      position: relative;
+      flex-grow: 1;
+    }
+
+    .search-input {
+      width: 100%;
+      border: 2px solid var(--ink);
+      border-radius: 6px;
+      background: var(--field);
+      color: var(--ink);
+      font-size: 16px;
+      font-weight: 600;
+      padding: 12px 16px 12px 42px;
+      transition: all 200ms ease;
+    }
+
+    .search-input:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--glow-soft);
+      background: var(--white);
+    }
+
+    .search-icon-svg {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      stroke: var(--muted);
+      transition: stroke 200ms ease;
+    }
+
+    .search-input:focus ~ .search-icon-svg {
+      stroke: var(--ink);
+    }
+
+    .search-btn {
+      appearance: none;
+      background: var(--ink);
+      border: 2px solid var(--ink);
+      border-radius: 6px;
+      color: var(--field);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 900;
+      padding: 0 24px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      transition: all 180ms ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .search-btn:hover {
+      background: var(--soft-ink);
+      border-color: var(--soft-ink);
+    }
+
+    .search-btn:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--glow-soft);
+    }
+
+    /* Vector/Search Status Bar */
+    .search-feedback-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 750;
+      color: var(--muted);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .feedback-backend {
+      color: var(--blue);
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    /* Dynamic Output Area split into Result list & Inspector */
+    .workspace-explorer {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      align-items: start;
+      transition: all 300ms ease;
+    }
+    
+    .workspace-explorer.has-inspector {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+
+    /* Search Results Box */
+    .results-ledger-container {
+      min-width: 0;
+    }
+
+    .results-ledger {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 200px;
+    }
+
+    .results-empty {
+      border: 2px dashed var(--line);
+      border-radius: 6px;
+      padding: 48px 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Individual result item card */
+    .ledger-card {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--white);
+      padding: 14px 16px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      transition: all 200ms ease;
+      overflow: hidden;
+    }
+
+    .ledger-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 0;
+      background: var(--ink);
+      transition: width 200ms ease;
+    }
+
+    .ledger-card:hover {
+      border-color: var(--ink);
+      box-shadow: 0 6px 14px var(--shadow-soft);
+      transform: translateY(-1px);
+    }
+
+    .ledger-card:hover::before {
+      width: 4px;
+    }
+
+    .ledger-card.selected {
+      border-color: var(--ink);
+      box-shadow: 0 6px 18px rgba(21, 21, 18, 0.08);
+      background: var(--white);
+    }
+
+    .ledger-card.selected::before {
+      width: 4px;
+      background: var(--blue);
+    }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-id-badge {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--muted);
+      background: var(--paper);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+    }
+
+    .card-score {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 7px;
+      border-radius: 4px;
+      background: var(--light-blue);
+      color: var(--blue);
+      border: 1px solid rgba(0, 111, 186, 0.2);
+    }
+
+    .card-score.keyword {
+      background: var(--paper);
+      color: var(--soft-ink);
+      border-color: var(--line);
+    }
+
+    .course-badge {
+      font-size: 10px;
+      font-weight: 900;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .source-badge {
+      font-size: 9px;
+      font-weight: 800;
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: var(--ink);
+      color: var(--field);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .card-body {
+      font-size: 13.5px;
+      line-height: 1.45;
+      color: var(--soft-ink);
+      font-weight: 500;
+      overflow-wrap: anywhere;
+    }
+
+    .card-body mark {
+      background: rgba(242, 160, 0, 0.25);
+      border-bottom: 1.5px solid var(--orange);
+      color: var(--ink);
+      padding: 0 1px;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10.5px;
+      font-weight: 750;
+      color: var(--muted);
+      border-top: 1px dashed rgba(21, 21, 18, 0.08);
+      padding-top: 8px;
+    }
+
+    .card-footer-path {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 70%;
+    }
+
+    /* Sliding Vector Inspector Panel */
+    .inspector-panel {
+      border: 2px solid var(--ink);
+      border-radius: 6px;
+      background: var(--paper);
+      padding: 20px;
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+      position: sticky;
+      top: 20px;
+      box-shadow: 0 10px 30px var(--shadow-soft);
+      animation: inspector-fade-in 240ms cubic-bezier(0.1, 0.8, 0.2, 1);
+      min-width: 0;
+    }
+
+    @keyframes inspector-fade-in {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .inspector-panel.active {
+      display: flex;
+    }
+
+    .inspector-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 12px;
+    }
+
+    .inspector-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .inspector-title strong {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+    }
+
+    .inspector-title span {
+      font-size: 11px;
+      font-weight: 850;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .inspector-close-btn {
+      appearance: none;
+      background: var(--field);
+      border: 1.5px solid var(--ink);
+      border-radius: 6px;
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 4px 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      transition: all 180ms ease;
+    }
+
+    .inspector-close-btn:hover {
+      background: var(--ink);
+      color: var(--field);
+    }
+
+    /* Vector Signature Display (Visual Star) */
+    .inspector-viz-box {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .viz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .viz-hover-val {
+      font-family: "JetBrains Mono", monospace;
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    /* SVG hover interactivity styling */
+    .vector-bar {
+      transition: fill 150ms ease, opacity 150ms ease;
+    }
+    .vector-bar:hover {
+      fill: var(--ink) !important;
+      opacity: 0.9;
+    }
+
+    /* Vector stats grid inside inspector */
+    .inspector-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .inspector-stat-card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .inspector-stat-card span {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .inspector-stat-card b {
+      font-size: 14px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    /* Dimensions scrollbox */
+    .raw-dimensions-box {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .dims-console {
+      background: var(--ink);
+      border-radius: 4px;
+      padding: 10px 12px;
+      max-height: 110px;
+      overflow-y: auto;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .dims-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+      gap: 6px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .dims-grid span {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 2px;
+    }
+
+    .dims-grid span i {
+      color: var(--muted);
+      font-style: normal;
+    }
+
+    /* Content inspect pane */
+    .inspector-content-box {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .inspector-content-scroll {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 12px;
+      max-height: 180px;
+      overflow-y: auto;
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: var(--soft-ink);
+      font-weight: 500;
+      overflow-wrap: anywhere;
+    }
+
+    /* Metadata details inspector list */
+    .inspector-meta-box {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .inspector-meta-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      max-height: 120px;
+      overflow-y: auto;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 8px;
+    }
+
+    .meta-tag-pill {
+      font-size: 10px;
+      font-weight: 750;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 3px 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--soft-ink);
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .meta-tag-pill b {
+      color: var(--ink);
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    /* Recent vectors header and listing */
+    .recent-vectors-ledger {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .recent-vectors-ledger {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .recent-item-card {
+      border: 1px dashed var(--line);
+      border-radius: 6px;
+      background: var(--white);
+      padding: 10px 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: all 180ms ease;
+    }
+
+    .recent-item-card:hover {
+      border-style: solid;
+      border-color: var(--ink);
+      background: var(--field);
+    }
+
+    .recent-card-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .recent-card-body {
+      font-size: 12px;
+      line-height: 1.35;
+      color: var(--soft-ink);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    /* Maintenance section console */
+    .migration-panel {
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      background: var(--white);
+      padding: 20px;
+      display: grid;
+      gap: 14px;
+      position: relative;
+    }
+
+    .migration-panel::after {
+      content: "";
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      border: 1px solid var(--white);
+      pointer-events: none;
+    }
+
+    /* 3D Topology Panel Styles */
+    .topology-section {
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      background: var(--white);
+      padding: 20px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 0;
+    }
+    
+    .topology-section::after {
+      content: "";
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      border: 1px solid var(--white);
+      pointer-events: none;
+    }
+
+    .migration-desc {
+      font-size: 13px;
+      line-height: 1.4;
+      color: var(--soft-ink);
+      font-weight: 550;
+      max-width: 600px;
+    }
+
+    .migration-btn {
+      appearance: none;
+      background: var(--red);
+      border: 2px solid var(--ink);
+      border-radius: 6px;
+      color: var(--white);
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 8px 18px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      justify-self: start;
+      transition: all 180ms ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .migration-btn:hover {
+      background: #c93229;
+      transform: translateY(-1px);
+    }
+    
+    .migration-btn:disabled {
+      background: var(--muted);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .migration-console {
+      background: var(--ink);
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 12px;
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .migration-console.active {
+      display: flex;
+    }
+
+    .migration-console pre {
+      margin: 0;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .migration-console pre.stderr {
+      color: #ff8888;
+    }
+
+    /* Ledger item animation tags */
+    .status-badge-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-size: 9px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .status-badge-inline.ready {
+      background: var(--light-green);
+      color: var(--green);
+      border: 1px solid rgba(75, 159, 56, 0.2);
+    }
+
+    /* Output Disclosure block standard styling - dossier certificate feel */
+    .manual-disclosure-container {
+      margin-top: 48px;
+      border-top: 2px solid var(--ink);
+      padding-top: 14px;
+    }
+
+    .disclosure-receipt {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px 24px;
+      position: relative;
+    }
+
+    @media (max-width: 768px) {
+      .disclosure-receipt {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .disclosure-receipt::before {
+      content: "";
+      position: absolute;
+      top: 6px; left: 6px; right: 6px; bottom: 6px;
+      border: 1px dashed rgba(21, 21, 18, 0.15);
+      pointer-events: none;
+    }
+
+    .receipt-block {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      font-size: 11px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .receipt-block span {
+      text-transform: uppercase;
+      font-weight: 900;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .receipt-block b {
+      color: var(--ink);
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .receipt-block.wide {
+      grid-column: span 3;
+    }
+
+    @media (max-width: 768px) {
+      .receipt-block.wide {
+        grid-column: span 1;
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1300px) {
+      .manual-page {
+        padding-left: 24px;
+      }
+      .manual-page::before,
+      .manual-page::after,
+      .manual-hole-middle {
+        display: none;
+      }
+      .manual-margin-line {
+        display: none;
+      }
+      .manual-layout {
+        grid-template-columns: 1fr;
+      }
+      .manual-sidebar {
+        border-right: none;
+        border-bottom: 1px dashed var(--line);
+        padding-right: 0;
+        padding-bottom: 28px;
+      }
+      .workspace-explorer.has-inspector {
+        grid-template-columns: 1fr;
+      }
+      .inspector-panel {
+        position: static;
+        top: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="manual-page">
+      <!-- Vintage Margin Red Line -->
+      <div class="manual-margin-line"></div>
+      <div class="manual-hole-middle"></div>
+
+      <!-- Header -->
+      <header class="manual-head">
+        <span>
+          <svg class="search-icon-svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="position:static; transform:none; stroke:var(--ink);">
+            <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+            <line x1="7" y1="2" x2="7" y2="22"></line>
+            <line x1="12" y1="2" x2="12" y2="22"></line>
+            <line x1="17" y1="2" x2="17" y2="22"></line>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+          </svg>
+          Claudia Vector Core
+        </span>
+        <span>Open Brain Vector Layer Dashboard</span>
+        <div id="live-status" class="live-status connected">
+          <span class="pulse"></span> <span class="label-text">connected</span>
+        </div>
+      </header>
+
+      <div class="manual-layout">
+        <!-- Sidebar Panel -->
+        <aside class="manual-sidebar">
+          <section class="sidebar-section">
+            <div class="label" id="lbl-status">status overview</div>
+            <div class="big-stats">
+              <span class="num" id="stat-vector-items">0</span>
+              <span class="title">Total Vector Rows</span>
+            </div>
+            
+            <div class="sidebar-stats-list">
+              <div class="stat-row">
+                <span>Model</span>
+                <b id="stat-model">nomic-embed-text</b>
+              </div>
+              <div class="stat-row">
+                <span>Dimensions</span>
+                <b id="stat-dimensions">768</b>
+              </div>
+              <div class="stat-row">
+                <span>Legacy Chunks</span>
+                <b id="stat-legacy-chunks">0</b>
+              </div>
+              <div class="stat-row">
+                <span>Legacy Coverage</span>
+                <b id="stat-legacy-coverage">0%</b>
+              </div>
+              <div class="stat-row">
+                <span>sqlite-vec Table</span>
+                <b id="stat-vec-table">brain_vec0</b>
+              </div>
+              <div class="stat-row">
+                <span>DB Health</span>
+                <b id="stat-db-health">ok</b>
+              </div>
+            </div>
+          </section>
+
+          <section class="sidebar-section">
+            <div class="label" id="lbl-by-source">Vectors by Source Table</div>
+            <div class="dist-list" id="dist-source-list">
+              <!-- Dynamically built -->
+            </div>
+          </section>
+
+          <section class="sidebar-section">
+            <div class="label" id="lbl-by-course">Vectors by Course</div>
+            <div class="dist-list" id="dist-course-list">
+              <!-- Dynamically built -->
+            </div>
+          </section>
+
+          <section class="sidebar-section">
+            <div class="label" id="lbl-by-type">Vectors by Content Type</div>
+            <div class="dist-list" id="dist-type-list">
+              <!-- Dynamically built -->
+            </div>
+          </section>
+        </aside>
+
+        <!-- Main Panel -->
+        <div class="main-workspace">
+          <!-- Search Suite -->
+          <section class="search-suite" aria-labelledby="lbl-search-heading">
+            <h2 id="lbl-search-heading" style="display:none;">Vector Search Interface</h2>
+            <div class="suite-head">
+              <div class="tab-group" role="tablist" aria-label="Search Mode">
+                <button class="tab-btn active" id="tab-vector" role="tab" aria-selected="true" aria-controls="search-form-container">Vector Search</button>
+                <button class="tab-btn" id="tab-keyword" role="tab" aria-selected="false" aria-controls="search-form-container">Keyword Search</button>
+              </div>
+              
+              <div class="suite-controls">
+                <label for="limit-select" class="label" style="font-size:10px; margin:0; letter-spacing:0.04em;">Limit:</label>
+                <select id="limit-select" class="select-limit" aria-label="Search Result Limit">
+                  <option value="12">12 Items</option>
+                  <option value="20">20 Items</option>
+                  <option value="35">35 Items</option>
+                  <option value="50">50 Items</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="search-form-container">
+              <form class="search-bar-form" id="search-form" action="#" method="GET">
+                <div class="search-input-wrapper">
+                  <input type="text" class="search-input" id="search-query-input" placeholder="Query Edgar's brain semantically..." aria-label="Search Query" required autocomplete="off">
+                  <svg class="search-icon-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                </div>
+                <button type="submit" class="search-btn" id="search-submit-btn">Execute</button>
+              </form>
+            </div>
+
+            <div class="search-feedback-line">
+              <span id="search-feedback-text">Ready to query vector layer</span>
+              <span class="feedback-backend" id="search-backend-indicator">sqlite-vec</span>
+            </div>
+          </section>
+
+          <!-- 3D Vector Space Topology Card -->
+          <section class="topology-section" aria-labelledby="lbl-topology-heading">
+            <div class="topology-card">
+              <div class="card-head" style="border-bottom: 2px solid var(--ink); padding-bottom: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+                <div class="card-meta" style="display: flex; align-items: center; gap: 8px;">
+                  <span class="course-badge" style="background: var(--ink); color: var(--field); font-size: 10px; font-weight: 900; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">3D Map</span>
+                  <h3 id="lbl-topology-heading" style="font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; margin: 0;">3D Vector Space Topology Map</h3>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                  <button class="tab-btn" id="btn-toggle-spin" style="font-size: 10px; padding: 4px 8px; border: 1.5px solid var(--ink); cursor: pointer; border-radius: 4px;">Pause Rotate</button>
+                  <button class="tab-btn" id="btn-reset-cam" style="font-size: 10px; padding: 4px 8px; border: 1.5px solid var(--ink); cursor: pointer; border-radius: 4px;">Reset View</button>
+                </div>
+              </div>
+              <div class="topology-canvas-container" id="3d-topology-canvas-container" style="height: 320px; width: 100%; border: 1.5px solid var(--ink); border-radius: 6px; background: var(--field); position: relative; overflow: hidden; cursor: grab;">
+                <!-- Canvas will be injected here -->
+                <div id="3d-tooltip" style="position: absolute; display: none; background: var(--ink); color: var(--field); padding: 6px 10px; border-radius: 4px; font-size: 10px; pointer-events: none; z-index: 100; font-family: 'Outfit', sans-serif; border: 1px solid var(--line-soft); box-shadow: 0 4px 12px rgba(0,0,0,0.15); max-width: 250px;"></div>
+                <div id="canvas-loading" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 12px; font-weight: 700; color: var(--muted); display: flex; align-items: center; gap: 8px;">
+                  <div style="width: 14px; height: 14px; border: 2px solid var(--ink); border-top-color: transparent; border-radius: 50%; animation: rotating 1s infinite linear;"></div>
+                  Initializing 3D Vector Space Canvas...
+                </div>
+              </div>
+              <div class="search-feedback-line" style="margin-top: 6px; font-size: 10px; font-weight: 750; color: var(--muted); display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: 0.05em;">
+                <span>Click & drag to rotate. Scroll to zoom. Hover over nodes to see details. Click to inspect.</span>
+                <span style="color: var(--blue);">Spherical similarity coordinates active</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Interactive Workspace Split (Results Ledger & Inspector) -->
+          <div class="workspace-explorer" id="workspace-explorer-layout">
+            
+            <!-- Left Side: Result List -->
+            <section class="results-ledger-container" aria-label="Search Results">
+              <div class="results-ledger" id="results-ledger-box">
+                <div class="results-empty" id="results-placeholder-state">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--line)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 12px; display: inline-block;">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  <p>Execute a search query above to load matching vector records.</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Right Side: Vector Inspector -->
+            <section class="inspector-panel" id="vector-detail-inspector" aria-live="polite">
+              <!-- Content populated dynamically -->
+            </section>
+
+          </div>
+
+          <!-- Recent Vectors Panel -->
+          <section class="sidebar-section" aria-labelledby="lbl-recent-heading">
+            <div class="label" id="lbl-recent-heading">Recent Vector Ingestions</div>
+            <div class="recent-vectors-ledger" id="recent-vectors-box">
+              <!-- Dynamically built -->
+            </div>
+          </section>
+
+          <!-- Legacy Embeddings Migration Console -->
+          <section class="migration-panel" aria-labelledby="lbl-migrate-heading">
+            <h3 class="label" id="lbl-migrate-heading" style="color:var(--red);">Open Brain Ingest & Legacy Re-Migration</h3>
+            <p class="migration-desc">
+              Synchronize legacy PDF chunk records inside the <code>embeddings</code> table to Open Brain vector tables.
+              Auto-vectorizes missing entries via Ollama (<code>nomic-embed-text</code>) and registers in the virtual <code>brain_vec0</code> table.
+            </p>
+            <button class="migration-btn" id="run-migration-btn" type="button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+              </svg>
+              Trigger System Re-Migration
+            </button>
+            <div class="migration-console" id="migration-log-console">
+              <pre class="stdout" id="console-stdout-log">Initializing migration terminal...</pre>
+              <pre class="stderr" id="console-stderr-log"></pre>
+            </div>
+          </section>
+
+          <!-- Output Disclosure SOP Block -->
+          <footer class="manual-disclosure-container">
+            <div class="disclosure-receipt">
+              <div class="receipt-block">
+                <span>generated for</span>
+                <b>Edgar Agunias</b>
+              </div>
+              <div class="receipt-block">
+                <span>date compiled</span>
+                <b id="disclosure-date">2026-05-27</b>
+              </div>
+              <div class="receipt-block">
+                <span>model environment</span>
+                <b>Gemini 3.5 Flash via Antigravity</b>
+              </div>
+              <div class="receipt-block">
+                <span>sources referenced</span>
+                <b>local open-brain schema, vector_dashboard_server.py API, SQLite-vec tables</b>
+              </div>
+              <div class="receipt-block">
+                <span>authoritative agent</span>
+                <b>Hephaestus (Coding) with Claudia (Orchestration)</b>
+              </div>
+              <div class="receipt-block">
+                <span>database authority</span>
+                <b id="disclosure-db-path" style="overflow-wrap:anywhere;">_claudia/claudia.db</b>
+              </div>
+            </div>
+          </footer>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Constants
+    const DONE_STATUSES = new Set(['completed', 'submitted', 'done']);
+    const COURSE_COLORS = {
+      'GPCO 403': '#006fba',
+      'GPCO 410': '#f2a000',
+      'GPEC 446': '#6b45a4',
+      'GPPS 444': '#ef3e33',
+      'GPPS 463': '#4b9f38'
+    };
+
+    // State
+    let currentSearchMode = 'vector'; // 'vector' or 'keyword'
+    let selectedItemRecord = null;
+
+    // Three.js 3D Vector Space Topology State
+    let threeScene, threeCamera, threeRenderer, threeControls;
+    let threeNodesGroup, threeLinesGroup;
+    let threeNodesList = [];
+    let threeHoveredNode = null;
+    let threeIsSpinning = true;
+    let threeQueryBeacon = null;
+    let threeRaycaster = new THREE.Raycaster();
+    let threeMouse = new THREE.Vector2();
+    let threeAnimationFrameId = null;
+    let dashboardStats = null;
+    let sseSource = null;
+
+    // DOM Elements
+    const tabVector = document.getElementById('tab-vector');
+    const tabKeyword = document.getElementById('tab-keyword');
+    const limitSelect = document.getElementById('limit-select');
+    const searchForm = document.getElementById('search-form');
+    const queryInput = document.getElementById('search-query-input');
+    const resultsLedger = document.getElementById('results-ledger-box');
+    const resultsPlaceholder = document.getElementById('results-placeholder-state');
+    const inspectorPanel = document.getElementById('vector-detail-inspector');
+    const workspaceLayout = document.getElementById('workspace-explorer-layout');
+    const searchFeedbackText = document.getElementById('search-feedback-text');
+    const searchBackendIndicator = document.getElementById('search-backend-indicator');
+    const runMigrationBtn = document.getElementById('run-migration-btn');
+    const migrationConsole = document.getElementById('migration-log-console');
+    const stdoutLog = document.getElementById('console-stdout-log');
+    const stderrLog = document.getElementById('console-stderr-log');
+
+    // Init Page
+    window.addEventListener('DOMContentLoaded', () => {
+      // Set initial state
+      updateSearchFeedback('Ready to query vector layer', 'sqlite-vec');
+      
+      // Initialize 3D Vector Space Map
+      init3DTopology();
+
+      // Load initial stats
+      fetchStats();
+
+      // Setup Search Mode Tabs
+      tabVector.addEventListener('click', () => setSearchMode('vector'));
+      tabKeyword.addEventListener('click', () => setSearchMode('keyword'));
+
+      // Setup Search Submission
+      searchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        executeSearch();
+      });
+
+      // Setup Migration Trigger
+      runMigrationBtn.addEventListener('click', executeMigration);
+
+      // Auto-update disclosure date to today
+      const todayString = new Date().toISOString().split('T')[0];
+      document.getElementById('disclosure-date').textContent = todayString;
+
+      // Start connection polling/health checks
+      startHealthChecking();
+    });
+
+    // Helper functions
+    function setSearchMode(mode) {
+      currentSearchMode = mode;
+      if (mode === 'vector') {
+        tabVector.classList.add('active');
+        tabVector.setAttribute('aria-selected', 'true');
+        tabKeyword.classList.remove('active');
+        tabKeyword.setAttribute('aria-selected', 'false');
+        queryInput.placeholder = "Query Edgar's brain semantically...";
+      } else {
+        tabKeyword.classList.add('active');
+        tabKeyword.setAttribute('aria-selected', 'true');
+        tabVector.classList.remove('active');
+        tabVector.setAttribute('aria-selected', 'false');
+        queryInput.placeholder = "Literal pattern search in content & metadata...";
+      }
+    }
+
+    function updateSearchFeedback(text, backend = '') {
+      searchFeedbackText.textContent = text;
+      if (backend) {
+        searchBackendIndicator.textContent = backend;
+        searchBackendIndicator.style.display = 'inline';
+      } else {
+        searchBackendIndicator.style.display = 'none';
+      }
+    }
+
+    function setLiveStatus(state, label) {
+      const liveStatus = document.getElementById('live-status');
+      const labelText = liveStatus.querySelector('.label-text');
+      
+      liveStatus.className = 'live-status ' + state;
+      labelText.textContent = label;
+    }
+
+    // Network calls
+    async function fetchStats() {
+      setLiveStatus('refreshing', 'polling');
+      try {
+        const response = await fetch('/api/stats');
+        if (!response.ok) throw new Error('API request failed');
+        const stats = await response.json();
+        
+        dashboardStats = stats;
+        updateSidebar(stats);
+        updateRecentIngestions(stats.recent);
+        
+        // Populate 3D Topology Map with dense background nodes (500 items max)
+        if (stats.topology_nodes && stats.topology_nodes.length) {
+          populate3DNodes(stats.topology_nodes, false);
+        }
+        
+        setLiveStatus('connected', 'connected');
+      } catch (err) {
+        console.error('Error fetching stats:', err);
+        setLiveStatus('error', 'disconnected');
+      }
+    }
+
+    function startHealthChecking() {
+      // Small interval checks
+      setInterval(async () => {
+        try {
+          const response = await fetch('/api/health');
+          if (response.ok) {
+            const data = await response.json();
+            if (document.getElementById('live-status').classList.contains('error')) {
+              // Re-fetch stats on reconnect
+              fetchStats();
+            } else {
+              setLiveStatus('connected', 'connected');
+            }
+          } else {
+            setLiveStatus('error', 'server error');
+          }
+        } catch (err) {
+          setLiveStatus('error', 'disconnected');
+        }
+      }, 5000);
+    }
+
+    function updateSidebar(stats) {
+      document.getElementById('stat-vector-items').textContent = Number(stats.vector_items).toLocaleString();
+      document.getElementById('stat-model').textContent = stats.model;
+      document.getElementById('stat-dimensions').textContent = stats.dimensions;
+      document.getElementById('stat-legacy-chunks').textContent = Number(stats.legacy_chunks).toLocaleString();
+      document.getElementById('stat-legacy-coverage').textContent = stats.legacy_coverage + '%';
+      document.getElementById('stat-db-health').textContent = stats.integrity === 'ok' ? 'OK' : 'CORRUPT';
+      document.getElementById('disclosure-db-path').textContent = stats.database;
+
+      if (!stats.sqlite_vec_ready) {
+        document.getElementById('stat-vec-table').textContent = 'disabled (blob)';
+        document.getElementById('stat-vec-table').style.color = 'var(--red)';
+      } else {
+        document.getElementById('stat-vec-table').textContent = 'brain_vec0';
+        document.getElementById('stat-vec-table').style.color = 'var(--blue)';
+      }
+
+      // Render Distribution Charts
+      renderProgressDistribution('dist-source-list', stats.by_source, stats.vector_items, 'source_table');
+      renderProgressDistribution('dist-course-list', stats.by_source[0]?.count || 0, stats.vector_items, 'course', stats.by_course);
+      renderProgressDistribution('dist-type-list', stats.by_source[0]?.count || 0, stats.vector_items, 'type', stats.by_type);
+    }
+
+    function renderProgressDistribution(elementId, total, itemsCount, kindKey, dataset = null) {
+      const container = document.getElementById(elementId);
+      container.innerHTML = '';
+
+      const data = dataset || total;
+      if (!Array.isArray(data) || !data.length) {
+        container.innerHTML = '<div style="font-size:11px; color:var(--muted); font-style:italic;">No records compiled</div>';
+        return;
+      }
+
+      data.forEach(item => {
+        const label = item[kindKey] || 'N/A';
+        const count = item.count;
+        const percent = itemsCount > 0 ? ((count / itemsCount) * 100).toFixed(1) : 0;
+
+        const distItem = document.createElement('div');
+        distItem.className = 'dist-item';
+
+        const distHeader = document.createElement('div');
+        distHeader.className = 'dist-header';
+        
+        const labelSpan = document.createElement('span');
+        labelSpan.textContent = label;
+        if (COURSE_COLORS[label]) {
+          labelSpan.style.color = COURSE_COLORS[label];
+          labelSpan.style.fontWeight = '900';
+        }
+
+        const countSpan = document.createElement('span');
+        countSpan.innerHTML = `<b>${count}</b> <i style="font-style:normal; color:var(--muted); font-size:10px;">(${percent}%)</i>`;
+
+        distHeader.append(labelSpan, countSpan);
+
+        const progressWrapper = document.createElement('div');
+        progressWrapper.className = 'dist-bar-wrapper';
+
+        const progressBar = document.createElement('div');
+        progressBar.className = 'dist-bar';
+        progressBar.style.width = '0%';
+        
+        // Color distribution bar if course tag matching
+        if (COURSE_COLORS[label]) {
+          progressBar.style.background = COURSE_COLORS[label];
+        } else if (label === 'brain_events') {
+          progressBar.style.background = 'var(--violet)';
+        } else if (label === 'brain_memories') {
+          progressBar.style.background = 'var(--green)';
+        } else if (label === 'brain_agent_handoffs') {
+          progressBar.style.background = 'var(--orange)';
+        }
+
+        progressWrapper.appendChild(progressBar);
+        distItem.append(distHeader, progressWrapper);
+        container.appendChild(distItem);
+
+        // Micro-animation delay
+        setTimeout(() => {
+          progressBar.style.width = percent + '%';
+        }, 50);
+      });
+    }
+
+    function updateRecentIngestions(recent) {
+      const box = document.getElementById('recent-vectors-box');
+      box.innerHTML = '';
+
+      if (!recent || !recent.length) {
+        box.innerHTML = '<div style="grid-column: span 2; font-size:12px; color:var(--muted); font-style:italic;">No recent ingests found</div>';
+        return;
+      }
+
+      recent.forEach(item => {
+        const metadata = JSON.parse(item.metadata_json || '{}');
+        const course = metadata.course_code || '';
+        const sourceTable = item.source_table || '';
+        
+        const card = document.createElement('div');
+        card.className = 'recent-item-card';
+        card.addEventListener('click', () => inspectItem(item.id));
+
+        const head = document.createElement('div');
+        head.className = 'recent-card-head';
+        
+        const badgeSpan = document.createElement('span');
+        if (course) {
+          badgeSpan.className = 'course-badge';
+          badgeSpan.textContent = course;
+          badgeSpan.style.background = COURSE_COLORS[course] || 'var(--ink)';
+          if (course === 'GPCO 410' || course === 'GPPS 463') badgeSpan.style.color = 'var(--ink)';
+        } else {
+          badgeSpan.className = 'source-badge';
+          badgeSpan.textContent = sourceTable.replace('brain_', '');
+        }
+
+        const idSpan = document.createElement('span');
+        idSpan.textContent = `ID #${item.id}`;
+        idSpan.className = 'card-id-badge';
+
+        head.append(badgeSpan, idSpan);
+
+        const body = document.createElement('div');
+        body.className = 'recent-card-body';
+        body.textContent = item.preview || '';
+
+        card.append(head, body);
+        box.appendChild(card);
+      });
+    }
+
+    // Search Operations
+    async function executeSearch() {
+      const q = queryInput.value.trim();
+      if (!q) return;
+
+      const limit = limitSelect.value;
+      const searchSubmitBtn = document.getElementById('search-submit-btn');
+
+      // UI Loading States
+      searchSubmitBtn.disabled = true;
+      searchSubmitBtn.textContent = "Executing...";
+      updateSearchFeedback(`Semantic compiling query...`, '');
+      
+      resultsLedger.innerHTML = `
+        <div style="text-align:center; padding: 48px; color: var(--muted); font-weight:700;">
+          <div style="width: 24px; height: 24px; border: 3px solid var(--ink); border-top-color: transparent; border-radius: 50%; display: inline-block; animation: rotating 1s infinite linear; margin-bottom: 12px;"></div>
+          <p>Compiling vector representations from Ollama & querying brain database...</p>
+        </div>
+      `;
+
+      const startTime = performance.now();
+
+      try {
+        const url = `/api/search?q=${encodeURIComponent(q)}&mode=${currentSearchMode}&limit=${limit}`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('API search failed');
+        const data = await response.json();
+        
+        const duration = ((performance.now() - startTime) / 1000).toFixed(2);
+        
+        renderSearchResults(data, q, duration);
+      } catch (err) {
+        console.error('Error during search:', err);
+        updateSearchFeedback('Search failed: ' + err.message, 'error');
+        resultsLedger.innerHTML = `
+          <div class="results-empty" style="border-color:var(--red); color:var(--red);">
+            <strong>Error executing search query</strong>
+            <p>${err.message}</p>
+          </div>
+        `;
+      } finally {
+        searchSubmitBtn.disabled = false;
+        searchSubmitBtn.textContent = "Execute";
+      }
+    }
+
+    function parseSearchResult(item) {
+      const content = item.content || item.preview || "";
+      let metadata = item.metadata;
+      if (!metadata && item.metadata_json) {
+        try {
+          metadata = JSON.parse(item.metadata_json);
+        } catch(e) {
+          metadata = {};
+        }
+      }
+      metadata = metadata || {};
+      return {
+        id: item.id,
+        source_table: item.source_table || metadata.source_table || "",
+        source_id: item.source_id || metadata.source_id || 0,
+        content: content,
+        score: item.score || null,
+        distance: item.distance !== undefined ? item.distance : null,
+        metadata: metadata,
+        embedded_at: item.embedded_at || metadata.created_at || ""
+      };
+    }
+
+    function renderSearchResults(data, query, duration) {
+      resultsLedger.innerHTML = '';
+      const results = data.results || [];
+
+      // Populate 3D Topology Map with searched clusters
+      populate3DNodes(results, true, query);
+      const backend = data.backend || 'keyword core';
+      const detail = data.detail || '';
+
+      if (!results.length) {
+        resultsLedger.innerHTML = `
+          <div class="results-empty">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:8px; display:inline-block;">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="8" y1="12" x2="16" y2="12"></line>
+            </svg>
+            <strong>No matches found in vector space</strong>
+            <p>Try modifying your query terms or execute in the alternate search mode.</p>
+          </div>
+        `;
+        updateSearchFeedback(`Found 0 records in ${duration}s`, backend);
+        return;
+      }
+
+      updateSearchFeedback(`Found ${results.length} records in ${duration}s`, backend + (detail ? ` (${detail})` : ''));
+
+      results.forEach(rawItem => {
+        const item = parseSearchResult(rawItem);
+        const course = item.metadata.course_code || '';
+        const kind = item.metadata.kind || item.source_table.replace('brain_', '');
+
+        const card = document.createElement('div');
+        card.className = 'ledger-card';
+        card.id = `result-card-${item.id}`;
+        card.addEventListener('click', () => {
+          // Manage active styles
+          document.querySelectorAll('.ledger-card').forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
+          inspectItem(item.id);
+        });
+
+        const head = document.createElement('div');
+        head.className = 'card-head';
+
+        const metaRow = document.createElement('div');
+        metaRow.className = 'card-meta';
+
+        // Score display
+        const scoreSpan = document.createElement('span');
+        if (item.score !== null) {
+          scoreSpan.className = 'card-score';
+          scoreSpan.textContent = `Score: ${(item.score * 100).toFixed(1)}%`;
+        } else {
+          scoreSpan.className = 'card-score keyword';
+          scoreSpan.textContent = 'Literal';
+        }
+
+        // Course/Kind Tag
+        const badgeSpan = document.createElement('span');
+        if (course) {
+          badgeSpan.className = 'course-badge';
+          badgeSpan.textContent = course;
+          badgeSpan.style.background = COURSE_COLORS[course] || 'var(--ink)';
+          if (course === 'GPCO 410' || course === 'GPPS 463') badgeSpan.style.color = 'var(--ink)';
+        } else {
+          badgeSpan.className = 'source-badge';
+          badgeSpan.textContent = kind;
+          // Apply kind coloring
+          if (kind === 'event') badgeSpan.style.background = 'var(--violet)';
+          if (kind === 'memory') badgeSpan.style.background = 'var(--green)';
+          if (kind === 'handoff') badgeSpan.style.background = 'var(--orange)';
+        }
+
+        metaRow.append(scoreSpan, badgeSpan);
+
+        const idBadge = document.createElement('span');
+        idBadge.className = 'card-id-badge';
+        idBadge.textContent = `#${item.id}`;
+
+        head.append(metaRow, idBadge);
+
+        const body = document.createElement('div');
+        body.className = 'card-body';
+        body.innerHTML = highlightQuery(item.content, query);
+
+        const footer = document.createElement('div');
+        footer.className = 'card-footer';
+
+        const pathSpan = document.createElement('span');
+        pathSpan.className = 'card-footer-path';
+        pathSpan.textContent = item.metadata.source_path || `table: ${item.source_table}`;
+        pathSpan.title = item.metadata.source_path || '';
+
+        const dateSpan = document.createElement('span');
+        dateSpan.textContent = item.embedded_at ? formatTimeStr(item.embedded_at) : '';
+
+        footer.append(pathSpan, dateSpan);
+        card.append(head, body, footer);
+        resultsLedger.appendChild(card);
+      });
+    }
+
+    function highlightQuery(content, query) {
+      if (!query) return content.slice(0, 360);
+      const terms = query.split(/\s+/).filter(t => t.length > 2).map(escapeRegExp);
+      if (!terms.length) return content.slice(0, 360);
+
+      // Create a regex to match any of the terms
+      const regex = new RegExp(`(${terms.join('|')})`, 'gi');
+      
+      // Let's extract a snippet around the first match to preserve space
+      const matchIdx = content.search(regex);
+      let snippet = content;
+      let prepend = '';
+      let append = '';
+
+      if (matchIdx > 120) {
+        snippet = content.slice(matchIdx - 60, matchIdx + 300);
+        prepend = '...';
+      } else {
+        snippet = content.slice(0, 360);
+      }
+      
+      if (content.length > (matchIdx > 120 ? matchIdx + 300 : 360)) {
+        append = '...';
+      }
+
+      const highlighted = snippet.replace(regex, '<mark>$1</mark>');
+      return prepend + highlighted + append;
+    }
+
+    function escapeRegExp(string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    function formatTimeStr(dateString) {
+      try {
+        const dt = new Date(dateString.replace('Z', ''));
+        return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+      } catch(e) {
+        return dateString;
+      }
+    }
+
+    // Vector Inspect Panel Operations
+    async function inspectItem(itemId) {
+      // Toggle workspace state to has-inspector
+      workspaceLayout.classList.add('has-inspector');
+      inspectorPanel.classList.add('active');
+      
+      inspectorPanel.innerHTML = `
+        <div style="text-align:center; padding:48px; color:var(--muted);">
+          <div style="width: 18px; height: 18px; border: 2px solid var(--ink); border-top-color: transparent; border-radius: 50%; display: inline-block; animation: rotating 1s infinite linear; margin-bottom: 8px;"></div>
+          <p>Compiling vector signatures...</p>
+        </div>
+      `;
+
+      try {
+        const response = await fetch(`/api/vector?id=${itemId}`);
+        if (!response.ok) throw new Error('Failed to fetch vector info');
+        const vectorDetail = await response.json();
+        
+        selectedItemRecord = vectorDetail;
+        renderInspectorDetails(vectorDetail);
+      } catch (err) {
+        console.error('Error fetching vector details:', err);
+        inspectorPanel.innerHTML = `
+          <div class="inspector-head">
+            <div class="inspector-title">
+              <span>Error</span>
+              <strong>Inspector Failed</strong>
+            </div>
+            <button class="inspector-close-btn" onclick="closeInspector()">Close</button>
+          </div>
+          <p style="color:var(--red); font-size:12px; font-weight:600;">${err.message}</p>
+        `;
+      }
+    }
+
+    function closeInspector() {
+      workspaceLayout.classList.remove('has-inspector');
+      inspectorPanel.classList.remove('active');
+      document.querySelectorAll('.ledger-card').forEach(c => c.classList.remove('selected'));
+      selectedItemRecord = null;
+    }
+
+    function renderInspectorDetails(detail) {
+      const course = detail.metadata.course_code || '';
+      const sourceTable = detail.source_table || '';
+      const kind = detail.metadata.kind || sourceTable.replace('brain_', '');
+      
+      let badgeHTML = '';
+      if (course) {
+        badgeHTML = `<span class="course-badge" style="background:${COURSE_COLORS[course] || 'var(--ink)'}; color:${(course === 'GPCO 410' || course === 'GPPS 463') ? 'var(--ink)' : 'white'}">${course}</span>`;
+      } else {
+        badgeHTML = `<span class="source-badge" style="background:${kind === 'event' ? 'var(--violet)' : kind === 'memory' ? 'var(--green)' : kind === 'handoff' ? 'var(--orange)' : 'var(--ink)'};">${kind}</span>`;
+      }
+
+      let inspectHTML = `
+        <div class="inspector-head">
+          <div class="inspector-title">
+            <span>Vector Object #${detail.id}</span>
+            <strong style="display:flex; align-items:center; gap:8px;">${badgeHTML} Profile</strong>
+          </div>
+          <button class="inspector-close-btn" onclick="closeInspector()">Close</button>
+        </div>
+
+        <!-- Dynamic Vector Signature (Visual Star) -->
+        <div class="inspector-viz-box">
+          <div class="viz-header">
+            <span>Vector Embedding Signature (96 bins)</span>
+            <span class="viz-hover-val" id="viz-hover-value-span">Hover over dims</span>
+          </div>
+          <div id="inspector-svg-container">
+            ${renderVectorSVG(detail.bins)}
+          </div>
+        </div>
+
+        <!-- Vector Metrics Grid -->
+        <div class="inspector-stats-grid">
+          <div class="inspector-stat-card">
+            <span>L2 Magnitude (Norm)</span>
+            <b>${detail.norm.toFixed(5)}</b>
+          </div>
+          <div class="inspector-stat-card">
+            <span>Mean Amplitude</span>
+            <b>${detail.mean.toFixed(5)}</b>
+          </div>
+          <div class="inspector-stat-card">
+            <span>Min Dimension Value</span>
+            <b>${detail.min.toFixed(5)}</b>
+          </div>
+          <div class="inspector-stat-card">
+            <span>Max Dimension Value</span>
+            <b>${detail.max.toFixed(5)}</b>
+          </div>
+        </div>
+
+        <!-- Raw dimensions snippet console -->
+        <div class="raw-dimensions-box">
+          <div class="label" style="font-size:9.5px;">First 24 Dimensions of Vector</div>
+          <div class="dims-console">
+            <div class="dims-grid">
+              ${detail.first_dims.map((dim, idx) => `
+                <span><i>d${idx}</i> ${dim.toFixed(5)}</span>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+
+        <!-- Raw Text Box -->
+        <div class="inspector-content-box">
+          <div class="label" style="font-size:9.5px;">Vector Content Slice</div>
+          <div class="inspector-content-scroll">
+            ${detail.preview.replace(/\n/g, '<br>')}
+          </div>
+        </div>
+
+        <!-- Metadata Properties Ledger -->
+        <div class="inspector-meta-box">
+          <div class="label" style="font-size:9.5px;">Dossier Provenance Tags</div>
+          <div class="inspector-meta-list">
+            <span class="meta-tag-pill"><b>source_table</b>${detail.source_table}</span>
+            <span class="meta-tag-pill"><b>source_id</b>${detail.source_id}</span>
+            <span class="meta-tag-pill"><b>backend</b>${detail.vector_backend}</span>
+            <span class="meta-tag-pill"><b>model</b>${detail.embedding_model}</span>
+            <span class="meta-tag-pill"><b>dims</b>${detail.embedding_dim}</span>
+            ${Object.entries(detail.metadata).map(([key, val]) => {
+              if (typeof val === 'object') return '';
+              return `<span class="meta-tag-pill" title="${val}"><b>${key}</b>${val}</span>`;
+            }).join('')}
+          </div>
+        </div>
+      `;
+
+      inspectorPanel.innerHTML = inspectHTML;
+
+      // Add dynamic hover interactions to bars
+      const bars = inspectorPanel.querySelectorAll('.vector-bar');
+      const hoverSpan = document.getElementById('viz-hover-value-span');
+      
+      bars.forEach(bar => {
+        bar.addEventListener('mouseenter', (e) => {
+          const idx = bar.getAttribute('data-index');
+          const val = bar.getAttribute('data-value');
+          // nomic-embed-text has 768 dimensions. We downsample into 96 bins. 
+          // Stride is 768 / 96 = 8 dimensions per bin.
+          const startDim = idx * 8;
+          const endDim = startDim + 7;
+          hoverSpan.textContent = `d[${startDim}-${endDim}] avg: ${Number(val).toFixed(5)}`;
+        });
+
+        bar.addEventListener('mouseleave', () => {
+          hoverSpan.textContent = 'Hover over dims';
+        });
+      });
+    }
+
+    function renderVectorSVG(bins) {
+      if (!bins || !bins.length) return "";
+      const width = 384;
+      const height = 120;
+      const barWidth = width / bins.length;
+      const baseline = height / 2; // y = 60
+      
+      // Find max absolute value to scale height
+      let maxAbs = 0;
+      for (let val of bins) {
+        if (Math.abs(val) > maxAbs) maxAbs = Math.abs(val);
+      }
+      maxAbs = maxAbs || 0.1; // avoid division by zero
+      
+      let html = `<svg width="100%" height="${height}" viewBox="0 0 ${width} ${height}" style="background: var(--white); border: 1px solid var(--line); border-radius: 4px; overflow: visible;">`;
+      
+      // Draw baseline
+      html += `<line x1="0" y1="${baseline}" x2="${width}" y2="${baseline}" stroke="var(--muted)" stroke-dasharray="2 2" stroke-width="1"/>`;
+      
+      // Draw bars
+      bins.forEach((val, idx) => {
+        const x = idx * barWidth;
+        const normVal = val / maxAbs; // between -1 and 1
+        const barHeight = Math.abs(normVal) * (height / 2 - 10); // scale to fit with 10px padding
+        
+        let y, fill;
+        if (val >= 0) {
+          y = baseline - barHeight;
+          // positive: sleek blue-green gradient
+          fill = `hsl(${200 - idx * 0.4}, 85%, 42%)`;
+        } else {
+          y = baseline;
+          // negative: sleek orange-red gradient
+          fill = `hsl(${15 + idx * 0.3}, 90%, 48%)`;
+        }
+        
+        html += `<rect x="${x + 0.5}" y="${y}" width="${barWidth - 1}" height="${Math.max(1, barHeight)}" fill="${fill}" class="vector-bar" data-index="${idx}" data-value="${val.toFixed(6)}" style="transition: fill 200ms ease;">
+          <title>Bin ${idx}: ${val.toFixed(6)}</title>
+        </rect>`;
+      });
+      
+      html += `</svg>`;
+      return html;
+    }
+
+    // Initialize 3D Vector Space Map
+    function init3DTopology() {
+      const container = document.getElementById('3d-topology-canvas-container');
+      if (!container) return;
+      
+      const loadingEl = document.getElementById('canvas-loading');
+      const tooltipEl = document.getElementById('3d-tooltip');
+      
+      // Screen Sizing
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      
+      // Scene
+      threeScene = new THREE.Scene();
+      
+      // Camera
+      threeCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+      threeCamera.position.set(0, 50, 110);
+      
+      // Renderer
+      threeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      threeRenderer.setSize(width, height);
+      threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      container.appendChild(threeRenderer.domElement);
+      
+      // Controls
+      threeControls = new THREE.OrbitControls(threeCamera, threeRenderer.domElement);
+      threeControls.enableDamping = true;
+      threeControls.dampingFactor = 0.05;
+      threeControls.maxDistance = 300;
+      threeControls.minDistance = 15;
+      threeControls.target.set(0, 0, 0);
+      
+      // Hide loading element when done
+      if (loadingEl) loadingEl.style.display = 'none';
+      
+      // Circular polar concentric grid lines (blueprint feel)
+      const circlesGroup = new THREE.Group();
+      const circleMaterial = new THREE.LineBasicMaterial({ 
+        color: 0xd5d1c6, 
+        transparent: true, 
+        opacity: 0.45 
+      });
+      for (let r = 20; r <= 80; r += 20) {
+        const points = [];
+        for (let theta = 0; theta <= Math.PI * 2 + 0.1; theta += Math.PI / 32) {
+          points.push(new THREE.Vector3(Math.cos(theta) * r, 0, Math.sin(theta) * r));
+        }
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line(geometry, circleMaterial);
+        circlesGroup.add(line);
+      }
+      threeScene.add(circlesGroup);
+      
+      // Radial sector lines representing courses
+      const axesGroup = new THREE.Group();
+      const axisMaterial = new THREE.LineBasicMaterial({ 
+        color: 0xd5d1c6, 
+        transparent: true, 
+        opacity: 0.25 
+      });
+      const courseCount = Object.keys(COURSE_COLORS).length;
+      Object.keys(COURSE_COLORS).forEach((course, idx) => {
+        const angle = (idx / courseCount) * Math.PI * 2;
+        const points = [
+          new THREE.Vector3(0, 0, 0),
+          new THREE.Vector3(Math.cos(angle) * 90, 0, Math.sin(angle) * 90)
+        ];
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line(geometry, axisMaterial);
+        axesGroup.add(line);
+      });
+      threeScene.add(axesGroup);
+      
+      // Groups for dynamic elements
+      threeNodesGroup = new THREE.Group();
+      threeLinesGroup = new THREE.Group();
+      threeScene.add(threeNodesGroup);
+      threeScene.add(threeLinesGroup);
+      
+      // Lighting
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+      threeScene.add(ambientLight);
+      
+      // Handle Toggle Spin and Reset Camera buttons
+      const btnToggleSpin = document.getElementById('btn-toggle-spin');
+      if (btnToggleSpin) {
+        btnToggleSpin.addEventListener('click', () => {
+          threeIsSpinning = !threeIsSpinning;
+          btnToggleSpin.textContent = threeIsSpinning ? 'Pause Rotate' : 'Auto Rotate';
+        });
+      }
+      
+      const btnResetCam = document.getElementById('btn-reset-cam');
+      if (btnResetCam) {
+        btnResetCam.addEventListener('click', () => {
+          threeControls.reset();
+          threeCamera.position.set(0, 50, 110);
+          threeControls.target.set(0, 0, 0);
+          threeIsSpinning = true;
+          if (btnToggleSpin) btnToggleSpin.textContent = 'Pause Rotate';
+        });
+      }
+      
+      // Mouse move event for hovering
+      container.addEventListener('mousemove', (e) => {
+        const rect = threeRenderer.domElement.getBoundingClientRect();
+        threeMouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        threeMouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+        
+        // Raycasting for tooltips
+        threeRaycaster.setFromCamera(threeMouse, threeCamera);
+        const intersects = threeRaycaster.intersectObjects(threeNodesGroup.children);
+        
+        if (intersects.length > 0) {
+          const hoveredObj = intersects[0].object;
+          if (threeHoveredNode !== hoveredObj) {
+            // Unscale previous hovered node
+            if (threeHoveredNode) {
+              threeHoveredNode.scale.set(1, 1, 1);
+            }
+            
+            threeHoveredNode = hoveredObj;
+            threeHoveredNode.scale.set(1.5, 1.5, 1.5);
+            
+            // Show Tooltip
+            const nodeData = threeNodesList.find(n => n.mesh === threeHoveredNode);
+            if (nodeData) {
+              tooltipEl.style.display = 'block';
+              tooltipEl.innerHTML = `
+                <div style="font-weight: 800; text-transform: uppercase; color: ${COURSE_COLORS[nodeData.course] || 'var(--ink)'}; margin-bottom: 2px; font-size:10px;">
+                  ${nodeData.course || 'System Chunk'} (ID #${nodeData.id})
+                </div>
+                <div style="color: rgba(255,255,255,0.85); line-height: 1.35; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; font-size:9.5px; font-weight:500;">
+                  ${nodeData.preview}
+                </div>
+                ${nodeData.score ? `<div style="margin-top: 4px; font-weight:900; color: var(--orange); font-size:10px;">Similarity: ${(nodeData.score * 100).toFixed(1)}%</div>` : ''}
+              `;
+            }
+          }
+          
+          // Position tooltip
+          const xPos = e.clientX - rect.left + 15;
+          const yPos = e.clientY - rect.top + 15;
+          tooltipEl.style.left = xPos + 'px';
+          tooltipEl.style.top = yPos + 'px';
+          container.style.cursor = 'pointer';
+        } else {
+          if (threeHoveredNode) {
+            threeHoveredNode.scale.set(1, 1, 1);
+            threeHoveredNode = null;
+          }
+          tooltipEl.style.display = 'none';
+          container.style.cursor = 'grab';
+        }
+      });
+      
+      // Mouse click event for selection
+      container.addEventListener('click', (e) => {
+        const rect = threeRenderer.domElement.getBoundingClientRect();
+        threeMouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        threeMouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+        
+        threeRaycaster.setFromCamera(threeMouse, threeCamera);
+        const intersects = threeRaycaster.intersectObjects(threeNodesGroup.children);
+        
+        if (intersects.length > 0) {
+          const clickedObj = intersects[0].object;
+          const nodeData = threeNodesList.find(n => n.mesh === clickedObj);
+          if (nodeData) {
+            // Select in result list if present
+            const card = document.getElementById(`result-card-${nodeData.id}`);
+            if (card) {
+              document.querySelectorAll('.ledger-card').forEach(c => c.classList.remove('selected'));
+              card.classList.add('selected');
+              card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+            inspectItem(nodeData.id);
+          }
+        }
+      });
+      
+      // Window resize handler
+      window.addEventListener('resize', () => {
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        threeCamera.aspect = w / h;
+        threeCamera.updateProjectionMatrix();
+        threeRenderer.setSize(w, h);
+      });
+      
+      // Start Animation Loop
+      animate3DTopology();
+    }
+    
+    // Animation Loop
+    function animate3DTopology() {
+      threeAnimationFrameId = requestAnimationFrame(animate3DTopology);
+      
+      if (threeIsSpinning) {
+        threeNodesGroup.rotation.y += 0.0025;
+        threeLinesGroup.rotation.y += 0.0025;
+        
+        // Also rotate query beacon if present
+        if (threeQueryBeacon) {
+          threeQueryBeacon.rotation.y += 0.01;
+          threeQueryBeacon.rotation.x += 0.005;
+        }
+      }
+      
+      threeControls.update();
+      threeRenderer.render(threeScene, threeCamera);
+    }
+    
+    // Populate 3D Nodes based on list
+    function populate3DNodes(items, isSearchResults = false, queryText = "") {
+      if (!threeScene) return; // Wait until initialized
+      
+      // Clear current groups
+      while(threeNodesGroup.children.length > 0) {
+        threeNodesGroup.remove(threeNodesGroup.children[0]);
+      }
+      while(threeLinesGroup.children.length > 0) {
+        threeLinesGroup.remove(threeLinesGroup.children[0]);
+      }
+      if (threeQueryBeacon) {
+        threeScene.remove(threeQueryBeacon);
+        threeQueryBeacon = null;
+      }
+      threeNodesList = [];
+      
+      const courseKeys = Object.keys(COURSE_COLORS);
+      const courseCount = courseKeys.length;
+      
+      // PRE-ALLOCATION OPTIMIZATION:
+      // Instantiating a single geometry and pre-caching material objects eliminates WebGL buffer upload spikes, 
+      // allowing smooth 60 FPS rendering under high point density (e.g. 3,000+ nodes).
+      const sharedGeom = new THREE.SphereGeometry(1.2, 6, 5);
+      const sharedMaterials = {};
+      courseKeys.forEach(course => {
+        sharedMaterials[course] = new THREE.MeshBasicMaterial({
+          color: new THREE.Color(COURSE_COLORS[course]),
+          transparent: true,
+          opacity: 0.92
+        });
+      });
+      // Visible premium Slate-Grey for system/orphan nodes instead of black/charcoal
+      const fallbackMaterial = new THREE.MeshBasicMaterial({
+        color: new THREE.Color('#9e9a90'),
+        transparent: true,
+        opacity: 0.8
+      });
+      
+      // 1. Add Search Query Central Beacon
+      if (isSearchResults && queryText) {
+        // Glowing double torus / star shape at 0,0,0
+        const queryGroup = new THREE.Group();
+        
+        const torusMat = new THREE.MeshBasicMaterial({ 
+          color: 0xf2a000, 
+          wireframe: true,
+          transparent: true,
+          opacity: 0.8
+        });
+        const torusGeom1 = new THREE.TorusGeometry(3.5, 0.8, 8, 24);
+        const torusGeom2 = new THREE.TorusGeometry(3.5, 0.8, 8, 24);
+        
+        const mesh1 = new THREE.Mesh(torusGeom1, torusMat);
+        const mesh2 = new THREE.Mesh(torusGeom2, torusMat);
+        mesh2.rotation.x = Math.PI / 2;
+        
+        queryGroup.add(mesh1, mesh2);
+        
+        // Pulsing light source glow
+        const coreGeom = new THREE.SphereGeometry(1.8, 8, 8);
+        const coreMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const core = new THREE.Mesh(coreGeom, coreMat);
+        queryGroup.add(core);
+        
+        threeQueryBeacon = queryGroup;
+        threeScene.add(threeQueryBeacon);
+      }
+      
+      // 2. Add Node Points
+      items.forEach((item, idx) => {
+        let nodeData;
+        if (isSearchResults) {
+          nodeData = parseSearchResult(item);
+        } else {
+          // stats recent items
+          const metadata = JSON.parse(item.metadata_json || '{}');
+          nodeData = {
+            id: item.id,
+            course: metadata.course_code || '',
+            preview: item.preview || item.content || '',
+            score: null,
+            distance: null
+          };
+        }
+        
+        const course = nodeData.metadata?.course_code || nodeData.course || 'N/A';
+        const courseIdx = courseKeys.indexOf(course) >= 0 ? courseKeys.indexOf(course) : courseCount;
+        const angleBase = (courseIdx / (courseCount + 1)) * Math.PI * 2;
+        
+        // Map to Spherical coordinates
+        let r, theta, phi;
+        const idSeed = parseInt(nodeData.id) || idx;
+        
+        if (isSearchResults) {
+          // Similarity Mapping: radial distance reflects similarity
+          const distVal = nodeData.distance !== null ? nodeData.distance : 0.5;
+          r = 16 + distVal * 55;
+          theta = angleBase + Math.sin(idSeed * 0.7) * 0.22;
+          phi = Math.cos(idSeed * 1.3) * 0.28;
+        } else {
+          // Chronological / Galaxy Mapping: widened radial dispersion for high density (3,000 points)
+          r = 16 + (idx / items.length) * 72;
+          theta = angleBase + Math.sin(idSeed * 0.8) * 0.35;
+          phi = Math.cos(idSeed * 1.5) * 0.35;
+        }
+        
+        // Convert to Cartesian
+        const x = r * Math.cos(phi) * Math.cos(theta);
+        const y = r * Math.sin(phi);
+        const z = r * Math.cos(phi) * Math.sin(theta);
+        
+        // Reuse mesh geometry and material allocation
+        const mat = sharedMaterials[course] || fallbackMaterial;
+        const mesh = new THREE.Mesh(sharedGeom, mat);
+        mesh.position.set(x, y, z);
+        
+        threeNodesGroup.add(mesh);
+        
+        // Add dynamic properties for raycasting
+        threeNodesList.push({
+          id: nodeData.id,
+          course: course,
+          preview: nodeData.preview || nodeData.content || '',
+          score: nodeData.score,
+          mesh: mesh
+        });
+        
+        // 3. Add Similarity lines from beacon to results
+        if (isSearchResults) {
+          const points = [
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(x, y, z)
+          ];
+          const lineGeom = new THREE.BufferGeometry().setFromPoints(points);
+          const lineMat = new THREE.LineBasicMaterial({
+            color: COURSE_COLORS[course] || 0xd5d1c6,
+            transparent: true,
+            opacity: 0.4
+          });
+          const line = new THREE.Line(lineGeom, lineMat);
+          threeLinesGroup.add(line);
+        }
+      });
+      
+      // Auto-focus camera on search bounds if search results exist
+      if (isSearchResults && items.length > 0) {
+        threeIsSpinning = false;
+        const btnToggleSpin = document.getElementById('btn-toggle-spin');
+        if (btnToggleSpin) btnToggleSpin.textContent = 'Auto Rotate';
+        
+        // Rotate scene slightly to show lines beautifully
+        threeNodesGroup.rotation.set(0, 0, 0);
+        threeLinesGroup.rotation.set(0, 0, 0);
+        
+        // Target query beacon
+        threeControls.target.set(0, 0, 0);
+        
+        // Move camera closer to focus
+        gsapToCamera(0, 35, 80);
+      }
+    }
+    
+    // Smooth camera transition helper
+    function gsapToCamera(x, y, z) {
+      let count = 0;
+      const totalSteps = 30;
+      const startX = threeCamera.position.x;
+      const startY = threeCamera.position.y;
+      const startZ = threeCamera.position.z;
+      
+      function step() {
+        if (count >= totalSteps) return;
+        count++;
+        const t = count / totalSteps;
+        const ease = t * (2 - t);
+        
+        threeCamera.position.x = startX + (x - startX) * ease;
+        threeCamera.position.y = startY + (y - startY) * ease;
+        threeCamera.position.z = startZ + (z - startZ) * ease;
+        
+        requestAnimationFrame(step);
+      }
+      step();
+    }
+
+    // Migration Operation Console Trigger
+    async function executeMigration() {
+      if (!confirm('Are you sure you want to trigger the Open Brain re-indexing and migration? This will re-scan raw database layers.')) return;
+
+      runMigrationBtn.disabled = true;
+      runMigrationBtn.textContent = 'Migrating...';
+      migrationConsole.classList.add('active');
+      stdoutLog.textContent = 'Triggering python3 _claudia/brain.py migrate-legacy-embeddings --backend sqlite-vec... \n';
+      stderrLog.textContent = '';
+
+      setLiveStatus('refreshing', 'migrating');
+
+      try {
+        const response = await fetch('/api/migrate', {
+          method: 'POST'
+        });
+        const result = await response.json();
+        
+        if (result.ok) {
+          stdoutLog.textContent += `Success: Migration completed with code ${result.returncode}.\n\n`;
+          stdoutLog.textContent += result.stdout || 'No stdout log produced.\n';
+          
+          if (result.stats) {
+            dashboardStats = result.stats;
+            updateSidebar(result.stats);
+            updateRecentIngestions(result.stats.recent);
+          }
+          fetchStats(); // Full fresh pull
+        } else {
+          stdoutLog.textContent += `Failed: Process returned code ${result.returncode}.\n`;
+          stderrLog.textContent = result.stderr || 'No stderr logs compiled.\n';
+        }
+      } catch (err) {
+        console.error('Error triggered during migration:', err);
+        stdoutLog.textContent += `System Error compiling endpoint payload.\n`;
+        stderrLog.textContent = err.message;
+      } finally {
+        runMigrationBtn.disabled = false;
+        runMigrationBtn.textContent = 'Trigger System Re-Migration';
+        setLiveStatus('connected', 'connected');
+      }
+    }
+  </script>
+</body>
+</html>

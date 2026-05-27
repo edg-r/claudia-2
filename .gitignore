@@ -53,3 +53,20 @@ knowledge/
 
 # R session workspaces (large, machine-local)
 .RData
+
+# Security: Credentials, Sessions, and DBs
+.chrome_profile/
+.antigravitycli/
+.env
+.env.local
+.env.local.example
+.env.*
+*.sqlite
+*.bak
+
+# ROM and Firmware files (large binaries)
+*.img
+*.bin
+Personal Projects/rockbox y1/rom/
+
+

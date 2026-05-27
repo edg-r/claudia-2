@@ -320,3 +320,57 @@
 **What was done:** Prepared a repo-wide checkpoint save, added ignore coverage for raw connector exports and local runtime artifacts, and ran focused pre-commit scans for obvious credential/token leakage before staging.
 **Output:** repo commit on `main`
 **Notes:** Raw `_claudia/dispatch_inputs/`, Python bytecode, R history, and R workspaces are local-only. High-confidence token/key scans over staged candidate files did not report secrets.
+
+### 2026-05-26 - Minimal Open Brain substrate
+**Requested by:** Edgar via Claudia
+**What was done:** Added `_claudia/brain.py`, a stdlib SQLite CLI for idempotent Open Brain schema creation, structured event and handoff ingestion, memory and claim rows, concept links, contradictions, basic query, stale and contradiction audit, and Markdown view compilation. Initialized the real `_claudia/claudia.db` with seven empty `brain_*` tables and indexes.
+**Output:** `_claudia/brain.py`; `_claudia/system/open-brain.md`; `_claudia/claudia.db`
+**Notes:** Production Open Brain tables are present but empty. Smoke tests used a temporary SQLite database for fake rows so the real brain starts clean. Verified syntax, help output, schema creation, DB integrity, event and JSON handoff ingestion, claim audit, query, and Markdown compile.
+
+### 2026-05-27 - Local sqlite-vec Open Brain vector layer
+**Requested by:** Edgar via Claudia
+**What was done:** Installed local `sqlite-vec` and `pysqlite3`, updated `_claudia/brain.py` to create `brain_vector_items`, `brain_vector_embeddings`, and optional `brain_vec0` vector tables, and added `vector-status`, `vector-index`, and `vector-query` commands. Kept BLOB plus NumPy fallback for runtimes that cannot load SQLite extensions.
+**Output:** `_claudia/brain.py`; `_claudia/system/open-brain.md`; `_claudia/claudia.db`
+**Notes:** Verified `sqlite-vec` loads through `pysqlite3`, initialized `brain_vec0` in the real Claudia database, and ran an end-to-end temp DB smoke test with Ollama `nomic-embed-text`: claim ingest, sqlite-vec indexing, sqlite-vec query, and BLOB fallback query.
+
+### 2026-05-27 - Automatic Open Brain capture vectorization
+**Requested by:** Edgar via Claudia
+**What was done:** Changed `_claudia/brain.py` so durable write commands auto-vectorize by default, including events, memories, claims, concept links, contradictions, handoffs, compiled views, and preference capture. Added `capture-preference` so Edgar's durable preferences can be appended to memory, inserted into Open Brain, and embedded in one command.
+**Output:** `_claudia/brain.py`; `_claudia/system/open-brain.md`; `_claudia/memory/preferences.md`; `_claudia/claudia.db`
+**Notes:** Verified auto-vectorization in a temp SQLite DB for memory ingest, handoff ingest, and preference capture. Captured Edgar's standing preference that Claudia should not require manual `vector-index` after durable Open Brain writes. Use `--no-vectorize` only for offline writes or when Ollama should not be touched.
+
+### 2026-05-27 - Vector dashboard checkpoint
+**Requested by:** Edgar via Claudia
+**What was done:** Ported the old `embeddings` table into the Open Brain vector layer and scaffolded a local HTTP dashboard server. Added server endpoints for stats, keyword/vector search, migration reruns, health checks, and per-item vector previews.
+**Output:** `_claudia/brain.py`; `_claudia/vector_dashboard_server.py`; `_claudia/claudia.db`
+**Notes:** Migration completed: 9,130 legacy rows copied into `brain_vector_items`, `brain_vector_embeddings`, and sqlite-vec `brain_vec0`, bringing total vector rows to 9,135. Current pause point: `_claudia/vector_dashboard.html` still needs to be created, then run `python3 _claudia/vector_dashboard_server.py` and open `http://127.0.0.1:8776` in the in-app browser. Latest `vector-status --check-sqlite-vec --json` reported sqlite-vec ready, 9,135 vector items, and source counts of 9,130 legacy embedding rows, 2 handoffs, 2 events, and 1 memory.
+
+### 2026-05-27 — Class Reading Briefs PDF Generation
+**Requested by:** Edgar via Claudia
+**What was done:** Created a custom Python script `_claudia/scripts/build_one_pagers_pdf.py` using `reportlab.platypus` that parses the Markdown class reading one-pagers in `edgar/2026-05-27_class_reading_one_pagers.md` and generates a beautiful, executive-styled, 7-page vector PDF in `edgar/2026-05-27_class_reading_one_pagers.pdf`.
+**Output:** `_claudia/scripts/build_one_pagers_pdf.py`; `edgar/2026-05-27_class_reading_one_pagers.pdf`
+**Notes:** The PDF has a professional navy and gold palette, structured course header tables, clean line dividers, a running header and footer with page numbers, and an output disclosure table that adheres strictly to the `output-disclosure` SOP.
+
+### 2026-05-27 — Custom Subagents Configuration for Codex
+**Requested by:** Edgar
+**What was done:** Created project-scoped custom subagent TOML definitions under the `.codex/agents/` folder for each of the 11 agents defined in the Claudia manifest. Wrote a Python script `_claudia/scripts/generate_codex_agents.py` to programmatically extract and format the configurations from canonical markdown agent definitions, and a validation script `_claudia/scripts/validate_codex_agents.py` to ensure syntactical validity of all generated TOML files.
+**Output:** `.codex/agents/*.toml`; `_claudia/scripts/generate_codex_agents.py`; `_claudia/scripts/validate_codex_agents.py`
+**Notes:** Verified that all 11 TOML files parsed without a single decode or validation error using Python's standard `tomllib` module. Verified the database connection (`claudia.db`) for Mnemosyne's smoke test and Hephaestus' generation script execution.
+
+### 2026-05-27 - Lean delegated worker startup docs
+**Requested by:** Claudia
+**What was done:** Updated Claudia Codex delegation docs so parent Claudia still loads the full orchestrator context, while delegated workers load only the lean worker context by default and do not load `_claudia/system/CLAUDIA.md` or `_claudia/system/CLAUDIA_SOUL.md` unless a scoped task requires it. Also documented custom Claudia `spawn_agent` `agent_type` roles versus generic `explorer` and `worker`.
+**Output:** `AGENTS.md`; `_claudia/system/CODEX_WORKFLOW.md`; `_claudia/sop/delegation.md`; `_claudia/system/manifest.json`
+**Notes:** Verified manifest JSON parses and no repo code references the old generic `startup_required` key.
+
+### 2026-05-27 - Agent label preference update
+**Requested by:** Edgar via Claudia
+**What was done:** Updated Claudia workflow and preference docs so user-facing agent references use the human/custom agent name only, such as `Athena`, while preserving runtime IDs internally when needed. Removed active instructions to report agents with parenthetical runtime labels.
+**Output:** `AGENTS.md`; `_claudia/memory/preferences.md`; `_claudia/system/CODEX_WORKFLOW.md`; `_claudia/sop/delegation.md`; `_claudia/system/manifest.json`
+**Notes:** Verified manifest JSON parses and active docs no longer contain the old parenthetical runtime-label dispatch instruction.
+
+### 2026-05-27 - UCSD Gmail CLI account registry
+**Requested by:** Edgar
+**What was done:** Extended `_claudia/gmail_dispatch_json.py` from a daily-dispatch-only helper into a small CLI for the UCSD Gmail account, with `profile`, `search`, `read`, and `dispatch` commands. Fixed Gmail API query encoding so metadata headers return correctly.
+**Output:** `_claudia/gmail_dispatch_json.py`; `_claudia/claudia.db`; `_claudia/agents/mnemosyne/AGENT_CONTEXT.md`
+**Notes:** Verified `python3 _claudia/gmail_dispatch_json.py profile` authenticates as `eagunias@ucsd.edu`, `search "emzingo newer_than:180d -in:spam -in:trash" --full` reads the Emzingo interview invitation, and `dispatch --max-results 2 --newer-than 2d` returns real subjects/senders. Added `email_accounts` rows for UCSD Email via local gcloud CLI and Personal Gmail via Codex connector.

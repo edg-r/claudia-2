@@ -19,47 +19,12 @@ library(stargazer)
 library(haven)
 library(rdrobust)
 
-# Define a helper that saves a data frame as a clean HTML table.
-write_html_table <- function(df, file_name, title) {
-  invisible(
-    capture.output(
-      stargazer(
-        as.data.frame(df),
-        type = "html",
-        summary = FALSE,
-        rownames = FALSE,
-        title = title,
-        digits = 3,
-        out = file_name
-      )
-    )
-  )
-}
-
-# Define a helper that saves one or more regression models as a clean HTML table.
-write_model_table <- function(..., file_name) {
-  invisible(
-    capture.output(
-      stargazer(
-        ...,
-        type = "html",
-        omit.stat = c("f", "ser"),
-        digits = 3,
-        out = file_name
-      )
-    )
-  )
-}
-
 ################################################################################
 # Part I: Panel and Two-Way Fixed Effects
 ################################################################################
 
 # Load the professor-provided Africa panel data.
 load("Africa_GDP.Rda")
-
-# Stop immediately if the expected data object did not load.
-stopifnot(exists("Africa_GDP"))
 
 # Store the assignment's analysis years.
 analysis_years <- 1985:1998
@@ -85,44 +50,59 @@ country_lookup <- tibble::tibble(
 # Part I Data: World Bank Join
 ################################################################################
 
-# Define a function that downloads one World Bank indicator for the analysis years.
-fetch_wb_indicator <- function(indicator, years = analysis_years) {
-  # Build the World Bank API URL for the selected indicator and year range.
-  url <- paste0(
-    "https://api.worldbank.org/v2/country/all/indicator/",
-    indicator,
-    "?format=json&date=",
-    min(years),
-    ":",
-    max(years),
-    "&per_page=20000"
-  )
+# Build the World Bank API URL for GDP per capita.
+gdp_pc_url <- paste0(
+  "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.KD",
+  "?format=json&date=",
+  min(analysis_years),
+  ":",
+  max(analysis_years),
+  "&per_page=20000"
+)
 
-  # Read the JSON response from the World Bank API.
-  raw <- jsonlite::fromJSON(url)
+# Read the GDP per capita JSON response.
+gdp_pc_raw <- jsonlite::fromJSON(gdp_pc_url)
 
-  # Stop if the API response is not in the expected data-frame format.
-  if (length(raw) < 2 || !is.data.frame(raw[[2]])) {
-    stop("World Bank API did not return a data frame for ", indicator)
-  }
-
-  # Keep the country name, country code, year, and numeric indicator value.
-  raw[[2]] %>%
-    transmute(
-      wb_name = .data$country$value,
-      iso3 = .data$countryiso3code,
-      year = as.integer(.data$date),
-      value = as.numeric(.data$value)
-    )
+# Stop if the GDP per capita response is not in the expected format.
+if (length(gdp_pc_raw) < 2 || !is.data.frame(gdp_pc_raw[[2]])) {
+  stop("World Bank API did not return a data frame for GDP per capita")
 }
 
-# Download World Bank GDP per capita data.
-gdp_pc_wb <- fetch_wb_indicator("NY.GDP.PCAP.KD") %>%
-  rename(gdp_pc_constant_usd = value)
+# Keep country name, country code, year, and GDP per capita value.
+gdp_pc_wb <- gdp_pc_raw[[2]] %>%
+  transmute(
+    wb_name = .data$country$value,
+    iso3 = .data$countryiso3code,
+    year = as.integer(.data$date),
+    gdp_pc_constant_usd = as.numeric(.data$value)
+  )
 
-# Download World Bank population data.
-pop_wb <- fetch_wb_indicator("SP.POP.TOTL") %>%
-  rename(population = value)
+# Build the World Bank API URL for population.
+pop_url <- paste0(
+  "https://api.worldbank.org/v2/country/all/indicator/SP.POP.TOTL",
+  "?format=json&date=",
+  min(analysis_years),
+  ":",
+  max(analysis_years),
+  "&per_page=20000"
+)
+
+# Read the population JSON response.
+pop_raw <- jsonlite::fromJSON(pop_url)
+
+# Stop if the population response is not in the expected format.
+if (length(pop_raw) < 2 || !is.data.frame(pop_raw[[2]])) {
+  stop("World Bank API did not return a data frame for population")
+}
+
+# Keep country name, country code, year, and population value.
+pop_wb <- pop_raw[[2]] %>%
+  transmute(
+    wb_name = .data$country$value,
+    iso3 = .data$countryiso3code,
+    year = as.integer(.data$date),
+    population = as.numeric(.data$value)
+  )
 
 # Build the main Part I analysis panel.
 panel <- Africa_GDP %>%
@@ -182,16 +162,19 @@ pooled_ols <- lm(gdp_pc_constant_usd ~ pol_lib + year_factor, data = complete_pa
 # Run a country fixed-effects model with year fixed effects.
 within_lsdv <- lm(gdp_pc_constant_usd ~ pol_lib + factor(country_id) + year_factor, data = complete_panel)
 
-# Save the Q1 regression table.
-write_model_table(
-  pooled_ols,
-  within_lsdv,
-  title = "GDP per Capita and Political Liberties, Average-Country Estimates",
-  dep.var.labels = "GDP per capita (constant US dollars)",
-  column.labels = c("Pooled OLS + year FE", "Country FE + year FE"),
-  covariate.labels = "Political liberties",
-  keep = "pol_lib",
-  file_name = "table_q1_pooled_within.html"
+# Save the Q1 regression table with stargazer.
+stargazer(
+      pooled_ols,
+      within_lsdv,
+      type = "html",
+      omit.stat = c("f", "ser"),
+      digits = 3,
+      title = "GDP per Capita and Political Liberties, Average-Country Estimates",
+      dep.var.labels = "GDP per capita (constant US dollars)",
+      column.labels = c("Pooled OLS + year FE", "Country FE + year FE"),
+      covariate.labels = "Political liberties",
+      keep = "pol_lib",
+      out = "table_q1_pooled_within.html"
 )
 
 ################################################################################
@@ -201,14 +184,17 @@ write_model_table(
 # Run the TWFE model for the big governance improvement year.
 twfe_bigimp <- lm(gdp_pc_constant_usd ~ bigimp + factor(country_id) + year_factor, data = complete_panel)
 
-# Save the Q2 TWFE regression table.
-write_model_table(
-  twfe_bigimp,
-  title = "TWFE Estimate for Large Governance Improvement Year",
-  dep.var.labels = "GDP per capita (constant US dollars)",
-  covariate.labels = "Big governance improvement year",
-  keep = "bigimp",
-  file_name = "table_q2_twfe_bigimp.html"
+# Save the Q2 TWFE regression table with stargazer.
+stargazer(
+      twfe_bigimp,
+      type = "html",
+      omit.stat = c("f", "ser"),
+      digits = 3,
+      title = "TWFE Estimate for Large Governance Improvement Year",
+      dep.var.labels = "GDP per capita (constant US dollars)",
+      covariate.labels = "Big governance improvement year",
+      keep = "bigimp",
+      out = "table_q2_twfe_bigimp.html"
 )
 
 # Keep event-study observations from five years before to five years after the event.
@@ -251,11 +237,15 @@ event_coef_plot_data <- bind_rows(
 ) %>%
   arrange(leadlag)
 
-# Save the event-study coefficient table.
-write_html_table(
-  event_coef_plot_data,
-  "event_study_leadlag_coefficients.html",
-  "Event-Study Lead/Lag Coefficients"
+# Save the event-study coefficient table with stargazer.
+stargazer(
+      as.data.frame(event_coef_plot_data),
+      type = "html",
+      summary = FALSE,
+      rownames = FALSE,
+      title = "Event-Study Lead/Lag Coefficients",
+      digits = 3,
+      out = "event_study_leadlag_coefficients.html"
 )
 
 # Create the Q2 event-study coefficient plot.
@@ -299,11 +289,15 @@ event_summary <- residual_event_data %>%
     ci_high = mean_residual + 1.96 * se
   )
 
-# Save the residual event-study table.
-write_html_table(
-  event_summary,
-  "event_study_residual_means.html",
-  "Event-Study Residual Means"
+# Save the residual event-study table with stargazer.
+stargazer(
+      as.data.frame(event_summary),
+      type = "html",
+      summary = FALSE,
+      rownames = FALSE,
+      title = "Event-Study Residual Means",
+      digits = 3,
+      out = "event_study_residual_means.html"
 )
 
 # Create the residual event-study diagnostic plot.
@@ -347,16 +341,19 @@ weighted_within <- lm(
   weights = population
 )
 
-# Save the Q4 population-weighted regression table.
-write_model_table(
-  weighted_pooled,
-  weighted_within,
-  title = "GDP per Capita and Political Liberties, Representative-Person Estimates",
-  dep.var.labels = "GDP per capita (constant US dollars)",
-  column.labels = c("Population-weighted pooled OLS + year FE", "Population-weighted country FE + year FE"),
-  covariate.labels = "Political liberties",
-  keep = "pol_lib",
-  file_name = "table_q4_representative_person.html"
+# Save the Q4 population-weighted regression table with stargazer.
+stargazer(
+      weighted_pooled,
+      weighted_within,
+      type = "html",
+      omit.stat = c("f", "ser"),
+      digits = 3,
+      title = "GDP per Capita and Political Liberties, Representative-Person Estimates",
+      dep.var.labels = "GDP per capita (constant US dollars)",
+      column.labels = c("Population-weighted pooled OLS + year FE", "Population-weighted country FE + year FE"),
+      covariate.labels = "Political liberties",
+      keep = "pol_lib",
+      out = "table_q4_representative_person.html"
 )
 
 # Remove country and year fixed effects using population weights.
@@ -381,11 +378,15 @@ weighted_event_summary <- weighted_event_data %>%
     .groups = "drop"
   )
 
-# Save the population-weighted event-study table.
-write_html_table(
-  weighted_event_summary,
-  "weighted_event_study_residual_means.html",
-  "Population-Weighted Event-Study Residual Means"
+# Save the population-weighted event-study table with stargazer.
+stargazer(
+      as.data.frame(weighted_event_summary),
+      type = "html",
+      summary = FALSE,
+      rownames = FALSE,
+      title = "Population-Weighted Event-Study Residual Means",
+      digits = 3,
+      out = "weighted_event_study_residual_means.html"
 )
 
 # Create the population-weighted event-study plot.
@@ -443,8 +444,16 @@ schema <- data.frame(
   max = vapply(grade5, function(x) if (is.numeric(x)) max(x, na.rm = TRUE) else NA_real_, numeric(1))
 )
 
-# Save the data schema table.
-write_html_table(schema, "grade5_schema.html", "Grade 5 Data Schema")
+# Save the data schema table with stargazer.
+stargazer(
+      as.data.frame(schema),
+      type = "html",
+      summary = FALSE,
+      rownames = FALSE,
+      title = "Grade 5 Data Schema",
+      digits = 3,
+      out = "grade5_schema.html"
+)
 
 # Keep only the core variables for the RD analysis.
 analysis <- grade5[, core_vars]
@@ -462,181 +471,398 @@ analysis_under80 <- subset(analysis, school_enrollment < max_enrollment)
 # Q6: Histogram of the Running Variable
 ################################################################################
 
-# Open a PNG graphics device for the enrollment histogram.
-png("hist_school_enrollment.png", width = 1600, height = 1000, res = 180)
+# Create the enrollment histogram and mark the cutoff.
+hist_school_enrollment_plot <- ggplot(analysis, aes(x = school_enrollment)) +
+  geom_histogram(binwidth = 5, boundary = 0, color = "white", fill = "#4C78A8") +
+  geom_vline(xintercept = cutoff, color = "#C44E52", linewidth = 1) +
+  labs(
+    title = "Distribution of Fifth-Grade School Enrollment",
+    subtitle = "Vertical line marks the Maimonides Rule cutoff at 40 students",
+    x = "School enrollment",
+    y = "Number of observations"
+  ) +
+  theme_minimal(base_size = 12)
 
-# Plot the distribution of school enrollment and mark the cutoff.
-print(
-  ggplot(analysis, aes(x = school_enrollment)) +
-    geom_histogram(binwidth = 5, boundary = 0, color = "white", fill = "#4C78A8") +
-    geom_vline(xintercept = cutoff, color = "#C44E52", linewidth = 1) +
-    labs(
-      title = "Distribution of Fifth-Grade School Enrollment",
-      subtitle = "Vertical line marks the Maimonides Rule cutoff at 40 students",
-      x = "School enrollment",
-      y = "Number of observations"
-    ) +
-    theme_minimal(base_size = 12)
+# Save the enrollment histogram with ggsave.
+ggsave(
+  "hist_school_enrollment.png",
+  hist_school_enrollment_plot,
+  width = 1600 / 180,
+  height = 1000 / 180,
+  dpi = 180
 )
-
-# Close the PNG graphics device.
-invisible(dev.off())
 
 ################################################################################
 # Q7: Relationship Between Class Size and Scores
 ################################################################################
 
-# Define a reusable function for RD-style outcome plots.
-make_rdd_plot <- function(y_var, y_label, file_name) {
-  # Keep schools below 80 students for the plot.
-  plot_data <- subset(analysis, school_enrollment < max_enrollment)
+# Keep schools below 80 students for the Q7 plots.
+plot_data <- subset(analysis, school_enrollment < max_enrollment)
 
-  # Average the selected outcome at each enrollment value.
-  bin_data <- aggregate(plot_data[[y_var]],
-                        by = list(school_enrollment = plot_data$school_enrollment),
-                        FUN = mean, na.rm = TRUE)
+# Average class size at each enrollment value.
+classize_bin_data <- aggregate(
+  plot_data$classize,
+  by = list(school_enrollment = plot_data$school_enrollment),
+  FUN = mean,
+  na.rm = TRUE
+)
 
-  # Rename the averaged outcome column.
-  names(bin_data)[2] <- "mean_outcome"
+# Rename the averaged class-size column.
+names(classize_bin_data)[2] <- "mean_outcome"
 
-  # Open a PNG graphics device for this outcome plot.
-  png(file_name, width = 1600, height = 1000, res = 180)
+# Create the class-size plot with separate linear fits on each side.
+rdd_classize_plot <- ggplot(plot_data, aes(x = school_enrollment, y = classize)) +
+  geom_point(alpha = 0.18, color = "#4D4D4D", size = 1.1) +
+  geom_point(data = classize_bin_data, aes(y = mean_outcome), color = "#1B9E77", size = 2) +
+  geom_smooth(
+    data = subset(plot_data, school_enrollment < cutoff),
+    method = "lm", formula = y ~ x, se = TRUE, color = "#1F77B4"
+  ) +
+  geom_smooth(
+    data = subset(plot_data, school_enrollment >= cutoff),
+    method = "lm", formula = y ~ x, se = TRUE, color = "#D62728"
+  ) +
+  geom_vline(xintercept = cutoff, color = "#C44E52", linewidth = 1) +
+  labs(
+    title = "Class size Around the Enrollment Cutoff",
+    subtitle = "Schools with enrollment below 80; separate linear fits on each side of 40",
+    x = "School enrollment",
+    y = "Class size"
+  ) +
+  theme_minimal(base_size = 12)
 
-  # Plot raw points, binned means, separate linear fits, and the cutoff.
-  print(
-    ggplot(plot_data, aes(x = school_enrollment, y = .data[[y_var]])) +
-      geom_point(alpha = 0.18, color = "#4D4D4D", size = 1.1) +
-      geom_point(data = bin_data, aes(y = mean_outcome), color = "#1B9E77", size = 2) +
-      geom_smooth(
-        data = subset(plot_data, school_enrollment < cutoff),
-        method = "lm", formula = y ~ x, se = TRUE, color = "#1F77B4"
-      ) +
-      geom_smooth(
-        data = subset(plot_data, school_enrollment >= cutoff),
-        method = "lm", formula = y ~ x, se = TRUE, color = "#D62728"
-      ) +
-      geom_vline(xintercept = cutoff, color = "#C44E52", linewidth = 1) +
-      labs(
-        title = paste(y_label, "Around the Enrollment Cutoff"),
-        subtitle = "Schools with enrollment below 80; separate linear fits on each side of 40",
-        x = "School enrollment",
-        y = y_label
-      ) +
-      theme_minimal(base_size = 12)
-  )
+# Save the class-size plot with ggsave.
+ggsave(
+  "rdd_classize_cutoff40.png",
+  rdd_classize_plot,
+  width = 1600 / 180,
+  height = 1000 / 180,
+  dpi = 180
+)
 
-  # Close the PNG graphics device.
-  invisible(dev.off())
-}
+# Average math scores at each enrollment value.
+avgmath_bin_data <- aggregate(
+  plot_data$avgmath,
+  by = list(school_enrollment = plot_data$school_enrollment),
+  FUN = mean,
+  na.rm = TRUE
+)
 
-# Save the class-size RD plot.
-make_rdd_plot("classize", "Class size", "rdd_classize_cutoff40.png")
+# Rename the averaged math-score column.
+names(avgmath_bin_data)[2] <- "mean_outcome"
 
-# Save the math-score RD plot.
-make_rdd_plot("avgmath", "Average math score", "rdd_avgmath_cutoff40.png")
+# Create the math-score plot with separate linear fits on each side.
+rdd_avgmath_plot <- ggplot(plot_data, aes(x = school_enrollment, y = avgmath)) +
+  geom_point(alpha = 0.18, color = "#4D4D4D", size = 1.1) +
+  geom_point(data = avgmath_bin_data, aes(y = mean_outcome), color = "#1B9E77", size = 2) +
+  geom_smooth(
+    data = subset(plot_data, school_enrollment < cutoff),
+    method = "lm", formula = y ~ x, se = TRUE, color = "#1F77B4"
+  ) +
+  geom_smooth(
+    data = subset(plot_data, school_enrollment >= cutoff),
+    method = "lm", formula = y ~ x, se = TRUE, color = "#D62728"
+  ) +
+  geom_vline(xintercept = cutoff, color = "#C44E52", linewidth = 1) +
+  labs(
+    title = "Average math score Around the Enrollment Cutoff",
+    subtitle = "Schools with enrollment below 80; separate linear fits on each side of 40",
+    x = "School enrollment",
+    y = "Average math score"
+  ) +
+  theme_minimal(base_size = 12)
 
-# Save the verbal-score RD plot.
-make_rdd_plot("avgverb", "Average verbal score", "rdd_avgverb_cutoff40.png")
+# Save the math-score plot with ggsave.
+ggsave(
+  "rdd_avgmath_cutoff40.png",
+  rdd_avgmath_plot,
+  width = 1600 / 180,
+  height = 1000 / 180,
+  dpi = 180
+)
+
+# Average verbal scores at each enrollment value.
+avgverb_bin_data <- aggregate(
+  plot_data$avgverb,
+  by = list(school_enrollment = plot_data$school_enrollment),
+  FUN = mean,
+  na.rm = TRUE
+)
+
+# Rename the averaged verbal-score column.
+names(avgverb_bin_data)[2] <- "mean_outcome"
+
+# Create the verbal-score plot with separate linear fits on each side.
+rdd_avgverb_plot <- ggplot(plot_data, aes(x = school_enrollment, y = avgverb)) +
+  geom_point(alpha = 0.18, color = "#4D4D4D", size = 1.1) +
+  geom_point(data = avgverb_bin_data, aes(y = mean_outcome), color = "#1B9E77", size = 2) +
+  geom_smooth(
+    data = subset(plot_data, school_enrollment < cutoff),
+    method = "lm", formula = y ~ x, se = TRUE, color = "#1F77B4"
+  ) +
+  geom_smooth(
+    data = subset(plot_data, school_enrollment >= cutoff),
+    method = "lm", formula = y ~ x, se = TRUE, color = "#D62728"
+  ) +
+  geom_vline(xintercept = cutoff, color = "#C44E52", linewidth = 1) +
+  labs(
+    title = "Average verbal score Around the Enrollment Cutoff",
+    subtitle = "Schools with enrollment below 80; separate linear fits on each side of 40",
+    x = "School enrollment",
+    y = "Average verbal score"
+  ) +
+  theme_minimal(base_size = 12)
+
+# Save the verbal-score plot with ggsave.
+ggsave(
+  "rdd_avgverb_cutoff40.png",
+  rdd_avgverb_plot,
+  width = 1600 / 180,
+  height = 1000 / 180,
+  dpi = 180
+)
 
 ################################################################################
 # Q8a: Manual Local Linear RD
 ################################################################################
 
-# Define a function that manually estimates a local linear RD effect.
-manual_rd <- function(data, outcome, bw) {
-  # Keep observations within the selected bandwidth around the cutoff.
-  window <- subset(data, abs(school_enrollment - cutoff) <= bw)
+# Keep observations within 10 students of the cutoff for the math RD.
+avgmath_window <- subset(analysis_under80, abs(school_enrollment - cutoff) <= manual_bw)
 
-  # Drop rows with missing outcome, enrollment, or cutoff-side indicator.
-  window <- window[!is.na(window[[outcome]]) &
-                     !is.na(window$school_enrollment) &
-                     !is.na(window$above_cutoff), ]
+# Drop rows with missing math, enrollment, or cutoff-side indicator.
+avgmath_window <- avgmath_window[!is.na(avgmath_window$avgmath) &
+                                   !is.na(avgmath_window$school_enrollment) &
+                                   !is.na(avgmath_window$above_cutoff), ]
 
-  # Run a local linear model with separate slopes on each side of the cutoff.
-  fit <- lm(reformulate(c("above_cutoff", "enrollment_centered",
-                          "above_cutoff:enrollment_centered"), outcome), data = window)
-
-  # Pull the coefficient table from the model summary.
-  coefs <- summary(fit)$coefficients
-
-  # Split the local sample into left and right sides of the cutoff.
-  left <- subset(window, school_enrollment < cutoff)
-  right <- subset(window, school_enrollment >= cutoff)
-
-  # Return the cutoff estimate, standard error, p-value, and sample sizes.
-  data.frame(
-    outcome = outcome,
-    cutoff = cutoff,
-    bandwidth = bw,
-    estimate = unname(coefs["above_cutoff", "Estimate"]),
-    std_error = unname(coefs["above_cutoff", "Std. Error"]),
-    p_value = unname(coefs["above_cutoff", "Pr(>|t|)"]),
-    n_left = nrow(left),
-    n_right = nrow(right),
-    unique_schools_left = length(unique(left$schlcode)),
-    unique_schools_right = length(unique(right$schlcode)),
-    stringsAsFactors = FALSE
-  )
-}
-
-# Estimate manual local linear RD effects for scores, class size, and disadvantage.
-manual_results <- rbind(
-  manual_rd(analysis_under80, "avgmath", manual_bw),
-  manual_rd(analysis_under80, "avgverb", manual_bw),
-  manual_rd(analysis_under80, "classize", manual_bw),
-  manual_rd(analysis_under80, "disadvantaged", manual_bw)
+# Estimate the manual local linear RD effect for math.
+avgmath_fit <- lm(
+  avgmath ~ above_cutoff + enrollment_centered + above_cutoff:enrollment_centered,
+  data = avgmath_window
 )
 
-# Save the manual local linear RD results table.
-write_html_table(
-  manual_results,
-  "manual_local_linear_results.html",
-  "Manual Local Linear RD Results"
+# Store the math model coefficient table.
+avgmath_coefs <- summary(avgmath_fit)$coefficients
+
+# Count math observations below and above the cutoff.
+avgmath_left <- subset(avgmath_window, school_enrollment < cutoff)
+avgmath_right <- subset(avgmath_window, school_enrollment >= cutoff)
+
+# Save the math RD result as one table row.
+avgmath_manual_result <- data.frame(
+  outcome = "avgmath",
+  cutoff = cutoff,
+  bandwidth = manual_bw,
+  estimate = unname(avgmath_coefs["above_cutoff", "Estimate"]),
+  std_error = unname(avgmath_coefs["above_cutoff", "Std. Error"]),
+  p_value = unname(avgmath_coefs["above_cutoff", "Pr(>|t|)"]),
+  n_left = nrow(avgmath_left),
+  n_right = nrow(avgmath_right),
+  unique_schools_left = length(unique(avgmath_left$schlcode)),
+  unique_schools_right = length(unique(avgmath_right$schlcode)),
+  stringsAsFactors = FALSE
+)
+
+# Keep observations within 10 students of the cutoff for the verbal RD.
+avgverb_window <- subset(analysis_under80, abs(school_enrollment - cutoff) <= manual_bw)
+
+# Drop rows with missing verbal score, enrollment, or cutoff-side indicator.
+avgverb_window <- avgverb_window[!is.na(avgverb_window$avgverb) &
+                                   !is.na(avgverb_window$school_enrollment) &
+                                   !is.na(avgverb_window$above_cutoff), ]
+
+# Estimate the manual local linear RD effect for verbal scores.
+avgverb_fit <- lm(
+  avgverb ~ above_cutoff + enrollment_centered + above_cutoff:enrollment_centered,
+  data = avgverb_window
+)
+
+# Store the verbal model coefficient table.
+avgverb_coefs <- summary(avgverb_fit)$coefficients
+
+# Count verbal observations below and above the cutoff.
+avgverb_left <- subset(avgverb_window, school_enrollment < cutoff)
+avgverb_right <- subset(avgverb_window, school_enrollment >= cutoff)
+
+# Save the verbal RD result as one table row.
+avgverb_manual_result <- data.frame(
+  outcome = "avgverb",
+  cutoff = cutoff,
+  bandwidth = manual_bw,
+  estimate = unname(avgverb_coefs["above_cutoff", "Estimate"]),
+  std_error = unname(avgverb_coefs["above_cutoff", "Std. Error"]),
+  p_value = unname(avgverb_coefs["above_cutoff", "Pr(>|t|)"]),
+  n_left = nrow(avgverb_left),
+  n_right = nrow(avgverb_right),
+  unique_schools_left = length(unique(avgverb_left$schlcode)),
+  unique_schools_right = length(unique(avgverb_right$schlcode)),
+  stringsAsFactors = FALSE
+)
+
+# Keep observations within 10 students of the cutoff for the class-size RD.
+classize_window <- subset(analysis_under80, abs(school_enrollment - cutoff) <= manual_bw)
+
+# Drop rows with missing class size, enrollment, or cutoff-side indicator.
+classize_window <- classize_window[!is.na(classize_window$classize) &
+                                     !is.na(classize_window$school_enrollment) &
+                                     !is.na(classize_window$above_cutoff), ]
+
+# Estimate the manual local linear RD effect for class size.
+classize_fit <- lm(
+  classize ~ above_cutoff + enrollment_centered + above_cutoff:enrollment_centered,
+  data = classize_window
+)
+
+# Store the class-size model coefficient table.
+classize_coefs <- summary(classize_fit)$coefficients
+
+# Count class-size observations below and above the cutoff.
+classize_left <- subset(classize_window, school_enrollment < cutoff)
+classize_right <- subset(classize_window, school_enrollment >= cutoff)
+
+# Save the class-size RD result as one table row.
+classize_manual_result <- data.frame(
+  outcome = "classize",
+  cutoff = cutoff,
+  bandwidth = manual_bw,
+  estimate = unname(classize_coefs["above_cutoff", "Estimate"]),
+  std_error = unname(classize_coefs["above_cutoff", "Std. Error"]),
+  p_value = unname(classize_coefs["above_cutoff", "Pr(>|t|)"]),
+  n_left = nrow(classize_left),
+  n_right = nrow(classize_right),
+  unique_schools_left = length(unique(classize_left$schlcode)),
+  unique_schools_right = length(unique(classize_right$schlcode)),
+  stringsAsFactors = FALSE
+)
+
+# Keep observations within 10 students of the cutoff for the disadvantage falsification test.
+disadvantaged_window <- subset(analysis_under80, abs(school_enrollment - cutoff) <= manual_bw)
+
+# Drop rows with missing disadvantage, enrollment, or cutoff-side indicator.
+disadvantaged_window <- disadvantaged_window[!is.na(disadvantaged_window$disadvantaged) &
+                                               !is.na(disadvantaged_window$school_enrollment) &
+                                               !is.na(disadvantaged_window$above_cutoff), ]
+
+# Estimate the manual local linear RD effect for disadvantage.
+disadvantaged_fit <- lm(
+  disadvantaged ~ above_cutoff + enrollment_centered + above_cutoff:enrollment_centered,
+  data = disadvantaged_window
+)
+
+# Store the disadvantage model coefficient table.
+disadvantaged_coefs <- summary(disadvantaged_fit)$coefficients
+
+# Count disadvantage observations below and above the cutoff.
+disadvantaged_left <- subset(disadvantaged_window, school_enrollment < cutoff)
+disadvantaged_right <- subset(disadvantaged_window, school_enrollment >= cutoff)
+
+# Save the disadvantage RD result as one table row.
+disadvantaged_manual_result <- data.frame(
+  outcome = "disadvantaged",
+  cutoff = cutoff,
+  bandwidth = manual_bw,
+  estimate = unname(disadvantaged_coefs["above_cutoff", "Estimate"]),
+  std_error = unname(disadvantaged_coefs["above_cutoff", "Std. Error"]),
+  p_value = unname(disadvantaged_coefs["above_cutoff", "Pr(>|t|)"]),
+  n_left = nrow(disadvantaged_left),
+  n_right = nrow(disadvantaged_right),
+  unique_schools_left = length(unique(disadvantaged_left$schlcode)),
+  unique_schools_right = length(unique(disadvantaged_right$schlcode)),
+  stringsAsFactors = FALSE
+)
+
+# Combine the four manual RD result rows into one table.
+manual_results <- rbind(
+  avgmath_manual_result,
+  avgverb_manual_result,
+  classize_manual_result,
+  disadvantaged_manual_result
+)
+
+# Save the manual local linear RD results table with stargazer.
+stargazer(
+      as.data.frame(manual_results),
+      type = "html",
+      summary = FALSE,
+      rownames = FALSE,
+      title = "Manual Local Linear RD Results",
+      digits = 3,
+      out = "manual_local_linear_results.html"
 )
 
 ################################################################################
 # Q8b: rdrobust RD Estimates
 ################################################################################
 
-# Define a function that estimates the RD effect using rdrobust.
-rd_result <- function(outcome) {
-  # Select the running variable and outcome.
-  x <- analysis_under80$school_enrollment
-  y <- analysis_under80[[outcome]]
+# Select the running variable and math outcome for rdrobust.
+rd_avgmath_x <- analysis_under80$school_enrollment
+rd_avgmath_y <- analysis_under80$avgmath
 
-  # Keep complete cases for the running variable and outcome.
-  ok <- !is.na(x) & !is.na(y)
+# Keep complete cases for the math rdrobust estimate.
+rd_avgmath_ok <- !is.na(rd_avgmath_x) & !is.na(rd_avgmath_y)
 
-  # Run rdrobust at the cutoff.
-  obj <- rdrobust(y = y[ok], x = x[ok], c = cutoff)
+# Run rdrobust for math scores at the cutoff.
+rd_avgmath_obj <- rdrobust(y = rd_avgmath_y[rd_avgmath_ok], x = rd_avgmath_x[rd_avgmath_ok], c = cutoff)
 
-  # Store the confidence intervals, coefficients, and standard errors.
-  ci <- obj$ci
-  coef <- obj$coef
-  se <- obj$se
+# Store the math rdrobust confidence intervals, coefficients, and standard errors.
+rd_avgmath_ci <- rd_avgmath_obj$ci
+rd_avgmath_coef <- rd_avgmath_obj$coef
+rd_avgmath_se <- rd_avgmath_obj$se
 
-  # Return the conventional estimate, standard error, CI, bandwidths, and sample sizes.
-  data.frame(
-    outcome = outcome,
-    cutoff = cutoff,
-    estimate_conventional = unname(coef[1, 1]),
-    se_conventional = unname(se[1, 1]),
-    ci95_low_conventional = unname(ci[1, 1]),
-    ci95_high_conventional = unname(ci[1, 2]),
-    bandwidth_left = unname(obj$bws[1, 1]),
-    bandwidth_right = unname(obj$bws[1, 2]),
-    n_left = unname(obj$N_h[1]),
-    n_right = unname(obj$N_h[2]),
-    stringsAsFactors = FALSE
-  )
-}
+# Save the math rdrobust result as one table row.
+rd_avgmath_result <- data.frame(
+  outcome = "avgmath",
+  cutoff = cutoff,
+  estimate_conventional = unname(rd_avgmath_coef[1, 1]),
+  se_conventional = unname(rd_avgmath_se[1, 1]),
+  ci95_low_conventional = unname(rd_avgmath_ci[1, 1]),
+  ci95_high_conventional = unname(rd_avgmath_ci[1, 2]),
+  bandwidth_left = unname(rd_avgmath_obj$bws[1, 1]),
+  bandwidth_right = unname(rd_avgmath_obj$bws[1, 2]),
+  n_left = unname(rd_avgmath_obj$N_h[1]),
+  n_right = unname(rd_avgmath_obj$N_h[2]),
+  stringsAsFactors = FALSE
+)
 
-# Estimate rdrobust effects for math and verbal scores.
-rdrobust_results <- rbind(rd_result("avgmath"), rd_result("avgverb"))
+# Select the running variable and verbal outcome for rdrobust.
+rd_avgverb_x <- analysis_under80$school_enrollment
+rd_avgverb_y <- analysis_under80$avgverb
 
-# Save the rdrobust results table.
-write_html_table(
-  rdrobust_results,
-  "rdrobust_default_results.html",
-  "rdrobust Default RD Results"
+# Keep complete cases for the verbal rdrobust estimate.
+rd_avgverb_ok <- !is.na(rd_avgverb_x) & !is.na(rd_avgverb_y)
+
+# Run rdrobust for verbal scores at the cutoff.
+rd_avgverb_obj <- rdrobust(y = rd_avgverb_y[rd_avgverb_ok], x = rd_avgverb_x[rd_avgverb_ok], c = cutoff)
+
+# Store the verbal rdrobust confidence intervals, coefficients, and standard errors.
+rd_avgverb_ci <- rd_avgverb_obj$ci
+rd_avgverb_coef <- rd_avgverb_obj$coef
+rd_avgverb_se <- rd_avgverb_obj$se
+
+# Save the verbal rdrobust result as one table row.
+rd_avgverb_result <- data.frame(
+  outcome = "avgverb",
+  cutoff = cutoff,
+  estimate_conventional = unname(rd_avgverb_coef[1, 1]),
+  se_conventional = unname(rd_avgverb_se[1, 1]),
+  ci95_low_conventional = unname(rd_avgverb_ci[1, 1]),
+  ci95_high_conventional = unname(rd_avgverb_ci[1, 2]),
+  bandwidth_left = unname(rd_avgverb_obj$bws[1, 1]),
+  bandwidth_right = unname(rd_avgverb_obj$bws[1, 2]),
+  n_left = unname(rd_avgverb_obj$N_h[1]),
+  n_right = unname(rd_avgverb_obj$N_h[2]),
+  stringsAsFactors = FALSE
+)
+
+# Combine the math and verbal rdrobust result rows into one table.
+rdrobust_results <- rbind(rd_avgmath_result, rd_avgverb_result)
+
+# Save the rdrobust results table with stargazer.
+stargazer(
+      as.data.frame(rdrobust_results),
+      type = "html",
+      summary = FALSE,
+      rownames = FALSE,
+      title = "rdrobust Default RD Results",
+      digits = 3,
+      out = "rdrobust_default_results.html"
 )

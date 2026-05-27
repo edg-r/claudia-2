@@ -4,6 +4,13 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 <!-- No entries yet. Append new tasks below this line. -->
 
+### 2026-05-27 — TCHW Epilogue & Modern/Future Warfare Study Guide & Synthesis Notes
+**Requested by:** Edgar (via Claudia)
+**What was done:** Verified Wednesday, May 27, 2026 as Week 9, Sessions 17 & 18 ("Nuclear Weapons" and "Precision Warfare") in `Course Admin/syllabus_extracted.md`. Extracted and analyzed the full text of Geoffrey Parker's TCHW Epilogue ("The Future of Western Warfare") from the assigned textbook PDF. Created a comprehensive, exam-ready study guide in Markdown following the structured 8-component `theory-reference-pdf` layout, and produced Ares's internal synthesis note connecting the reading to John Keegan's cultural framework and GPCO 410 strategic/security theories. Updated course memory files.
+**Output:** `/Users/edgar/Documents/01 Projects/Claudia/GPPS 444 - History of Warfare - Thomas/Study Guides/2026-05-27_sessions17-20_nuclear_weapons_and_future_warfare_1pager.md`; `/Users/edgar/Documents/01 Projects/Claudia/GPPS 444 - History of Warfare - Thomas/_agent/BATTLE_NOTES/TCHW_Epilogue_Future_of_Warfare.md`
+**Notes:** Key quiz framing: high-tech precision (the RMA) lopsidedly destroys conventional militaries, but is ineffective in low-tech asymmetric counterinsurgency, which is governed instead by local social/ideological conditions and the collapse of state authority ("demodernization"). Military power is constrained by democratic resolve (willingness to absorb financial and human costs, the "sinews of war") and absolute civilian political control (Eliot Cohen's "unequal dialogue").
+
+
 ### 2026-05-20 — Session 16 Sea-Land Battle WWII One-Pager
 **Requested by:** Edgar (via Claudia)
 **What was done:** Verified Wednesday 2026-05-20 as Week 8 Session 16, "Sea-Land Battle (WWII)," from `Course Admin/syllabus_extracted.md`; checked the presentation schedule for Milne Bay, Leros, and Petsamo-Kirkenes Offensive; read local TCHW/Parker PDF passages from Williamson A. Murray's "The World at War, 1941-1945" on Crete, Guadalcanal, Tarawa, island-hopping, Iwo Jima, and Okinawa. Produced a concise Markdown class prep guide focused on amphibious operations, airborne deployment limits, Guadalcanal, Iwo Jima, and Thomas's recurring analytical themes.

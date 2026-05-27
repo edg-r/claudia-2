@@ -4,6 +4,12 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 <!-- No entries yet. Append new tasks below this line. -->
 
+### 2026-05-27 — Near-Term Academic Load Sweep & Week 9 Trade Policy Prep
+**Requested by:** Edgar
+**What was done:** Performed a comprehensive Near-Term Academic Load Sweep for Week 9. Digested and summarized the pending readings: Feenstra & Taylor Ch 8 and Ch 11.1-2, and the Amiti, Redding & Weinstein (2019) paper on the 2018 tariffs. Addressed the Concept Check 5 due date discrepancy and outlined a comprehensive strategy. Created a step-by-step decision framework and structural outline for the timed Data Brief 2 WTO trade profile memo. Updated Plutus course memory files.
+**Output:** `GPCO 403 - Intl Econ - Handley/Study Guides/2026-05-27_week9_trade_policy_and_tariffs_prep.md`
+**Notes:** The study guide resolves a syllabus date discrepancy for CC5 (June 1 vs. June 2) and provides an analytical breakdown of "water in the tariff" and quota rent welfare effects for DB2. Marked all readings through Week 9 as completed in memory trackers.
+
 ## 2026-05-20 - Week 8 Wednesday firms and increasing returns class prep
 
 **Requested by:** Edgar

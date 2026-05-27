@@ -4,6 +4,17 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 <!-- No entries yet. Append new tasks below this line. -->
 
+### 2026-05-27 — Reading Summaries & Causal Inference Data Project Scaffold
+**Requested by:** Edgar
+**What was done:** Performed a Near-Term Academic Load sweep for GPEC 446. Summarized late-term readings (Gerber & Green Ch. 4 on covariate adjustments/ANCOVA, Wooldridge Ch. 10-11 on time-series OLS assumptions, stationarity, weak dependence, and unit root/differencing). Prepared a structural scaffold and rigorous method checklist for the upcoming causal inference independent Data Project (due June 7, 25% of grade). Created a new statistics glossary (`CONCEPT_NOTES.md`) and updated course context and assignment trackers.
+**Output:**
+- Artifact: [data_project_scaffold_checklist.md](file:///Users/edgar/.gemini/antigravity/brain/b1fac638-7949-4592-8e8f-cbaa4fe49c4a/data_project_scaffold_checklist.md)
+- Glossary: [CONCEPT_NOTES.md](file:///Users/edgar/Documents/01 Projects/Claudia/GPEC 446 - QM3 - Valasquez/_agent/CONCEPT_NOTES.md)
+- Updated context: [AGENT_CONTEXT.md](file:///Users/edgar/Documents/01 Projects/Claudia/GPEC 446 - QM3 - Valasquez/_agent/AGENT_CONTEXT.md)
+- Updated tracker: [ASSIGNMENTS.md](file:///Users/edgar/Documents/01 Projects/Claudia/GPEC 446 - QM3 - Valasquez/_agent/ASSIGNMENTS.md)
+- Task log update: [TASK_LOG.md](file:///Users/edgar/Documents/01 Projects/Claudia/GPEC 446 - QM3 - Valasquez/_agent/TASK_LOG.md)
+**Notes:** Summarized reading materials cover both Gerber & Green Chapter 4's covariate precision strategies (Freedman interacted ANCOVA) and Wooldridge Chapters 10 and 11's time-series OLS mechanics (Strict Exogeneity TS.3 vs Contemporaneous Exogeneity TS.3', stationarity, and random walks). The Data Project scaffold details exact econometrics checklists for OLS, IV, DiD, RDD, RCTs, and time-series diagnostics.
+
 ### 2026-05-26 — Homework 2 Word doc completion inspection
 **Requested by:** Edgar
 **What was done:** Acting as Tyche, inspected `Assignments/Homework 2/Homework2EdgarAgunias.docx` via pandoc/DOCX metadata extraction and compared it against the Homework 2 prompt PDFs plus nearby HW2 notes, draft, outputs, and rebuild files. Did not edit the Word document.

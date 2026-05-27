@@ -2,9 +2,9 @@
 
 This document defines how OpenAI Codex runs the Claudia workspace. The core rule is that Claudia lives in local files, not in any one model vendor or harness.
 
-## Startup Sequence
+## Parent Claudia Startup
 
-At the start of a Codex session:
+At the start of a Codex session where Codex is operating as the parent Claudia orchestrator:
 
 1. Read `AGENTS.md`.
 2. Read `_claudia/system/CLAUDIA.md` for the current orchestrator map. `CLAUDE.md` is a deprecated legacy pointer only.
@@ -13,6 +13,23 @@ At the start of a Codex session:
 5. Read `_claudia/memory/preferences.md`.
 6. Read all SOPs in `_claudia/sop/`.
 7. If a task belongs to a course or agent-owned folder, read that agent's definition, `AGENT_CONTEXT.md`, and `FEEDBACK.md` before acting.
+
+## Delegated Worker Startup
+
+Delegated Codex workers and subagents should keep context lean. They do **not** load `_claudia/system/CLAUDIA.md` or `_claudia/system/CLAUDIA_SOUL.md` by default; those files are parent-orchestrator context.
+
+For custom Claudia `agent_type` spawns, parent Claudia resolves the owning agent from `_claudia/system/manifest.json` and sends a small dispatch packet:
+
+1. Task and acceptance criteria.
+2. Agent name.
+3. Manifest `definition` path.
+4. Manifest `memory` path.
+5. Relevant SOP and save expectations.
+6. Any task-specific files, folders, connectors, or constraints.
+
+The custom subagent then hyperfocuses on its own agent context. It loads its manifest definition and memory first: `AGENT_CONTEXT.md` and `FEEDBACK.md`. It loads `TASK_LOG.md` selectively by tail or relevant search unless the task requires full history. It loads only task-specific SOPs or workflow excerpts needed to act safely. Do not require full manifest, preferences, this whole workflow file, or all SOPs inside every custom subagent unless the scoped task needs them.
+
+Generic `explorer` or `worker` spawns do not carry custom Claudia agent identity, so they may need more explicit instructions in the dispatch packet. Use them only for non-Claudia generic codebase subtasks or when no custom Claudia role fits.
 
 ## Agent Definitions
 
@@ -34,17 +51,21 @@ To invoke an agent:
 
 1. Identify the agent from `_claudia/system/manifest.json`.
 2. Spawn or dispatch that agent when the environment supports subagents/workers.
-3. In the worker, read the agent definition at the manifest `definition` path.
-4. In the worker, read `AGENT_CONTEXT.md` and `FEEDBACK.md` from the manifest `memory` path.
+3. Prefer the manifest owning agent's custom Claudia role for `spawn_agent` `agent_type` when the runtime supports custom role values.
+4. Send the worker a small dispatch packet with the task, agent name, definition path, memory path, relevant SOP/save expectations, and task-specific files.
 5. Have the worker adopt the agent's role, responsibilities, and operating principles for the scoped task.
-6. Have the worker follow all SOPs.
+6. Have the worker load its own definition and memory first, then only the task-specific SOPs or workflow excerpts needed to act safely.
 7. Have the worker update `TASK_LOG.md` after major work and `FEEDBACK.md` after corrections or confirmed good approaches.
 8. Require a relay-ready handoff: status, files checked/changed, key findings, blockers/ambiguity, memory updated, and recommended next action.
 9. Relay finished worker handoffs to Edgar promptly and verify save/memory state before closing worker threads.
 
+Use human/custom agent names in user-facing dispatch prose, such as `Athena` or `Hephaestus`. Preserve runtime IDs internally when needed, but do not add parenthetical runtime labels unless there is genuine ambiguity.
+
 Codex workers inherit the parent model by default. Do not pass the manifest or definition `model` metadata to `spawn_agent` as a model override unless Edgar explicitly asks for a different model or the task has a documented reason for an override.
 
-Codex-as-Claudia uses non-blocking subagent dispatch by default. After dispatching, report who is working in `Role (Runtime Nickname)` format and return to Edgar. Use `wait_agent` only when Edgar explicitly asks Claudia to wait or when the parent's immediate next action is impossible without the worker result.
+Codex `spawn_agent` can use custom Claudia role `agent_type` values such as `atlas`, `mnemosyne`, `hephaestus`, `tyche`, and `eos`. These are distinct from generic runtime roles such as `explorer` or `worker`. For Claudia delegation, prefer the manifest owning custom agent when one is available. Use generic `explorer` or `worker` only for non-Claudia generic codebase subtasks or when no custom Claudia role fits, and include more explicit role instructions when using them.
+
+Codex-as-Claudia uses non-blocking subagent dispatch by default. After dispatching, report who is working by human/custom agent name only and return to Edgar. Use `wait_agent` only when Edgar explicitly asks Claudia to wait or when the parent's immediate next action is impossible without the worker result.
 
 ## Delegation and Subagents
 

@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")" && pwd)"
+cd "$ROOT"
+
+echo "Compiling Homework_2_Report.md to HTML using pandoc..."
+pandoc "Homework_2_Report.md" \
+  --standalone \
+  --metadata title="Homework 2: Panel and Regression Discontinuity" \
+  --css "report.css" \
+  -o "Homework_2_Report.html"
+
+echo "Compiling HTML to PDF..."
+if command -v weasyprint >/dev/null 2>&1; then
+  if weasyprint "Homework_2_Report.html" "Homework_2_Report.pdf"; then
+    echo "Successfully compiled PDF using weasyprint!"
+    exit 0
+  fi
+fi
+
+CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+if [[ -x "$CHROME" ]]; then
+  "$CHROME" \
+    --headless \
+    --disable-gpu \
+    --no-sandbox \
+    --no-pdf-header-footer \
+    --print-to-pdf="Homework_2_Report.pdf" \
+    "file://$ROOT/Homework_2_Report.html"
+  echo "Successfully compiled PDF using Google Chrome headless!"
+  exit 0
+fi
+
+echo "No working PDF renderer found. HTML was built successfully." >&2
+exit 1
