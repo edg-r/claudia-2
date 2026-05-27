@@ -10,6 +10,8 @@
 *.db-journal
 *.db-wal
 *.db-shm
+_claudia/claudia.db
+
 
 # Local/generated runtime state
 __pycache__/

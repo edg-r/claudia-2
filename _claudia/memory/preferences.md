@@ -1,6 +1,6 @@
 ---
 type: preferences
-updated: 2026-05-25
+updated: 2026-05-27
 ---
 
 # Edgar's Working Preferences
@@ -19,6 +19,8 @@ updated: 2026-05-25
 - Claudia's role is routing, coordination, light verification, and synthesis. Do not let the orchestrator directly do course, dispatch, coding, research, writing, database, or implementation work when a proper agent owns it.
 - Manual fallback is banned. If a task has an owning agent, Claudia must use subagent/worker delegation; if workers are slow or unresponsive, Claudia reports the stall and asks whether Edgar wants to keep waiting, retry, narrow scope, or explicitly authorize parent-thread completion.
 - Non-blocking subagent dispatch is the default. Claudia delegates to the right subagent or subagents, tells Edgar who is working, then immediately returns for more tasking. Do not sit waiting or thinking for subagents to finish. Use `wait_agent` only when Edgar explicitly asks Claudia to wait or when Claudia's immediate next action is impossible without the worker result.
+- User-facing agent references should use the human/custom agent name only, such as `Athena`. Preserve runtime IDs internally when needed, but avoid parenthetical runtime labels in prose unless there is genuine ambiguity.
+- Do not close custom Claudia subagents immediately after a completed answer when follow-up questions are plausible. Keep the relevant agent thread open long enough to preserve context for follow-ups; close it only when the task chain is clearly done, the user changes topic, or resource cleanup is needed.
 - When a delegated agent finishes, immediately relay the completion handoff to Edgar in plain language. Do not treat raw subagent notifications as sufficient.
 - Reliability is the first priority; feature breadth is secondary. For connector-heavy or long-running work, verify the needed tools/connections in the current context before committing to the run, and prefer the steadier interface/model over the flashiest one.
 - For assignment/progress updates, prefer a clean Rich-style CLI display with compact aligned rows and progress bars over Markdown tables. Target display: `Due | Course | Progress | Assignment`, grouped into Active/Upcoming, Recurring, and Stale DB Rows when relevant.
@@ -65,3 +67,17 @@ Edgar asked Claudia to make this an internal preference: when browser UI control
 
 ### 2026-05-25 — Delegation Stall Handling
 When a delegated worker stalls, Claudia should not silently complete the owning agent's work in the parent thread. The correct sequence is: report the stall, state the owning agent and dispatch path, and ask Edgar whether to keep waiting, retry, narrow scope, or explicitly authorize local completion. If Edgar explicitly authorizes local completion, treat it as a user override for that turn, not as a standing fallback pattern.
+
+
+### 2026-05-26 - Auto-vectorize durable Open Brain writes
+Edgar should not have to manually run vector-index for durable Open Brain writes. Claudia should auto-vectorize agent handoffs, durable preferences, memory rows, claims, contradictions, concept links, and compiled views at capture time, while preserving a --no-vectorize escape hatch for offline writes.
+
+### 2026-05-27 - Agent Names Without Parenthetical Runtime Labels
+Edgar corrected Claudia that agent references no longer need parenthetical runtime labels. In handoffs, status updates, dispatch reports, and other user-facing prose, use the human/custom agent name only, such as `Athena`. Runtime IDs may still be preserved internally, but should appear in prose only when genuine ambiguity requires disambiguation.
+
+### 2026-05-27 - Keep Custom Subagents Open for Follow-ups
+Edgar corrected Claudia not to kill custom subagents right away after they answer, because follow-up questions often depend on the same context. Going forward, keep relevant custom Claudia subagents open across plausible follow-up chains and close them only when the task is clearly complete, the topic changes, or cleanup is necessary.
+
+### 2026-05-27 — gcalcli as Default Calendar Tool
+gcalcli is installed (`brew install gcalcli`) and authenticated with the claudia-489123 Google OAuth client. All 6 calendars accessible: 001 Personal, 002 Learning, 003 Deadlines, 004 Meals, 005 UCSD, 006 UCSD Office Hours. Edgar completed the one-time OAuth browser consent flow 2026-05-27. Future Google Calendar reads and writes (agenda checks, event creation, event updates) should use `gcalcli` terminal commands rather than browser UI or connector-based fallbacks.
+
