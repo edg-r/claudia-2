@@ -29,7 +29,7 @@ def main():
     # 2. GPCO 410 — International Politics & Security (course_id=2)
     insert_grade(2, 14, "90.0/100.0", "Memo Second Gulf War. Mean: 90.81. High: 96.0. Low: 86.0.") # Memo BLUE
     insert_grade(2, 15, "86.0/100.0", "Memo Myanmar Coup. Mean: 90.94. High: 100.0. Low: 76.0.")    # Memo ORANGE
-    insert_grade(2, 18, "100.0/100.0", "Reported by Edgar. Standard weight: 30%.") # Midterm Exam
+    insert_grade(2, 18, "100.0/100.0", "Reported by Edgar. Mean: 75.3. High: 105.0. Low: 20.0. Standard weight: 30%.") # Midterm Exam
 
     # 3. GPEC 446 — Quantitative Methods 3 (course_id=3)
     insert_grade(3, 10, "20.5/25.0", "Homework I: Opportunity Atlas. Mean: 22.46. High: 25.0. Low: 13.5.") # HW1
