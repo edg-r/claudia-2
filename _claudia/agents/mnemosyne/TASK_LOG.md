@@ -207,8 +207,33 @@ Ran two cross-course queries. First: full open-assignments rundown across GPCO 4
 **Output:** `_claudia/claudia.db`; `_claudia/agents/mnemosyne/TASK_LOG.md`
 **Notes:** Final verification: `embeddings` has 9,136 chunks across 182 source paths, all embedding blobs are 3,072 bytes, `PRAGMA integrity_check` returned `ok`, and Open Brain vector status reports 9,144 total vector items/embeddings/sqlite-vec rows: 9,136 legacy embedding rows plus 3 handoffs, 3 events, and 2 memories. Existing drift remains in the legacy status metric: 182 indexed sources vs. 180 DB-indexable file rows because some embedded sources are outside the current `files` table source set.
 
+### 2026-05-27 - Daily vector DB maintenance
+**Requested by:** Claudia / Edgar
+**What was done:** Re-ran the existing vector maintenance workflow for the legacy course-material embedding table and the Open Brain sqlite-vec layer. Started local Ollama after the first legacy indexing attempt reported it was unavailable; the subsequent run found no new embeddable chunks, migrated no new legacy rows, and skipped all current Open Brain rows.
+**Output:** `_claudia/claudia.db`; `_claudia/agents/mnemosyne/TASK_LOG.md`
+**Notes:** Final verification: `embeddings` remains 9,136 chunks across 182 source paths; Open Brain vector status remains 9,144 vector items/BLOB embeddings/sqlite-vec rows; `PRAGMA integrity_check` returned `ok`; embedding blobs remain uniformly 3,072 bytes; zero Open Brain `embeddings` mirror rows are orphaned. Changed-doc scan found several May 27 course study guides, agent memory files, dispatches, and `edgar/` outputs outside the legacy `files` table scope, so they were not ad hoc-ingested.
+
+### 2026-05-27 — Spring 2026 Projected Grades Calculation and Report
+**Requested by:** Edgar
+**What was done:** Extracted all raw grades, assignment weights, and class statistics across five courses from `_claudia/claudia.db`. Audited course agent memories and syllabus policies to identify grading curves, drop rules, and attendance weights. Performed comprehensive weighted grade projections for GPCO 403, GPCO 410, GPEC 446, GPPS 444, and GPPS 463 under multiple drop/participation scenarios and relative to class means. Generated a highly polished, formatted grade projection briefing artifact with diagnostics (e.g. flagging a 0.0/1.0 attendance quiz in GPPS 463). Verified the exact SQLite query traceback for the GPEC 446 Homework I score (20.5/25.0, class mean 22.46) to ensure database transparency.
+**Output:** Grade projection report artifact written to `/Users/edgar/.gemini/antigravity/brain/2761f606-5ec5-4f96-b9d2-6ec9b4e774ac/grade_projection_report.md`.
+**Notes:** Highlighted strategic high-risk areas (GPPS 463 is currently 6-10% below class means with a critical attendance zero) and provided actionable tactical workback recommendations for Edgar's remaining finals and data project. Traceability checked: Homework I data resides in `grades` table row `id = 12`, referencing `course_id = 3` (GPEC 446) and `assignment_id = 10` (Homework I).
+
 ### 2026-05-28 - Daily vector DB maintenance
 **Requested by:** Claudia / Edgar
 **What was done:** Re-read the Claudia startup and Open Brain/vector maintenance docs, checked the legacy `embeddings` table and Open Brain vector status, started local Ollama when the documented embedding refresh reported it offline, and re-ran the established maintenance path: `python3 _claudia/embeddings.py index`, `python3 _claudia/brain.py migrate-legacy-embeddings --backend auto`, and `python3 _claudia/brain.py vector-index --backend auto`. Verified effective source-of-truth coverage against the `files` table and reading-summary overrides instead of ad hoc ingesting out-of-scope documents.
 **Output:** `_claudia/agents/mnemosyne/TASK_LOG.md`
 **Notes:** No new legacy chunks or Open Brain vectors were needed. Final verification stayed at 9,136 legacy embedding rows across 182 indexed sources and 9,144 Open Brain vector rows with `sqlite-vec` ready and zero orphaned `source_table='embeddings'` mirror rows; `PRAGMA integrity_check` returned `ok`; a vector smoke test for `gcalcli calendar fallback` returned the expected `brain_memories` capability row. Effective changed-source scan found zero modified registered effective sources, one registered PDF that still has no extractable text (`knowledge/obsidian/000 AI Analysis/AI Tools/AI Workflow Reconnaissance for Graduate Work in the Human Sciences 2025-2026.pdf`), and 37 registered file paths now missing on disk.
+
+### 2026-05-28 - Emzingo internship interview background profile
+**Requested by:** Claudia
+**What was done:** Gathered a concise, interview-relevant profile of Edgar's background for an Emzingo internship interview using only local Claudia workspace memory, course memories, database rows, resume material, and representative coursework artifacts.
+**Output:** Returned to Claudia; no content files edited.
+**Notes:** Evidence supports positioning around UCSD GPS global policy training, causal inference and quantitative methods, sociology-based qualitative/mixed-methods grounding, policy memo/data brief writing, Southeast Asia/security/development interests, multilingual/multicultural experience, and student governance/service roles. Private details were intentionally minimized in the handoff.
+
+### 2026-05-28 — GPCO 410 Midterm Grade Sync and Spring Quarter Projections
+**Requested by:** Edgar
+**What was done:** Updated the SQLite database `claudia.db` with Edgar's perfect midterm score of 100/100 (100.0%) for GPCO 410. Regenerated the main HTML dashboard. Recalculated GPCO 410 grade projections (rising to 95.20% raw average of graded work, projecting to a solid A) and overall Spring 2026 GPA across three performance scenarios.
+**Output:** SQLite update in `_claudia/claudia.db`; updated dashboard in `_claudia/dashboard.html`; grade projection report written to `grade_projection_report.md` in the current conversation's brain folder.
+**Notes:** The perfect midterm exam grade (30% weight) shifts GPCO 410 projections into the A/A- curved tier and elevates the quarter GPA projection range to 3.53 - 3.80.
+
