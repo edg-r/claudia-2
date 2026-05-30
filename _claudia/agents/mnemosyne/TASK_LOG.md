@@ -237,3 +237,8 @@ Ran two cross-course queries. First: full open-assignments rundown across GPCO 4
 **Output:** SQLite update in `_claudia/claudia.db`; updated dashboard in `_claudia/dashboard.html`; grade projection report written to `grade_projection_report.md` in the current conversation's brain folder.
 **Notes:** The perfect midterm exam grade (30% weight) shifts GPCO 410 projections into the A/A- curved tier and elevates the quarter GPA projection range to 3.53 - 3.80.
 
+### 2026-05-30 - Daily vector DB maintenance
+**Requested by:** Claudia / Edgar
+**What was done:** Re-discovered the existing vector setup, scanned the configured `files`/`readings` source set for changed, missing, and never-indexed effective sources, started local Ollama, and ran the established maintenance path: `python3 _claudia/embeddings.py index`, `python3 _claudia/brain.py migrate-legacy-embeddings --backend auto`, and `python3 _claudia/brain.py vector-index --backend auto`.
+**Output:** `_claudia/claudia.db`; `_claudia/agents/mnemosyne/TASK_LOG.md`
+**Notes:** Legacy indexer found no new embeddable chunks; the one never-indexed registered Obsidian PDF still has no extractable text. Open Brain migrated zero legacy rows and vector-indexed one pending `brain_memories` row, bringing vector status to 9,145 items/embeddings/sqlite-vec rows: 9,136 legacy embedding mirrors, 3 handoffs, 3 events, and 3 memories. Final checks: `PRAGMA integrity_check` returned `ok`, all legacy embedding blobs are 3,072 bytes, zero null legacy embedding/text/model fields, zero orphaned legacy vector mirrors, and vector smoke query for `gcalcli calendar fallback` returned the expected `brain_memories#2` capability row.
