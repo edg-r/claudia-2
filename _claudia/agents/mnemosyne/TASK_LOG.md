@@ -237,6 +237,12 @@ Ran two cross-course queries. First: full open-assignments rundown across GPCO 4
 **Output:** SQLite update in `_claudia/claudia.db`; updated dashboard in `_claudia/dashboard.html`; grade projection report written to `grade_projection_report.md` in the current conversation's brain folder.
 **Notes:** The perfect midterm exam grade (30% weight) shifts GPCO 410 projections into the A/A- curved tier and elevates the quarter GPA projection range to 3.53 - 3.80.
 
+### 2026-05-29 - Claudia Vector Database Inspection
+**Requested by:** Claudia / Edgar
+**What was done:** Inspected the live vector-related scripts and SQLite schema without mutating the database: legacy `_claudia/embeddings.py`, Open Brain `_claudia/brain.py` vector tables, `_claudia/vector_dashboard_server.py`, `_claudia/vector_dashboard.html`, and current process/port state.
+**Output:** Relay-ready handoff returned to Claudia; no database changes.
+**Notes:** Edgar's "vector database" likely refers to the local `_claudia/claudia.db` vector layer overall: legacy `embeddings` table plus newer Open Brain `brain_vector_items`, `brain_vector_embeddings`, and sqlite-vec `brain_vec0`; dashboard is started with `python3 _claudia/vector_dashboard_server.py` at `http://127.0.0.1:8776`.
+
 ### 2026-05-30 - Daily vector DB maintenance
 **Requested by:** Claudia / Edgar
 **What was done:** Re-discovered the existing vector setup, scanned the configured `files`/`readings` source set for changed, missing, and never-indexed effective sources, started local Ollama, and ran the established maintenance path: `python3 _claudia/embeddings.py index`, `python3 _claudia/brain.py migrate-legacy-embeddings --backend auto`, and `python3 _claudia/brain.py vector-index --backend auto`.
