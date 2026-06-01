@@ -1,5 +1,5 @@
 ---
-name: mindmap-ocr-ingestion
+name: mindmapper
 description: >
   Ingests image-only scanned handwritten mind map PDFs from inbox/, moves and renames
   them, runs native Vision OCR, decodes the spatial conceptual connections, writes
@@ -8,7 +8,7 @@ description: >
   and triggers vector embeddings re-indexing.
 ---
 
-# Mind Map OCR & Ingestion Skill
+# Mind Map OCR & Ingestion Skill (mindmapper)
 
 Use this skill when Edgar drops handwritten mind map PDFs (e.g., "P&S L - [Topic].pdf") in `/Users/edgar/Documents/01 Projects/Claudia/inbox/` and wants them fully integrated into his database and active Obsidian vault. 
 

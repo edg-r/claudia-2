@@ -117,7 +117,7 @@ Workspace skills live in `_claudia/skills/`. Invoke them by reading the skill fi
 - `daily-briefing.md` - Daily morning briefing (weather, calendar, email, action items) - run via Eos
 - `semantic-search.md` - Semantic search across course materials using local embeddings (Ollama + nomic-embed-text)
 - `style-edit.md` - Prose review / line-edit modes - invoked by Calliope
-- `mindmap-ocr-ingestion.md` - Ingest, OCR, and index handwritten scanned mind map notes
+- `mindmapper.md` - Ingest, OCR, and index handwritten scanned mind map notes
 
 ### Codex Procedures
 
