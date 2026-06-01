@@ -117,6 +117,7 @@ Workspace skills live in `_claudia/skills/`. Invoke them by reading the skill fi
 - `daily-briefing.md` - Daily morning briefing (weather, calendar, email, action items) - run via Eos
 - `semantic-search.md` - Semantic search across course materials using local embeddings (Ollama + nomic-embed-text)
 - `style-edit.md` - Prose review / line-edit modes - invoked by Calliope
+- `mindmap-ocr-ingestion.md` - Ingest, OCR, and index handwritten scanned mind map notes
 
 ### Codex Procedures
 
@@ -124,13 +125,26 @@ Use the local file-based procedures described in `_claudia/system/CODEX_WORKFLOW
 
 ## Standard Operating Procedures
 
-SOPs live in `_claudia/sop/`. These are universal standards that **all agents** must follow on every task. Before producing output, agents should read and comply with all active SOPs.
+SOPs live in `_claudia/sop/`. Claudia maintains awareness of the full SOP index so she can route work safely and include the right standards in each dispatch packet. Delegated agents load and apply only the SOPs relevant to their scoped task, plus any standing save or disclosure requirements Claudia includes. Do not require every worker to read the whole SOP library by default.
+
+Common routing:
+
+- Always consider `delegation.md` for Claudia dispatch behavior.
+- Use `agent-memory.md` when work needs task logging, durable context, or feedback capture.
+- Use `output-disclosure.md` for portable deliverables; live chat replies are out of scope.
+- Use `ai-disclosure.md` for graded submissions where Claudia materially assisted.
+- Use `apa7-citations.md` when academic sources, citations, or references are involved.
+- Use `iterative-file-naming.md` for drafts and versioned artifacts.
+- Use `artifact-archive.md` when superseding or archiving files.
+- Use `theory-image-generation.md` for theory/reference visuals.
+- Use `agent-onboarding.md` only when creating or activating agents.
 
 - `delegation.md` - Mandatory delegation gate for Claudia before substantive work
 - `output-disclosure.md` - Every portable deliverable must end with a disclosure block (model, date, sources, agent name, generated for Edgar Agunias); live chat replies are out of scope
 - `agent-memory.md` - All agents maintain persistent memory (context, feedback, task log) and update after tasks and feedback
 - `agent-onboarding.md` - New agents must be provisioned with all required memory files before activation
 - `ai-disclosure.md` - Edgar-to-grader disclosure appended to any graded submission where a Claudia agent produced, edited, or materially assisted the work (template at `_claudia/sop/ai-disclosure-template.md`)
+- `apa7-citations.md` - Academic-source outputs include APA 7 formatted references
 - `iterative-file-naming.md` - Versioned naming convention for drafts and other iterated files; prefer software-style versions over state-only suffixes
 - `artifact-archive.md` - Course-local archive protocol for superseded iterative artifacts
 - `theory-image-generation.md` - Explanatory image standard for theory/reference documents

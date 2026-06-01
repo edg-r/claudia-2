@@ -174,7 +174,8 @@
     {"name": "schedule", "file": "_claudia/skills/schedule.md", "description": "Scheduled task management"},
     {"name": "daily-briefing", "file": "_claudia/skills/daily-briefing.md", "description": "Daily morning briefing (weather, calendar, email, action items)"},
     {"name": "semantic-search", "file": "_claudia/skills/semantic-search.md", "description": "Semantic search via Ollama + nomic-embed-text"},
-    {"name": "style-edit", "file": "_claudia/skills/style-edit.md", "description": "Prose review skill: five modes (full line edit, developmental feedback, targeted style pass, sentence surgery, word-choice consultation). Used primarily by Calliope."}
+    {"name": "style-edit", "file": "_claudia/skills/style-edit.md", "description": "Prose review skill: five modes (full line edit, developmental feedback, targeted style pass, sentence surgery, word-choice consultation). Used primarily by Calliope."},
+    {"name": "mindmap-ocr-ingestion", "file": "_claudia/skills/mindmap-ocr-ingestion.md", "description": "Ingest image-only scanned handwritten mind map PDFs from inbox/, move and rename, run native Vision OCR, decode conceptual connections, save structured notes directly to active iCloud Obsidian vault with confidence properties, update course MOC, log in database files index, and trigger vector embeddings indexing."}
   ],
   "sops": [
     {"name": "delegation", "file": "_claudia/sop/delegation.md", "description": "Mandatory delegation gate before substantive work"},
