@@ -411,6 +411,12 @@ Record of major completed tasks. Read to avoid duplicate work.
 
 ### 2026-05-13 — Regime Type Data Memo rule-guided judgment and civilian-control flag
 **Requested by:** Edgar
+### 2026-05-31 — Full-course GPCO 410 theory reference
+**Requested by:** Claudia
+**What was done:** Built a comprehensive theory reference PDF from the existing midterm theory reference, syllabus extraction, Athena memory, and late-quarter study guides/readings. The guide inventories 19 theory units in syllabus order, gives each theory two pages of space, includes one generated explanatory image per theory, per-unit APA anchors, global references, and a disclosure block.
+**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/GPCO410_theory_reference_v1.0.0.pdf`; `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/build_gpco410_theory_reference.py`; `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/assets/GPCO410_theory_reference_v1.0.0/`; `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/GPCO410_theory_reference_v1.0.0_notes.md`
+**Notes:** Verification: Python compile passed; PDF rebuilt with ReportLab; page count 40; 19 PNG assets generated and embedded on 19 image pages; no blankish pages detected by PyMuPDF; selected pages visually spot-checked. Also updated `THEORIES.md` for W6-W10 concepts and `AGENT_CONTEXT.md` with the new reference location/scope.
+
 **What was done:** Checked the Polity5 codebook, Myanmar extract, data memo folder, and Polity Myanmar country report; then updated the active outline to make Polity's rule-guided component coding explicit and flag that aggregate `polity`/`polity2` has no separate civilian-control-of-coercion component.
 **Output:** `Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md`
 **Notes:** Important wording: Polity did record military-reserved powers in country-report material, so the critique should be framed as an aggregation/component-gap problem rather than coder ignorance.
@@ -491,3 +497,10 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Patched the active PURPLE NATO argument map to name Finland's President Sauli Niinisto and Prime Minister Sanna Marin, plus Sweden's Prime Minister Magdalena Andersson, as the leaders tied to the May 2022 NATO application decision. Added the leader names to the Actor Map, timeline, Finland/Sweden application section, and citation placeholders.
 **Output:** `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Purple Memo - NATO/Purple_Memo_NATO_v1.0.0_argument_map.md`
 **Notes:** Kept the Sweden government-change nuance brief: Andersson is the relevant May 2022 application leader, while Sweden later had a different government during the ratification/accession period.
+
+### 2026-05-31 — GPCO 410 Mindmap Decoding and Lecture Note Ingestion
+**Requested by:** Edgar via Claudia
+**What was done:** Organized the ingestion of 5 scanned handwritten mind map PDFs from the `inbox/` into the weekly folders of **GPCO 410 — International Politics & Security** with clean standardized filenames (Option A). Reconstructed and decoded these 5 handwritten mind maps into detailed conceptual Markdown notes for Weeks 4, 6, 7, 8, and 9, and saved them directly to your Obsidian vault (`knowledge/obsidian/Notes/`). Registered all 10 files in `claudia.db`, updated your course MOC note (`GPCO 410 International Politics and Security.md`), and successfully ran the vector embedding indexing pipeline to make all the decoded handwritten concepts semantically searchable via Ollama!
+**Output:** 5 clean PDF paths, 5 Obsidian Markdown notes, updated MOC at `knowledge/obsidian/Notes/GPCO 410 International Politics and Security.md`, updated SQLite records.
+**Notes:** Decoded mind maps are fully integrated into Obsidian and logged as `markdown` files in the database, allowing immediate concept searches and study prep.
+

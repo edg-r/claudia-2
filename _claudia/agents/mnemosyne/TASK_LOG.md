@@ -171,6 +171,12 @@ Ran two cross-course queries. First: full open-assignments rundown across GPCO 4
 **Output:** Returned to Claudia; no files moved and no study guide generated.
 **Notes:** No clear active course owner found. The article is an American Sociological Review piece on school socialization, social station, inequality, and social reproduction; it does not match current Spring 2026 course reading rows or course-admin extracts. Keep in inbox or ask Edgar whether to file under `knowledge/obsidian/`, a research project, or another non-course reference area.
 
+### 2026-05-31 — GPPS 463 Canvas Source Facts Persistence
+**Requested by:** Claudia / Edgar
+**What was done:** Saved newly verified GPPS 463 Canvas course id 75517 facts for LD12 and LD19 into `_claudia/claudia.db`. Added file rows for the Quang extract, ASPI intro extract, and Canvas verification note; added readings rows for Nguyen Minh Quang (2019) and Wendy Cutler/ASPI (2020); updated existing Hayton/RAND W10 file summaries with Canvas file ids.
+**Output:** `_claudia/claudia.db`; `GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md`
+**Notes:** LD12 is resolved as no discussion post/no required reading/no lecture PDF/no downloadable Canvas source; no assignment or reading row was created. The `readings` schema has no notes/source-status fields, so Canvas provenance is stored in `files.summary`, `agent_logs`, and the course admin knowledge record. `PRAGMA integrity_check` returned `ok`.
+
 ### 2026-05-21 - GPCO 410 PURPLE/NATO memo submission status
 **Requested by:** Claudia / Edgar
 **What was done:** Inspected the `assignments`, `courses`, and `agent_logs` schemas, then joined `assignments` to `courses` to find the matching GPCO 410 PURPLE/NATO memo row. Updated only assignment id 17 (`Analytic Memo — PURPLE (choose 1)`) from `pending` to `submitted`, stamped `submitted_at` and `last_verified_at` as `2026-05-21 12:23:59 PDT`, appended provenance to notes, and inserted a Mnemosyne `agent_logs` row.
@@ -248,3 +254,10 @@ Ran two cross-course queries. First: full open-assignments rundown across GPCO 4
 **What was done:** Re-discovered the existing vector setup, scanned the configured `files`/`readings` source set for changed, missing, and never-indexed effective sources, started local Ollama, and ran the established maintenance path: `python3 _claudia/embeddings.py index`, `python3 _claudia/brain.py migrate-legacy-embeddings --backend auto`, and `python3 _claudia/brain.py vector-index --backend auto`.
 **Output:** `_claudia/claudia.db`; `_claudia/agents/mnemosyne/TASK_LOG.md`
 **Notes:** Legacy indexer found no new embeddable chunks; the one never-indexed registered Obsidian PDF still has no extractable text. Open Brain migrated zero legacy rows and vector-indexed one pending `brain_memories` row, bringing vector status to 9,145 items/embeddings/sqlite-vec rows: 9,136 legacy embedding mirrors, 3 handoffs, 3 events, and 3 memories. Final checks: `PRAGMA integrity_check` returned `ok`, all legacy embedding blobs are 3,072 bytes, zero null legacy embedding/text/model fields, zero orphaned legacy vector mirrors, and vector smoke query for `gcalcli calendar fallback` returned the expected `brain_memories#2` capability row.
+
+### 2026-05-31 — GPCO 410 Lecture Note Ingestion & Vector Indexing
+**Requested by:** Edgar via Claudia
+**What was done:** Orchestrated the ingestion of 5 scanned handwritten mind map PDFs from the `inbox/` into the weekly folders of **GPCO 410 — International Politics & Security** with clean standardized filenames (Option A). Generated 5 detailed Markdown notes reconstructing and decoding the handwritten mind maps for Weeks 4, 6, 7, 8, and 9, and saved them directly to your Obsidian vault (`knowledge/obsidian/Notes/`). Logged all 10 files (5 PDFs + 5 Markdown notes) in `claudia.db`, updated the course MOC note, started local Ollama, and ran the vector embedding indexer to successfully add 13 high-value chunks to your semantic search database!
+**Output:** 5 clean PDF paths, 5 Obsidian Markdown notes, updated MOC at `knowledge/obsidian/Notes/GPCO 410 International Politics and Security.md`, updated SQLite records.
+**Notes:** Coverage is now 190/193 files with 9,224 chunks embedded. Scanned PDFs are skipped from text extraction automatically, while their corresponding Markdown reconstructions are fully indexed and semantically searchable.
+
