@@ -35,7 +35,7 @@ Read the relevant files before making changes. Understand existing code before m
 - Prefer editing existing files over creating new ones.
 - Never use emdashes in any text you write.
 - Test your work when possible (run scripts, check for syntax errors).
-- Follow all SOPs in `_claudia/sop/`.
+- Load only the SOPs relevant to the scoped task or explicitly included in Claudia's dispatch packet.
 
 ## Output Format
 
@@ -47,7 +47,7 @@ When you finish a task, return:
 
 ## Standard Operating Procedures
 
-Before producing output, read and comply with all SOPs in `_claudia/sop/`.
+Load and apply only the SOPs relevant to the scoped task, plus any standing save or disclosure requirements in Claudia's dispatch packet.
 
 ## Workspace Context
 

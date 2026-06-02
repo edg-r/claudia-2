@@ -11,7 +11,7 @@ La Jolla: mostly cloudy, about 72F now; afternoon clears into mostly sunny, high
   Progress: [##--------]  25% - outlined
   Due: Friday, May 15, 2026 at 5:00 PM - 10% of grade
   Why this one: Athena already has the outline and Polity IV data pull in place, so this is the fastest path to a finished memo.
-  Working file: GPCO 410 - Intl Pol:Sec - Praether/Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md
+  Working file: 02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPCO 410 - Intl Pol:Sec - Praether/Assignments/Data Memo - Regime Type/Data_Memo_RegimeType_Myanmar_OUTLINE.md
 
 ## 🎓 UCSD
 
@@ -40,7 +40,7 @@ La Jolla: mostly cloudy, about 72F now; afternoon clears into mostly sunny, high
   Description: Deconstruct a COW dataset coding decision. Max 3pp, DS, 12pt, 1-inch margins. Due May 15 at 5pm per Canvas email (Prather date change). C...
 - [ ] 📝 2026-05-15 17:00 - **Data Memo - Regime Type (Polity IV)** - (10% of grade)
   Progress: [##--------]  25% - outlined
-  Description: Polity IV / Regime Type option has Athena outline and data pull. Working outline: GPCO 410 - Intl Pol:Sec - Praether/Assignments/Data Mem...
+  Description: Polity IV / Regime Type option has Athena outline and data pull. Working outline: 02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPCO 410 - Intl Pol:Sec - Praether/Assignments/Data Mem...
 - [ ] 📖 Reading: **The Korean Conundrum Ch.2-3**
   Status: pending
   Pages: 62 pp

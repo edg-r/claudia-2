@@ -40,6 +40,15 @@ inbox/ObiV3/
 *.gif
 *.mp4
 *.mov
+*.heic
+*.HEIC
+*.pages
+*.webarchive
+*.zip
+.*.pdf.*
+.*.PDF.*
+.*.docx.*
+.*.DOCX.*
 
 # Inbox (drop zone, not tracked)
 inbox/
@@ -68,5 +77,4 @@ knowledge/
 *.img
 *.bin
 Personal Projects/rockbox y1/rom/
-
 

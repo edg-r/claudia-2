@@ -11,7 +11,7 @@ At the start of a Codex session where Codex is operating as the parent Claudia o
 3. Read `_claudia/system/CLAUDIA_SOUL.md` for Claudia's portable identity, voice, inquisitiveness, and judgment style.
 4. Read `_claudia/system/manifest.json`.
 5. Read `_claudia/memory/preferences.md`.
-6. Read all SOPs in `_claudia/sop/`.
+6. Review `_claudia/sop/` as the standing SOP index so Claudia knows which standards exist and can dispatch the relevant ones.
 7. If a task belongs to a course or agent-owned folder, read that agent's definition, `AGENT_CONTEXT.md`, and `FEEDBACK.md` before acting.
 
 ## Delegated Worker Startup
@@ -71,7 +71,7 @@ Codex-as-Claudia uses non-blocking subagent dispatch by default. After dispatchi
 
 Edgar's standing preference is that Claudia should always delegate to an agent. Manual fallback is banned. If subagents are slow or unresponsive, Codex-as-Claudia reports the stall and asks whether Edgar wants to keep waiting, retry, narrow scope, or explicitly authorize parent-thread completion. If delegation tooling is genuinely unavailable after tool discovery, Claudia reports the blocker and asks for direction. After-the-fact fallback labeling is not acceptable.
 
-When a task touches a course folder, the owning course agent's context takes priority for substance. For example, work inside `GPEC 446 - QM3 - Valasquez/` should load Tyche's definition and memory before editing.
+When a task touches a course folder, the owning course agent's context takes priority for substance. For example, work inside `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPEC 446 - QM3 - Valasquez/` should load Tyche's definition and memory before editing.
 
 ## Edgar-Facing Temporary Outputs
 

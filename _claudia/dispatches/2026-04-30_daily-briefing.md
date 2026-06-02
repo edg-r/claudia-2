@@ -59,7 +59,7 @@ Local academic scan used `_claudia/claudia.db`, course memory files, syllabus ex
 - Useful same-day task: confirm the Apr. 29 GPCO 410 ORANGE memo was submitted and that stale DB rows for Apr. 28 posts/checks are not being treated as live work.
 
 **Friday-Sunday bridge**
-- GPPS 463 LD11 discussion post is due Sunday, May 3 at 5:00 PM by syllabus-pattern/course-memory inference. A draft already exists at `GPPS 463 - Pol SEA - Ravanilla/W6 - Vietnam Under Communism/Discussion Post LD11 - Vietnam Under Communism.md`.
+- GPPS 463 LD11 discussion post is due Sunday, May 3 at 5:00 PM by syllabus-pattern/course-memory inference. A draft already exists at `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPPS 463 - Pol SEA - Ravanilla/W6 - Vietnam Under Communism/Discussion Post LD11 - Vietnam Under Communism.md`.
 - Capital One AutoPay is scheduled for Sunday, May 3; not academic, but worth keeping out of the mental clutter pile before exams.
 
 **Monday-Tuesday exam cluster**

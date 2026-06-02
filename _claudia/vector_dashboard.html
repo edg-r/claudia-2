@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Claudia Open Brain Vector Layer Dashboard - Local vector search, indexing stats, and embedding visualizer.">
   <title>Claudia Vector Core</title>
-  
+
   <!-- Premium Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  
+
   <!-- Three.js & OrbitControls for 3D Vector Space Topology Visualizer -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-  
+
   <style>
     :root {
       --ink: #151512;
@@ -24,14 +24,14 @@
       --field: #fbfaf4;
       --paper: #f4f1e7;
       --white: #fffefa;
-      
+
       /* Edgar's Course Accent Palette */
       --blue: #006fba;
       --orange: #f2a000;
       --red: #ef3e33;
       --violet: #6b45a4;
       --green: #4b9f38;
-      
+
       /* Subtle transparent states */
       --line-soft: rgba(21, 21, 18, 0.08);
       --shadow-soft: rgba(21, 21, 18, 0.06);
@@ -39,12 +39,12 @@
     }
 
     * { box-sizing: border-box; }
-    
+
     html {
       background: var(--field);
       scroll-behavior: smooth;
     }
-    
+
     body {
       margin: 0;
       min-height: 100vh;
@@ -241,7 +241,7 @@
       gap: 4px;
       position: relative;
     }
-    
+
     .big-stats::after {
       content: "";
       position: absolute;
@@ -522,7 +522,7 @@
       align-items: start;
       transition: all 300ms ease;
     }
-    
+
     .workspace-explorer.has-inspector {
       grid-template-columns: 1.1fr 0.9fr;
     }
@@ -1012,7 +1012,7 @@
       gap: 12px;
       min-width: 0;
     }
-    
+
     .topology-section::after {
       content: "";
       position: absolute;
@@ -1052,7 +1052,7 @@
       background: #c93229;
       transform: translateY(-1px);
     }
-    
+
     .migration-btn:disabled {
       background: var(--muted);
       cursor: not-allowed;
@@ -1083,7 +1083,7 @@
       white-space: pre-wrap;
       color: rgba(255, 255, 255, 0.9);
     }
-    
+
     .migration-console pre.stderr {
       color: #ff8888;
     }
@@ -1237,7 +1237,7 @@
               <span class="num" id="stat-vector-items">0</span>
               <span class="title">Total Vector Rows</span>
             </div>
-            
+
             <div class="sidebar-stats-list">
               <div class="stat-row">
                 <span>Model</span>
@@ -1298,7 +1298,7 @@
                 <button class="tab-btn active" id="tab-vector" role="tab" aria-selected="true" aria-controls="search-form-container">Vector Search</button>
                 <button class="tab-btn" id="tab-keyword" role="tab" aria-selected="false" aria-controls="search-form-container">Keyword Search</button>
               </div>
-              
+
               <div class="suite-controls">
                 <label for="limit-select" class="label" style="font-size:10px; margin:0; letter-spacing:0.04em;">Limit:</label>
                 <select id="limit-select" class="select-limit" aria-label="Search Result Limit">
@@ -1337,7 +1337,11 @@
                   <span class="course-badge" style="background: var(--ink); color: var(--field); font-size: 10px; font-weight: 900; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">3D Map</span>
                   <h3 id="lbl-topology-heading" style="font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; margin: 0;">3D Vector Space Topology Map</h3>
                 </div>
-                <div style="display: flex; gap: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <div class="tab-group" style="padding: 1px; display: flex; gap: 2px;">
+                    <button class="tab-btn active" id="btn-view-galaxy" style="font-size: 9px; padding: 3px 6px; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 3px;">Galaxy</button>
+                    <button class="tab-btn" id="btn-view-molecular" style="font-size: 9px; padding: 3px 6px; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 3px;">Molecular</button>
+                  </div>
                   <button class="tab-btn" id="btn-toggle-spin" style="font-size: 10px; padding: 4px 8px; border: 1.5px solid var(--ink); cursor: pointer; border-radius: 4px;">Pause Rotate</button>
                   <button class="tab-btn" id="btn-reset-cam" style="font-size: 10px; padding: 4px 8px; border: 1.5px solid var(--ink); cursor: pointer; border-radius: 4px;">Reset View</button>
                 </div>
@@ -1359,7 +1363,7 @@
 
           <!-- Interactive Workspace Split (Results Ledger & Inspector) -->
           <div class="workspace-explorer" id="workspace-explorer-layout">
-            
+
             <!-- Left Side: Result List -->
             <section class="results-ledger-container" aria-label="Search Results">
               <div class="results-ledger" id="results-ledger-box">
@@ -1471,6 +1475,12 @@
     let dashboardStats = null;
     let sseSource = null;
 
+    // View state cache for dynamic redrawing
+    let currentTopologyView = 'galaxy'; // 'galaxy' or 'molecular'
+    let lastLoadedItems = null;
+    let lastIsSearchResults = false;
+    let lastQueryText = '';
+
     // DOM Elements
     const tabVector = document.getElementById('tab-vector');
     const tabKeyword = document.getElementById('tab-keyword');
@@ -1492,7 +1502,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       // Set initial state
       updateSearchFeedback('Ready to query vector layer', 'sqlite-vec');
-      
+
       // Initialize 3D Vector Space Map
       init3DTopology();
 
@@ -1551,7 +1561,7 @@
     function setLiveStatus(state, label) {
       const liveStatus = document.getElementById('live-status');
       const labelText = liveStatus.querySelector('.label-text');
-      
+
       liveStatus.className = 'live-status ' + state;
       labelText.textContent = label;
     }
@@ -1563,16 +1573,16 @@
         const response = await fetch('/api/stats');
         if (!response.ok) throw new Error('API request failed');
         const stats = await response.json();
-        
+
         dashboardStats = stats;
         updateSidebar(stats);
         updateRecentIngestions(stats.recent);
-        
+
         // Populate 3D Topology Map with dense background nodes (500 items max)
         if (stats.topology_nodes && stats.topology_nodes.length) {
           populate3DNodes(stats.topology_nodes, false);
         }
-        
+
         setLiveStatus('connected', 'connected');
       } catch (err) {
         console.error('Error fetching stats:', err);
@@ -1645,7 +1655,7 @@
 
         const distHeader = document.createElement('div');
         distHeader.className = 'dist-header';
-        
+
         const labelSpan = document.createElement('span');
         labelSpan.textContent = label;
         if (COURSE_COLORS[label]) {
@@ -1664,7 +1674,7 @@
         const progressBar = document.createElement('div');
         progressBar.className = 'dist-bar';
         progressBar.style.width = '0%';
-        
+
         // Color distribution bar if course tag matching
         if (COURSE_COLORS[label]) {
           progressBar.style.background = COURSE_COLORS[label];
@@ -1700,14 +1710,14 @@
         const metadata = JSON.parse(item.metadata_json || '{}');
         const course = metadata.course_code || '';
         const sourceTable = item.source_table || '';
-        
+
         const card = document.createElement('div');
         card.className = 'recent-item-card';
         card.addEventListener('click', () => inspectItem(item.id));
 
         const head = document.createElement('div');
         head.className = 'recent-card-head';
-        
+
         const badgeSpan = document.createElement('span');
         if (course) {
           badgeSpan.className = 'course-badge';
@@ -1746,7 +1756,7 @@
       searchSubmitBtn.disabled = true;
       searchSubmitBtn.textContent = "Executing...";
       updateSearchFeedback(`Semantic compiling query...`, '');
-      
+
       resultsLedger.innerHTML = `
         <div style="text-align:center; padding: 48px; color: var(--muted); font-weight:700;">
           <div style="width: 24px; height: 24px; border: 3px solid var(--ink); border-top-color: transparent; border-radius: 50%; display: inline-block; animation: rotating 1s infinite linear; margin-bottom: 12px;"></div>
@@ -1761,9 +1771,9 @@
         const response = await fetch(url);
         if (!response.ok) throw new Error('API search failed');
         const data = await response.json();
-        
+
         const duration = ((performance.now() - startTime) / 1000).toFixed(2);
-        
+
         renderSearchResults(data, q, duration);
       } catch (err) {
         console.error('Error during search:', err);
@@ -1912,7 +1922,7 @@
 
       // Create a regex to match any of the terms
       const regex = new RegExp(`(${terms.join('|')})`, 'gi');
-      
+
       // Let's extract a snippet around the first match to preserve space
       const matchIdx = content.search(regex);
       let snippet = content;
@@ -1925,7 +1935,7 @@
       } else {
         snippet = content.slice(0, 360);
       }
-      
+
       if (content.length > (matchIdx > 120 ? matchIdx + 300 : 360)) {
         append = '...';
       }
@@ -1952,7 +1962,7 @@
       // Toggle workspace state to has-inspector
       workspaceLayout.classList.add('has-inspector');
       inspectorPanel.classList.add('active');
-      
+
       inspectorPanel.innerHTML = `
         <div style="text-align:center; padding:48px; color:var(--muted);">
           <div style="width: 18px; height: 18px; border: 2px solid var(--ink); border-top-color: transparent; border-radius: 50%; display: inline-block; animation: rotating 1s infinite linear; margin-bottom: 8px;"></div>
@@ -1964,7 +1974,7 @@
         const response = await fetch(`/api/vector?id=${itemId}`);
         if (!response.ok) throw new Error('Failed to fetch vector info');
         const vectorDetail = await response.json();
-        
+
         selectedItemRecord = vectorDetail;
         renderInspectorDetails(vectorDetail);
       } catch (err) {
@@ -1993,7 +2003,7 @@
       const course = detail.metadata.course_code || '';
       const sourceTable = detail.source_table || '';
       const kind = detail.metadata.kind || sourceTable.replace('brain_', '');
-      
+
       let badgeHTML = '';
       if (course) {
         badgeHTML = `<span class="course-badge" style="background:${COURSE_COLORS[course] || 'var(--ink)'}; color:${(course === 'GPCO 410' || course === 'GPPS 463') ? 'var(--ink)' : 'white'}">${course}</span>`;
@@ -2083,12 +2093,12 @@
       // Add dynamic hover interactions to bars
       const bars = inspectorPanel.querySelectorAll('.vector-bar');
       const hoverSpan = document.getElementById('viz-hover-value-span');
-      
+
       bars.forEach(bar => {
         bar.addEventListener('mouseenter', (e) => {
           const idx = bar.getAttribute('data-index');
           const val = bar.getAttribute('data-value');
-          // nomic-embed-text has 768 dimensions. We downsample into 96 bins. 
+          // nomic-embed-text has 768 dimensions. We downsample into 96 bins.
           // Stride is 768 / 96 = 8 dimensions per bin.
           const startDim = idx * 8;
           const endDim = startDim + 7;
@@ -2107,25 +2117,25 @@
       const height = 120;
       const barWidth = width / bins.length;
       const baseline = height / 2; // y = 60
-      
+
       // Find max absolute value to scale height
       let maxAbs = 0;
       for (let val of bins) {
         if (Math.abs(val) > maxAbs) maxAbs = Math.abs(val);
       }
       maxAbs = maxAbs || 0.1; // avoid division by zero
-      
+
       let html = `<svg width="100%" height="${height}" viewBox="0 0 ${width} ${height}" style="background: var(--white); border: 1px solid var(--line); border-radius: 4px; overflow: visible;">`;
-      
+
       // Draw baseline
       html += `<line x1="0" y1="${baseline}" x2="${width}" y2="${baseline}" stroke="var(--muted)" stroke-dasharray="2 2" stroke-width="1"/>`;
-      
+
       // Draw bars
       bins.forEach((val, idx) => {
         const x = idx * barWidth;
         const normVal = val / maxAbs; // between -1 and 1
         const barHeight = Math.abs(normVal) * (height / 2 - 10); // scale to fit with 10px padding
-        
+
         let y, fill;
         if (val >= 0) {
           y = baseline - barHeight;
@@ -2136,12 +2146,12 @@
           // negative: sleek orange-red gradient
           fill = `hsl(${15 + idx * 0.3}, 90%, 48%)`;
         }
-        
+
         html += `<rect x="${x + 0.5}" y="${y}" width="${barWidth - 1}" height="${Math.max(1, barHeight)}" fill="${fill}" class="vector-bar" data-index="${idx}" data-value="${val.toFixed(6)}" style="transition: fill 200ms ease;">
           <title>Bin ${idx}: ${val.toFixed(6)}</title>
         </rect>`;
       });
-      
+
       html += `</svg>`;
       return html;
     }
@@ -2150,27 +2160,27 @@
     function init3DTopology() {
       const container = document.getElementById('3d-topology-canvas-container');
       if (!container) return;
-      
+
       const loadingEl = document.getElementById('canvas-loading');
       const tooltipEl = document.getElementById('3d-tooltip');
-      
+
       // Screen Sizing
       const width = container.clientWidth;
       const height = container.clientHeight;
-      
+
       // Scene
       threeScene = new THREE.Scene();
-      
+
       // Camera
       threeCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
       threeCamera.position.set(0, 50, 110);
-      
+
       // Renderer
       threeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       threeRenderer.setSize(width, height);
       threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       container.appendChild(threeRenderer.domElement);
-      
+
       // Controls
       threeControls = new THREE.OrbitControls(threeCamera, threeRenderer.domElement);
       threeControls.enableDamping = true;
@@ -2178,16 +2188,16 @@
       threeControls.maxDistance = 300;
       threeControls.minDistance = 15;
       threeControls.target.set(0, 0, 0);
-      
+
       // Hide loading element when done
       if (loadingEl) loadingEl.style.display = 'none';
-      
+
       // Circular polar concentric grid lines (blueprint feel)
       const circlesGroup = new THREE.Group();
-      const circleMaterial = new THREE.LineBasicMaterial({ 
-        color: 0xd5d1c6, 
-        transparent: true, 
-        opacity: 0.45 
+      const circleMaterial = new THREE.LineBasicMaterial({
+        color: 0xd5d1c6,
+        transparent: true,
+        opacity: 0.45
       });
       for (let r = 20; r <= 80; r += 20) {
         const points = [];
@@ -2199,13 +2209,13 @@
         circlesGroup.add(line);
       }
       threeScene.add(circlesGroup);
-      
+
       // Radial sector lines representing courses
       const axesGroup = new THREE.Group();
-      const axisMaterial = new THREE.LineBasicMaterial({ 
-        color: 0xd5d1c6, 
-        transparent: true, 
-        opacity: 0.25 
+      const axisMaterial = new THREE.LineBasicMaterial({
+        color: 0xd5d1c6,
+        transparent: true,
+        opacity: 0.25
       });
       const courseCount = Object.keys(COURSE_COLORS).length;
       Object.keys(COURSE_COLORS).forEach((course, idx) => {
@@ -2219,17 +2229,42 @@
         axesGroup.add(line);
       });
       threeScene.add(axesGroup);
-      
+
       // Groups for dynamic elements
       threeNodesGroup = new THREE.Group();
       threeLinesGroup = new THREE.Group();
       threeScene.add(threeNodesGroup);
       threeScene.add(threeLinesGroup);
-      
+
       // Lighting
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
       threeScene.add(ambientLight);
-      
+
+      // View toggles: Galaxy vs Molecular
+      const btnViewGalaxy = document.getElementById('btn-view-galaxy');
+      const btnViewMolecular = document.getElementById('btn-view-molecular');
+      if (btnViewGalaxy && btnViewMolecular) {
+        btnViewGalaxy.addEventListener('click', () => {
+          if (currentTopologyView === 'galaxy') return;
+          currentTopologyView = 'galaxy';
+          btnViewGalaxy.classList.add('active');
+          btnViewMolecular.classList.remove('active');
+          if (lastLoadedItems) {
+            populate3DNodes(lastLoadedItems, lastIsSearchResults, lastQueryText);
+          }
+        });
+
+        btnViewMolecular.addEventListener('click', () => {
+          if (currentTopologyView === 'molecular') return;
+          currentTopologyView = 'molecular';
+          btnViewMolecular.classList.add('active');
+          btnViewGalaxy.classList.remove('active');
+          if (lastLoadedItems) {
+            populate3DNodes(lastLoadedItems, lastIsSearchResults, lastQueryText);
+          }
+        });
+      }
+
       // Handle Toggle Spin and Reset Camera buttons
       const btnToggleSpin = document.getElementById('btn-toggle-spin');
       if (btnToggleSpin) {
@@ -2238,7 +2273,7 @@
           btnToggleSpin.textContent = threeIsSpinning ? 'Pause Rotate' : 'Auto Rotate';
         });
       }
-      
+
       const btnResetCam = document.getElementById('btn-reset-cam');
       if (btnResetCam) {
         btnResetCam.addEventListener('click', () => {
@@ -2249,17 +2284,17 @@
           if (btnToggleSpin) btnToggleSpin.textContent = 'Pause Rotate';
         });
       }
-      
+
       // Mouse move event for hovering
       container.addEventListener('mousemove', (e) => {
         const rect = threeRenderer.domElement.getBoundingClientRect();
         threeMouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
         threeMouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-        
+
         // Raycasting for tooltips
         threeRaycaster.setFromCamera(threeMouse, threeCamera);
         const intersects = threeRaycaster.intersectObjects(threeNodesGroup.children);
-        
+
         if (intersects.length > 0) {
           const hoveredObj = intersects[0].object;
           if (threeHoveredNode !== hoveredObj) {
@@ -2267,10 +2302,10 @@
             if (threeHoveredNode) {
               threeHoveredNode.scale.set(1, 1, 1);
             }
-            
+
             threeHoveredNode = hoveredObj;
             threeHoveredNode.scale.set(1.5, 1.5, 1.5);
-            
+
             // Show Tooltip
             const nodeData = threeNodesList.find(n => n.mesh === threeHoveredNode);
             if (nodeData) {
@@ -2286,7 +2321,7 @@
               `;
             }
           }
-          
+
           // Position tooltip
           const xPos = e.clientX - rect.left + 15;
           const yPos = e.clientY - rect.top + 15;
@@ -2302,16 +2337,16 @@
           container.style.cursor = 'grab';
         }
       });
-      
+
       // Mouse click event for selection
       container.addEventListener('click', (e) => {
         const rect = threeRenderer.domElement.getBoundingClientRect();
         threeMouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
         threeMouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-        
+
         threeRaycaster.setFromCamera(threeMouse, threeCamera);
         const intersects = threeRaycaster.intersectObjects(threeNodesGroup.children);
-        
+
         if (intersects.length > 0) {
           const clickedObj = intersects[0].object;
           const nodeData = threeNodesList.find(n => n.mesh === clickedObj);
@@ -2327,7 +2362,7 @@
           }
         }
       });
-      
+
       // Window resize handler
       window.addEventListener('resize', () => {
         const w = container.clientWidth;
@@ -2336,34 +2371,39 @@
         threeCamera.updateProjectionMatrix();
         threeRenderer.setSize(w, h);
       });
-      
+
       // Start Animation Loop
       animate3DTopology();
     }
-    
+
     // Animation Loop
     function animate3DTopology() {
       threeAnimationFrameId = requestAnimationFrame(animate3DTopology);
-      
+
       if (threeIsSpinning) {
         threeNodesGroup.rotation.y += 0.0025;
         threeLinesGroup.rotation.y += 0.0025;
-        
+
         // Also rotate query beacon if present
         if (threeQueryBeacon) {
           threeQueryBeacon.rotation.y += 0.01;
           threeQueryBeacon.rotation.x += 0.005;
         }
       }
-      
+
       threeControls.update();
       threeRenderer.render(threeScene, threeCamera);
     }
-    
+
     // Populate 3D Nodes based on list
     function populate3DNodes(items, isSearchResults = false, queryText = "") {
       if (!threeScene) return; // Wait until initialized
-      
+
+      // Cache values for toggled redrawing
+      lastLoadedItems = items;
+      lastIsSearchResults = isSearchResults;
+      lastQueryText = queryText;
+
       // Clear current groups
       while(threeNodesGroup.children.length > 0) {
         threeNodesGroup.remove(threeNodesGroup.children[0]);
@@ -2376,12 +2416,12 @@
         threeQueryBeacon = null;
       }
       threeNodesList = [];
-      
+
       const courseKeys = Object.keys(COURSE_COLORS);
       const courseCount = courseKeys.length;
-      
+
       // PRE-ALLOCATION OPTIMIZATION:
-      // Instantiating a single geometry and pre-caching material objects eliminates WebGL buffer upload spikes, 
+      // Instantiating a single geometry and pre-caching material objects eliminates WebGL buffer upload spikes,
       // allowing smooth 60 FPS rendering under high point density (e.g. 3,000+ nodes).
       const sharedGeom = new THREE.SphereGeometry(1.2, 6, 5);
       const sharedMaterials = {};
@@ -2389,140 +2429,323 @@
         sharedMaterials[course] = new THREE.MeshBasicMaterial({
           color: new THREE.Color(COURSE_COLORS[course]),
           transparent: true,
-          opacity: 0.92
+          opacity: isSearchResults ? 0.25 : 0.92
         });
       });
       // Visible premium Slate-Grey for system/orphan nodes instead of black/charcoal
       const fallbackMaterial = new THREE.MeshBasicMaterial({
         color: new THREE.Color('#9e9a90'),
         transparent: true,
-        opacity: 0.8
+        opacity: isSearchResults ? 0.2 : 0.8
       });
-      
+
+      // Special high-contrast bright materials for search matches
+      const searchMaterials = {};
+      courseKeys.forEach(course => {
+        searchMaterials[course] = new THREE.MeshBasicMaterial({
+          color: new THREE.Color(COURSE_COLORS[course]),
+          transparent: true,
+          opacity: 1.0
+        });
+      });
+      const searchFallbackMaterial = new THREE.MeshBasicMaterial({
+        color: new THREE.Color('#f2a000'),
+        transparent: true,
+        opacity: 0.95
+      });
+
       // 1. Add Search Query Central Beacon
       if (isSearchResults && queryText) {
         // Glowing double torus / star shape at 0,0,0
         const queryGroup = new THREE.Group();
-        
-        const torusMat = new THREE.MeshBasicMaterial({ 
-          color: 0xf2a000, 
+
+        const torusMat = new THREE.MeshBasicMaterial({
+          color: 0xf2a000,
           wireframe: true,
           transparent: true,
           opacity: 0.8
         });
         const torusGeom1 = new THREE.TorusGeometry(3.5, 0.8, 8, 24);
         const torusGeom2 = new THREE.TorusGeometry(3.5, 0.8, 8, 24);
-        
+
         const mesh1 = new THREE.Mesh(torusGeom1, torusMat);
         const mesh2 = new THREE.Mesh(torusGeom2, torusMat);
         mesh2.rotation.x = Math.PI / 2;
-        
+
         queryGroup.add(mesh1, mesh2);
-        
+
         // Pulsing light source glow
         const coreGeom = new THREE.SphereGeometry(1.8, 8, 8);
         const coreMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
         const core = new THREE.Mesh(coreGeom, coreMat);
         queryGroup.add(core);
-        
+
         threeQueryBeacon = queryGroup;
         threeScene.add(threeQueryBeacon);
       }
-      
-      // 2. Add Node Points
-      items.forEach((item, idx) => {
-        let nodeData;
-        if (isSearchResults) {
-          nodeData = parseSearchResult(item);
-        } else {
-          // stats recent items
-          const metadata = JSON.parse(item.metadata_json || '{}');
-          nodeData = {
-            id: item.id,
-            course: metadata.course_code || '',
-            preview: item.preview || item.content || '',
-            score: null,
-            distance: null
-          };
-        }
-        
-        const course = nodeData.metadata?.course_code || nodeData.course || 'N/A';
-        const courseIdx = courseKeys.indexOf(course) >= 0 ? courseKeys.indexOf(course) : courseCount;
-        const angleBase = (courseIdx / (courseCount + 1)) * Math.PI * 2;
-        
-        // Map to Spherical coordinates
-        let r, theta, phi;
-        const idSeed = parseInt(nodeData.id) || idx;
-        
-        if (isSearchResults) {
-          // Similarity Mapping: radial distance reflects similarity
-          const distVal = nodeData.distance !== null ? nodeData.distance : 0.5;
-          r = 16 + distVal * 55;
-          theta = angleBase + Math.sin(idSeed * 0.7) * 0.22;
-          phi = Math.cos(idSeed * 1.3) * 0.28;
-        } else {
-          // Chronological / Galaxy Mapping: widened radial dispersion for high density (3,000 points)
-          r = 16 + (idx / items.length) * 72;
-          theta = angleBase + Math.sin(idSeed * 0.8) * 0.35;
-          phi = Math.cos(idSeed * 1.5) * 0.35;
-        }
-        
-        // Convert to Cartesian
-        const x = r * Math.cos(phi) * Math.cos(theta);
-        const y = r * Math.sin(phi);
-        const z = r * Math.cos(phi) * Math.sin(theta);
-        
-        // Reuse mesh geometry and material allocation
-        const mat = sharedMaterials[course] || fallbackMaterial;
-        const mesh = new THREE.Mesh(sharedGeom, mat);
-        mesh.position.set(x, y, z);
-        
-        threeNodesGroup.add(mesh);
-        
-        // Add dynamic properties for raycasting
-        threeNodesList.push({
-          id: nodeData.id,
-          course: course,
-          preview: nodeData.preview || nodeData.content || '',
-          score: nodeData.score,
-          mesh: mesh
-        });
-        
-        // 3. Add Similarity lines from beacon to results
-        if (isSearchResults) {
-          const points = [
-            new THREE.Vector3(0, 0, 0),
-            new THREE.Vector3(x, y, z)
-          ];
-          const lineGeom = new THREE.BufferGeometry().setFromPoints(points);
-          const lineMat = new THREE.LineBasicMaterial({
-            color: COURSE_COLORS[course] || 0xd5d1c6,
-            transparent: true,
-            opacity: 0.4
+
+      if (currentTopologyView === 'galaxy') {
+        // -------------------------------------------------------------
+        // GALAXY VIEW (Existing concentric orbital layout)
+        // -------------------------------------------------------------
+        items.forEach((item, idx) => {
+          let nodeData;
+          if (isSearchResults) {
+            nodeData = parseSearchResult(item);
+          } else {
+            const metadata = JSON.parse(item.metadata_json || '{}');
+            nodeData = {
+              id: item.id,
+              course: metadata.course_code || '',
+              preview: item.preview || item.content || '',
+              score: null,
+              distance: null
+            };
+          }
+
+          const course = nodeData.metadata?.course_code || nodeData.course || 'N/A';
+          const courseIdx = courseKeys.indexOf(course) >= 0 ? courseKeys.indexOf(course) : courseCount;
+          const angleBase = (courseIdx / (courseCount + 1)) * Math.PI * 2;
+
+          let r, theta, phi;
+          const idSeed = parseInt(nodeData.id) || idx;
+
+          if (isSearchResults) {
+            const distVal = nodeData.distance !== null ? nodeData.distance : 0.5;
+            r = 16 + distVal * 55;
+            theta = angleBase + Math.sin(idSeed * 0.7) * 0.22;
+            phi = Math.cos(idSeed * 1.3) * 0.28;
+          } else {
+            r = 16 + (idx / items.length) * 72;
+            theta = angleBase + Math.sin(idSeed * 0.8) * 0.35;
+            phi = Math.cos(idSeed * 1.5) * 0.35;
+          }
+
+          const x = r * Math.cos(phi) * Math.cos(theta);
+          const y = r * Math.sin(phi);
+          const z = r * Math.cos(phi) * Math.sin(theta);
+
+          let mat = sharedMaterials[course] || fallbackMaterial;
+          let isMatched = false;
+          if (isSearchResults) {
+            isMatched = nodeData.score && nodeData.score > 0;
+            mat = isMatched ? (searchMaterials[course] || searchFallbackMaterial) : (sharedMaterials[course] || fallbackMaterial);
+          }
+
+          const mesh = new THREE.Mesh(sharedGeom, mat);
+          mesh.position.set(x, y, z);
+          threeNodesGroup.add(mesh);
+
+          threeNodesList.push({
+            id: nodeData.id,
+            course: course,
+            preview: nodeData.preview || nodeData.content || '',
+            score: nodeData.score,
+            mesh: mesh
           });
-          const line = new THREE.Line(lineGeom, lineMat);
-          threeLinesGroup.add(line);
+
+          if (isSearchResults && isMatched) {
+            const points = [
+              new THREE.Vector3(0, 0, 0),
+              new THREE.Vector3(x, y, z)
+            ];
+            const lineGeom = new THREE.BufferGeometry().setFromPoints(points);
+            const lineMat = new THREE.LineBasicMaterial({
+              color: COURSE_COLORS[course] || 0xd5d1c6,
+              transparent: true,
+              opacity: 0.55
+            });
+            const line = new THREE.Line(lineGeom, lineMat);
+            threeLinesGroup.add(line);
+          }
+        });
+      } else {
+        // -------------------------------------------------------------
+        // MOLECULAR VIEW (Interconnected cluster view)
+        // -------------------------------------------------------------
+        const nucleusCenters = {};
+        const R_clusters = 46;
+        const allGroups = [...courseKeys, 'N/A'];
+        allGroups.forEach((group, index) => {
+          const phi_c = (index / allGroups.length) * Math.PI * 2;
+          nucleusCenters[group] = {
+            x: R_clusters * Math.cos(phi_c),
+            y: Math.sin(index * 1.8) * 14,
+            z: R_clusters * Math.sin(phi_c)
+          };
+        });
+
+        // 1. Create Course Nuclei (Primary Atoms)
+        allGroups.forEach(group => {
+          const isRealCourse = courseKeys.includes(group);
+          if (!isRealCourse && items.length > 500) return; // Skip N/A nucleus if high density
+
+          const pos = nucleusCenters[group];
+          const colorHex = COURSE_COLORS[group] || '#9e9a90';
+          const nGeom = new THREE.SphereGeometry(3.0, 12, 10);
+
+          const nMat = new THREE.MeshBasicMaterial({
+            color: new THREE.Color(colorHex),
+            transparent: true,
+            opacity: isSearchResults ? 0.35 : 0.95
+          });
+
+          const nMesh = new THREE.Mesh(nGeom, nMat);
+          nMesh.position.set(pos.x, pos.y, pos.z);
+          threeNodesGroup.add(nMesh);
+
+          threeNodesList.push({
+            id: `nucleus-${group}`,
+            course: group,
+            preview: `Course Nucleus [${group}]. Represents core structural anchor for all mapped concepts in this vector space.`,
+            score: null,
+            mesh: nMesh,
+            isNucleus: true
+          });
+        });
+
+        // Group the vector items by course
+        const itemsByCourse = {};
+        allGroups.forEach(g => { itemsByCourse[g] = []; });
+
+        items.forEach((item, idx) => {
+          let nodeData;
+          if (isSearchResults) {
+            nodeData = parseSearchResult(item);
+          } else {
+            const metadata = JSON.parse(item.metadata_json || '{}');
+            nodeData = {
+              id: item.id,
+              course: metadata.course_code || '',
+              preview: item.preview || item.content || '',
+              score: null,
+              distance: null
+            };
+          }
+          const course = nodeData.metadata?.course_code || nodeData.course || 'N/A';
+          itemsByCourse[course].push(nodeData);
+        });
+
+        // 2. Position Satellites and draw Structural bonds
+        allGroups.forEach(course => {
+          const courseItems = itemsByCourse[course];
+          const nucleus = nucleusCenters[course];
+          const totalInCluster = courseItems.length;
+
+          courseItems.forEach((nodeData, idx) => {
+            const dist = 7.5 + (idx / Math.max(1, totalInCluster)) * 16.5;
+            const theta = (idx * 2.39996) + (parseInt(nodeData.id) || 0) * 0.05;
+            const phi = Math.asin(-1 + 2 * (idx / Math.max(1, totalInCluster)));
+
+            const x = nucleus.x + dist * Math.cos(phi) * Math.cos(theta);
+            const y = nucleus.y + dist * Math.sin(phi);
+            const z = nucleus.z + dist * Math.cos(phi) * Math.sin(theta);
+
+            let mat = sharedMaterials[course] || fallbackMaterial;
+            let isMatched = false;
+            if (isSearchResults) {
+              isMatched = nodeData.score && nodeData.score > 0;
+              mat = isMatched ? (searchMaterials[course] || searchFallbackMaterial) : (sharedMaterials[course] || fallbackMaterial);
+            }
+
+            const mesh = new THREE.Mesh(sharedGeom, mat);
+            mesh.position.set(x, y, z);
+            threeNodesGroup.add(mesh);
+
+            threeNodesList.push({
+              id: nodeData.id,
+              course: course,
+              preview: nodeData.preview || nodeData.content || '',
+              score: nodeData.score,
+              mesh: mesh
+            });
+
+            // Draw Core Bond (Satellite to Nucleus)
+            const points = [
+              new THREE.Vector3(nucleus.x, nucleus.y, nucleus.z),
+              new THREE.Vector3(x, y, z)
+            ];
+            const lineGeom = new THREE.BufferGeometry().setFromPoints(points);
+            const lineMat = new THREE.LineBasicMaterial({
+              color: COURSE_COLORS[course] || 0xd5d1c6,
+              transparent: true,
+              opacity: isSearchResults ? (isMatched ? 0.45 : 0.04) : 0.18
+            });
+            const line = new THREE.Line(lineGeom, lineMat);
+            threeLinesGroup.add(line);
+
+            // Draw Central Beacon Bond if matches search query
+            if (isSearchResults && isMatched) {
+              const queryPoints = [
+                new THREE.Vector3(0, 0, 0),
+                new THREE.Vector3(x, y, z)
+              ];
+              const queryLineGeom = new THREE.BufferGeometry().setFromPoints(queryPoints);
+              const queryLineMat = new THREE.LineBasicMaterial({
+                color: COURSE_COLORS[course] || 0xf2a000,
+                transparent: true,
+                opacity: 0.65
+              });
+              const queryLine = new THREE.Line(queryLineGeom, queryLineMat);
+              threeLinesGroup.add(queryLine);
+            }
+          });
+        });
+
+        // 3. Draw inter-atomic semantic cross-links
+        const maxNodesToLink = Math.min(threeNodesList.length, 250);
+        for (let i = 0; i < maxNodesToLink; i++) {
+          const nodeA = threeNodesList[i];
+          if (nodeA.isNucleus) continue;
+
+          const posA = nodeA.mesh.position;
+          let closestDist = Infinity;
+          let closestNode = null;
+
+          for (let j = i + 1; j < threeNodesList.length; j++) {
+            const nodeB = threeNodesList[j];
+            if (nodeB.isNucleus || nodeA.course !== nodeB.course) continue;
+
+            const posB = nodeB.mesh.position;
+            const d = posA.distanceTo(posB);
+            if (d < closestDist) {
+              closestDist = d;
+              closestNode = nodeB;
+            }
+          }
+
+          if (closestNode && closestDist < 12.0) {
+            const linkPoints = [posA, closestNode.mesh.position];
+            const linkGeom = new THREE.BufferGeometry().setFromPoints(linkPoints);
+            const linkMat = new THREE.LineBasicMaterial({
+              color: 0xd5d1c6,
+              transparent: true,
+              opacity: isSearchResults ? 0.05 : 0.22
+            });
+            const linkLine = new THREE.Line(linkGeom, linkMat);
+            threeLinesGroup.add(linkLine);
+          }
         }
-      });
-      
+      }
+
       // Auto-focus camera on search bounds if search results exist
       if (isSearchResults && items.length > 0) {
         threeIsSpinning = false;
         const btnToggleSpin = document.getElementById('btn-toggle-spin');
         if (btnToggleSpin) btnToggleSpin.textContent = 'Auto Rotate';
-        
+
         // Rotate scene slightly to show lines beautifully
         threeNodesGroup.rotation.set(0, 0, 0);
         threeLinesGroup.rotation.set(0, 0, 0);
-        
+
         // Target query beacon
         threeControls.target.set(0, 0, 0);
-        
+
         // Move camera closer to focus
         gsapToCamera(0, 35, 80);
       }
     }
-    
+
     // Smooth camera transition helper
     function gsapToCamera(x, y, z) {
       let count = 0;
@@ -2530,17 +2753,17 @@
       const startX = threeCamera.position.x;
       const startY = threeCamera.position.y;
       const startZ = threeCamera.position.z;
-      
+
       function step() {
         if (count >= totalSteps) return;
         count++;
         const t = count / totalSteps;
         const ease = t * (2 - t);
-        
+
         threeCamera.position.x = startX + (x - startX) * ease;
         threeCamera.position.y = startY + (y - startY) * ease;
         threeCamera.position.z = startZ + (z - startZ) * ease;
-        
+
         requestAnimationFrame(step);
       }
       step();
@@ -2563,11 +2786,11 @@
           method: 'POST'
         });
         const result = await response.json();
-        
+
         if (result.ok) {
           stdoutLog.textContent += `Success: Migration completed with code ${result.returncode}.\n\n`;
           stdoutLog.textContent += result.stdout || 'No stdout log produced.\n';
-          
+
           if (result.stats) {
             dashboardStats = result.stats;
             updateSidebar(result.stats);

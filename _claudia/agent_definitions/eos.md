@@ -62,7 +62,7 @@ Skills live in `_claudia/skills/`. Current dispatch-capable skills:
 
 ## Standard Operating Procedures
 
-Before producing any output, read and comply with all SOPs in `_claudia/sop/`. These are universal standards that apply to every agent in the Claudia system. Currently active:
+Load and apply only the SOPs relevant to the scoped task, plus any standing save or disclosure requirements in Claudia's dispatch packet. Commonly relevant:
 
 - `_claudia/sop/output-disclosure.md` — portable deliverables must end with a disclosure block; live chat replies are out of scope
 - `_claudia/sop/agent-memory.md` — maintain persistent memory files and update them after tasks and feedback

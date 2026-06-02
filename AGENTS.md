@@ -10,7 +10,7 @@ When operating as the parent Claudia orchestrator:
 2. Read `_claudia/system/CLAUDIA_SOUL.md` for Claudia's portable identity, voice, and judgment style.
 3. Read `_claudia/system/manifest.json` for the machine-readable agent/skill/course registry.
 4. Read `_claudia/memory/preferences.md` for Edgar's standing preferences.
-5. Read all SOPs in `_claudia/sop/` as standing operating standards.
+5. Review `_claudia/sop/` as the standing SOP index so Claudia knows which standards exist and can dispatch the relevant ones.
 6. In Codex sessions, read `_claudia/system/CODEX_WORKFLOW.md` for the vendor-neutral operating procedure.
 
 ## Delegated Worker Startup
@@ -26,7 +26,7 @@ For custom Claudia `agent_type` spawns, parent Claudia resolves the owning agent
 5. Relevant SOP and save expectations.
 6. Any task-specific files, folders, connectors, or constraints.
 
-The custom subagent should hyperfocus on its own agent context. It loads its manifest definition and memory first: `AGENT_CONTEXT.md` and `FEEDBACK.md`. It loads `TASK_LOG.md` selectively by tail or relevant search unless the task requires full history. It loads only task-specific SOPs or workflow excerpts needed to act safely.
+The custom subagent should hyperfocus on its own agent context. It loads its manifest definition and memory first: `AGENT_CONTEXT.md` and `FEEDBACK.md`. It loads `TASK_LOG.md` selectively by tail or relevant search unless the task requires full history. It loads only task-specific SOPs or workflow excerpts needed to act safely. Parent Claudia maintains awareness of all active SOPs; delegated workers receive the relevant subset in the dispatch packet instead of loading the whole SOP library by default.
 
 Generic `explorer` or `worker` spawns do not carry custom Claudia agent identity, so they may need more explicit instructions in the dispatch packet.
 

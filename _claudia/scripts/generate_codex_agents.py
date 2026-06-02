@@ -40,7 +40,7 @@ def parse_frontmatter_and_body(content):
     return frontmatter, body_text
 
 def main():
-    workspace_root = "/Users/edgar/Documents/01 Projects/Claudia"
+    workspace_root = "/Users/edgar/Documents/000 Files"
     definitions_dir = os.path.join(workspace_root, "_claudia", "agent_definitions")
     codex_agents_dir = os.path.join(workspace_root, ".codex", "agents")
     manifest_path = os.path.join(workspace_root, "_claudia", "system", "manifest.json")

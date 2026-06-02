@@ -40,13 +40,13 @@ No academic, administrative, or time-sensitive items in the school inbox today.
 **Collision-day execution (today, in order):**
 
 1. **08:00am — Enter GPPS 463 Midterm 1** with Poseidon's 37-page study guide already internalized. Dutch-colonialism cross-reading flagged as highest-probability SAQ; have the reading-only index cards fresh in mind. Nothing left to pre-study — the guide run is complete.
-2. **12:30pm — Deliver Breitenfeld presentation with Blake Becker.** Swedish brigade depth correction is locked in (6 deep, not 3); ORBAT and raw headcounts are in `GPPS 444 - History of Warfare - Thomas/Presentation - Breitenfeld/Breitenfeld_funding_logistics.md`. Quick review of your speaking beats during the 9:20–11:00am gap is the highest-leverage use of that window.
+2. **12:30pm — Deliver Breitenfeld presentation with Blake Becker.** Swedish brigade depth correction is locked in (6 deep, not 3); ORBAT and raw headcounts are in `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPPS 444 - History of Warfare - Thomas/Presentation - Breitenfeld/Breitenfeld_funding_logistics.md`. Quick review of your speaking beats during the 9:20–11:00am gap is the highest-leverage use of that window.
 3. **11:00am — Attend GPCO 410 Class 7 (Democratic Peace).** This is the class most directly relevant to both new GPCO 410 memos. Take notes specifically on any Cederman/Walter references Prather flags for the Myanmar arc and on how Prather frames Polity IV / regime-type measurement — both feed directly into the Orange and Data memos below.
 4. **2:00pm — Attend GPCO 403 Intl Econ.** Lower priority today; just show up and capture notes.
 
 **GPCO 410 memo groundwork — what to kick off today given Tyche's QM3 HW1 is also running:**
 
-The Orange Myanmar memo (due Wed Apr 29, 11:00am) and the Polity IV Data memo (assumed due Fri May 15, 5:00pm) both have Athena-prepared scaffolding in `GPCO 410 - Intl Pol:Sec - Praether/Assignments/`. Tyche is currently on QM3 HW1 (due Sat Apr 25), so parallel-routing to Athena is clean — no agent contention.
+The Orange Myanmar memo (due Wed Apr 29, 11:00am) and the Polity IV Data memo (assumed due Fri May 15, 5:00pm) both have Athena-prepared scaffolding in `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPCO 410 - Intl Pol:Sec - Praether/Assignments/`. Tyche is currently on QM3 HW1 (due Sat Apr 25), so parallel-routing to Athena is clean — no agent contention.
 
 5. **Confirm the two open admin questions with Prather or the TA after Class 7 at 12:20pm.** (a) Are all four ORANGE options active for Spring 2026? (b) Is the Data Memo deadline actually May 15 at 5:00pm as Canvas shows, or Apr 29 at 11:00am as the syllabus states? These answers shape the Orange timeline and the Data memo runway; ask in-person rather than by email so the answer lands today. Edgar should ask directly — this is not an AI-assisted task.
 6. **Dispatch Athena (after class, ~3:30pm) to lock the Orange Myanmar memo thesis and beat structure** using `outline.md`. Open decisions Athena flagged and is ready to act on: (i) tighter thesis framing — "2010 opening raised risk, 2021 coup realized it" vs the broader arc claim, (ii) Rohingya beat — full 150w beat vs folded into Beat 2, (iii) counterargument pick — stability-narrative (recommended) vs Fearon-Laitin structural, (iv) policy beat — generalizable vs Myanmar-specific. Ten minutes of decisions from Edgar unlocks a full draft.
@@ -70,6 +70,6 @@ The Orange Myanmar memo (due Wed Apr 29, 11:00am) and the Polity IV Data memo (a
 Generated for: Edgar Agunias
 Date: 2026-04-20
 Model: Claude Opus 4.7 (1M context)
-Sources: Google Calendar (all five calendars, 2026-04-20 window), Gmail (edgar.agunias@gmail.com and eagunias@ucsd.edu unread newer_than:2d), web search for La Jolla 92037 weather, `_claudia/sync_timelog.py` output, `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/` (prompt, outline), `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Data Memo - Regime Type/` (prompt, data_plan), prior session logs on Apr 20 collision-day items
+Sources: Google Calendar (all five calendars, 2026-04-20 window), Gmail (edgar.agunias@gmail.com and eagunias@ucsd.edu unread newer_than:2d), web search for La Jolla 92037 weather, `_claudia/sync_timelog.py` output, `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/` (prompt, outline), `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPCO 410 - Intl Pol:Sec - Praether/Assignments/Data Memo - Regime Type/` (prompt, data_plan), prior session logs on Apr 20 collision-day items
 Agent: Eos
 ---

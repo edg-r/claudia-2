@@ -538,3 +538,15 @@ Record of major completed tasks. Read to avoid duplicate work.
 **What was done:** Ran the Eos daily dispatch workflow: synced the time log, regenerated the dashboard, generated the Markdown dispatch with live La Jolla weather, local UCSD Gmail auto-check, Google Calendar connector checks, and personal Gmail connector signal.
 **Output:** `_claudia/dispatches/2026-05-25_daily-dispatch.md`
 **Notes:** UCSD Gmail local OAuth is working again and returned 8 unread inbox messages. Calendar checks found one UCSD event, `GO GPS` 10:00-11:00 in 3107; the personal calendar lookup failed twice with a connector transport error. Personal Gmail connector returned unread items, mainly Capital One updates plus routine LinkedIn/VA messages.
+
+### 2026-06-01 — Obsidian Daily Dispatch
+**Requested by:** Claudia
+**What was done:** Ran the Monday daily dispatch workflow with the daily-briefing skill, NWS La Jolla / UCSD weather, `gcalcli` calendar checks across all six accessible calendars, personal Gmail connector results, UCSD Gmail local-helper diagnostics, and near-term academic load from `_claudia/claudia.db`.
+**Output:** `_claudia/dispatches/2026-06-01_daily-dispatch.md`
+**Notes:** Time tracker sync failed because `admin/GPS_TimeTracker_Spring2026.xlsx - Time Log.csv` was missing, but `_claudia/dashboard.py` succeeded. UCSD Gmail was blocked by `invalid_grant` and needs local gcloud re-auth. The parent-added `Edit and deliver photos` calendar block was visible at 15:30-17:30.
+
+### 2026-06-01 — UCSD Gmail Dispatch Refresh
+**Requested by:** Claudia
+**What was done:** After Edgar completed UCSD Gmail re-auth in the parent thread, reran `_claudia/gmail_dispatch_json.py` and refreshed the UCSD Email section of today's dispatch with live unread inbox messages.
+**Output:** `_claudia/dispatches/2026-06-01_daily-dispatch.md`; `_claudia/agents/eos/AGENT_CONTEXT.md`
+**Notes:** UCSD Gmail now authenticates as `eagunias@ucsd.edu` and returns 8 matching unread inbox messages. Important refreshed items include GPCO 410 office-hours rescheduling, GPEC 446 updated Rda value labels, GPPS 463 grade notifications, SET reminder, Proofpoint digest, and Grad Lounge comment notifications.

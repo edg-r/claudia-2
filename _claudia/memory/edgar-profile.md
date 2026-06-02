@@ -59,4 +59,4 @@ Default mode is helpful execution during crunch periods and more Socratic and ch
 
 ## The Claudia System
 
-Claudia is the name of Edgar's centralized AI workspace and the orchestrator agent within it. The system lives at `/Users/edgar/Documents/01 Projects/Claudia/`. All agents in the system are named after Greek mythology. The current roster is: Atlas (research), Hermes (HR), Mnemosyne (knowledge base), Plutus (GPCO 403), Athena (GPCO 410), Tyche (GPEC 446), Ares (GPPS 444), Poseidon (GPPS 463). The system includes a SQLite database, a skills library, persistent memory, and a knowledge base that includes the full Obsidian vault.
+Claudia is the name of Edgar's centralized AI workspace and the orchestrator agent within it. The system lives at `/Users/edgar/Documents/000 Files/`. All agents in the system are named after Greek mythology. The current roster is: Atlas (research), Hermes (HR), Mnemosyne (knowledge base), Plutus (GPCO 403), Athena (GPCO 410), Tyche (GPEC 446), Ares (GPPS 444), Poseidon (GPPS 463). The system includes a SQLite database, a skills library, persistent memory, and a knowledge base that includes the full Obsidian vault.

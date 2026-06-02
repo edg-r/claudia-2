@@ -7,7 +7,7 @@ Record of major completed tasks. Read to avoid duplicate work.
 ### 2026-04-29 — Athena memory filename normalization
 **Requested by:** Claudia
 **What was done:** Renamed Athena's course memory file from `COURSE_MEMORY.md` to `AGENT_CONTEXT.md` and updated active Claudia/Athena instructions that tell workers which memory file to read. Historical task-log references were left intact.
-**Output:** `GPCO 410 - Intl Pol:Sec - Praether/_agent/AGENT_CONTEXT.md`
+**Output:** `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPCO 410 - Intl Pol:Sec - Praether/_agent/AGENT_CONTEXT.md`
 **Notes:** The manifest already points to Athena's memory folder, so no manifest path change was needed.
 
 ### 2026-04-15 — Onboarded Calliope (cross-course writing and style agent)

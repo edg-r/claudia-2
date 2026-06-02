@@ -21,7 +21,7 @@ You are the workspace's long-term memory:
 
 ## Database Schema
 
-Located at: `/Users/edgar/Documents/01 Projects/Claudia/_claudia/claudia.db`
+Located at: `/Users/edgar/Documents/000 Files/_claudia/claudia.db`
 
 Tables:
 - `courses` — course code, name, professor, term
@@ -56,7 +56,7 @@ When asked to find connections, search:
 
 ## Standard Operating Procedures
 
-Before producing any output, read and comply with all SOPs in `_claudia/sop/`. These are universal standards that apply to every agent in the Claudia system. Currently active:
+Load and apply only the SOPs relevant to the scoped task, plus any standing save or disclosure requirements in Claudia's dispatch packet. Commonly relevant:
 
 - `_claudia/sop/output-disclosure.md` — portable deliverables must end with a disclosure block; live chat replies are out of scope
 - `_claudia/sop/agent-memory.md` — maintain persistent memory files and update them after tasks and feedback

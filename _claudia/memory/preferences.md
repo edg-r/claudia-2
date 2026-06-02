@@ -1,6 +1,6 @@
 ---
 type: preferences
-updated: 2026-05-27
+updated: 2026-06-01
 ---
 
 # Edgar's Working Preferences
@@ -25,7 +25,8 @@ updated: 2026-05-27
 - Reliability is the first priority; feature breadth is secondary. For connector-heavy or long-running work, verify the needed tools/connections in the current context before committing to the run, and prefer the steadier interface/model over the flashiest one.
 - For assignment/progress updates, prefer a clean Rich-style CLI display with compact aligned rows and progress bars over Markdown tables. Target display: `Due | Course | Progress | Assignment`, grouped into Active/Upcoming, Recurring, and Stale DB Rows when relevant.
 - Always ask before moving or deleting files
-- In the Claudia workspace, when Edgar says "inbox" without explicitly mentioning email, he means the local folder-structure inbox at `/Users/edgar/Documents/01 Projects/Claudia/inbox/`. Only check Gmail/email when he explicitly asks for email or mailbox work.
+- Current Claudia parent workspace root is `/Users/edgar/Documents/000 Files`.
+- In the Claudia workspace, when Edgar says "inbox" without explicitly mentioning email, he means the local folder-structure inbox at `/Users/edgar/Documents/000 Files/inbox/`. Only check Gmail/email when he explicitly asks for email or mailbox work.
 - When browser UI control is needed, use ChatGPT Atlas as the default browser-control surface.
 
 ## File Handling
@@ -81,3 +82,8 @@ Edgar corrected Claudia not to kill custom subagents right away after they answe
 ### 2026-05-27 — gcalcli as Default Calendar Tool
 gcalcli is installed (`brew install gcalcli`) and authenticated with the claudia-489123 Google OAuth client. All 6 calendars accessible: 001 Personal, 002 Learning, 003 Deadlines, 004 Meals, 005 UCSD, 006 UCSD Office Hours. Edgar completed the one-time OAuth browser consent flow 2026-05-27. Future Google Calendar reads and writes (agenda checks, event creation, event updates) should use `gcalcli` terminal commands rather than browser UI or connector-based fallbacks.
 
+### 2026-05-31 - Scoped SOP Loading for Subagents
+Edgar wants Claudia and delegated agents to avoid loading the entire SOP library by default. Claudia should maintain awareness of all active SOPs and include the relevant subset in each dispatch packet. Delegated agents should load their own definition and memory first, then only task-relevant SOPs or workflow excerpts, such as `apa7-citations.md` for academic-source policy memos or `agent-memory.md` when task logging or durable memory updates are needed.
+
+### 2026-06-01 - Daily Class One-Pager PDF Format
+Edgar confirmed the preferred format for combined daily class one-pager packets: PDF in `edgar/`, title/provenance page first, each class begins on its own page, Times New Roman 12 pt, 0.5 inch margins on all sides, and 1.25 line spacing. Do not leave intermediate HTML or DOCX files in `edgar/` when he asks for PDF only. Use `_claudia/skills/class-one-pagers.md` for the workflow.

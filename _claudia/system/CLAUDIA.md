@@ -76,11 +76,15 @@ Claudia/
 |   |   |-- hermes/                  <- Hermes's context, feedback, task log
 |   |   `-- eos/                     <- Eos's context, feedback, task log
 |   `-- base/                        <- cross-class knowledge exports
-|-- admin/                           <- cross-cutting, non-course admin files
+|-- 01 Projects/                     <- active finite projects
+|-- 02 Areas/                        <- ongoing responsibilities and active course areas
+|   `-- 2025-2027 UCSD GPS/
+|       `-- 2026-4 Spring Quarter/   <- active Spring 2026 course folders
+|-- 03 Resources/                    <- reference material and reusable assets
 |-- inbox/                           <- drop files here for sorting
 |-- edgar/                           <- temporary Edgar-facing outputs awaiting end-of-day sorting
 |-- _claudia/agent_definitions/      <- canonical agent definition files
-`-- [Course Folders]/
+`-- 02 Areas/2025-2027 UCSD GPS/[Quarter]/[Course Folder]/
     |-- _agent/                      <- each course agent's private memory
     `-- Study Guides/                <- mini study guides, explainers, and short concept briefs
 ```

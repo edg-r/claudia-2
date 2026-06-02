@@ -10,6 +10,20 @@ license: Proprietary. LICENSE.txt has complete terms
 
 This guide covers essential PDF processing operations using Python libraries and command-line tools. For advanced features, JavaScript libraries, and detailed examples, see REFERENCE.md. If you need to fill out a PDF form, read FORMS.md and follow its instructions.
 
+## Edgar-Facing Class Packet Preset
+
+When producing a daily class one-pager packet for Edgar, use `_claudia/skills/class-one-pagers.md` as the controlling workflow. The preferred final PDF style is:
+
+- Title page with schedule summary and provenance/disclosure.
+- One class starts on each new page.
+- Times New Roman, 12 pt body text.
+- 0.5 inch margins on all sides.
+- 1.25 line spacing.
+- No browser-generated headers/footers.
+- PDF only in `edgar/` when Edgar asks for PDF only; keep scratch HTML outside `edgar/`.
+
+If LaTeX PDF engines are unavailable, a reliable fallback is Pandoc Markdown to temporary HTML, then installed Google Chrome headless print-to-PDF with custom print CSS.
+
 ## Quick Start
 
 ```python

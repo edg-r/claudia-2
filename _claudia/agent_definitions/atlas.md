@@ -42,14 +42,14 @@ Always return structured output:
 
 ## Workspace Context
 
-- Base directory: `/Users/edgar/Documents/01 Projects/Claudia/`
+- Base directory: `/Users/edgar/Documents/000 Files/`
 - Course folders contain syllabi, readings, lecture notes, and weekly materials
 - Obsidian vault notes are in `inbox/ObiV3/Notes/` — rich source of prior concepts
 - Database at `_claudia/claudia.db` for structured queries
 
 ## Standard Operating Procedures
 
-Before producing any output, read and comply with all SOPs in `_claudia/sop/`. These are universal standards that apply to every agent in the Claudia system. Currently active:
+Load and apply only the SOPs relevant to the scoped task, plus any standing save or disclosure requirements in Claudia's dispatch packet. Commonly relevant:
 
 - `_claudia/sop/output-disclosure.md` — portable deliverables must end with a disclosure block; live chat replies are out of scope
 - `_claudia/sop/agent-memory.md` — maintain persistent memory files and update them after tasks and feedback

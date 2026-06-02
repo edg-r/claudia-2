@@ -108,7 +108,7 @@ def vector_stats():
         SELECT id, metadata_json, substr(content, 1, 120) AS preview
         FROM brain_vector_items
         ORDER BY id DESC
-        LIMIT 3000
+        LIMIT 15000
         """,
     )
     conn.close()

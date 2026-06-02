@@ -14,19 +14,19 @@
 | 2026-04-15 | Study Guides folder rollout: create `Study Guides/` in all 5 course folders, move 2 Ares files out of `GPPS 444/_agent/`, update CLAUDE.md directory tree and add Study Guides Convention section | 5x `[Course]/Study Guides/`, `GPPS 444/Study Guides/chevauchee_explainer.md`, `GPPS 444/Study Guides/ch5_new_weapons_new_tactics_1pager.md`, `CLAUDE.md` | Complete -- all 5 folders created idempotently, both files moved (sources gone, targets present), CLAUDE.md tree updated and new "Study Guides Convention" section inserted between Inbox Protocol and Skills Available. Convention: per-course Study Guides for single-course material; `_claudia/study_guides/` reserved for cross-class |
 | 2026-04-16 | Embedding pipeline delta refresh | `_claudia/claudia.db` (embeddings table) | Complete -- delta detection worked: 117 files skipped unchanged, 20 new/modified indexed. Corpus 133 -> 144 files, 6,410 -> 7,482 chunks (+1,072). Biggest delta was QM3 with 11 files / 1,053 chunks. Flags: `Mastering 'Metrics` double-indexed in DB (two rows, same PDF path, needs Mnemosyne dedupe); 7 files uncovered (scan-only PDFs: Keegan Flesh, Breitenfeld, Diamond, Acemoglu Dutch-in-Indonesia, several GPCO 410 readings; 1 encrypted RAND 2020 needs `cryptography>=3.1`). Two pypdf "wrong pointing object" warnings on QM3 L1/L5 slides but both indexed successfully. |
 | 2026-04-16 | Triton Food Pantry schedule lookup (image OCR fallback) | Chat reply to Claudia | Complete -- Gmail MCP returns plaintext only so newsletter's embedded schedule image was not extractable. Pulled canonical Spring Quarter 2026 schedule from UCSD Basic Needs website, cross-verified against Week 3 newsletter reopening language. Student Center A: Mon 11:00-7:30, Wed 9:30-6:30, Thu 1:00-7:00, Fri 5:30-7:30 (closed Tue/Sat/Sun). Graduate Housing (One Miramar): Tue 11:00-7:00, Wed 1:30-4:30, Thu 4:30-7:30, Fri 1:00-4:30, Sat 9:30-1:30 (closed Mon/Sun). Third location coming to New Marshall Buildings, hours TBA. |
-| 2026-04-20 | Accept all tracked changes + strip comments from QM3 HW1 docx | `GPEC 446 - QM3 - Valasquez/Assignments/Homework 1/HW1_Agunias.docx` | Complete -- LibreOffice unavailable on this machine, so used direct OOXML manipulation via lxml (zipfile + XML rewrite). Accepted 33 `<w:ins>` (unwrapped), removed 33 `<w:del>` blocks, handled paragraph-mark deletions by merging into next paragraph, stripped 31 comment ranges/references and dropped `word/comments*.xml` + `word/people.xml` parts plus their Content_Types Overrides and document.xml.rels Relationships. Also stripped `rPrChange`/`pPrChange`/etc. revision metadata. Verified: zero residual ins/del/delText/commentRangeStart/commentReference markers, python-docx opens cleanly, 253 paragraphs / 2 tables / 2 image relationships preserved. Originals `HW1_Agunias_ORIGINAL.docx` and `HW1_Agunias_TRACKED.docx` left intact. |
+| 2026-04-20 | Accept all tracked changes + strip comments from QM3 HW1 docx | `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPEC 446 - QM3 - Valasquez/Assignments/Homework 1/HW1_Agunias.docx` | Complete -- LibreOffice unavailable on this machine, so used direct OOXML manipulation via lxml (zipfile + XML rewrite). Accepted 33 `<w:ins>` (unwrapped), removed 33 `<w:del>` blocks, handled paragraph-mark deletions by merging into next paragraph, stripped 31 comment ranges/references and dropped `word/comments*.xml` + `word/people.xml` parts plus their Content_Types Overrides and document.xml.rels Relationships. Also stripped `rPrChange`/`pPrChange`/etc. revision metadata. Verified: zero residual ins/del/delText/commentRangeStart/commentReference markers, python-docx opens cleanly, 253 paragraphs / 2 tables / 2 image relationships preserved. Originals `HW1_Agunias_ORIGINAL.docx` and `HW1_Agunias_TRACKED.docx` left intact. |
 | 2026-04-16 (night) | Dashboard April calendar rendering bug: only 4 columns visible | `_claudia/dashboard.html` line 178 | Complete -- root cause was `grid-template-columns: repeat(7, 1fr)` on `.cal-grid` where `1fr` = `minmax(auto, 1fr)` treats intrinsic min-content as a width floor. `.cal-event` children have `white-space: nowrap`, so long event titles ballooned columns 2-4 to 400-500px each, consuming the 1400px container and pushing Thu/Fri/Sat past x=1457 where `overflow: hidden` (for corner-cell border-radius clipping) silently hid them. Fix: `repeat(7, minmax(0, 1fr))` drops the intrinsic-min-content floor. Long titles now clip via the existing `text-overflow: ellipsis` on line 197. Verified headless Chrome 1440x900 across April 2026, May 2026, March 2027, June 2027 - all 7 tracks render at exactly 199px. Pattern for future CSS-Grid work on layouts with nowrap text children: `minmax(0, 1fr)` is the correct default; plain `1fr` is a footgun. |
 
 ### 2026-04-19 — GPEC 446 Homework 1 build - stream idle timeout
 **Requested by:** Claudia (after Tyche stalled twice)
 **What was done:** Dispatched on opus to build QM3 Homework 1 end-to-end: write hw1_build.R, iterate until it runs clean, wrap in HW1_Agunias.Rmd, knit HTML, convert to PDF via Chrome headless. Explicit guidance to avoid Read on the 44MB atlas.csv. Ran ~9 minutes across 12 tool calls, then stream idle timeout with nothing written to disk.
-**Output:** none - `GPEC 446 - QM3 - Valasquez/Assignments/Homework 1/` still contains only the instructions docx and raw CSV.
+**Output:** none - `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPEC 446 - QM3 - Valasquez/Assignments/Homework 1/` still contains only the instructions docx and raw CSV.
 **Notes:** Failure was not CSV-read-related; likely long silent compute windows (R package install, read.csv on 44MB, rmarkdown::render, Chrome print) stacked past the 600s watchdog. Going forward, split this class of build into sub-three-minute phases and drive execution from the main conversation between phases rather than inside one subagent session. Full pattern captured in `project_subagent_stream_timeouts_2026-04-19.md` in Claudia memory.
 
 ### 2026-04-20 — Accept All Track Changes on HW1 docx
 **Requested by:** Claudia (on Edgar's instruction)
 **What was done:** Accepted all 33 tracked insertions and removed all 33 deletions in `HW1_Agunias_TRACKED.docx`, stripped 31 comment ranges/references, dropped `word/comments*.xml` and `word/people.xml` parts plus their `[Content_Types].xml` Overrides and `document.xml.rels` Relationships, removed revision-metadata nodes (`rPrChange`, `pPrChange`). Wrote the clean result as canonical `HW1_Agunias.docx`. Used direct OOXML manipulation via `lxml` + `zipfile` since LibreOffice is not installed on this machine — the docx skill's `accept_changes.py` recipe depends on LO.
-**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 1/HW1_Agunias.docx` (clean canonical).
+**Output:** `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPEC 446 - QM3 - Valasquez/Assignments/Homework 1/HW1_Agunias.docx` (clean canonical).
 **Notes:** Verified 0 `w:ins`, 0 `w:del`, 0 `w:delText`, 0 `w:commentRangeStart`, 0 `w:commentReference` residuals. 253 paragraphs, 2 tables, 2 image relationships preserved. Stored the lxml + zipfile script pattern for future track-accept jobs on this machine.
 
 ### 2026-04-23 — Calendar timeblocking for Thu/Fri work push
@@ -38,7 +38,7 @@
 ### 2026-04-27 — GPEC 446 Homework 1 Codex R cleanup and compiled answers
 **Requested by:** Edgar
 **What was done:** Updated the Codex copy of `Homework_1_Codex.R` to save all generated tables and figures to disk, including the Q4 OVB table, Q7-Q9 fixed-effects table, open-question table, IV table, and code-understanding glossary. Then created a compiled Markdown answer document with bracketed artifact labels for tables and images.
-**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 1 - codex/Homework_1_Codex.R`, `README.md`, `Homework_1_Answers_Compiled.md`, plus generated HTML/PNG artifacts.
+**Output:** `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPEC 446 - QM3 - Valasquez/Assignments/Homework 1 - codex/Homework_1_Codex.R`, `README.md`, `Homework_1_Answers_Compiled.md`, plus generated HTML/PNG artifacts.
 **Notes:** `Rscript Homework_1_Codex.R` runs successfully. Important statistical note preserved in the compiled answers: in the interaction model, the `-0.442` poverty coefficient is the majority-white slope; the majority-non-white implied slope is `-0.442 + 0.306 = -0.136`.
 
 ### 2026-04-27 — Codex transition hardening for Claudia
@@ -75,7 +75,7 @@
 **Requested by:** Edgar
 **What was done:** Removed the scoped Claude Code support surfaces and updated active Claudia docs so agent definitions are Codex-only through `_claudia/agent_definitions/`. Removed `definition_legacy` and legacy agent-definition directory metadata from the manifest while keeping `CLAUDE.md` as a deprecated pointer.
 **Output:** Deleted `.claude/.DS_Store`, `.claude/settings.local.json`, `.claude/commands/save.md`, and `.claude/agents/`; updated `AGENTS.md`, `_claudia/system/CLAUDIA.md`, `_claudia/system/CODEX_WORKFLOW.md`, `_claudia/system/README.md`, `_claudia/system/manifest.json`, `_claudia/sop/agent-onboarding.md`, and `_claudia/agent_definitions/hermes.md`.
-**Notes:** Assignment artifacts in `GPEC 446 - QM3 - Valasquez/Assignments/Homework 1 - claude/` were intentionally left untouched. `CLAUDE.md` remains as the deprecated legacy pointer.
+**Notes:** Assignment artifacts in `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPEC 446 - QM3 - Valasquez/Assignments/Homework 1 - claude/` were intentionally left untouched. `CLAUDE.md` remains as the deprecated legacy pointer.
 ### 2026-04-28 — Dashboard Deadline Field Support
 **Requested by:** Claudia / Edgar
 **What was done:** Updated `_claudia/dashboard.py` to derive the current academic week from the local date, read optional normalized assignment deadline fields, serialize due times/source metadata to the dashboard, use local browser dates for today highlighting, and use due time when computing matrix urgency. Regenerated `_claudia/dashboard.html`.
@@ -114,19 +114,19 @@
 ### 2026-05-03 - GPCO 403 midterm reference enlarged-visual build
 **Requested by:** Claudia / Edgar
 **What was done:** Updated the GPCO 403 ReportLab builder from v1.4.1 to v1.4.2 so the small main-page visual slot becomes a pointer and each theory page is followed by an enlarged visual page. Ran syntax, build, PDF metadata, outline/text, image-object, and rendered-page checks.
-**Output:** `GPCO 403 - Intl Econ - Handley/Study Guides/build_midterm_theory_reference.py`; `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.4.2.pdf`; `GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.4.2_notes.md`.
+**Output:** `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPCO 403 - Intl Econ - Handley/Study Guides/build_midterm_theory_reference.py`; `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.4.2.pdf`; `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPCO 403 - Intl Econ - Handley/Study Guides/GPCO 403_Midterm_Theory_Reference_v1.4.2_notes.md`.
 **Notes:** Removed incidental `Study Guides/__pycache__/` after `py_compile`; no staging or commit performed.
 
 ### 2026-05-18 - GPEC 446 Homework 2 Part II RDD implementation
 **Requested by:** Edgar via Claudia/Tyche
 **What was done:** Created a reproducible Part II R script for the Maimonides Rule RDD, inspected `grade5.dta`, generated the enrollment histogram and cutoff plots, estimated manual local-linear discontinuities, installed and ran `rdrobust` in a project-local output library, and ran a disadvantaged-covariate smoothness falsification test.
-**Output:** `GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/Homework_2_Part_II_rdd.R`; `GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/PART_II_NOTES.md`; `GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/outputs/part_ii/`
+**Output:** `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/Homework_2_Part_II_rdd.R`; `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/PART_II_NOTES.md`; `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPEC 446 - QM3 - Valasquez/Assignments/Homework 2/outputs/part_ii/`
 **Notes:** Stayed inside the Part II write scope and did not edit Part I or the combined report. `rdrobust` emitted mass-point warnings because `school_enrollment` is integer-valued; this is flagged for Tyche's interpretation.
 
 ### 2026-05-03 - GPCO 410 Midterm Flashcard HTML
 **Requested by:** Claudia / Edgar
 **What was done:** Created a standalone direct-open HTML/CSS/JS flashcard drill tool for the 11 GPCO 410 midterm theory entries. Fronts show theory title plus smaller italic author/source line; backs give 2-3 sentence exam-useful essences.
-**Output:** `GPCO 410 - Intl Pol:Sec - Praether/Study Guides/gpco410_midterm_flashcards.html`
+**Output:** `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPCO 410 - Intl Pol:Sec - Praether/Study Guides/gpco410_midterm_flashcards.html`
 **Notes:** Verified the file exists and contains 11 title, author, and essence records, plus keyboard controls and internal output disclosure.
 
 ### 2026-05-04 - Graduate Student Lounge GPSA PPTX
@@ -222,7 +222,7 @@
 ### 2026-05-10 - GPPS 463 Midterm 2 theory reference visual-page build
 **Requested by:** Claudia
 **What was done:** Updated the GPPS 463 Midterm 2 ReportLab builder to insert one paired explanatory visual page after each numbered theory/framework section, using the matching workspace PNG and a concise mechanism, key-assumption, and strength/limit caption. Regenerated the PDF and verified page count, outlines, TOC annotations, embedded image XObjects, and caption text extraction.
-**Output:** `GPPS 463 - Pol SEA - Ravanilla/Study Guides/build_midterm_2_theory_reference.py`; `GPPS 463 - Pol SEA - Ravanilla/Study Guides/GPPS_463_Midterm_2_Theory_Reference_v1.0.0.pdf`
+**Output:** `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPPS 463 - Pol SEA - Ravanilla/Study Guides/build_midterm_2_theory_reference.py`; `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPPS 463 - Pol SEA - Ravanilla/Study Guides/GPPS_463_Midterm_2_Theory_Reference_v1.0.0.pdf`
 **Notes:** PDF increased from 25 to 35 pages, with 10 visual-page bookmarks and 10 embedded image XObjects. Existing image assets were referenced in place and not overwritten.
 
 ### 2026-05-11 - Obsidian daily dispatch generator
@@ -374,3 +374,50 @@
 **What was done:** Extended `_claudia/gmail_dispatch_json.py` from a daily-dispatch-only helper into a small CLI for the UCSD Gmail account, with `profile`, `search`, `read`, and `dispatch` commands. Fixed Gmail API query encoding so metadata headers return correctly.
 **Output:** `_claudia/gmail_dispatch_json.py`; `_claudia/claudia.db`; `_claudia/agents/mnemosyne/AGENT_CONTEXT.md`
 **Notes:** Verified `python3 _claudia/gmail_dispatch_json.py profile` authenticates as `eagunias@ucsd.edu`, `search "emzingo newer_than:180d -in:spam -in:trash" --full` reads the Emzingo interview invitation, and `dispatch --max-results 2 --newer-than 2d` returns real subjects/senders. Added `email_accounts` rows for UCSD Email via local gcloud CLI and Personal Gmail via Codex connector.
+
+### 2026-05-28 - Freeform Sync Automation Refinement and LaunchAgent Setup
+**Requested by:** parent
+**What was done:** Refined `_claudia/scripts/freeform_sync.py` to support new course mapping shorthands: 'polsea' and 'politics of sea' mapping to 'GPPS 463 - Pol SEA - Ravanilla' (ID: 5), and 'p&s', 'pol/sec', and 'pol:sec' mapping to 'GPCO 410 - Intl Pol:Sec - Praether' (ID: 2). Excluded prior-term class boards 'qm1', 'qm 1', 'qm2', or 'qm 2' from matching 'GPEC 446 - QM3 - Valasquez', routing them to 'Personal Projects' instead. Wrote a macOS LaunchAgent plist at `/Users/edgar/Library/LaunchAgents/com.claudia.freeformsync.plist` to run the sync script every 15 minutes or when the Freeform database (`boards.db` or `Snapshot.plist`) changes, using the explicit `/Library/Frameworks/Python.framework/Versions/3.13/bin/python3` interpreter. Loaded, enabled, and kickstarted the background daemon with launchctl, verifying its successful execution in `_claudia/dispatches/freeform_sync.log`.
+**Output:** `_claudia/scripts/freeform_sync.py`; `/Users/edgar/Library/LaunchAgents/com.claudia.freeformsync.plist`; `_claudia/dispatches/freeform_sync.log`
+**Notes:** Verification logs confirmed that boards containing 'PolSEA' and 'P&S' successfully map to their Spring 2026 classes, while 'QM1' and 'QM2' boards route to Personal Projects.
+
+### 2026-05-29 - 3D Molecular Map view for Open Brain vector dashboard
+**Requested by:** Edgar
+**What was done:** Added an interactive 3D Molecular Map view to the local Open Brain vector dashboard (`_claudia/vector_dashboard.html`). Created a view toggle in the 3D Map panel, clustered vector items around a large, glowing central "nucleus atom" representing the course, added core atomic structural bonds (lines from satellite nodes to nucleus), and implemented proximity-based semantic cross-links. Fully optimized for high point density (3,000+ nodes) and search result lighting.
+**Output:** `_claudia/vector_dashboard.html`; `_claudia/vector_dashboard_server.py`
+**Notes:** Changes are active immediately as the local Python server dynamically reads the HTML file on every page request. Verification confirms seamless toggles between Galaxy and Molecular layouts, active hover/click highlights, and search result gravities. Increased the topology nodes database query limit in `_claudia/vector_dashboard_server.py` from 3,000 to 15,000 and restarted the background daemon on port 8776 so that all 9,135+ vector points are rendered in both 3D visualization views.
+
+### 2026-06-01 - Claudia workspace parent folder path audit
+**Requested by:** Edgar via Claudia
+**What was done:** Updated active hard-coded Claudia workspace paths from `/Users/edgar/Documents/01 Projects/Claudia` to `/Users/edgar/Documents/000 Files` across agent definitions, helper scripts, course utility scripts, skill instructions, and active memory/profile references. Preserved historical old-root paths in prior task logs as provenance.
+**Output:** `_claudia/agent_definitions/*.md`; `.codex/agents/*.toml`; `_claudia/scripts/validate_codex_agents.py`; `_claudia/scripts/purge_old_sync.py`; `_claudia/scripts/freeform_ui_sync.py`; `_claudia/scripts/generate_codex_agents.py`; `_claudia/scripts/download_qm3_data_project.py`; `_claudia/skills/mindmapper.md`; `_claudia/agents/hephaestus/AGENT_CONTEXT.md`; `_claudia/memory/edgar-profile.md`; selected course scripts and README files with live absolute paths.
+**Notes:** Verified active scripts compile and Codex agent TOML validation passes. Hidden-file scan included `.codex/agents/`. Remaining stale root hits are historical task-log entries only. The external LaunchAgent plist path recorded in memory was not present at `/Users/edgar/Library/LaunchAgents/com.claudia.freeformsync.plist` during this audit.
+
+### 2026-06-01 - PARA workspace reorganization
+**Requested by:** Edgar
+**What was done:** Reorganized the workspace into PARA: active projects moved under `01 Projects/`, active Spring 2026 course folders moved under `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/`, ongoing admin/personal finance material moved into `02 Areas/`, and reference material moved into `03 Resources/`. Updated Claudia manifest paths, course-agent definitions, generated Codex custom subagent configs, database course/file/reading paths, dashboard output, and Freeform routing for the new layout.
+**Output:** `01 Projects/`; `02 Areas/`; `03 Resources/`; `_claudia/system/manifest.json`; `_claudia/system/CLAUDIA.md`; `_claudia/agent_definitions/*.md`; `.codex/agents/*.toml`; `_claudia/claudia.db`; `_claudia/dashboard.html`; `_claudia/scripts/validate_codex_agents.py`; `_claudia/scripts/freeform_ui_sync.py`; `_claudia/scripts/purge_old_sync.py`; `_claudia/agents/hephaestus/AGENT_CONTEXT.md`
+**Notes:** Did not spawn subagents per Edgar's instruction. Verified all 11 custom subagent TOML files parse, match manifest agents, and point to existing memory folders with `AGENT_CONTEXT.md`, `FEEDBACK.md`, and `TASK_LOG.md`. Verified manifest and DB course paths resolve, Python scripts compile, root-level course/admin/Personal Projects shells are gone, and active stale path scans are clean. Some historical task-log entries still contain old `/Users/edgar/Documents/01 Projects/Claudia` provenance paths.
+
+### 2026-06-01 - Post-PARA database path validation
+**Requested by:** Edgar
+**What was done:** Rechecked `_claudia/claudia.db` after Edgar moved additional folders. Updated unambiguous moved paths for the Obsidian knowledge base, GPSA, GPS planning, CalFresh, internship/career files, Breitenfeld assets, course readings, and other uniquely matched indexed files.
+**Output:** `_claudia/claudia.db`; regenerated `_claudia/dashboard.html`
+**Notes:** SQLite integrity check returned `ok`; foreign key check returned no rows; all course folders resolve; all 11 custom subagent memory paths validate; all `readings.file_path` and `readings.summary_path` rows resolve. Remaining unresolved DB `files.path` rows: 10 stale file-index records for missing generated/legacy artifacts, mostly GPCO 403 Data Brief 1 files, legacy Athena `Claudia/` memory mirror rows, and one old Obsidian generated flashcard note.
+
+### 2026-06-01 - External project archive cleanup
+**Requested by:** Edgar
+**What was done:** Confirmed completed `01 Projects/` folders were moved outside the workspace, removed the empty local `01 Projects/` shell, marked the remaining project file-index row as `ARCHIVED_OUTSIDE_WORKSPACE/...`, and regenerated the dashboard.
+**Output:** `_claudia/claudia.db`; `_claudia/dashboard.html`
+**Notes:** No local DB rows still point to `01 Projects/%`. SQLite integrity check returned `ok`. The remaining unresolved local `files.path` rows are the same 10 stale generated/legacy records identified during post-PARA DB validation.
+### 2026-06-01 - Mac mini infrastructure scaffold
+**Requested by:** Claudia
+**What was done:** Added a minimal `_claudia/infra/` scaffold for the Mac mini canonical operations setup, including bootstrap, daily maintenance, Syncthing ignore policy, launchd example, and runbook.
+**Output:** `_claudia/infra/README.md`; `_claudia/infra/bootstrap_mac_mini.sh`; `_claudia/infra/daily_maintenance.sh`; `_claudia/infra/syncthing_ignore_template.txt`; `_claudia/infra/launchd/com.claudia.daily-maintenance.plist.example`
+**Notes:** Scaffold only. No packages installed, no LaunchAgents loaded, and no destructive file operations performed.
+
+### 2026-06-01 - Mac mini macOS-native infrastructure revision
+**Requested by:** Claudia
+**What was done:** Revised `_claudia/infra/` so the default Mac mini setup uses macOS-native File Sharing / SMB, SSH, Screen Sharing, Time Machine, launchd, optional Shortcuts, and selected iCloud Drive outputs. Kept Syncthing as an optional later full-mirror path.
+**Output:** `_claudia/infra/README.md`; `_claudia/infra/bootstrap_mac_mini.sh`; `_claudia/infra/macos_native_setup_checklist.md`; `_claudia/infra/syncthing_ignore_template.txt`
+**Notes:** Documentation and safe script messaging only. No package installs, LaunchAgent loading, file deletion, or system-changing commands performed.

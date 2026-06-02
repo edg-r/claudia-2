@@ -125,7 +125,7 @@ Ran two cross-course queries. First: full open-assignments rundown across GPCO 4
 
 ### 2026-05-11 - GPCO 410 Regime Type data memo DB status correction
 **Requested by:** Claudia / Edgar
-**What was done:** Verified that `GPCO 410 - Intl Pol:Sec - Praether/Assignments/Data Memo - Regime Type/` contains a working outline and completed Polity5 Myanmar data pull. Updated `_claudia/claudia.db` assignment id 31 from `pending` to `outlined`, recorded the outline/data-pull note, set `last_verified_at` to `2026-05-11`, and inserted file-index rows for the outline and Myanmar CSV if absent.
+**What was done:** Verified that `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPCO 410 - Intl Pol:Sec - Praether/Assignments/Data Memo - Regime Type/` contains a working outline and completed Polity5 Myanmar data pull. Updated `_claudia/claudia.db` assignment id 31 from `pending` to `outlined`, recorded the outline/data-pull note, set `last_verified_at` to `2026-05-11`, and inserted file-index rows for the outline and Myanmar CSV if absent.
 **Output:** `_claudia/claudia.db`; `_claudia/dispatches/2026-05-11_daily-dispatch.md`; Obsidian copy at `000 ARCHIVES/Daily/2026-05-11_daily-dispatch.md`
 **Notes:** Assignment ids 29 COW and 30 PRIO remain pending because the found artifacts belong to the Regime Type / Polity IV option only.
 
@@ -156,7 +156,7 @@ Ran two cross-course queries. First: full open-assignments rundown across GPCO 4
 ### 2026-05-15 - GPCO 410 Regime Type data memo completion
 **Requested by:** Edgar
 **What was done:** Updated `_claudia/claudia.db` assignment id 31 (`Data Memo — Regime Type (Polity IV)`) from `drafting` to `completed` after Edgar confirmed the data memo is done. Stamped `submitted_at` and `last_verified_at` as `2026-05-15 12:45 PDT` and inserted a matching `agent_logs` row.
-**Output:** `_claudia/claudia.db`; `GPCO 410 - Intl Pol:Sec - Praether/_agent/ASSIGNMENTS.md`
+**Output:** `_claudia/claudia.db`; `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPCO 410 - Intl Pol:Sec - Praether/_agent/ASSIGNMENTS.md`
 **Notes:** Assignment ids 29 and 30 remain `alternate_option`; only the selected Regime Type data memo row was closed.
 
 ### 2026-05-17 - T-Mobile Inbox Plan Scan
@@ -174,7 +174,7 @@ Ran two cross-course queries. First: full open-assignments rundown across GPCO 4
 ### 2026-05-31 — GPPS 463 Canvas Source Facts Persistence
 **Requested by:** Claudia / Edgar
 **What was done:** Saved newly verified GPPS 463 Canvas course id 75517 facts for LD12 and LD19 into `_claudia/claudia.db`. Added file rows for the Quang extract, ASPI intro extract, and Canvas verification note; added readings rows for Nguyen Minh Quang (2019) and Wendy Cutler/ASPI (2020); updated existing Hayton/RAND W10 file summaries with Canvas file ids.
-**Output:** `_claudia/claudia.db`; `GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md`
+**Output:** `_claudia/claudia.db`; `02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPPS 463 - Pol SEA - Ravanilla/Course Admin/syllabus_extracted.md`
 **Notes:** LD12 is resolved as no discussion post/no required reading/no lecture PDF/no downloadable Canvas source; no assignment or reading row was created. The `readings` schema has no notes/source-status fields, so Canvas provenance is stored in `files.summary`, `agent_logs`, and the course admin knowledge record. `PRAGMA integrity_check` returned `ok`.
 
 ### 2026-05-21 - GPCO 410 PURPLE/NATO memo submission status

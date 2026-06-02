@@ -65,8 +65,8 @@ To restore an archived file, copy it from the archive path back to the relevant 
 Example:
 
 ```bash
-cp "GPCO 410 - Intl Pol:Sec - Praether/.archive/orange_memo_myanmar/Orange_Memo_Myanmar_v3.1.0_working_cederman-actor-preferences.docx" \
-  "GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/"
+cp "02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPCO 410 - Intl Pol:Sec - Praether/.archive/orange_memo_myanmar/Orange_Memo_Myanmar_v3.1.0_working_cederman-actor-preferences.docx" \
+  "02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPCO 410 - Intl Pol:Sec - Praether/Assignments/Orange Memo - Myanmar/"
 ```
 
 ## Git and Binary Files

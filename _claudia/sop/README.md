@@ -1,11 +1,23 @@
 ---
 name: sop-index
-description: Index of standard operating procedures that apply to all agents
+description: Index of standard operating procedures available to Claudia and delegated agents
 ---
 
 # Standard Operating Procedures (SOP)
 
-This folder contains procedures and standards that **all agents** in the Claudia system must follow. Every agent should reference this folder and comply with its contents regardless of their specialization.
+This folder contains procedures and standards available to the Claudia system. Parent Claudia maintains awareness of the full index so she can route work safely. Delegated agents load and apply only the SOPs relevant to their scoped task, plus any standing save or disclosure requirements included in the dispatch packet.
+
+## Calling SOPs
+
+- `delegation.md` is primarily for Claudia's dispatch behavior and worker handoff expectations.
+- `agent-memory.md` applies when work needs task logging, durable context, or feedback capture.
+- `output-disclosure.md` applies to portable deliverables, not routine live chat replies.
+- `ai-disclosure.md` applies to graded submissions where Claudia materially assisted.
+- `apa7-citations.md` applies when academic sources, citations, or references are involved.
+- `iterative-file-naming.md` applies to drafts and versioned artifacts.
+- `artifact-archive.md` applies when superseding or archiving files.
+- `theory-image-generation.md` applies to theory/reference visuals.
+- `agent-onboarding.md` applies only when creating or activating agents.
 
 ## Active SOPs
 

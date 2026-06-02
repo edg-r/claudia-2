@@ -173,7 +173,7 @@ def main():
     print("Successfully loaded Data Project page!")
     
     # Create the target directory
-    target_dir = "/Users/edgar/Documents/01 Projects/Claudia/GPEC 446 - QM3 - Valasquez/Assignments/Data Project"
+    target_dir = "/Users/edgar/Documents/000 Files/02 Areas/2025-2027 UCSD GPS/2026-4 Spring Quarter/GPEC 446 - QM3 - Valasquez/Assignments/Data Project"
     os.makedirs(target_dir, exist_ok=True)
     print(f"Target directory created: {target_dir}")
     

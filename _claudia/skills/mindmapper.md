@@ -10,7 +10,7 @@ description: >
 
 # Mind Map OCR & Ingestion Skill (mindmapper)
 
-Use this skill when Edgar drops handwritten mind map PDFs (e.g., "P&S L - [Topic].pdf") in `/Users/edgar/Documents/01 Projects/Claudia/inbox/` and wants them fully integrated into his database and active Obsidian vault. 
+Use this skill when Edgar drops handwritten mind map PDFs (e.g., "P&S L - [Topic].pdf") in `/Users/edgar/Documents/000 Files/inbox/` and wants them fully integrated into his database and active Obsidian vault.
 
 This workflow translates visual, handwritten, and spatial concept maps into highly structured, semantically indexable academic notes.
 

@@ -51,3 +51,10 @@ Durable findings: (1) the named-author forkable-infrastructure pattern is now th
 **What was done:** As Atlas / EmzingoU Researcher B, independently checked current public sources for EmzingoU / Emzingo Group, the NexGen Leadership Program in Peru/Lima, GPS Careers relevance, public corroboration, risks, and application implications.
 **Output:** Returned concise verifier handoff in chat.
 **Notes:** Public sources corroborate company existence, B Corp certification, Peru operating geography, graduate-student social-impact consulting positioning, and some third-party university/employer-platform references. The exact GPS Careers / 12twenty posting remains inaccessible without login and needs peer verification against the private posting.
+
+### 2026-05-28 — Emzingo / EmzingoU Peru internship interview research
+**Requested by:** Claudia
+**What was done:** Conducted current web research on Emzingo and EmzingoU, including company mission, B Corp status, Peru/NexGen programming, experiential-learning and social-impact consulting model, likely internship responsibilities, stakeholders, and interview angles for Edgar's mixed-methods/global policy background. Checked current Emzingo pages, B Lab profile, LinkedIn/current internship signals, UCSD GPS prior Emzingo internship writeups, and Peru macro/social context sources.
+**Output:** Returned relay-ready handoff to Claudia in chat.
+**Status:** returned to Claudia.
+**Notes:** Public sources strongly support Emzingo's current Peru programming and internship model, but the exact private internship posting/interview scope still needs verification against GPS Careers/12twenty or the recruiter/interviewer.

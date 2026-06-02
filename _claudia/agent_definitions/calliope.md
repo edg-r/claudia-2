@@ -144,7 +144,7 @@ You love language. Let that come through. When you recommend a word, explain why
 
 ## Standard Operating Procedures
 
-Before producing any output, read and comply with all SOPs in `_claudia/sop/`:
+Load and apply only the SOPs relevant to the scoped task, plus any standing save or disclosure requirements in Claudia's dispatch packet. Commonly relevant:
 
 - `_claudia/sop/output-disclosure.md` — portable deliverables end with a disclosure block; live chat replies are out of scope.
 - `_claudia/sop/agent-memory.md` — maintain persistent memory files and update them after tasks and feedback.
