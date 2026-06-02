@@ -20,6 +20,7 @@ __pycache__/
 
 # Raw connector exports
 _claudia/dispatch_inputs/
+_claudia/dispatches/*.log
 
 # Obsidian vault (large, synced separately)
 inbox/ObiV3/
@@ -59,6 +60,21 @@ knowledge/
 # Temporary files
 *.tmp
 *~
+scratch/
+.codex/config.toml
+
+# Nested repos and local archive/resource areas
+02 Areas/ThriftStoreDirectory/
+02 Areas/UCSD/2025-2027 UCSD GPS/2025-8 Fall Quarter /
+02 Areas/UCSD/2025-2027 UCSD GPS/2026-1 Winter Quarter/
+03 Resources/100 Print Media/
+03 Resources/200 Music/
+03 Resources/300 Coding/
+03 Resources/400 Photography/
+03 Resources/AI Skills/
+03 Resources/Color Theory/
+03 Resources/NotabilityToMarkdown/
+03 Resources/Spanish/
 
 # R session workspaces (large, machine-local)
 .RData
@@ -77,4 +93,3 @@ knowledge/
 *.img
 *.bin
 Personal Projects/rockbox y1/rom/
-

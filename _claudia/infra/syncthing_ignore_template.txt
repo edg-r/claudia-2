@@ -1,0 +1,45 @@
+// Optional Claudia Syncthing ignore template
+// Syncthing is not the default Mac mini infrastructure path.
+// If a full mirror is enabled later, place these rules in the Syncthing ignore editor for /Users/edgar/Documents/000 Files.
+
+// macOS metadata
+.DS_Store
+**/.DS_Store
+**/Icon?
+
+// Python and local build caches
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/.venv/
+**/venv/
+
+// Node and web build caches
+**/node_modules/
+**/.next/
+**/dist/
+**/build/
+
+// Local logs and transient outputs
+_claudia/infra/logs/
+_claudia/dispatches/*.log
+**/*.tmp
+**/*.swp
+**/*~
+
+// App and sync conflict artifacts
+**/*.syncthing.*
+**/*sync-conflict*
+**/* conflicted copy*
+
+// Keep these synced intentionally:
+// _claudia/agents/
+// _claudia/agent_definitions/
+// _claudia/scripts/
+// _claudia/skills/
+// _claudia/sop/
+// _claudia/system/
+// course folders under 02 Areas/
+// reference folders under 03 Resources/

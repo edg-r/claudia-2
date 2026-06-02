@@ -1,0 +1,2851 @@
+REPORT
+
+Reengaging the
+
+Asia-Pacific on Trade: A
+
+TPP Roadmap for the
+
+Next U.S. Administration
+
+Wendy Cutler
+Reengaging the
+
+Asia-Pacific on Trade:
+
+A TPP Roadmap for the
+
+Next U.S. Administration
+
+WENDY CUTLER
+
+SEPTEMBER 2020
+
+A REPORT OF THE ASIA SOCIETY POLICY INSTITUTE
+With a solution-oriented mandate, the Asia Society Policy Institute (ASPI) tackles major policy challenges
+
+confronting the Asia-Pacific in security, prosperity, sustainability, and the development of common norms and
+
+values for the region. The Asia Society Policy Institute is a think- and do-tank designed to bring forth policy
+
+ideas that incorporate the best thinking from top experts in Asia and to work with policymakers to integrate
+
+these ideas and put them into practice.
+
+ABOUT THE AUTHORS
+
+Wendy Cutler
+
+is vice president of the Asia Society Policy Institute (ASPI) and the managing director of its
+
+Washington D.C. office. She joined ASPI following an illustrious career of nearly three decades as a diplomat
+
+and negotiator in the Office of the U.S. Trade Representative (USTR), including serving as Acting Deputy U.S.
+
+Trade Representative. In that capacity, she worked on a range of U.S. trade negotiations and initiatives in the
+
+Asia-Pacific region, including the Trans-Pacific Partnership (TPP) agreement and the bilateral negotiations with
+
+Japan. She also was the Chief Negotiator to the U.S.-Korea (KORUS) Free Trade Agreement
+.
+
+The author would like to thank Andrew Chatzky and Juan Machado for their assistance in the research and
+
+preparation of this report.
+
+The Asia Society Policy Institute and the Asia Society take no institutional positions on matters of public policy
+
+and other issues addressed in the reports and publications they sponsor. All statements of fact and expressions
+
+of opinion contained in this report are the sole responsibility of its authors and may not reflect the views of the
+
+organization and its board, staff, and supporters.
+
+© 2020 The Asia Society. All rights reserved.
+
+New York
+
+725 Park Avenue
+
+New York, NY 10021
+
++1 212 288 6400
+
+Washington, D.C.
+
+1779 Massachusetts Avenue NW, Suite 805
+
+Washington, D.C. 20036
+
++1 202 833 2742
+
+The Asia Society Policy Institute
+
+Web: AsiaSociety.org/Policy-Institute
+
+Twitter: @AsiaPolicy
+
+Facebook: facebook.com/AsiaPolicy
+
+Email: policyinstitute@asiasociety.org
+
+cover
+
+image
+
+:
+
+Workers unload bags of chemicals at a port in Zhangjiagang in China's eastern Jiangsu province on August 7, 2018 - JOHANNES EISELE/
+
+AFP via Getty Images; Employees on the assembly line produce cars in Mazda's "Family" line of vehicles in Haikou, Hainan Province, China on April 6,
+
+2005 -
+
+China Photos/Getty Images.
+FOREWORD
+
+4
+
+EXECUTIVE SUMMARY
+
+6
+
+1.
+
+INTRODUCTION
+
+8
+
+2.
+
+RECENT DEVELOPMENTS IN THE REGIONAL
+
+10
+
+TRADE LANDSCAPE
+
+U.S. Exit from the TPP
+
+A New Path in the Shadow of TPP
+
+Shift to a Bilateral Approach
+
+Recent Asia-Pacific Trade Trends
+
+3.
+
+OPTIONS FOR U.S. REENGAGEMENT WITH THE
+
+17
+
+CPTPP COUNTRIES
+
+Option 1: Returning to the Original TPP
+
+Option 2: Acceding to the CPTPP
+
+Option 3: Renegotiating the CPTPP
+
+Option 4: Pursuing Interim Sectoral Deals
+
+4.
+
+DOMESTIC AND TRADING PARTNER CONSIDERATIONS
+
+22
+
+The Changing U.S. Views on Trade
+
+The Views of CPTPP Member Countries
+
+5.
+
+A TPP ROAD MAP FOR THE INCOMING U.S.
+
+27
+
+ADMINISTRATION
+
+CONTENTS
+4
+
+|
+
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+FOREWORD
+
+WHOEVER OCCUPIES THE OVAL OFFICE NEXT YEAR WILL FACE CHALLENGES
+
+that seemed
+
+unimaginable only four years ago. Chief among them will be how to keep the COVID-19 pandemic in
+
+check while steering an economic recovery. However, another challenge that the American president will
+
+have to navigate has been on the horizon for decades—the economic rise of Asia, and China in particular,
+
+coupled with rapid technological innovation, all of which have radically transformed the global economy.
+
+The extent of this transformation will require the next administration to fundamentally rethink the
+
+U.S. economic and strategic relationship with the Asia-Pacific region as a whole. Indeed, in the next few
+
+years, the United States will have to decide how it will engage with this new Asia, just as it had to find its
+
+footing as a global leader in the years leading up to World War II and after the fall of the Soviet Union.
+
+This is not a task for the fainthearted. But thankfully, there is a template that can serve as a baseline,
+
+at least in the trade and economic sphere.
+
+In February 2016, the United States signed the Trans-Pacific Partnership (TPP) agreement with 11
+
+other countries that together accounted for some 40 percent of the world economy. The agreement, like
+
+any trade deal, was far from perfect. But it established a common set of high-standard trade and invest-
+
+ment rules for the region in areas such as intellectual property protection, e-commerce, market access,
+
+labor, and the environment.
+
+As we all know, President Donald Trump withdrew from the TPP during his first week in office.
+
+But, as this report argues, the TPP framework is still the best bet for the United States to “redefine the
+
+terms of engagement with the region on trade and economic issues.”
+
+This report realistically outlines the main U.S. options for working with the economies that are
+
+members of the Comprehensive and Progressive Agreement for Trans-Pacific Partnership (CPTPP),
+
+which was ultimately concluded without U.S. participation.
+
+In assessing the feasibility of these options, this report draws on one of the Asia Society Policy Insti-
+
+tute’s core strengths: its relationships with top experts in the Asia-Pacific. My colleagues at the Institute,
+
+led by our Vice President, Wendy Cutler (a former Acting U.S. Deputy Trade Representative), spoke to
+
+a dozen current and former trade officials from across the region to understand whether, and under what
+
+conditions, their capitals would welcome U.S. reentry into the CPTPP. This view beyond Washington is
+
+critical, as foreign policy is not conducted in a vacuum absent the perspective of others—something that
+
+is often missing from other commentary in this field.
+
+The report concludes by outlining a road map for how the next administration could reenter the
+
+CPTPP specifically, and how it could structure its reengagement on trade with the Asia-Pacific more
+
+broadly. It addresses the domestic and international challenges facing the next administration as it works
+
+through its own trade policy. At the same time, the report considers how seemingly small initial steps,
+
+such as a sectoral agreement with the CPTPP countries on an important issue such as digital trade, trade
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+|
+
+5
+
+in medical and other essential products, and trade and the environment/climate, would help reestablish
+
+U.S. leadership in the region and pave the way for the U.S. reentry into the CPTPP.
+
+We hope that the next U.S. administration, whether Republican or Democratic, will find this report
+
+a useful and thought-provoking contribution.
+
+The Honorable Kevin Rudd AC
+
+President, Asia Society Policy Institute
+
+26th Prime Minister of Australia
+6
+
+|
+
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+EXECUTIVE SUMMARY
+
+IN THE AFTERMATH OF A PRESIDENTIAL ELECTION,
+
+it’s not unusual for an incoming adminis-
+
+tration to revisit policy choices made by the previous administration or, in the case of reelection, during
+
+the first term. One decision that strongly merits another look after November is the U.S. withdrawal
+
+from the Trans-Pacific Partnership (TPP), a regional trade agreement that the United States signed with
+
+11 other countries in 2016. In addition to eliminating tariffs, the TPP established high-standard rules in
+
+areas critical to the global economy, such as e-commerce, intellectual property protection, state-owned
+
+enterprises, labor, and the environment, promoting an alternative economic model to state-led capitalism
+
+in the region.
+
+In recent years, the case for U.S. participation in the TPP has only become more compelling as the
+
+political and economic importance of the Asia-Pacific region has grown and concerns about Beijing’s
+
+economic model have mounted. East Asia is bouncing back from the COVID-19 pandemic before the
+
+rest of the world, and deepening economic ties with the engines of global growth will be an even more
+
+valuable proposition in the midst of a deep recession. Moreover, the pandemic has revealed serious
+
+vulnerabilities in supply chain networks, and the common standards and rules of the TPP can serve as
+
+the basis for establishing trusted supply chains in the region. But is there a path for the United States to
+
+return to the TPP or to join the Comprehensive and Progressive Agreement for Trans-Pacific Partnership
+
+(CPTPP), which the 11 remaining countries finalized without the United States?
+
+This report examines four options that the next administration would have for reengaging the
+
+CPTPP countries on trade: returning to the original TPP agreement, formally acceding to the CPTPP,
+
+seeking a broader renegotiation with the CPTPP as a baseline, or working on a narrower sectoral deal
+
+as an immediate, interim step. It then assesses the feasibility of each option based on domestic consider-
+
+ations and developments, as well as input from the CPTPP countries.
+
+Domestically, a policy window may be opening for CPTPP reentry. Whereas trade was seen as toxic
+
+only four years ago, recent polls have found growing bipartisan public support for trade. At the same
+
+time, however, the views of the political parties on trade appear to be shifting. Some observers have gone
+
+so far as to suggest that the United States is on the precipice of a new trade order, with Republicans
+
+more protectionist and Democrats friendlier toward trade. This makes the domestic landscape and the
+
+outcome of a congressional trade vote uncertain. The strong bipartisan congressional vote in favor of the
+
+United States-Mexico-Canada Agreement (USMCA) led many to conclude that this agreement should
+
+be the new U.S. template for trade agreements. However, there may be factors unique to the USMCA
+
+that would not be in play in a negotiation with Asian countries. Another complicating factor is the fate
+
+of Trade Promotion Authority, set to expire in July 2021, which is a prerequisite for negotiations in the
+
+view of U.S. trading partners.
+
+The prospect of CPTPP reentry also depends on the extent to which its members would be open
+
+to revisions proposed by the United States. To take the temperature of capitals in Asia, the Asia Society
+
+Policy Institute spoke with a dozen current and former trade officials from a diverse set of CPTPP coun-
+
+tries. Those interviewed unanimously affirmed that they would welcome the United States back, but not
+
+at any cost. They are wary of being asked to make extensive revisions, having been scarred by the U.S.
+
+withdrawal after expending significant political capital during the TPP negotiations. Those countries
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+|
+
+7
+
+were accustomed to the uncertainties of the congressional approval process, but they now also worry
+
+about the presidential election cycle.
+
+With the foregoing considerations in mind, the report offers a road map for the next administration
+
+to reengage with the CPTPP countries. Recommended steps include the following:
+
+•
+
+Launch an interim sectoral agreement
+: As a first step, pursue a limited, sector-specific
+
+Asia-Pacific trade deal with the CPTPP members, and perhaps other countries, to set high
+
+standards, rebuild trust, and build momentum. Promising topics include:
+
+o
+
+Digital trade, an area that represents more and more of overall trade, particularly now
+
+that the COVID-19 pandemic has accelerated the digitalization of the global economy.
+
+o
+
+Trade in medical and other essential products, a sector in which COVID-19 has
+
+focused attention on trade restrictions and vulnerabilities in global supply chains.
+
+o
+
+Trade and the environment/climate, which may be of particular interest to a Demo-
+
+cratic White House.
+
+•
+
+Invest in competitiveness and adjustment at home
+: Build support for trade agreements
+
+generally and the CPTPP specifically at home by investing in competitiveness and adjust-
+
+ment policies and programs. Doing so would take the pressure off trade agreements to
+
+achieve goals they are not designed to tackle, such as ensuring more equitable income
+
+distribution.
+
+•
+
+Make the case for trade
+: Explain to the American public that deeper U.S. trade engage-
+
+ment with Asia-Pacific partners is integral to building an alternative economic model to
+
+Chinese state capitalism, diversifying U.S. trade beyond China and, ideally, promoting
+
+reforms within China.
+
+•
+
+Prioritize negotiating proposals
+: Develop and prioritize concrete proposals for U.S. reen-
+
+gagement with the CPTPP based on input from business, labor, and civil society groups
+
+throughout the country, as well as Congress.
+
+•
+
+Consult with trading partners
+: Consult with the CPTPP members to understand their
+
+limits, priorities, and concerns around U.S. reengagement.
+
+These steps would pIave the way for U.S. reentry into the CPTPP. Even then, CPTPP reengagement
+
+would be a heavy lift that would require flexibility and creativity from both the United States and the
+
+CPTPP countries. Returning to the original TPP by signing on to a five-year-old agreement that faced
+
+considerable opposition at home is not a realistic proposition in 2021. The approach with the best odds of
+
+success would likely fall between formal CPTPP accession and a more extensive renegotiation. For that to
+
+work, the United States would need to focus on the most important changes and modernizations needed,
+
+while the CPTPP countries would need to be more open to changes than during a typical accession.
+
+Given the domestic and international challenges outlined in this report, it is understandable that
+
+many would question whether returning to the CPTPP is worth all the trouble. Despite those concerns,
+
+rejoining the CPTPP is one of the most impactful ways in which the United States can work with like-
+
+minded countries in the region to promote an alternative economic model to state-led capitalism and help
+
+shape the economic future of a region that is increasingly the engine of global growth and innovation.
+8
+
+|
+
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+1. INTRODUCTION
+
+MANY EXPECTED THE TRANS-PACIFIC PARTNERSHIP (TPP) TO DIE A QUIET DEATH
+
+after
+
+the United States exited the agreement in the first week of the Donald Trump administration.
+
+That
+
+didn’t happen. Instead, the regional trade deal lives on internationally as the Comprehensive and Progres-
+
+sive Agreement for Trans-Pacific Partnership (CPTPP), as well as in numerous provisions of the United
+
+States-Mexico-Canada Agreement (USMCA) and the U.S.-Japan phase one trade agreement.
+
+Meanwhile, the debate in the United States on whether to reconsider participation in TPP continues.
+
+Critics argue that the TPP was a bad deal. Some say it favored big business and encouraged offshoring to
+
+countries with weak labor standards, while others claim that it failed to prevent currency manipulation
+
+or to sufficiently rein in state-owned enterprises (SOEs). Still others, such as U.S. Trade Representative
+
+Robert Lighthizer, suggest that the TPP wouldn’t boost the U.S. economy much because the United
+
+States already has bilateral free trade agreements with 6
+
+of the 11 other members.
+
+1
+
+TPP
+
+advocates
+
+have
+
+not
+
+gone
+
+quiet,
+
+however.
+
+Support for the TPP remains one of the few areas in
+
+which numerous congressional Republicans openly break
+
+with President Trump. A year after withdrawal, 25 GOP
+
+senators signed an open letter urging President Trump
+
+to reconsider his decision.
+
+2
+
+Senator Chuck Grassley
+
+(R-IA), chair of the Senate Finance Committee, plainly said that TPP withdrawal “was a mistake,”
+
+3
+
+and
+
+Senator John Cornyn (R-TX) admitted that he preferred the TPP to the much narrower U.S.-Japan
+
+phase one deal.
+
+Some Democrats continue to favor it, too, arguing that the TPP would allow the United States to
+
+“play the long game with China,”
+
+4
+
+and they believe, in the words of Representative Ron Kind (D-WI),
+
+that the “decision to withdraw from the Trans-Pacific Partnership was a win for farmers, workers, and
+
+businesses . . . in China.”
+
+5
+
+Trump himself has brought up the idea of reconsidering participation.
+
+With 2021 approaching, the topic of TPP may be revisited regardless of the outcome of the
+
+upcoming presidential election. To be clear, TPP is not on the radar of either candidate, and Trump’s
+
+and Biden’s statements on the deal have varied. Trump has lambasted the agreement, repeatedly calling
+
+it a “horrible deal” and making his preference for bilateral agreements known.
+
+6
+
+That said, Trump has
+
+brought up the idea of reconsidering participation. In April 2018, he briefly suggested that the United
+
+States might rejoin.
+
+7
+
+There is nothing to glean from candidate Trump’s stated second-term agenda,
+
+which simply says “Enact Fair Trade Deals that Protect American Jobs.” Democratic nominee Joe Biden
+
+supported the TPP during the Obama administration, and during one of the early primary debates, he
+
+said that he would consider rejoining provided there was a renegotiation.
+
+8
+
+More recently, however, the
+
+former vice president wrote in the spring 2020 edition of
+
+Foreign Affairs
+
+that he would “not enter into
+
+any new trade agreements until we have invested in Americans and equipped them to succeed in the
+
+global economy.”
+
+9
+
+New administrations often take
+
+a fresh look at what can be
+
+accomplished in the coming four
+
+years, and it’s conceivable
+
+that the TPP could make the
+
+list for consideration.
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+|
+
+9
+
+But new administrations often take a fresh look at what can be accomplished in the coming four
+
+years, and it’s conceivable that the TPP could make the list for consideration. Rejoining the TPP would
+
+be challenging, but the case for reengaging with the CPTPP countries in some form has become more
+
+compelling as the political and economic importance of the Asia-Pacific region has grown and concerns
+
+about Beijing’s state-led economic model have mounted. With no end to tensions with China in sight,
+
+there is a growing recognition that the United States would be better off enlisting like-minded countries
+
+to rein in unfair Chinese trade practices and to promote an alternative economic model to state-led capi-
+
+talism, rather than going it alone. To date, U.S. unilateral tariff hikes and export control restrictions have
+
+not led to meaningful Chinese reforms.
+
+With this possibility in mind, this report examines the options on the table for what U.S. reengage-
+
+ment with the CPTPP members could look like. Among the questions it seeks to answer are:
+
+•
+
+Could the United States return to what it signed or sign on to what the other members
+
+agreed to after it left the TPP?
+
+•
+
+In light of U.S. trade policy developments over the past five years, what would be the
+
+scope and magnitude of the updates and revisions the United States might seek?
+
+•
+
+How would CPTPP members respond, particularly if the United States envisioned a
+
+major renegotiation?
+
+•
+
+Are more limited negotiations a more realistic short-term alternative to reengage in the
+
+region?
+
+This report also examines how U.S. trade policy and the global and regional trade landscape have
+
+shifted during the five years since the TPP negotiations were concluded and how views on trade and the
+
+TPP have evolved in the United States and among our key trading partners.
+
+Twenty years ago, Asia accounted for less than a third of global output. Twenty years from now, it
+
+will account for more than half the world’s total economy.
+
+10
+
+Asia is today home to a burgeoning middle
+
+class and to many of the countries and companies that will shape the global economy for years to come.
+
+Regardless of who wins in November, the United States will need to redefine the terms of engagement
+
+with the region on trade and economic issues. The CPTPP can offer an important framework for doing
+
+so. To this end, the report concludes with a road map for how the United States can move forward into
+
+the Asian trading century.
+1 0
+
+|
+
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+2. RECENT DEVELOPMENTS IN THE
+
+REGIONAL TRADE LANDSCAPE
+
+IN THE FIVE YEARS SINCE THE TPP NEGOTIATIONS WERE FINALIZED,
+
+the regional trade land-
+
+scape has changed dramatically.
+
+No single development has been as impactful as the U.S.-China trade
+
+war. In response to Chinese trade practices, the United States hit China with a series of escalating tariffs,
+
+which begat a series of retaliatory tariffs from Beijing. The tariffs slowed trade and overall growth in both
+
+countries, as well as in Japan, Korea and other Asian economies whose trade flows and supply chains
+
+are even more closely linked to China, although the effects were largely masked in the United States by
+
+an economic expansion. The World Trade Organization (WTO) proved unable to mediate. The United
+
+States and China reached a tenuous truce with a “phase
+
+one” trade deal in January 2020, but that agreement left
+
+most tariff increases in place.
+
+Of course, no discussion of the 2020 geopolitical
+
+landscape is complete without mention of COVID-19.
+
+The pandemic has produced economic disruptions that
+
+are expected to reverberate in all corners of the world for
+
+the foreseeable future. Trade flows and supply chains have
+
+been impacted, with global trade volume down by nearly 20 percent in the second quarter of 2020 as a
+
+result of the pandemic.
+
+11
+
+Some countries have introduced or considered inward-looking measures such
+
+as export restrictions and the reshoring of manufacturing as they struggle with the economic fallout of
+
+COVID-19. As of this writing, it’s unclear how these developments will play out, but they will undoubt-
+
+edly have an unprecedented impact on the global economy and trade for years to come.
+
+Beyond U.S-China trade tensions and COVID-19, four other major developments on the Asia-Pa-
+
+cific trade front are germane to this report: (1) the U.S. exit from the original TPP agreement; (2)
+
+the formation of a new CPTPP among the remaining members; (3) the pursuit of a U.S. trade policy
+
+centered around “America First” and bilateral deals; and (4) the continued, steady march of new trade
+
+agreements across the Asia-Pacific region that do not include the United States.
+
+This section describes these key developments before taking a more targeted look at the specific
+
+options for a more active U.S. trade strategy in Asia.
+
+U.S. Exit from the TPP
+
+On January 23, 2017, three days after taking office, President Trump issued an executive order instruct-
+
+ing the United States to withdraw from the TPP. During the campaign, Trump’s anti-trade posture was
+
+prominent, as he criticized existing trade agreements generally and the TPP specifically. He called the
+
+TPP “a continuing rape” of the United States.
+
+12
+
+While candidate Trump’s language was unusually harsh,
+
+he was not alone in his skeptical view of the TPP. Hillary Clinton, despite expressing support for the
+
+negotiation while secretary of state, disavowed the TPP as a candidate, saying that the final agreement
+
+“didn’t meet my standards” of “more new, good jobs for Americans, for rising wages for Americans.”
+
+13
+
+Both candidates seemed to be responding to polls showing that many Americans had soured on trade.
+
+The pandemic has produced
+
+economic disruptions that are
+
+expected to reverberate
+
+in all corners of the world for
+
+the foreseeable future.
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+|
+
+11
+
+The withdrawal put the brakes on U.S. participation in a 12-country agreement whose members
+
+represented nearly 40 percent of global economic output. It included 30 chapters and state-of-the-art rules
+
+on such topics as customs administration, services, technical standards, intellectual property protection,
+
+e-commerce, investment, labor, and the environment. It also provided members with unprecedented access
+
+to each other’s markets by eliminating or lowering tariffs and nontariff barriers across all sectors, including
+
+agriculture. The TPP was envisioned as an open platform that would welcome other participants that could
+
+meet its high standards.
+
+For the remaining 11 TPP signatories, the exit of the United States threw the agreement into
+
+disarray. The loss of the world’s biggest market diminished the TPP’s appeal, collapsing the share of
+
+global gross domestic product (GDP) covered by the deal from 40 percent to 13 percent. “Losing the
+
+United States from the TPP is a big loss, there is no question about that,” said then–Australian prime
+
+minister Malcolm Turnbull.
+
+14
+
+Countries were divided on how to proceed. Australia announced that it
+
+wanted to move forward without the United States but raised
+
+the possibility of including other partners such as Indonesia
+
+and China. Chile said that it would pursue bilateral trade
+
+deals with Beijing instead.
+
+Japan, the largest signatory aside from the United States
+
+and the last to join the negotiation, was especially disappointed. Former prime minister Shinzo Abe had
+
+spent significant political capital on the TPP, taking on powerful agricultural interests and prioritizing
+
+Diet approval of the deal, which took place shortly before the U.S. withdrawal. In the early days after
+
+the U.S. exit, Tokyo seemed disinterested in a deal without Washington. “The TPP would be meaningless
+
+without the United States,” said Abe.
+
+15
+
+He added that the U.S. departure “destroys the basic balance of
+
+gains” from the deal.
+
+16
+
+With time, however, Japan reversed course. Following a bilateral meeting in February 2017, Trump
+
+and Abe released a joint statement noting that Japan was “continuing to advance regional progress on the
+
+basis of existing initiatives.”
+
+17
+
+With this, Japan felt that it had tacit approval from Washington to go ahead
+
+with the TPP without the United States. In March of that year, Chile hosted the remaining TPP members,
+
+as well as South Korea and China, to discuss the pact’s fate. By May, the 11 original TPP members were
+
+determined to move forward among themselves.
+
+A New Path in the Shadow of the TPP
+
+Following months of negotiation, the most crucial discussions took place on the margins of the Novem-
+
+ber 2017 APEC (Asia-Pacific Economic Cooperation) Economic Leaders' Meeting in Da Nang, Vietnam.
+
+At Da Nang, leaders were close to reaching an agreement on what would eventually be called the Com-
+
+prehensive and Progressive Agreement for Trans-Pacific Partnership, or CPTPP.
+
+Yet, while Japanese, Australian, and Vietnamese leadership pushed the negotiation toward a conclu-
+
+sion, others, particularly Canada, began to drag their feet. Ultimately, the 11 countries regrouped and were
+
+able to work through their remaining differences, including Canada’s concerns that the revised deal did not
+
+go far enough in addressing progressive issues, particularly labor rights.
+
+For the remaining 11
+
+TPP signatories, the exit of
+
+the United States threw the
+
+agreement into disarray.
+1 2
+
+|
+
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+The CPTPP members surprised skeptics and concluded their revised agreement in March 2018. The
+
+amended agreement put aside some of Washington’s core concerns. While the 11 remaining countries
+
+agreed to keep the market access commitments (on tariffs, services and investment access, government
+
+procurement, and temporary entry) intact, they suspended 22 provisions from the original TPP, a small
+
+fraction of the lengthy and detailed text. These provisions included those that were most important to the
+
+United States and those that had drawn concerns from other countries. Specifically, the changes removed
+
+special data protection for biologic drugs, narrowed the scope of the investment disciplines, and reduced
+
+the term of copyright protection to 50 years, among other things.
+
+At the same time, CPTPP members also made several new procedural adjustments, including terms
+
+for the revised agreement’s entry into force and accession. They also exchanged side letters to address
+
+specific concerns. New Zealand was essentially exempted from the CPTPP’s investor-state dispute
+
+settlement (ISDS) mechanism, and the various digital
+
+trade commitments that Vietnam had made in the
+
+original TPP were weakened. Yet the overwhelming
+
+majority of the TPP provisions, including the elimina-
+
+tion or reduction of tariffs and increased market access,
+
+remained untouched, making the CPTPP one of the
+
+broadest and most state-of-the-art trade agreements
+
+ever signed.
+
+Ratification followed swiftly in Mexico, Japan,
+
+Singapore, New Zealand, Canada, and Australia, and
+
+the CPTPP officially entered into force between those
+
+members in December 2018. Vietnam joined a few
+
+weeks later. Four of the CPTPP members—Brunei, Chile, Malaysia, and Peru—have yet to ratify the deal
+
+and bring it into force. This is largely due to domestic politics, but the U.S. absence most likely made rati-
+
+fication less urgent.
+
+Throughout the renegotiation and ratification process, there was lingering hope that the United States
+
+would return. In April 2018, Trump briefly suggested an openness to rejoining the pact before reversing
+
+course again and saying, without specificity, that he would only be interested “if the deal were substantially
+
+better.”
+
+18
+
+Yet, among the 11 CPTPP countries, rifts had already begun to emerge between members that
+
+wanted the United States to return and those that didn’t want U.S. interests to derail the conclusion of the
+
+CPTPP negotiations. Australian trade minister Steven Ciobo captured the latter sentiment when he said
+
+that he couldn’t see the negotiators “unpicking all the stitching that brought this deal together to accom-
+
+modate the U.S. at this point.”
+
+19
+
+Shift to a Bilateral Approach
+
+The executive order issued by President Trump in January 2017 instructing the United States to withdraw
+
+from the TPP also stated that the United States would seek “to deal directly with individual countries on
+
+a one-on-one (or bilateral) basis in negotiating future trade deals.” By pursuing bilateral deals instead of
+
+regional agreements, the president believed, the United States would have more negotiating leverage and
+
+thus be able to deliver more advantageous and balanced trade deals.
+
+The overwhelming majority of
+
+the TPP provisions, including the
+
+elimination or reduction of tariffs
+
+and increased market access,
+
+remained untouched, making
+
+the CPTPP one of the broadest
+
+and most state-of-the-art trade
+
+agreements ever signed.
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+|
+
+13
+
+While the CPTPP was moving forward, the Trump administration focused on renegotiating two
+
+existing U.S. free trade agreements that the president had singled out as particularly unsatisfactory, again
+
+without specificity. First, South Korea agreed to make modest improvements, largely in the automotive
+
+sector, to the U.S.-Korea Free Trade Agreement (KORUS) that had entered into force in 2012. The
+
+revisions to KORUS did not require congressional approval. The White House also turned its attention
+
+to the North American Free Trade Agreement (NAFTA), which entered into force in 1994 and which
+
+Trump decried during the 2016 campaign. NAFTA 2.0, rebranded the United States-Mexico-Canada
+
+Agreement, or USMCA, involved long and tense negotiations and borrowed heavily from the TPP.
+
+Bruce Heyman, former U.S. ambassador to Canada,
+
+estimated that two-thirds of the USMCA borrowed
+
+language directly from the TPP, and a separate study
+
+found that the USMCA copied 57 percent of its text
+
+from the TPP.
+
+20
+
+The USMCA also updated a number of TPP
+
+provisions. In the new digital trade chapter, absent
+
+from the original NAFTA, the USMCA borrowed
+
+from the TPP’s e-commerce chapter but also strength-
+
+ened some commitments, expanded coverage, and
+
+deleted carve-outs. For example, it liberalized data
+
+localization
+
+requirements
+
+for
+
+financial
+
+services,
+
+banned forced turnover of underlying algorithms,
+
+and endorsed APEC cross-border privacy rules as an authorized means for data transfer. Other TPP
+
+provisions updated in the USMCA included the promotion of science-based rules for sanitary and
+
+phytosanitary measures and removal of technical barriers to trade.
+
+The USMCA also added new features that were controversial not only with Mexico and Canada but
+
+among U.S. stakeholders as well. These included stricter automotive rules of origin to qualify for duty-
+
+free treatment among the three parties, limitations on any of the parties subsequently entering into free
+
+trade agreements with nonmarket economies (widely understood to mean China), and a so-called sunset
+
+provision for the agreement to lapse after 16 years unless all three parties agreed to extend it. The U.S.
+
+business community labeled some of these unconventional additions “poison pills.”
+
+Also, determined to secure the agriculture market access from Japan that Tokyo had provided to
+
+other CPTPP partners, U.S. negotiators cajoled Japan into negotiating a partial “phase one” bilateral
+
+agreement focused on agriculture and digital commerce, which was signed in October 2019. That, too,
+
+borrowed heavily from the TPP, obtaining most of the Japanese agriculture market access provided by
+
+the TPP, with the notable exceptions of rice and certain dairy products, and including a “gold standard”
+
+digital trade chapter akin to the USMCA’s.
+
+Recent Asia-Pacific Trade Trends
+
+The trade developments discussed previously are either directly or indirectly related to the Trump admin-
+
+istration’s decision to steer clear of the TPP. But much has transpired in the Asian trade landscape in
+
+recent years independent of the United States: the possibility of new countries acceding to the CPTPP,
+
+Much has transpired in the
+
+Asian trade landscape in recent
+
+years independent of the United
+
+States: the possibility of new
+
+countries acceding to the CPTPP
+,
+
+continued momentum toward
+
+concluding trade-liberalizing
+
+agreements... and the emergence
+
+of sector-specific agreements.
+1 4
+
+|
+
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+continued momentum toward concluding trade-liberalizing agreements despite the reverse trend occur-
+
+ring elsewhere, and the emergence of sector-specific agreements.
+
+Accessions to the CPTPP
+
+Efforts by the CPTPP countries to attract accession partners have yet to materialize. A number of econ-
+
+omies have expressed varying degrees of interest, including Colombia, Indonesia, the Philippines, South
+
+Korea, Taiwan, Thailand, and the United Kingdom. However, none to date has officially thrown a hat in
+
+the ring and triggered the accession procedures.
+
+The United Kingdom and Thailand seem the most viable accession candidates as of this writing.
+
+Despite being a world away from the Pacific, the United Kingdom seems closest to an official decision
+
+on accession. Secretary of State for International Trade Liz Truss said that London was “working with
+
+CPTPP countries to secure our accession” and framed British interest in both economic and geostrategic
+
+terms.
+
+21
+
+In September 2020, the UK held talks with the 11 CPTPP members about possible accession
+
+and separately announced an agreement in principle with Japan on a bilateral trade deal, characterizing
+
+it as “an important step towards joining the [CPTPP].”
+
+22
+
+The UK is also pursuing bilateral agreements
+
+with three other CPTPP members: Australia, New Zealand, and Canada. If successfully concluded, the
+
+negotiations could further pave the way for a smooth
+
+CPTPP accession.
+
+Thailand has also expressed interest in acceding
+
+to the CPTPP. The Thai deputy prime minister told
+
+Japanese officials that Thailand would join “as soon as
+
+possible” in May 2018,
+
+23
+
+and Thai officials have spoken
+
+favorably of the CPTPP throughout 2020. Japan is
+
+particularly interested in Thai accession, given the close supply chain integration between Japanese and
+
+Thai firms. Nevertheless, domestic concerns have presented obstacles. In particular, many in Thailand
+
+have grown skeptical of free trade agreements since the Thai government rammed through several free
+
+trade agreements in the early 2000s without much public input.
+
+China has also raised its interest in the CPTPP privately and publicly in recent years. Most recently,
+
+in June 2020, Premier Li Keqiang stated during the National People’s Congress that China “has a positive
+
+and open attitude toward joining CPTPP.”
+
+24
+
+This was the first time China’s leadership had expressed
+
+such interest publicly. From Beijing’s perspective, accession would allow China to further integrate its
+
+economy with others in the region while also reducing its reliance on the U.S. market and its vulnera-
+
+bility to U.S. tariffs and other forms of retaliation. For Communist Party leaders, replacing the United
+
+States in its signature Asian trade deal would also represent a major public relations coup.
+
+Other CPTPP countries are unsure of what to make of Beijing’s interest. China is a major trading
+
+partner of virtually every country in the Asia-Pacific region. For many CPTPP members, two-way trade
+
+with China has surpassed two-way trade with the United States. That said, China would have a long way
+
+to go to demonstrate its CPTPP “readiness,” particularly with respect to digital trade, labor, and SOEs,
+
+and at a time of growing global concern about whether China has fully adhered to both the spirit and the
+
+letter of the commitments it made when it joined the WTO.
+
+The CPTPP is not the only game
+
+in town. Many countries in the
+
+Asia-Pacific region have stepped
+
+up their trade agreement
+
+activity in recent years.
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+|
+
+15
+
+Trade Activity in the Asia-Pacific Region: Full Steam Ahead
+
+The CPTPP is not the only game in town. Many countries in the Asia-Pacific region have stepped up
+
+their trade agreement activity in recent years. This phenomenon is due to several factors, including the
+
+desire to grow their economies, create jobs, attract foreign direct investment, diversify their trading part-
+
+ners, and demonstrate that trade liberalization, not protectionism, is the preferred path to follow. In
+
+addition, economies that are not plausible near-term candidates for CPTPP accession want to show that
+
+they are not being left behind in the push for greater regional integration.
+
+The other major regional trade agreement, the Regional Comprehensive Economic Partnership
+
+(RCEP), under negotiation since 2012, appears to be on track for signature in November 2020 despite
+
+India’s decision not to join. The remaining 15 members would account for roughly 30 percent of the
+
+world’s population and GDP. If India were to return, both numbers would rise significantly. Overall, the
+
+RCEP is less ambitious than the CPTPP with respect to market access (including tariffs) and trade and
+
+investment “rules.” That said, certain chapters, such as e-commerce, may go further than expected.
+
+Beyond regional deals, countries across the Asia-Pacific region have also moved ahead on the bilat-
+
+eral front with several agreements. Just within the past few months, the Indonesia-Australia Compre-
+
+CPTPP
+
+RCEP
+
+CPTPP & RCEP
+
+SOUTH KOREA
+
+MALAYSIA
+
+AUSTRALIA
+
+VIETNAM
+
+PHILIPPINES
+
+JAPAN
+
+LAOS
+
+SINGAPORE
+
+INDONESIA
+
+THAILAND
+
+CAMBODIA
+
+MYANMAR
+
+CHINA
+
+NEW ZEALAND
+
+CANADA
+
+PERU
+
+MEXICO
+
+CHILE
+
+BRUNEI
+
+CPTPP AND RCEP MEMBERSHIP
+1 6
+
+|
+
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+hensive Economic Partnership Agreement (July 2020) and the European Union (EU)-Vietnam Free
+
+Trade Agreement (August 2020) entered into force, as did updates to the ASEAN-Japan Comprehensive
+
+Economic Partnership Agreement (August 2020). South Korea also wrapped up negotiations on a free
+
+trade agreement with Indonesia in November 2019, and both are now working to ratify the deal.
+
+The EU’s renewed pursuit of trade deals in the region is notable as well. The EU concluded the
+
+Economic Partnership Agreement with Japan in July 2018, establishing the world’s largest bilateral trade
+
+agreement. The EU also concluded agreements with Singapore in 2018 and with Vietnam in 2020.
+
+Long-running negotiations with ASEAN and certain individual ASEAN members are in various stages,
+
+along with more recent negotiations with Australia and New Zealand.
+
+Digital Trade Pacts
+
+Sectoral negotiations are also cropping up in the region. Nowhere is this more evident than in the digital
+
+space, a fast-evolving area of international commerce. In June 2020, Chile, New Zealand, and Singapore
+
+signed the Digital Economy Partnership Agreement (DEPA). Singapore also concluded a bilateral digital
+
+agreement with Australia in March 2020, and Singapore
+
+and South Korea recently launched negotiations.
+
+All of these agreements go beyond the CPTPP
+
+provisions and include rules for nondiscriminatory treat-
+
+ment of electronic transactions, easing of restrictions on
+
+cross-border data flows, and various consumer protections. DEPA, for example, adds trade facilitation
+
+provisions in areas such as e-payments and e-invoicing, and it adds cooperation clauses regarding new
+
+and emerging technologies, including fintech and artificial intelligence.
+
+25
+
+DEPA is novel with respect to
+
+its approach to new members. It provides an avenue for joining the pact in a piecemeal fashion in which
+
+countries can accept only some of its modules.
+
+Of course, Asian countries, including China, are also participating in the WTO e-commerce pluri-
+
+lateral negotiations, involving approximately 80 WTO members.
+
+Sectoral negotiations are also
+
+cropping up in the region.
+
+Nowhere is this more evident
+
+than in the digital space
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+|
+
+17
+
+3. OPTIONS FOR U.S. REENGAGEMENT WITH
+
+THE CPTPP COUNTRIES
+
+THESE DEVELOPMENTS OVER THE PAST FIVE YEARS HAVE SHAPED
+
+the next administration’s
+
+options for reengaging with the TPP/CPTPP members. Should it choose to do so, the United States
+
+would have four basic paths: (1) returning to the original TPP agreement; (2) acceding to the CPTPP;
+
+(3) seeking a broader renegotiation; or (4) pursuing a narrower sectoral agreement as a first step. In this
+
+section, we discuss these options, which are not entirely mutually exclusive, and evaluate their feasibility.
+
+Option 1: Returning to the Original TPP
+
+On the surface, the most obvious option would be for the United States to express its interest in return-
+
+ing to the original TPP agreement that it signed with the 11 other countries in February 2016. This
+
+option has serious shortcomings. First, it’s unlikely the CPTPP members would be willing to go back to
+
+the original TPP text. These countries had substantive concerns about the suspended provisions, partic-
+
+ularly those in the intellectual property rights (IPR), and investment chapters. Additionally, they would
+
+be reluctant to redo their domestic approval process, which makes for contentious political debates and
+
+requires significant political capital. In their view, that ship has sailed.
+
+This option also presents roadblocks from the U.S. perspective. Turning the clock back to a trade
+
+deal that concluded in 2015 and faced considerable opposition, including from the two 2016 U.S. presi-
+
+dential candidates, would be extremely challenging in 2021. The trade landscape has also shifted dramat-
+
+ically over the past five years, and it’s questionable whether any U.S. administration would still consider
+
+the 22 suspended provisions as desirable, let alone worth fighting for at this point. In the USMCA, for
+
+instance, the Trump administration decided not to push for the special multiyear protection term for
+
+biologic drugs, one of the most contentious issues advanced by the U.S. negotiators in the TPP and one
+
+of the first provisions the remaining 11 members cast aside when the United States withdrew.
+
+Option 2: Acceding to the CPTPP
+
+A second option would be for the United States to express its formal interest in acceding to the CPTPP.
+
+This option is likely to be met with the greatest support by the CPTPP members because it would not
+
+require them to enter into new negotiations, and it would affirm their decision not to abandon the deal.
+
+However, it is fraught with difficulties from the U.S. perspective.
+
+First, in accession negotiations, existing members typically hold the cards since it’s up to them to
+
+give the thumbs up or thumbs down to the accession candidate’s proposals. With the U.S. economy
+
+eclipsing the combined GDP of the other 11 countries by over 50 percent, the United States would not
+
+likely be interested in such a subordinate role. Moreover, accession negotiations by definition focus on
+
+signing on to what’s already been agreed to by others and keeping adjustments, exceptions, and transi-
+
+tion periods to a minimum. It’s not clear that the United States could agree to this limitation.
+
+Furthermore, the CPTPP agreement as ratified reflects some, but far from all, of the evolutions
+
+in U.S. trade policy over the past five years. For example, the new automotive rules of origin in the
+1 8
+
+|
+
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+USMCA are far more restrictive than those in the CPTPP. It’s hard to see the CPTPP countries, partic-
+
+ularly Japan, agreeing to these requirements.
+
+Finally, congressional approval would be an uphill battle. We will never know whether the original
+
+TPP agreement would have secured congressional approval. However, it’s indisputable that it lacked
+
+strong bipartisan congressional and public support, and the participation of some members, such as
+
+Japan and Vietnam, drew active opposition from some
+
+U.S. trade stakeholders. Has that reality changed in the
+
+past five years? It’s far from certain.
+
+Of course, it’s more than likely that with U.S. acces-
+
+sion on the table—a priority for existing members—the
+
+CPTPP countries would be somewhat more open to
+
+updates and revisions than with other potential acces-
+
+sion partners. This is particularly true for the rules part
+
+of the agreement, as opposed to each country’s market access commitments, where some countries may
+
+go to great lengths to avoid reopening the intricate and domestically sensitive web of tariff concessions.
+
+Option 3: Renegotiating the CPTPP
+
+In light of the difficulties of returning to the original TPP or acceding to the CPTPP, the United States
+
+could propose a major renegotiation. This approach would help restore the United States to its historical
+
+leadership role in trade negotiations. It would also allow it to fully leverage its market size in the negoti-
+
+ations and to push for more extensive revisions and updates than accession would permit. These updates
+
+could include the following:
+
+•
+
+Modernizing provisions in such areas as digital trade, customs, and IPR
+
+•
+
+Deleting commitments that may no longer represent U.S. priorities, such as the ISDS
+
+mechanism, or weakening others, such as government procurement
+
+•
+
+Revising or adding new provisions to reflect the evolution in U.S. trade policy, including
+
+but not limited to the USMCA provisions on rules of origin, labor, environment, and
+
+currency manipulation
+
+•
+
+Adjusting market access commitments on goods and services
+
+This option could also open the door for other accession candidates, such as South Korea, to join
+
+the negotiation with the United States at the outset. Under this option, they, too, would have more
+
+leeway to help shape the rules, rather than largely accepting the existing CPTPP provisions.
+
+While welcoming U.S. reengagement, current CPTPP members are likely to be wary of such an
+
+ambitious endeavor. This not only would be time-consuming, it also could present domestic difficulties
+
+by raising controversial issues. Furthermore, many are still scarred by their TPP experience with the
+
+United States. Being asked again to make difficult decisions with no assurance of congressional approval,
+
+and no guarantee that the next administration would keep the deal intact, may be a bridge too far.
+
+CPTPP leaders would likely be criticized for both having an unwarranted faith in U.S. intentions, and
+
+for “paying twice” for U.S. economic engagement in the region.
+
+In accession negotiations,
+
+existing members typically
+
+hold the cards since it’s up to
+
+them to give the thumbs up or
+
+thumbs down to the accession
+
+candidate’s proposals.
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+|
+
+19
+
+Such criticism would be especially acute in countries that already have bilateral free trade agreements
+
+with the United States and would receive little new market access from U.S. entry into the CPTPP. That
+
+said, if a renegotiation is the price for U.S. economic reengagement in the Asia-Pacific, it may still receive
+
+support at the highest political levels across the region. Some assurances, including an agreed and finite
+
+set of focus areas for renegotiation, concrete demonstrations of congressional bipartisan support, and/or
+
+a provision in the implementing legislation requiring congressional approval for withdrawal, could make
+
+a renegotiation more enticing.
+
+Option 4: Pursuing Interim Sectoral Deals
+
+A fourth option would be to start more modestly by launching negotiations with the CPTPP countries
+
+on an important or emerging sector, such as digital trade, trade in medical and other essential products,
+
+or the trade and the environment/climate, before entering into more comprehensive negotiations. While
+
+many CPTPP countries might prefer an all-in posture by the United States, they may also be receptive to
+
+a more limited, piecemeal option, depending on the specific subject area.
+
+This approach would allow Washington to gradually rebuild trust and to demonstrate its commit-
+
+ment to renewed engagement in the region. A sectoral agreement could also build on work that the
+
+United States is already undertaking with some of the CPTPP countries within APEC, the G-20, and
+
+the WTO and conclude in a shorter period than the many years typically required for negotiation of a
+
+broader agreement. Furthermore, assuming no changes
+
+to U.S. law are necessary, these deals could be concluded
+
+through executive agreements, requiring congressio-
+
+nal consultation but avoiding a politically fraught and
+
+time-consuming congressional vote.
+
+Finally, a sectoral deal need not be limited to the
+
+United States and existing CPTPP countries. It would
+
+also provide an opportunity for those that have shown
+
+serious interest in CPTPP accession, including the United Kingdom, Thailand, South Korea, and other
+
+Southeast Asian countries, to engage in negotiations that could eventually lead to accession talks.
+
+This option, however, also presents challenges. First, agreeing on a topic for negotiation would not
+
+be easy. While the United States will have its priorities, others will have their own wish lists. Second,
+
+such an approach does not lend itself to trade-offs in the negotiations, which proved instrumental in
+
+getting the TPP countries to agree to U.S. proposals in such areas as IPR, labor, and the environment
+
+in the original negotiations. Finally, it raises concerns on whether such an agreement would meet the
+
+WTO requirements that it cover “substantially all the trade” between the parties and include “substan-
+
+tial sectoral coverage.” Nevertheless, each of these challenges might be easier to surmount than some
+
+of the challenges the other options present. On the WTO question, for example, a sectoral agreement
+
+would arguably meet WTO standards if it is the starting point for a more comprehensive deal down
+
+the road.
+
+As negotiations proceed on a specific subject area, the United States could use that valuable time
+
+to build domestic support for a more ambitious regional agreement. There is no question that the gains
+
+As negotiations proceed on a
+
+specific subject area, the
+
+United States could use that
+
+valuable time to build domestic
+
+support for a more ambitious
+
+regional agreement.
+2 0
+
+|
+
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+from trade accrue unevenly. The inadequacy of Trade Adjustment Assistance and other programs to
+
+mitigate those uneven gains likely contributed to the visceral anti-trade nature of the 2016 campaign.
+
+The United States could, with time, build up its ability to help Americans adjust to import compe-
+
+tition by developing more robust, flexible, and better funded safety net and worker adjustment programs
+
+and implementing more coherent and focused measures around domestic competitiveness, innovation,
+
+and workforce development. Additionally, the next White House should make a stronger case to the
+
+public for the benefits of trade, and, in particular, connect trade and foreign direct investment to the
+
+creation of well-paying jobs.
+
+Through extensive consultations with Congress and stakeholders across the country, the United
+
+States could also develop its vision of what a regional agreement should look like, taking into consid-
+
+eration the developments over the past five years. As it consults domestically, the United States would
+
+benefit from seeking the early input of trading partners to understand their priorities and concerns, as
+
+well as their bandwidth for working with specific new U.S. ideas.
+
+Possible Areas for Negotiation
+
+Digital trade
+
+is a promising candidate for an issue-specific agreement. This is not a new idea. A 2017
+
+Asia Society Policy Institute report coauthored by former trade officials from the Asia-Pacific region
+
+suggested pursuing a regional digital trade agreement.
+
+26
+
+The case for such an agreement has only grown
+
+as digital trade makes up a increasing share of overall trade. According to the WTO, digital technologies
+
+such as the Internet of Things, artificial intelligence, 3D printing, and blockchain will further lower
+
+trade costs and help boost trade by 34 percent by 2030.
+
+27
+
+Digital trade and e-commerce have also served as gate-
+
+ways for small and medium-sized enterprises to partici-
+
+pate in the international trading system. More recently,
+
+the COVID-19 pandemic has accelerated the digitaliza-
+
+tion of the global economy with respect to trade in both
+
+goods and services, with no turning back.
+
+Furthermore, the CPTPP members and the United
+
+States have both demonstrated leadership in digital
+
+trade in recent years. As described earlier in the report,
+
+regional activity in this sector has proliferated, building on the TPP’s focus on digital trade and e-com-
+
+merce. Members of the CPTPP, particularly Singapore, New Zealand, and Japan, have negotiated ambi-
+
+tious digital trade agreements, and their experience would be essential in facilitating a sectoral agreement.
+
+Furthermore, the United States negotiated cutting-edge digital trade provisions with Canada and Mexico
+
+in the USMCA and with Japan in its phase one trade agreement.
+
+Another topic of increasing interest is
+
+trade in medical and other essential products
+. The
+
+COVID-19 pandemic has focused attention on vulnerabilities in global supply chains, particularly for
+
+medical supplies and equipment, as well as certain medicines and key ingredients. A negotiation in
+
+this area could focus on building trusted regional supply chains with like-minded CPTPP countries,
+
+featuring provisions on trade facilitation, export restrictions, services, government procurement, invest-
+
+Members of the CPTPP
+,
+
+particularly Singapore, New
+
+Zealand, and Japan, have
+
+negotiated ambitious digital
+
+trade agreements, and their
+
+experience would be essential in
+
+facilitating a sectoral agreement.
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+|
+
+21
+
+ment, and market access, while addressing new challenges such as incentives for onshoring and domestic
+
+stockpiling.
+
+The environment/climate
+
+is a third option. Such a negotiation could include some of the updates
+
+the USMCA made to the CPTPP environment chapter, including requirements for environmental
+
+impact assessment, commitments to provide data on air quality and to protect marine environments, and
+
+specification of the multilateral environmental agreements to which signatories must adhere. Other addi-
+
+tions could include climate change-related provisions, including references to the Paris Agreement and
+
+curbing fossil fuel subsidies, rules around the imposition of carbon tariffs, as well as improved market
+
+access for environmental goods, services, and technologies.
+2 2
+
+|
+
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+4. DOMESTIC AND TRADING PARTNER
+
+CONSIDERATIONS
+
+ANY POTENTIAL U.S. REENGAGEMENT WITH THE MEMBERS OF THE CPTPP
+
+will be shaped
+
+by the domestic political environment and the receptivity of trading partners to U.S. interests. In assess-
+
+ing the foregoing options, it’s important to carefully consider these two factors.
+
+The Changing U.S. Views on Trade
+
+Recent U.S. polling suggests the American public has warmed to trade. As of February 2020, Gallup
+
+found that 8 in 10 American adults believe that trade represents an opportunity for economic growth.
+
+28
+
+That represents a marked shift from as recently as 2012, when respondents were evenly split on whether
+
+trade was more of an opportunity or a threat. A 2019 NBC News/
+Wall Street Journal
+
+survey found that
+
+two-thirds of Americans agreed with the statement “free trade is good for America.”
+
+29
+
+Other recent polls
+
+from the Chicago Council on Global Affairs and the Pew Research Center found Americans growing
+
+similarly bullish on trade.
+
+30, 31
+
+Moreover, the February 2020 Gallup poll found that “trade enjoys strong bipartisan support.” A
+
+majority of respondents from both political parties now support trade. Surprisingly, Democrats (82
+
+percent) are slightly more likely than Republicans (78 percent) to say that trade is an opportunity for
+
+growth. This is a reversal from the last few decades, when Republicans espoused more pro-business
+
+% OF RESPONDENTS
+
+AMERICAN VIEWS OF WHAT FOREIGN TRADE MEANS FOR THE U.S.
+
+1992
+
+2000
+
+2003
+
+2006
+
+2011
+
+2014
+
+2017
+
+2020
+
+80
+
+100
+
+60
+
+40
+
+20
+
+0
+
+Opportunity for economic growth
+
+What do you think foreign trade means for America? Do you see foreign trade more as an opportunity for economic
+
+growth through increased U.S. exports or a threat to the economy?
+
+Threat to the economy
+
+Source: Gallup, February 2020
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+|
+
+23
+
+and pro-market views, while Democrats have been more skeptical of free trade due to concerns over
+
+the impact on U.S. labor. Time will tell whether this reversal represents a fundamental policy shift or
+
+whether some Democrats are voicing support for trade to distance themselves from Trump’s trade policy.
+
+As the U.S. public changes its views on trade, some have suggested we are on the precipice of a
+
+new trade order, with Republicans more protectionist and Democrats friendlier toward trade. Many
+
+Republicans on the Hill have supported President Trump’s trade agenda. A new group of Republicans,
+
+including Senators Josh Hawley (MO) and Tom Cotton (AR), have advocated for a more populist and
+
+labor-friendly trade position and for onshoring of U.S. innovation and manufacturing.
+32
+
+Senator Hawley
+
+has gone so far as to introduce a congressional resolution to withdraw from the WTO. And, almost
+
+universally, Republicans fell in line with President Trump’s demand to drop the ISDS provisions from
+
+the USMCA, even though they were a Republican priority in previous trade talks. On the other side
+
+of the aisle, several of the 2020 Democratic presidential
+
+candidates, including Joe Biden, openly supported the
+
+TPP at various points.
+
+33
+
+Despite the examples cited here, public opinion on
+
+trade policy appears to have shifted more quickly than
+
+the views of elected officials in Congress, leaving each
+
+party somewhat misaligned with the emerging views of
+
+its supporters. Such uncertainty weighs on policy, making it difficult to gauge congressional support for
+
+new trade agreements and congressional views on specific provisions in such deals. This will become an
+
+important consideration if the next administration moves forward with a comprehensive trade agree-
+
+ment, which would require congressional approval.
+
+USMCA: A Template or an Aberration?
+
+The most recent trade agreement submitted to Congress, the USMCA, received strong bipartisan con-
+
+gressional support at a time of historic division in U.S. politics. It passed the House of Representatives
+
+with a vote count of 385–41, and the Senate approved it 89–10. The Trump administration worked
+
+closely with congressional Democrats to address their concerns about labor enforcement, the environ-
+
+ment, and pharmaceuticals, paving the way for such strong support. As a result, there is a growing chorus
+
+urging that the USMCA become the new U.S. template for trade deals.
+
+Yet the USMCA vote does not imply that securing congressional approval for trade deals is now
+
+easy. The bipartisan vote may have resulted from factors specific to the USMCA negotiations, as opposed
+
+to marking a new dawn of bipartisan trade support. With 25 years of NAFTA having shaped North
+
+American production and trade, President Trump seized on unique leverage with Congress by threaten-
+
+ing a costly, disruptive U.S. withdrawal from the original NAFTA if the USMCA was not approved. This
+
+tactic strong-armed some congressional and business skeptics into finding a way to support the USMCA.
+
+Moreover, Canadian and Mexican dependence on the American market—three-quarters of their exports
+
+are destined for the United States—gave U.S. negotiators a strong hand in the negotiations. It’s an open
+
+question as to whether the contents of the deal, and the tactics that went into its negotiation, are appli-
+
+cable to future trade agreements, particularly in the Asia-Pacific region, where China, and not the United
+
+States, is the largest trading partner of most countries.
+
+Some have suggested we are
+
+on the precipice of a new trade
+
+order, with Republicans more
+
+protectionist and Democrats
+
+friendlier toward trade.
+2 4
+
+|
+
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+Whither TPA?
+
+An additional uncertainty is the fate of Trade Promotion Authority (TPA), legislation that provides
+
+authority to the executive branch to negotiate trade agreements and then hold an up-or-down votes on
+
+those agreements. In practice, TPA does not prevent Congress from seeking changes to deals after their
+
+conclusion, as it did with the USMCA, but it is still valued by U.S. trading partners as an assurance that
+
+any changes would be minimal. Conversely, some U.S. trading partners are reluctant to negotiate end-
+
+game issues with a U.S. administration that does not already possess TPA; the TPP negotiation did not
+
+conclude until a few months after Congress approved TPA in May 2015.
+
+The existing TPA will expire on July 1, 2021. This means that the next administration—be it a
+
+second Trump term or a Biden White House—will need to decide whether to seek to its reauthorization
+
+or let it lapse. Congressional trade votes are never easy, and TPA votes, which are more about abstract
+
+legislative procedures than actual, concrete benefits that a specific trade agreement may bring to constit-
+
+uents, have been even more difficult to push through Congress.
+
+Moreover, a TPA vote would be a low priority in the first half of 2021. The next U.S. adminis-
+
+tration will rightly be focused on economic recovery and other domestic priorities stemming from the
+
+COVID-19 pandemic. Without TPA, it’s doubtful that the 11 CPTPP countries would seriously engage
+
+with the United States on rejoining the agreement—which would require congressional approval—
+
+making smaller or sectoral deals that could be implemented through executive agreements a more attrac-
+
+tive course of action in the short term.
+
+0
+0
+
+100,000
+
+200,000
+
+300,000
+
+400,000
+500,000
+600,000
+700,000
+
+400,000
+
+300,000
+
+200,000
+
+100,000
+
+Source: World Bank, 2018 data in millions of USD
+
+TWO-WAY TRADE WITH THE UNITED STATES
+
+TWO-WAY TRADE WITH CHINA
+
+Australia
+
+Canada
+
+Japan
+
+Mexico
+
+New Zealand
+
+Singapore
+
+Vietnam
+
+TRADE TIES TO THE U.S. VS. CHINA FOR RELEVANT COUNTRIES
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+|
+
+25
+
+The Views of CPTPP Member Countries
+
+It’s also vital for the United States to consider the views of foreign trading partners, particularly the seven
+
+members of the CPTPP that have implemented the agreement and therefore will decide on accession
+
+candidates. To reengage with the CPTPP, the United States would need to negotiate with those countries,
+
+many of which have deep-seated memories not only of the U.S. decision to withdraw from the original
+
+TPP in 2017 but of how that development followed an eight-year TPP negotiation process that was
+
+largely shaped around U.S. needs and demands.
+
+This section provides the key takeaways from interviews conducted during the summer of 2020
+
+with a dozen former trade officials from a diverse set of CPTPP member countries who were involved at
+
+some point in the TPP or CPTPP negotiations. Although they were not necessarily aligned on specific
+
+negotiating issues, they nevertheless agreed on several key points about a potential U.S. engagement with
+
+the CPTPP.
+
+They Welcome a U.S. Return . . .
+
+It could not be clearer: CPTPP members would welcome the United States back to the regional agree-
+
+ment. “We would have never supported the CPTPP if there hadn’t been a clear path for the U.S. to
+
+return,” one former TPP negotiator said. Trade officials interviewed pointed to both economic and geo-
+
+strategic reasons for supporting U.S. reentry. Having the United States back in the CPTPP would give
+
+the agreement a “stronger sense of purpose.” Others sug-
+
+gested that a U.S. return could provide the impetus for
+
+the remaining four CPTPP members to ratify the deal.
+
+There was uniform belief among the interviewees
+
+that U.S. participation in the CPTPP would provide
+
+momentum for the possible accession of other candidates. Most admitted that the accession process was
+
+stuck, with hopes for early accession by Thailand, South Korea, and the United Kingdom not having
+
+materialized. The United States, with its large market, as well as the geostrategic and economic heft it
+
+would bring to the table, could unlock the accession process for others. A few opined that U.S. reentry
+
+might complicate the accession process for others but that this “would be a welcome complication.”
+
+. . . But Not at Any Cost
+
+Just as there was uniform support for a U.S. return, interviewees were unanimous in noting that member
+
+countries would have limits on the magnitude and scope of revisions and updates they could bear. One
+
+official said that while CPTPP member countries would welcome the United States back, it “depends on
+
+which U.S. wants [to come] back.” Another interviewee added that members want a “reasonable” United
+
+States. “If the U.S. is seeking a disruptive zero-sum game, we need to avoid this by all means,” offered
+
+another official.
+
+Interviewees urged the United States to be “targeted” and “strategic” in determining which revisions
+
+to seek. Another interviewee urged that “in coming back to the TPP, the U.S. should realize that it took a
+
+lot of effort and political capital for the 11 parties to strike a negotiated balance for a second time,” and
+
+It could not be clearer: CPTPP
+
+members would welcome
+
+the United States back to the
+
+regional agreement.
+2 6
+
+|
+
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+therefore it should be “realistic in its ambition.” One interviewee said that his country’s biggest concern
+
+would be that the United States would be “too demanding, resulting in a protracted negotiation.” For
+
+this to work, the negotiation “must be concluded quickly.”
+
+U.S. Reliability
+
+A number of interviewees raised concerns about the reliability of the United States as a negotiating
+
+partner, particularly Washington’s ability to obtain congressional approval for negotiated commitments.
+
+Some of the interviewees called the TPA a “prerequisite”
+
+for serious negotiations.
+
+Capitals in the Asia-Pacific region were accustomed
+
+to the uncertainties of the U.S. congressional approval
+
+process, but now they are also worried about the execu-
+
+tive branch and the four-year presidential election cycle.
+
+This realization didn’t stop interviewees from positively
+
+discussing a U.S. return, but it made them less open to
+
+major revisions of the agreement. Such revisions would
+
+require them to expend serious political capital without
+
+a guarantee that a future U.S. president would not pull
+
+out of the deal, as Trump did with the TPP. One interviewee said that “evidence of strong bipartisan
+
+support” would be critical before moving forward.
+
+USMCA: Some Parts Welcome, Others Not
+
+When asked about their views on the USMCA as a basis for CPTPP revisions, interviewees had strong
+
+views. Most were open to the trade-liberalizing aspects of the USMCA, particularly those that largely
+
+updated current CPTPP chapters. However, most made it clear that their governments would have diffi-
+
+culty embracing what they considered to be trade-restrictive revisions.
+
+In particular, they expressed concerns about three distinct USMCA areas: strengthened labor enforce-
+
+ment, stronger automotive rules of origin, and the provision on future trade agreements with nonmarket
+
+economies. One interviewee shared that there may be an opening to rethink portions of the labor chapter
+
+in light of the workforce challenges and adjustments associated with the COVID-19 pandemic. One
+
+interviewee pointed to the USMCA’s government procurement outcome as “CPTPP-minus.”
+
+What to Make of China’s Interest?
+
+Interviewees were skeptical that China was serious or ready for CPTPP accession anytime soon, despite
+
+recent statements and overtures from Beijing. Officials pointed to digital, labor, and SOE provisions as
+
+serious obstacles to Chinese accession. Some said that they wanted to keep the door open for China down
+
+the road, but they recognized that in today’s environment, moving ahead with China’s accession would
+
+probably be a death knell for U.S. interest. A couple of interviewees were negative about that prospect
+
+unless and until China “fundamentally changed its economic model.”
+
+Capitals in the Asia-Pacific
+
+region were accustomed to the
+
+uncertainties of the U.S.
+
+congressional approval process,
+
+but now they are also worried
+
+about the executive branch
+
+and the four-year presidential
+
+election cycle.
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+|
+
+27
+
+5. A TPP ROAD MAP FOR THE INCOMING
+
+ADMINISTRATION
+
+NEGOTIATING AND TAKING ON CONGRESSIONAL BATTLES
+
+over a major new trade agreement
+
+will not be an immediate priority for the incoming administration, whatever the outcome of the election.
+
+The White House will have its hands full fighting the COVID-19 pandemic and pursuing economic
+
+recovery. Depending on the outcome of the election, regaining U.S. competitiveness through an ambi-
+
+tious domestic agenda could also take priority. The wishful thinking of some U.S. trade observers not-
+
+withstanding, even a Biden victory would not turn the TPP clock back to December 2016.
+
+The United States may not be ready for or interested in a comprehensive regional agreement based
+
+on the TPP at this point, but that does not mean that U.S. trade engagement in the region should be
+
+put on hold. In fact, the United States should redouble its efforts. With digital trade, the COVID-19
+
+pandemic, and other trends fundamentally reshaping the global economy, now is not the time to stay on
+
+the sidelines. East Asia is bouncing back from the COVID-19 pandemic before the rest of the world, and
+
+deepening economic ties with the engines of global growth will be an even more valuable proposition in
+
+the midst of a deep recession. The pandemic has also highlighted serious vulnerabilities in supply chain
+
+networks, and the shared standards and norms, including common rules of origin, of the CTPP can
+
+serve as the basis for establishing trusted supply chains in the region. At the same time, public attitudes
+
+on trade might have shifted enough to open a policy window for reengaging the Asia-Pacific region,
+
+especially if it is framed as a chance for the United States to work together with allies and partners to
+
+stand up to unfair Chinese practices.
+
+Source: IMF World Economic Outlook, June 2020 update
+*
+
+Indonesia, Malaysia, Philippines, Thailand, Vietnam
+
+10
+
+7.5
+
+5
+
+2.5
+
+0
+
+-2.5
+
+-5
+
+-7.5
+
+-10
+
+2020-2021 GDP GROWTH PROJECTION FOR SELECT COUNTRIES AND REGIONS
+
+–10.2
+
+6.0
+
+4.5
+
+–8.0
+
+8.2
+
+1.0
+2020
+2020
+2021
+2021
+
+–5.8
+
+2.4
+
+–2.0
+
+6.2
+
+EURO AREA
+ASEAN 5
+*
+JAPAN
+CHINA
+UNITED STATES
+2020
+2020
+2020
+2021
+2021
+2021
+
+PROJECTED REAL GROWTH RATE (%)
+2 8
+
+|
+
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+With these options and considerations in mind, the next administration should:
+
+•
+
+As a first and immediate step, pursue a limited, sector-specific regional Asia-Pacific trade
+
+deal with CPTPP members (and other interested regional partners) to set high standards,
+
+rebuild trust, and build momentum. A road map for reengaging with the CPTPP should
+
+start with an agreement on a timely and forward-looking issue, such as digital trade, trade
+
+in medical and other essential products, or trade and the environment/climate.
+
+Meanwhile, the next administration should take these steps domestically:
+
+•
+
+Invest in competitiveness and adjustment measures, including more robust worker transi-
+
+tion support and skills training, to take the pressure off trade agreements to achieve goals
+
+they are not designed to tackle, such as ensuring more equitable income distribution.
+
+•
+
+Consult extensively with stakeholders across the country, including business, labor, and
+
+environmental groups, as well as Congress, to seek input on what future U.S. participa-
+
+tion in the CPTPP should look like.
+
+•
+
+Make a strong case to the American people that trade is one of the most important
+
+avenues to grow a developed economy and that trade agreements can lead to high-paying
+
+jobs generated by exports and foreign direct investment.
+
+•
+
+Explain to the American public that deeper U.S. trade engagement with its Asia-Pacific
+
+partners is integral to the goals of diversifying U.S. trade in the region beyond China and
+
+promoting an alternative economic model to Chinese state capitalism. Ideally, that alter-
+
+native model would also push Beijing to make reforms and further open its market.
+
+And, abroad, the next administration should take these steps:
+
+•
+
+Take the temperature of CPTPP partners to understand their limits, priorities, and
+
+concerns around U.S. reengagement. In particular, Japan and Australia should be viewed
+
+as a key strategic partners in the U.S. efforts to reintegrate into the CPTPP.
+
+•
+
+Increase engagement on trade and economic matters by working more closely with
+
+CPTPP countries within APEC, the G-20, and the WTO.
+
+Finally, based on input from the foregoing steps, the next administration should develop concrete
+
+proposals for U.S. reengagement in the CPTPP within the first year of the term. Altogether, these steps
+
+will lay the groundwork for a possible U.S. reentry into the CPTPP in the future and for greater engage-
+
+ment on trade more broadly with the Asia-Pacific region and with other major trading partners, such
+
+as the EU. Even then, CPTPP reengagement would be a heavy lift that would require flexibility and
+
+creativity from both the United States and the CPTPP countries. The model with the best odds of
+
+success would likely be a hybrid of formal accession (option 2) and extensive renegotiation (option 3).
+
+For that to work, the United States would need to limit its requests to the most important changes and
+
+modernizations required, while the CPTPP countries would need to be more open to changes than
+
+a typical accession would permit. Creative arrangements, such as packaging the more extensive U.S.
+
+proposed revisions and updates in an addendum or side letters that each country would have the option
+
+to sign on to, could help bridge the gaps during the negotiation.
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+|
+
+29
+
+Many would question whether revisiting the CPTPP is worth it, particularly in light of the previous
+
+domestic opposition to the agreement and the numerous challenges outlined above. Yet, with trade
+
+driving so much of economic growth and regional economic alignment, rejoining the CPTPP is one of
+
+the most impactful ways the United States can help shape the economic future of a region that every
+
+administration over the past two decades has determined to be critical to U.S interests. Whoever is sworn
+
+in on January 20, 2021, must find a way for the United States to reengage the Asia-Pacific region on
+
+trade in general and on CPTPP specifically.
+3 0
+
+|
+
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+ENDNOTES
+
+1
+
+“Robert E. Lighthizer, “Trump’s Trade Policy Is Making America Stronger,”
+
+Foreign Affairs
+, July 20, 2020,
+
+https://www.foreignaffairs.com/articles/china/2020-07-20/trumps-trade-policy-making-america-stronger
+.
+
+2
+
+Heather Long, “25 GOP Senators Urge Trump to Restart TPP Trade Talks, a Deal He Called a ‘Disaster,’”
+
+Washington Post
+,
+
+February 20, 2018, https://www.washingtonpost.com/news/wonk/wp/2018/02/20/25-gop-senators-urge-trump-to-restart-
+
+tpp-trade-talks-a-deal-he-called-a-disaster
+/.
+
+3
+
+Caitlin Owens and Jonathan Swan, “Chuck Grassley Talks Trade,” Axios, January 13, 2019,
+
+https://www.axios.com/chuck-grassley-interview-trade-china-nafta-5b1a35ed-98d7-455b-8ee7-8a544eaba041.html
+.
+
+4
+
+Victoria Scott, 2019. “John Delaney: Rejoining the TPP Allows Us to Compete with China,” Fox Business, October 1, 2019,
+
+https://www.foxbusiness.com/money/john-delaney-tpp-china-trade-war
+.
+
+5
+
+Representative Ron Kind, “Leaving TPP Hurts Wisconsin Farmers,” March 15, 2017,
+
+https://kind.house.gov/media-center/in-the-news/leaving-tpp-hurts-wisconsin-farmers
+.
+
+6
+
+Geoffrey Gertz, “What Will Trump’s Embrace of Bilateralism Mean for America’s Trade Partners?,” Brookings Institution,
+
+February 8, 2017, https://www.brookings.edu/blog/future-development/2017/02/08/what-will-trumps-embrace-of-
+
+bilateralism-mean-for-americas-trade-partners/
+.
+
+7
+
+Ana Swanson, “Trump Proposes Rejoining Trans-Pacific Partnership,”
+
+New York Times
+, April 12, 2018,
+
+https://www.nytimes.com/2018/04/12/us/politics/trump-trans-pacific-partnership.html
+.
+
+8
+
+“Democratic Debate Transcript,” NBC News, July 31, 2019, https://www.nbcnews.com/politics/2020-election/democratic-
+
+debate-transcript-july-31-2019-n1038016
+.
+
+9
+
+Joseph R. Biden, “Why America Must Lead Again,”
+
+Foreign Affairs
+, March/April 2020,
+
+https://www.foreignaffairs.com/articles/united-states/2020-01-23/why-america-must-lead-again
+.
+
+10
+
+McKinsey Global Institute, “Asia’s Future Is Now,” July 14, 2019, https://www.mckinsey.com/featured-insights/asia-pacific/
+
+asias-future-is-now#
+.
+
+11
+
+World Trade Organization, “Trade Falls Steeply in First Half of 2020,” June 22, 2020,
+
+https://www.wto.org/english/news_e/pres20_e/pr858_e.htm
+.
+
+12
+
+Cristiano Lima, “Trump Calls Trade Deal ‘a Rape of Our Country,’” Politico, June 28, 2016,
+
+https://www.politico.com/story/2016/06/donald-trump-trans-pacific-partnership-224916
+.
+
+13
+
+Eric Bradner, “Clinton's TPP Controversy: What You Need to Know,” CNN, July 27, 2016, https://www.cnn.com/2016/07/27/
+
+politics/tpp-what-you-need-to-know/index.html
+.
+
+14
+
+Justin Sink, Toluse Olorunnipa, and Enda Curran, “China Eager to Fill Political Vacuum Created by Trump’s TPP Withdrawal,”
+
+Bloomberg, January 23, 2017, https://www.bloomberg.com/news/articles/2017-01-23/trump-s-withdrawal-from-asia-trade-
+
+deal-viewed-as-boon-for-china
+.
+
+15
+
+Kiyoshi Takenaka, “Japan PM Says TPP Trade Pact Meaningless without U.S.,” Reuters, November 21, 2016,
+
+https://www.reuters.com/article/us-japan-tpp-abe-idUSKBN13G2IK
+.
+
+16
+
+Robin Harding, “TPP ‘Has No Meaning’ without US, Says Shinzo Abe,”
+
+Financial Times
+, November 21, 2016,
+
+https://www.ft.com/content/59972c38-b058-11e6-a37c-f4a01f1b0fa1
+.
+
+17
+
+“Joint Statement from President Donald J. Trump and Prime Minister Shinzo Abe,” February 10, 2017,
+
+https://www.whitehouse.gov/briefings-statements/joint-statement-president-donald-j-trump-prime-minister-shinzo-abe/
+.
+
+18
+
+Swanson, “Trump Proposes Rejoining Trans-Pacific Partnership.”
+
+19
+
+“Australia Says ‘No Appetite’ for Major TPP Changes after Donald Trump Signals US May Want to Rejoin,” Agence
+
+France-Presse, April 15, 2018, https://www.scmp.com/news/asia/diplomacy/article/2141781/australia-says-no-appetite-
+
+major-tpp-changes-after-donald-trump.
+
+20
+
+Wolfgang Alschner and Rama Panford-Walsh, “How Much of the Transpacific Partnership Is in the United States-Mexico-
+
+Canada Agreement?” (Working Paper 2019-28, Ottawa Faculty of Law, University of Ottawa, July 4, 2019),
+
+https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3410658
+.
+
+21
+
+Elizabeth Truss, “Global Britain and the CPTPP
+,” UK Department for International Trade, July 3, 2020,
+
+https://www.gov.uk/government/speeches/global-britain-and-the-cptpp
+.
+ASIA SOCIETY POLICY INSTITUTE
+
+REENGAGING THE ASIA-PACIFIC ON TRADE: A TPP ROADMAP FOR THE NEXT U.S. ADMINISTRATION
+
+|
+
+31
+
+22
+
+Elizabeth Truss, “UK and Japan agree historic free trade agreement,” UK Department for International Trade.
+
+September 11, 2020. https://www.gov.uk/government/news/uk-and-japan-agree-historic-free-trade-agreement
+
+23
+
+Yukako Ono, “Thailand Wants to Join TPP 'as Soon as Possible,' Says Deputy PM,”
+
+Nikkei Asian Review
+, May 8, 2018,
+
+https://asia.nikkei.com/Economy/Thailand-wants-to-join-TPP-as-soon-as-possible-says-deputy-PM
+.
+
+24
+
+Wendy Cutler, “US Must Take Seriously China's Interest in Pacific Trade Pact,”
+
+Nikkei Asian Review
+, June 6, 2020,
+
+https://asia.nikkei.com/Opinion/US-must-take-seriously-China-s-interest-in-Pacific-trade-pact
+.
+
+25
+
+New Zealand Ministry of Foreign Affairs and Trade, “DEPA Modules,” accessed September 11, 2020,
+
+https://www.mfat.govt.nz/en/trade/free-trade-agreements/free-trade-agreements-concluded-but-not-in-force/digital-economy-
+
+partnership-agreement/depa-modules/.
+
+26
+
+Asia Society Policy Institute, “Charting a Course for Trade and Economic Integration in the Asia-Pacific,” March 7, 2017,
+
+https://asiasociety.org/policy-institute/charting-course-trade-and-economic-integration-asia-pacific
+.
+
+27
+
+World Trade Organization, “World Trade Report 2018,” October 3, 2018, https://www.wto.org/english/res_e/publications_e/
+
+world_trade_report18_e.pdf
+.
+
+28
+
+Lydia Saad, “Americans' Vanishing Fear of Foreign Trade,” Gallup, February 26, 2020, https://news.gallup.com/poll/286730/
+
+americans-vanishing-fear-foreign-trade.aspx
+.
+
+29
+
+Mark Murray, “Support for Free Trade Reaches New High in NBC/WSJ Poll,” NBC News, August 18, 2019,
+
+https://www.nbcnews.com/politics/meet-the-press/support-free-trade-reaches-new-high-nbc-wsj-poll-n1043601
+.
+
+30
+
+Chicago Council on Global Affairs, “Poll: Americans View of Trade at an All Time High,” August 27, 2018,
+
+https://www.thechicagocouncil.org/press-release/poll-americans-view-trade-all-time-high
+.
+
+31
+
+Bruce Stokes, “Americans, Like Many in Other Advanced Economies, Not Convinced of Trade’s Benefits,” Pew Research
+
+Center, September 26, 2018, https://www.pewresearch.org/global/2018/09/26/americans-like-many-in-other-advanced-
+
+economies-not-convinced-of-trades-benefits/.
+
+32
+
+Josh Hawley, “The W.T.O. Should Be Abolished,”
+
+New York Times
+, May 5, 2020, https://www.nytimes.com/2020/05/05/
+
+opinion/hawley-abolish-wto-china.html
+.
+
+33
+
+Gary C. Hufbauer and Euijin Jung, “Where Do Democratic Presidential Candidates Stand on Trade?,” Peterson Institute for
+
+International Economics, March 25, 2019, https://www.piie.com/blogs/trade-investment-policy-watch/where-do-democratic-
+
+presidential-candidates-stand-trade.
+For more content related to this report, visit
+
+AsiaSociety.org/TPP-Roadmap
+
+Other Asia Society Policy Institute Reports
+
+China’s Response to Climate Change: A Study in Contrasts and a Policy at a Crossroads
+
+Curbing State-Driven Trade Policies
+
+Climate Diplomacy under a New U.S. Administration
+
+The Avoidable War: The Case for Managed Strategic Competition
+
+Navigating the Belt and Road Initiative
+
+Trade in Trouble: How the Asia Pacific Can Step Up and Lead Reforms
+
+Future Scenarios: What To Expect From a Nuclear North Korea
+
+Strength in Numbers: Collaborative Approaches to Addressing Concerns with
+
+China’s State-led Economic Model
+
+Advancing the U.S.-Korea Economic Agenda
+
+Reconciling Expectations with Reality in a Transitioning Myanmar
+
+Business Sector Action to Drive Carbon Market Cooperation in Northeast Asia
+
+Shifting Trade Winds: U.S. Bilateralism & Asia-Pacific Economic Integration
+
+Northeast Asia and the Next Generation of Carbon Market Cooperation
+
+Preserving the Long Peace in Asia
+
+The Trump Administration’s India Opportunity
+
+Charting a Course for Trade and Economic Integration in the Asia-Pacific
+
+Advice for the 45th U.S. President: Opinions from Across the Pacific
+
+Roadmap to a Northeast Asian Carbon Market
+
+India’s Future in Asia: The APEC Opportunity
+
+Avoiding the Blind Alley: China’s Economic Overhaul and Its Global Implications
+
+Preparing Asians and Americans for a Shared Future
+
+Asia Society is the leading global and pan-Asian organization working to strengthen relationships and promote
+
+understanding among the people, leaders, and institutions of Asia and the United States.
+
+We seek to increase knowledge and enhance dialogue, encourage creative expression, and generate new ideas across
+
+the fields of policy, business, education, arts and culture. Founded in 1956, Asia Society is a nonpartisan, nonprofit
+
+educational institution with offices in Hong Kong, Houston, Los Angeles, Manila, Melbourne, Mumbai, New York,
+
+San Francisco, Seoul, Sydney, Washington, D.C., and Zurich.
+Annotations
