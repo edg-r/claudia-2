@@ -1,0 +1,83 @@
+PRODUCT REQUIREMENTS DOCUMENT — “Thrift SD Front-End” (Next.js)
+(raw text, no markdown)
+	1.	PURPOSE
+Mobile-first web client that lists San Diego thrift stores from Postgres, sorted by distance-from-user (default) and then by rating. UX must feel instantaneous and scroll smoothly through 1 000+ results.
+	2.	GOALS (rank-ordered)
+	1.	< 250 ms Time-to-Interactive on LTE
+	2.	60 fps scrolling of virtualized list
+	3.	Lighthouse Performance ≥ 95 (mobile)
+	4.	WCAG 2.1 AA accessibility
+	5.	Store pages fully indexable for SEO
+	3.	NON-GOALS
+– Admin CRUD UI
+– User auth / accounts
+	4.	SUCCESS METRICS
+– Largest Contentful Paint < 2.5 s (P75 mobile)
+– First Input Delay < 100 ms
+– Bounce rate < 35 %
+– 90 % of API calls < 300 ms
+	5.	TECH STACK & ARCHITECTURE
+– Next.js 14 (App Router, React Server Components)
+– TypeScript everywhere
+– Tailwind CSS for clean, modern, legible UI
+– react-window (or similar) for list virtualization
+– SWR for client cache / revalidation
+– API: Next.js Route Handlers “/api/stores” → server-side “pg” pool to Postgres
+– Individual store pages “/store/[place_id]” generated via ISR every 24 h (uses last_updated)
+– Map View: dynamic import of Mapbox GL, loaded only when toggled
+	6.	DATA CONTRACT (JSON returned by API)
+{
+“place_id”: “string”,
+“name”: “string”,
+“address”: “string”,
+“phone”: “string|null”,
+“website”: “string|null”,
+“rating”: 4.5,
+“user_ratings_total”: 87,
+“lat”: 32.7157,
+“lng”: -117.1611,
+“categories”: [“vintage”, “non-profit”],
+“reviews”: [
+{ “author”: “Sam”, “rating”: 5, “text”: “Great finds!”, “time”: 1714439512 }
+]
+}
+	7.	UI / UX REQUIREMENTS
+HOME / LIST VIEW
+– On load: request Geolocation; if allowed, sort by distance then rating; else sort by rating only
+– Sticky search bar (keyword + category chips)
+– Virtualized cards: name, stars, distance badge, optional lazy-loaded thumbnail
+– Pull-to-refresh on mobile
+MAP VIEW (MVP-critical)
+– Floating toggle button; full-screen cluster map using user location as center when granted
+– Clicking a marker opens store-detail drawer
+STORE DETAIL VIEW
+– Hero with name, star rating, “Call”, “Directions” buttons
+– Sections: Info; Category chips; Reviews (5 initial, lazy-expand)
+– Web Share API integration
+OTHER
+– Offline / poor network: skeleton loaders + retry toast
+– Dark mode via prefers-color-scheme
+	8.	PERFORMANCE BUDGET
+– Initial JS bundle < 150 kB gzipped (code split per route)
+– Images via next/image in AVIF or WebP, ≤ 100 kB each; only hero flagged “priority”
+	9.	ACCESSIBILITY (a11y)
+– Keyboard-reachable controls, visible focus rings
+– Contrast ratio ≥ 4.5 : 1
+– aria-live regions for async state
+	10.	SEO
+– Semantic HTML
+– Unique title: “{Store Name} | Thrift SD”
+– JSON-LD LocalBusiness schema on store pages
+– Clean, canonical URLs
+	11.	ANALYTICS & LOGGING
+– Vercel Analytics + custom events (scroll depth, filter usage, outbound clicks)
+– Errors to Sentry (front-end) and pino (API)
+	12.	SECURITY
+– Rate-limit “/api/stores” (express-rate-limit)
+– Server-side prepared statements; never expose DB creds to client
+– Strict Content-Security-Policy (CSP) allowing only Mapbox, Vercel, required assets
+	13.	RISKS & MITIGATIONS
+– Geolocation denied → fall back to rating sort
+– Large review payloads → paginate reviews, edge cache per store
+– Mapbox bundle weight → load module only after user toggles Map View
+– DB latency spikes → option to memoize “/api/stores/:id” in Redis edge cache
