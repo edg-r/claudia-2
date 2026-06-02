@@ -1,0 +1,12 @@
+variable	n	mean	sd	min	max
+women_parliament_change	102	12.585	8.171	-7.169	47.667
+women_parliament_change_pct	102	210.3	428.787	-41.466	4089.573
+gii_change	102	-0.118	0.055	-0.256	0.005
+gii_change_pct	102	-32.956	17.866	-75.859	1.417
+gender-inequality-index-1990s	102	0.43	0.19	0.078	0.79
+gender-inequality-index-2010s	102	0.312	0.182	0.034	0.655
+log_gdp_pc	102	9.82	1.055	6.726	11.781
+democracy-index-eiu-2020	102	6.209	2.107	1.43	9.81
+ti-corruption-perception-index-2018	102	47.598	20.162	13	88
+liberal-democracy	102	0.304	0.462	0	1
+maternal-mortality-2010s	102	90.897	132.58	2.164	587.247

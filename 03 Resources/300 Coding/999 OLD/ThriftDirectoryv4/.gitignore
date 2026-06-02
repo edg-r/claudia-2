@@ -1,0 +1,15 @@
+# ───────── Secret / local config ─────────
+.env
+*.env
+
+# ───────── Bytecode / editor junk ────────
+__pycache__/
+*.py[cod]
+.DS_Store
+
+# ───────── Docker & build artifacts ──────
+*.log
+*.pid
+.idea/
+.vscode/
+dist/

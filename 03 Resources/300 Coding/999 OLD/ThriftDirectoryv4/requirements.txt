@@ -1,0 +1,6 @@
+requests
+psycopg2-binary
+pytest
+pytest-asyncio
+black
+ruff

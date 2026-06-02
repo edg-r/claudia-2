@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Gauss-Markov Assumption Checklist</title>
+  <style>
+    body{font-family:Arial,sans-serif;margin:24px;}
+    table{border-collapse:collapse;width:100%;max-width:1100px;}
+    th,td{border:1px solid #ccc;padding:8px;text-align:left;}
+    th{background:#f3f3f3;}
+  </style>
+</head>
+<body>
+  <h2>Gauss-Markov Assumption Checklist</h2>
+  <table>
+    <tr><th>assumption</th><th>how_checked</th><th>takeaway</th></tr>
+    <tr><td>1. Linear in parameters</td><td>Residual-vs-fitted plot and quadratic term check</td><td>If the squared term is insignificant and the residual plot is roughly patternless, linearity is more plausible</td></tr>
+    <tr><td>2. No multicollinearity</td><td>Variance inflation factors (VIF)</td><td>Low VIF values suggest multicollinearity is not severe</td></tr>
+    <tr><td>3. Random sampling</td><td>Qualitative caveat: cross-country observational sample, not guaranteed random</td><td>Cannot be fully verified with the dataset; discuss as a limitation</td></tr>
+    <tr><td>4. Exogeneity / Zero conditional mean</td><td>Qualitative caveat: omitted variables and reverse causality may remain</td><td>Cannot be proven with the data; discuss controls plus remaining endogeneity risk</td></tr>
+    <tr><td>5. Heteroskedasticity</td><td>Breusch-Pagan-type and White-type tests; HC1 robust SE applied</td><td>If variance is not constant, robust SEs address inference</td></tr>
+    <tr><td>6. Bonus: Normal distribution</td><td>Shapiro-Wilk test on residuals</td><td>Useful descriptive check, but not required for Gauss-Markov</td></tr>
+  </table>
+</body>
+</html>
