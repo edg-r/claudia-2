@@ -5,7 +5,7 @@ Local dashboard for the Actual Budget SQLite export in this folder.
 ## Run
 
 ```bash
-cd "/Users/edgar/Documents/01 Projects/Claudia/My-Finances-cleaned-actual-export-v3"
+cd "/Users/edgar/Documents/000 Files/My-Finances-cleaned-actual-export-v3"
 python3 server.py
 ```
 
