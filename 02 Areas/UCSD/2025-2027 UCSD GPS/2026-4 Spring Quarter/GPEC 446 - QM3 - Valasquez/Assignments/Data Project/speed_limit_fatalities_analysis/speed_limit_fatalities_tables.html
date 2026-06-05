@@ -1,0 +1,44 @@
+
+<table style="text-align:center"><caption><strong>Table 1: Speed Limits (lim70) and Traffic Fatalities</strong></caption>
+<tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="6"><em>Dependent variable:</em></td></tr>
+<tr><td></td><td colspan="6" style="border-bottom: 1px solid black"></td></tr>
+<tr><td style="text-align:left"></td><td>Rate Naive OLS</td><td>Rate FE Only</td><td>Rate FE Controls</td><td>Log Fatalities FE</td><td>Occupant Rate FE</td><td>Non-occupant Rate FE</td></tr>
+<tr><td style="text-align:left"></td><td>(1)</td><td>(2)</td><td>(3)</td><td>(4)</td><td>(5)</td><td>(6)</td></tr>
+<tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">70 mph Speed Limit (lim70)</td><td>5.134<sup>***</sup></td><td>0.645</td><td>1.315<sup>**</sup></td><td>0.145<sup>***</sup></td><td>1.208<sup>**</sup></td><td>0.107</td></tr>
+<tr><td style="text-align:left"></td><td>(0.797)</td><td>(0.538)</td><td>(0.571)</td><td>(0.031)</td><td>(0.520)</td><td>(0.093)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Primary seatbelt law</td><td>0.607</td><td></td><td>-0.078</td><td>-0.018</td><td>-0.213</td><td>0.135</td></tr>
+<tr><td style="text-align:left"></td><td>(1.144)</td><td></td><td>(0.568)</td><td>(0.027)</td><td>(0.518)</td><td>(0.093)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Secondary seatbelt law</td><td>0.569</td><td></td><td>0.139</td><td>0.014</td><td>0.069</td><td>0.070</td></tr>
+<tr><td style="text-align:left"></td><td>(0.685)</td><td></td><td>(0.498)</td><td>(0.025)</td><td>(0.446)</td><td>(0.091)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">0.08 BAC law</td><td>0.629</td><td></td><td>-0.010</td><td>0.009</td><td>0.018</td><td>-0.028</td></tr>
+<tr><td style="text-align:left"></td><td>(0.881)</td><td></td><td>(0.310)</td><td>(0.018)</td><td>(0.270)</td><td>(0.072)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Minimum drinking age 21</td><td>0.498</td><td></td><td>0.776</td><td>0.017</td><td>0.491</td><td>0.285<sup>*</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(1.187)</td><td></td><td>(0.747)</td><td>(0.029)</td><td>(0.646)</td><td>(0.161)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Per-capita income</td><td>-0.0004<sup>***</sup></td><td></td><td>0.0003<sup>***</sup></td><td>0.00000</td><td>0.0003<sup>***</sup></td><td>0.00004<sup>**</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.0001)</td><td></td><td>(0.0001)</td><td>(0.00001)</td><td>(0.0001)</td><td>(0.00002)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Unemployment rate</td><td>0.002</td><td></td><td>-0.431<sup>***</sup></td><td>-0.028<sup>***</sup></td><td>-0.397<sup>***</sup></td><td>-0.034<sup>*</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.136)</td><td></td><td>(0.111)</td><td>(0.006)</td><td>(0.098)</td><td>(0.019)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Total VMT (billions)</td><td>-0.00002<sup>***</sup></td><td></td><td>-0.00003<sup>**</sup></td><td>-0.00000</td><td>-0.00002<sup>*</sup></td><td>-0.00001<sup>**</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.00001)</td><td></td><td>(0.00001)</td><td>(0.00000)</td><td>(0.00001)</td><td>(0.00000)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Log population</td><td></td><td></td><td></td><td>0.385<sup>***</sup></td><td></td><td></td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td>(0.105)</td><td></td><td></td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Constant</td><td>26.615<sup>***</sup></td><td>26.960<sup>***</sup></td><td>29.532<sup>***</sup></td><td>1.411</td><td>26.171<sup>***</sup></td><td>3.362<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(1.658)</td><td>(0.485)</td><td>(1.586)</td><td>(1.563)</td><td>(1.355)</td><td>(0.355)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">State Fixed Effects</td><td>No</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+<tr><td style="text-align:left">Year Fixed Effects</td><td>No</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+<tr><td style="text-align:left">Observations</td><td>1,515</td><td>1,530</td><td>1,515</td><td>1,515</td><td>1,515</td><td>1,515</td></tr>
+<tr><td style="text-align:left">R<sup>2</sup></td><td>0.466</td><td>0.897</td><td>0.910</td><td>0.991</td><td>0.916</td><td>0.846</td></tr>
+<tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.463</td><td>0.891</td><td>0.905</td><td>0.990</td><td>0.911</td><td>0.837</td></tr>
+<tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="6" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
+<tr><td style="text-align:left"></td><td colspan="6" style="text-align:right">Standard errors are clustered at the state level (reported in parentheses). The dependent variables are rates per 100,000 population, except for Column 4 which is the log of total fatalities. All models include state and year fixed effects except Column 1. Column 4 controls for Log population.</td></tr>
+</table>

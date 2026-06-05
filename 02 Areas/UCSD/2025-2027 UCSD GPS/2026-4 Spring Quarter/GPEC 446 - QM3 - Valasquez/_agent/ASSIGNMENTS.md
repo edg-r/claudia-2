@@ -18,16 +18,17 @@
 ## In Progress
 
 ### 2026-05-23 — Homework II
-- **Status:** in_progress (inspection complete)
+- **Status:** completed/submitted
 - **Due:** 2026-05-23 23:59 America/Los_Angeles
 - **Weight:** 25%
-- **Notes:** Panel data/TWFE & RDD exercises. Inspected draft on 2026-05-26. Analysis code integrated successfully; minor prose edits, event study comparison, and final formatting checks ongoing for submission.
+- **Notes:** Panel data/TWFE & RDD exercises. Code integrated and submitted.
+
+### 2026-06-07 — Independent Data Project
+- **Status:** completed
+- **Due:** 2026-06-07 23:59 America/Los_Angeles
+- **Weight:** 25%
+- **Notes:** Independent data analysis project on a real-world policy question using causal methods. Tested the speed limit (lim70) driver attentiveness theory using the traffic fatalities dataset. Completed TWFE Difference-in-Differences panel regression, event study with pre-trend/dynamic checks, and occupant/non-occupant mechanism testing. Generated stargazer tables, dynamic event-study plots, and compiled a premium HTML report. All deliverables saved in the `speed_limit_fatalities_analysis/` directory.
 
 ## Upcoming
 
-### 2026-06-07 — Independent Data Project
-- **Status:** upcoming (scaffold prepared)
-- **Due:** 2026-06-07 23:59 America/Los_Angeles
-- **Weight:** 25%
-- **Notes:** Independent data analysis project on a real-world policy question using causal methods (RCT, OLS/controls, IV, DiD, or RDD). Scaffold and method checklist created in `data_project_scaffold_checklist.md`.
 
